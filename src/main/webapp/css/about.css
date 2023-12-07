@@ -1,0 +1,10 @@
+@charset "UTF-8";
+.aboutBox{
+	display:inline-flex;
+	width:80%;
+	height:770px;
+	justify-content: center;
+	align-items:center;
+	flex-wrap:wrap;
+	font-size:2em;
+}

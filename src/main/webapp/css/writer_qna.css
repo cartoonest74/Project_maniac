@@ -1,0 +1,69 @@
+@charset "UTF-8";
+.Writer_qna_Form{
+    position: relative;
+    display:inline-flex;
+    width:50%;
+    justify-content:center;
+    flex-wrap: wrap;
+    padding:10px 15px;
+    margin: 10px 0px;
+}
+.writer_tag{
+    display:inline-block;
+    position:absolute;
+    left:15px;
+    top:0;
+    font-size:1.6em;
+    padding:5px 5px;
+}
+/* 헤더 부분 */
+.writer_qna_header{
+    display:inline-block;
+    width:100%;
+    line-height:27px;
+    height:50px;
+    text-align:center;
+    padding:10px;
+    border-bottom:1px solid rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+}
+.writer_qna_header > h1{
+    display: inline-block;
+    font-size: 2em;
+    font-weight:400;
+}
+.writer_qna_header > h1> span{
+    font-size: inherit;
+}
+.qna_basicInfo{
+    display: inline-block;
+    float:right;
+}
+.qna_basicInfo > span{
+    font-size: 1.5em;
+    font-weight: 400;
+}
+/* text 영역 */
+.qnaTextBox{
+    display:inline-block;
+    width:100%;
+    height:600px;
+    border-bottom:1px solid rgba(0,0,0,0.1);
+}
+.qnaTextBox > textarea[name="content"]{
+    display:inline-block;
+    width:100%;
+    height:100%;
+    font-size:1.5em;
+    border:0px;
+    resize:none;
+}
+.qnaSendbtn{
+    display:inline-block;
+    padding:10px 15px;
+    font-size:1.8em;
+    margin-top:10px;
+    border:0px;
+    border-radius:5px;
+    cursor:pointer;
+}

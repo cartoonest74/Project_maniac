@@ -1,0 +1,19 @@
+@charset "UTF-8";
+.logInfo{
+	display:inline-flex;
+	width:80%;
+	min-height:750px;
+	justify-content:center;
+	flex-wrap:wrap;
+	align-items:center;
+}
+.logInfo>a{
+	display:inline-block;
+	padding:10px 15px;
+	font-size:2em;
+	border:0px;
+	border-radius:5px;
+	background-color:black;
+	color:white;
+	cursor:pointer;
+}

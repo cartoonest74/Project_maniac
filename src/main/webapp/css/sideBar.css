@@ -1,0 +1,29 @@
+.sideBarBox{
+    position:fixed;
+    display:inline-block;
+    right:10px;
+    top:50%;
+}
+.recentView_ProductBtn{
+    display:inline-block;
+    position: relative;
+    padding:10px;
+    width:100px;
+    height:100px;
+    overflow: hidden;
+    border:0px;
+    border-radius:100px;
+    cursor:pointer;
+}
+.recentView_ProductBtn>img{
+    position: absolute;
+    display:inline-block;
+    width:100%;
+    left:0;
+    top:0;
+    transition: all 1s;
+}
+
+.recentView_ProductBtn>img:hover{
+    width:120%;
+}

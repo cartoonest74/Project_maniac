@@ -1,0 +1,26 @@
+package hello.market.repository.mybatis.cart;
+
+import hello.market.dto.Cart;
+import org.apache.ibatis.annotations.Mapper;
+import org.json.JSONObject;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
+import java.util.Map;
+
+public interface CartRepository {
+	List<Cart> db_select(int user_id);
+	void db_save(int productNo,String option_id, int quantity);
+
+	void db_delete(int user_id,String productNo);
+
+	void db_create(int user_id);
+
+	Integer cart_length(int user_id);
+	void save(int productNo,int quantity);
+
+	void remove(int key);
+	Map<Integer, Integer> all();
+	int show_length();
+	void clear();
+}

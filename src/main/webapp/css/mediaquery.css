@@ -1,0 +1,29 @@
+@charset 'utf-8';
+@media screen and (max-width:1024px) {
+     .backgroud_searchBox{
+         align-items:flex-start;
+     }
+     .searchBox{
+         width:100%;
+     }
+     .searchBox_header{
+         border-radius:0px;
+     }
+     .search_show_title h2{
+         font-size:7vw;
+     }
+     .search_show_artist{
+         border-radius:0px;
+     }
+     .shopInfo{
+        width:100%;
+     }
+}
+@media screen and (max-width:420px){
+    .resizeMenu_partBox{
+        width:100%;
+    }
+    .second_resizeMenu_partBox{
+            width:100%;
+    }
+}

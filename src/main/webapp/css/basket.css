@@ -1,0 +1,183 @@
+@charset "UTF-8";
+.basketForm{
+    display:inline-flex;
+    min-width:360px;
+    width:70%;
+    justify-content:center;
+    flex-wrap: wrap;
+    padding:10px 0;
+}
+/* cartheader */
+.basketHeader{
+    display:inline-flex;
+    width:100%;
+    padding:25px 0px;
+    justify-content:space-between;
+}
+.basketTitle{
+    display:inline-flex;
+    justify-content: flex-start;
+    align-items:center;
+    flex-wrap: wrap;
+}
+.basketTitle>h2:first-child{
+    font-size:2.5rem;
+}
+.basketTitle>p{
+    display:inline-block;
+    text-align:left;
+    padding-top:5px;
+}
+.soldDelbtn{
+    display:inline-block;
+    padding:2px 8px;
+    font-size:1.4rem;
+    border:1px solid rgb(0, 0, 0, 0.3);
+    border-radius:4px;
+    background-color:transparent;
+    color:rgba(0,0,0,0.7);
+    cursor: pointer;
+}
+
+/* cartBody */
+.basketInfoBox{
+    display:flex;
+    width:100%;
+    justify-content:center;
+    flex-wrap:wrap;
+    padding:20px 10px;
+}
+
+/* content */
+.basketContent{
+    position:relative;
+    display:inline-flex;
+    min-width:450px;
+    width:70%;
+    padding:10px 0;
+    justify-content:center;
+}
+.basketImgBox{
+    display: inline-block;
+    max-width:100px;
+    margin-left:20px;
+}
+
+.basketImg{
+    display:inline-block;
+    width: 100%;
+}
+.basketImg > img{
+    display:inline-block;
+    width:100%;
+}
+/* 이름 & 가격 & 옵션 */
+.basketOptionBtn{
+    position:absolute;
+    display:inline-flex;
+    width:100%;
+    justify-content:center;
+    font-weight:500;
+    font-size:1.5em;
+    bottom:0px;
+}
+.basketOptionBtn>button{
+    display: inline-block;
+    padding:8px;
+    margin-right:30px;
+    font-weight:inherit;
+    font-size:inherit;
+    background-color:transparent;
+    border:0px;
+    border-bottom:1px solid rgba(0,0,0,0.5);
+    cursor: pointer;
+}
+/* 상품이름 */
+.basketName{
+    display:inline-block;
+    width:40%;
+    text-align:center;
+}
+.basketName>span{
+    display:inline-block;
+    width:100%;
+    padding:5px 0;
+}
+.basketName>span:first-child{
+    font-weight:600;
+    font-size:1.8rem;
+}
+.optionName{
+    font-size:1.5rem;
+}
+
+/* 가격 */
+.basketPriceBox{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:600;
+    font-size:1.5em;
+}
+.basketPriceBox>input{
+    display:inline-block;
+    width:30px;
+    padding:5px;
+    background-color:transparent;
+    border:0px;
+    font-weight:inherit;
+    font-size:inherit;
+}
+.basketPrice{
+    display:inline-block;
+    width:80%;
+    text-align:center;
+    font-size:inherit;
+}
+/* 수량 */
+.basketQuanttiyBtn{
+    display:inline-block;
+    width:50px;
+    font-size:inherit;
+}
+.basketQuanttiyBtn > button[type="button"]{
+    display:inline-block;
+    padding:5px;
+    background-color:transparent;
+    border:0px;
+    cursor:pointer;
+}
+
+/* basket total */
+.basketTotal{
+    display:inline-flex;
+    width:100%;
+    justify-content:center;
+    flex-wrap: wrap;
+    padding:20px 10px;
+    background-color:#f6f6f6;
+}
+.basketTotal>li{
+    display:inline-flex;
+    width:70%;
+    padding:10px 0;
+    font-size:1.7em;
+    justify-content:space-between   ;
+}
+.basketTotal>li>span{
+    font-size:inherit;
+}
+.basketTotal>li>span:last-child{
+    font-weight:600;
+}
+
+/* basket order btn */
+.basketOrder{
+    display:inline-block;
+    padding:15px 30px;
+    font-size:1.4em;
+    margin-top:15px;
+    background-color:rgba(0,0,0,0.7);
+    color:#f6f6f6;
+    cursor:pointer;
+}

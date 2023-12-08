@@ -16,5 +16,4 @@ public class ShopReview {
 	private String url;
 	private String content;
 	private String date;
-
 }

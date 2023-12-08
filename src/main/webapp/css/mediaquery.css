@@ -18,6 +18,11 @@
      .shopInfo{
         width:100%;
      }
+
+     /*sticky shopInfo*/
+    .stickyItemBox{
+        width:80%;
+    }
 }
 @media screen and (max-width:420px){
     .resizeMenu_partBox{

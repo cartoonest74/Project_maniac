@@ -4,115 +4,91 @@
     position:sticky;
     display:flex;
     width:100%;
-    height:0vh;
     justify-content: center;
     align-items:center;
     flex-wrap:wrap;
-    background:rgb(250, 246, 246);
+    background:red;
     top:0px;
     transition:all 0.1s;
-    overflow:hidden;
+    Z-index:1;
 }
 .stickyItemBox{
     position: relative;
     display:inline-flex;
     width:50%;
     padding:20px 0px;
-    align-items:flex-start;
+    flex-wrap:wrap;
+    justify-content:flex-start;
+    align-items:stretch;
+}
+/* sticky header */
+.stickyHeader{
+    display:flex;
 }
 .stickyImgBox{
     display:inline-block;
-    width:13vh;
+    width:140px;
 }
 .stickyImgBox img{
+    display:inline-block;
     width:100%;
-    height:100%;
 }
-.stickyHeader{
-    display:inline-block;
-    padding-left: 10px
-}
-.stickyHeader h2{
-    font-size:1.5vw;
-}
-.stickyHeader h3{
-    font-size:1.4vw;
-}
-/* sticky oredered */
-.sticky_PurchaseBtn{
-    position: absolute;
+.stickyInfo{
     display:flex;
-    justify-content:space-between;
-    align-items:center;
-    width:80%;
-    bottom:20px;
-    right:0px;
+    flex-wrap:wrap;
+    align-items:flex-end;
+    padding-left:10px;
 }
-.sticky_select_option label{
-    font-size:1.5rem;
-}
-.sticky_select_option select{
-    width:80px;
-    padding:5px;
-    border:0px;
-    font-size:1.5rem;
-    outline:none;
-    cursor:pointer;
-}
-.sticky_select_option select option{
-    font-size:inherit;
-    padding-top:10px;
-}
-.sticky_PurchaseBtn > button{
-    display:none;
-    padding:8px 20px;
-    border:0px;
-    border-radius:5px;
-    color:white;
-    background-color:rgb(36, 34, 35);
-    font-size:2rem;
-    cursor:pointer;
-}
-.sticky_order_box{
+.stickyInfo h2{
     display:inline-block;
+    width:100%;
+    font-size:2.1em;
 }
-.sticky_order_box button{
+.stickyInfo h3{
     display:inline-block;
-    padding:8px 15px;
-    border:0px;
-    border-radius:5px;
-    color:white;
-    background-color:rgb(36, 34, 35);
-    font-size:1.5rem;
-    cursor:pointer;
+    width:100%;
+    font-weight:400;
+    font-size:2em;
 }
-/* sticky option */
-.sticky_optionBox{
+
+/* sticky section */
+.sticky_section{
+    display:flex;
+    max-width:300px;
+    flex-wrap:wrap;
+    align-items:flex-end;
+}
+    /* sticky option */
+.sticky_optionContentBox{
     display:flex;
     justify-content:center;
     flex-wrap:wrap;
-    height:100%;
-    padding:10px 0;
-}
-.sticky_optionPartBox{
-    display:inline-block;
-    height:75%;
-    padding:0px 20px;
+    width:100%;
+    height:100px;
     overflow-y:auto;
     overflow-x:hidden;
 }
-.sticky_optionPart{
+.sticky_shoInfo_quantity{
     display:flex;
     width:100%;
-    justify-content:space-around;
+    justify-content:space-between;
     align-items:center;
-    padding:10px 0;
+    padding-top:10px;
+    padding-right:10px;
+}
+.sticky_shoInfo_quantity button[data-option-part-close]{
+    display:inline-block;
+    font-size:1.8em;
+    border:0px;
+    color:black;
+    background:transparent;
+    cursor:pointer;
 }
 .sticky_optionTitle{
     display:inline-block;
 }
 .sticky_optionTitle h2{
-    font-size:1.8rem;
+    font-size:1.8em;
 }
 .sticky_quantityBox{
     display:inline-flex;
@@ -120,33 +96,55 @@
     align-items:stretch;
 }
 .sticky_quantityBox input{
-    width:30px;
+    display:inline-block;
+    width:20px;
     text-align:center;
+    font-size:2em;
+    outline:none;
     border:0px;
-    margin:0px 10px;
+    background:transparent;
+    margin:0 10px;
+}
+.sticky_quantityBox> button[type="button"]{
+    position:relative;
+    display:inline-block;
+    width:40px;
+    height:40px;
+    color:white;
+    border:1px solid black;
+    border-radius:30px;
+    cursor:pointer;
+    overflow:hidden;
     cursor:pointer;
 }
-.sticky_quantityBox button{
-    color:white;
-    padding:2px 10px;
-    border:0px;
-    border-radius:5px;
-    background-color:black;
-    font-size:1.8rem;
-    cursor:pointer;
+.sticky_quantityBox> button[type="button"] img{
+    position:absolute;
+    left:-5px;
+    top:-2px;
+    width:50px;
+}
+
+    /* sticky order box*/
+.sticky_order_box{
+    display:flex;
+    width:100%;
+    justify-content:flex-end;
+    align-items:center;
+    padding-top:10px;
 }
 .sticky_total_price{
-    display:flex;
-    width:50%;
-    justify-content:space-around;
-    padding:10px 0;
+    display:inline-block;
+    margin-right:10px;
 }
 .sticky_total_price h3{
     font-size:1.8rem;
 }
-.sticky_total_price h2{
-    font-size:2rem;
-    font-weight:900;
+.sticky_order_box button{
+    display:inline-block;
+    padding:8px 15px;
+    border:0px;
+    border-radius:5px;
+    font-size:1.8rem;
 }
 
 /**/
@@ -233,13 +231,10 @@
 .shopInfo_selectTag{
     display:flex;
     width:100%;
-    justify-content:center;
     flex-wrap:wrap;
     margin-top:10px;
 }
-.shopInfo_selectTag nav{
-    display:inline-block;
-}
+
 .shopInfo_selectTag label[for="option"]{
     display:inline-block;
     font-size:1.5rem;
@@ -284,7 +279,7 @@
     flex-wrap:wrap;
     left:0;
     background:white;
-    z-index:2;
+    z-index:1;
     border:1px solid rgb(216, 220, 220);
     box-shadow:5px 5px 5px rgba(216, 220, 220,0.5);
     caret-color: transparent;

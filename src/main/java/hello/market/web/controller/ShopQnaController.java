@@ -98,26 +98,32 @@ public class ShopQnaController {
 
     private void create_qnaTag(ShopQna sq) {
         Integer answerCheck = sq.getAnswerCheck();
+        String qnaTitle = sq.getTitle();
+        String userId = sq.getUserId();
+        String date = sq.getDate();
+        String content = sq.getContent();
+        int id = sq.getId();
         log.info("answer_check = {}", answerCheck);
         qna_tag.append("<div class=\"shopInfo_bc_container\">")
                 .append("<nav class=\"shopInfo_bc_header\">")
-                .append("<p class=\"shopInfo_re_title\">상품명!!!!!!!!!</p>")
-                .append("<p>Q :&nbsp;</p>").append("<p>" + sq.getUserId() + "</p>")
-                .append("<p>" + sq.getDate() + "</p>")
+                .append("<p class=\"shopInfo_re_title\">")
+                .append(qnaTitle)
+                .append("</p>")
+                .append("<p>Q :&nbsp;</p>").append("<p>" + userId + "</p>")
+                .append("<p>" + date + "</p>")
                 .append("</nav>")
                 .append("<div class=\"shopInfo_bc_content\">")
-                .append("<p class=\"shopInfo_bc_text\">" + sq.getContent() + "</p>");
+                .append("<p class=\"shopInfo_bc_text\">" + content + "</p>");
 
         if (answerCheck != 1) {
-            qna_tag.append("<button data-answer-qna=\"" + sq.getId() + "\" " + "class=\"shopInfo_qna_re_btn\" "
+            qna_tag.append("<button data-answer-qna=\"" + id + "\" " + "class=\"shopInfo_qna_re_btn\" "
                     + "type=\"button\">Answer</button>");
         }
         qna_tag.append("</div>");
 
         String rootDate = sq.getRootDate();
         String rootContent = sq.getRootContent();
-        log.info("rootDate = {}", rootDate);
-        log.info("rootContent = {}", rootContent);
+
         if (answerCheck == 1 ) {
             qna_tag.append("<nav class=\"shopInfo_bc_header\">")
                     .append("<p>\r\n"

@@ -36,6 +36,7 @@
 	src="${contextPath}/js/shopInfo_subcontent.js">	
 </script>
 <script type="text/javascript" src="${contextPath}/js/shopInfo_option.js"></script>
+<script type="text/javascript" src="${contextPath}/js/window_scroll.js"></script>
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
@@ -63,7 +64,7 @@
 <c:set var="noticeList" value="${fn:split(productinfo.notice,',')}"/>
 <c:set var="noticeListLength" value="${fn:length(noticeList)}"/>
 
-<c:url var="shopPage" value="/product/${artistId}/product-shop/${category}" />
+<c:url var="shopPage" value="/product/${artistId}/shop/${category}?page=1" />
 <%
 request.setCharacterEncoding("UTF-8");
 %>
@@ -73,57 +74,66 @@ request.setCharacterEncoding("UTF-8");
 	<c:import url="../basic/header.jsp">
 		<c:param name="cartCount" value="${cartCount}" />
 	</c:import>
-<!--
-        <div id="stickyInfo" class="sticky_info">
-            <nav class="stickyItemBox">
-            <div class="stickyImgBox">
-                <img src="./c_img1.jpg" alt="">
-            </div>
-            <nav class="stickyHeader">
-                <h2>Jung Kook (BTS) 'GOLDEN' (Set) + 'GOLDEN' (Weverse Albums ver.) Set</h2>
-                <br>
-                <h3>₩52,000</h3>
-            </nav>
-            <nav class="sticky_PurchaseBtn">
-                <div class="sticky_select_option">
-                    <label for="option">Option</label>
-                    <select name="product_option" id="option">
-                        <option value="1">Golden vvvvvvvvv</option>
-                        <option value="2">Golden</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
+    <div id="stickyInfo" class="sticky_info none">
+        <div class="stickyItemBox">
+            <header class="stickyHeader">
+                <div class="stickyImgBox">
+                    <img src="${contextPath}${mainImg}" alt="${title}">
                 </div>
-                <button id="stickyPurchaseBtn" type="button">Ordered</button>
+                <nav class="stickyInfo">
+                    <h2>${title}</h2>
+                    <h3>${price}</h3>
+                    <c:if test="${not empty optionList}">
+                        <div class="shopInfo_selectTag justify-content-start">
+                            <div id="sticky_selectOption" class="select_option">
+                                <nav class="select_tag">
+                                    <span>--&nbsp;Select Option&nbsp;--</span>
+                                    <i class="fa-solid fa-chevron-down fa-lg" style="transform:rotate(0deg)"></i>
+                                </nav>
+                                <nav id="sticky_select_optionContent" class="select_option_part">
+                                </nav>
+                            </div>
+                        </div>
+                    </c:if>
+                    <c:if test="${empty optionList}">
+                        <div class="shopInfo_optionBox">
+                            <nav class="quantity_btn_box">
+                                <button data-minus-quantity="single" type="button">
+                                    <img data-minus-quantity="single" src="/img/icon/quantity_down.jpg" alt="quantity_down">
+                                </button>
+                                <input type="text" data-quantity-name="single"  value="1" name="single" maxlength="3" disabled>
+                                <button data-plus-quantity="single" type="button">
+                                    <img data-plus-quantity="single" src="/img/icon/quantity_up.jpg" alt="quantity_up">
+                                </button>
+                            </nav>
+                        </div>
+                    </c:if>
+                </nav>
+            </header>
+            <section class="sticky_section">
+                <div id="sticky_optionContent" class="sticky_optionContentBox">
+                </div>
                 <div class="sticky_order_box">
-                    <button id="styicy_basket" type="button">장바구니 담기</button>
-                    <button id="sticky_order" type="button">주문하기</button>
-                </div>
-            </nav>
-        </nav>
-        <div class="sticky_optionBox">
-            <div class="sticky_optionPartBox">
-                <div class="sticky_optionPart">
-                    <nav class="sticky_optionTitle">
-                        <h2>Golden ver</h2>
+                    <nav class="sticky_total_price">
+                        <c:if test="${empty optionList}">
+                            <h3 data-option_priceTotal="total">${price}</h3>
+                        </c:if>
                     </nav>
-                    <nav class="sticky_quantityBox">
-                        <button type="button" data-minus-quantity="single" >-</button>
-                        <input type="text" data-quantity-name="single2"  value="1" name="single" maxlength="3" disabled>
-                        <button type="button" data-plus-quantity="single" >+</button>
-                    </nav>
+                <c:choose>
+                    <c:when test="${empty optionList}">
+                        <c:set var="order_class" value="order_box_allowed"/>
+                    </c:when>
+                    <c:otherwise>
+                        <c:set var="order_class" value="order_box_not_allowed"/>
+                    </c:otherwise>
+                </c:choose>
+                    <button class="${order_class}" data-productNo="${productNo}" type="button">Add To Cart</button>
                 </div>
-            </div>
-            <nav class="sticky_total_price">
-                <h3>Total:</h3>
-                <h2>₩52,000</h2>
-            </nav>
+            </section>
         </div>
     </div>
--->
 	<div class="shopInfo">
-		<ul class="shopInfo_Item_Box">
+		<ul id="hiddenMenu_noneLine" class="shopInfo_Item_Box">
 		    <a href="${shopPage}" class="shopInfo_category">
                 ${category}
 		    </a>
@@ -146,8 +156,8 @@ request.setCharacterEncoding("UTF-8");
                 </p>
 			</li>
             <c:if test="${not empty optionList}">
-                <li class="shopInfo_selectTag">
-                    <div class="select_option">
+                <li class="shopInfo_selectTag justify-content-center">
+                    <div id="SelectOption" class="select_option">
                         <nav class="select_tag">
                             <span>--&nbsp;Select Option&nbsp;--</span>
                             <i class="fa-solid fa-chevron-down fa-lg" style="transform:rotate(0deg)"></i>
@@ -157,10 +167,10 @@ request.setCharacterEncoding("UTF-8");
                             <input data-option-value="${optionList[status.getCount()]}" hidden="hidden">
                         </c:if>
                     </c:forEach>
-                        <div class="select_option_part">
+                        <div id="select_optionContent" class="select_option_part">
                         </div>
                     </div>
-                 </li>
+                </li>
             </c:if>
             <li id="shopInfoOptionBox" class="shopInfo_optionBox">
             <c:if test="${empty optionList}">
@@ -177,7 +187,7 @@ request.setCharacterEncoding("UTF-8");
             </c:if>
             </li>
 		</ul>
-		<div class="shopInfo_optionBox">
+		<div id="hiddenMenu_line" class="shopInfo_optionBox">
             <div class="option_price_total">
                 <c:if test="${empty optionList}">
                     <h3 data-option_priceTotal="total">${price}</h3>

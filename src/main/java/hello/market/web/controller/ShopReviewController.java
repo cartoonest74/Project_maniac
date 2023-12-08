@@ -65,8 +65,8 @@ public class ShopReviewController {
         review_tag.setLength(0);
         List<ShopReview> shopReviews = shopReviewService.allViewReview(productNo, limit);
 
-        for (ShopReview sq : shopReviews) {
-            create_qnaTag(sq);
+        for (ShopReview sr : shopReviews) {
+            create_reviewTag(sr);
         }
         String review_tag_complete = review_tag.toString();
 
@@ -97,8 +97,9 @@ public class ShopReviewController {
         return uriSplit[0];
     }
 
-    private void create_qnaTag(ShopReview shopReview) {
+    private void create_reviewTag(ShopReview shopReview) {
         String userId = shopReview.getUserId();
+        String productTitle = shopReview.getTitle();
         String userUrl = shopReview.getUrl();
         String userDate = shopReview.getDate();
         String userContent = shopReview.getContent();
@@ -106,7 +107,7 @@ public class ShopReviewController {
         String urlAlt = urlArrays[urlArrays.length - 1];
         review_tag.append("<nav class=\"shopInfo_bc_header\">")
                 .append("<p class=\"shopInfo_re_title\">")
-                .append("")
+                .append(productTitle)
                 .append("</p>")
                 .append("<p>Q :</p>")
                 .append("<p>" + userId + "</p>").append("<p>" + userDate + "</p>")

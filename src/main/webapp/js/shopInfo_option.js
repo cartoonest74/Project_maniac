@@ -32,7 +32,11 @@ $(function(){
 
     const create_option_priceTotal = ()=>{
         const option_priceTotal_Tag=`<h3 data-option_priceTotal="total"></h3>`;
+        // main
         $("div.option_price_total").html(option_priceTotal_Tag);
+
+        // sticky
+        $("nav.sticky_total_price").html(option_priceTotal_Tag);
     }
 
     const create_optionTag = (option_val) =>{
@@ -55,6 +59,26 @@ $(function(){
                                     </button>
                                 </nav>
                             </div>`;
+
+        const sticky_option_tag = `<div data-option-container="${option_val}" class="sticky_shoInfo_quantity">
+                                        <button data-option-part-close="${option_val}" type="button">
+                                            <i data-option-part-close="${option_val}" class="fa-solid fa-xmark fa-sm"></i>
+                                        </button>
+                                        <nav class="sticky_optionTitle">
+                                            <h2>
+                                                ${option_val}
+                                            </h2>
+                                        </nav>
+                                        <nav class="sticky_quantityBox">
+                                            <button data-minus-quantity="${option_val}" type="button">
+                                                <img data-minus-quantity="${option_val}" src="/img/icon/quantity_down.jpg" alt="quantity_down">
+                                            </button>
+                                            <input type="text" data-quantity-name="${option_val}"  value="1" name="${option_val}" maxlength="3" disabled>
+                                            <button data-plus-quantity="${option_val}" type="button">
+                                                <img data-plus-quantity="${option_val}" src="/img/icon/quantity_up.jpg" alt="quantity_up">
+                                            </button>
+                                        </nav>
+                                    </div>`;
         // 중복 생성 방지
         console.log(document.querySelector(`[data-option-container="${option_val}"]`))
         if(document.querySelector(`[data-option-container="${option_val}"]`)){
@@ -63,15 +87,15 @@ $(function(){
         create_option_priceTotal()
         const $option_priceTotal = $('h3[data-option_priceTotal="total"]')
         trans_price_calc(option_val,1,$option_priceTotal)
-        $("#shopInfoOptionBox ").append(option_tag)
-
+        $("#shopInfoOptionBox").append(option_tag)
+        $("#sticky_optionContent").append(sticky_option_tag)
         order_add_btn_allowed_bg("ok")
     }
 
 
-    const select_switch_fn =(display, rotate, e)=>{
-        const select_option_part = document.querySelector(".select_option_part")
-        const $select_option_part = $(".select_option_part")
+    const select_switch_fn =(display, rotate, select_optionContent, e)=>{
+        const select_option_part = document.querySelector(select_optionContent)
+        const $select_option_part = $(select_optionContent)
         select_option_part.style.display=display
         e.children[1].style.transform=rotate
         if(display.includes("none")){
@@ -80,11 +104,18 @@ $(function(){
         }
         $select_option_part.html(selectOption_tag_obj["SelectOption"].join(""))
     }
+
     // select option click
-    $(".select_option>nav:first-child").click(function(){
+    $("#SelectOption>nav:first-child").click(function(){
         const select_close_open = this.children[1].style.transform
-        ! select_close_open.includes("180deg")? select_switch_fn("flex","rotate(180deg)",this) :select_switch_fn("none","rotate(0deg)",this)
+        ! select_close_open.includes("180deg")? select_switch_fn("flex","rotate(180deg)","#select_optionContent",this) :select_switch_fn("none","rotate(0deg)", "#select_optionContent",this)
     })
+
+    // sticky select option click
+    $("#sticky_selectOption>nav:first-child").click(function(){
+        const select_close_open = this.children[1].style.transform
+        ! select_close_open.includes("180deg")? select_switch_fn("flex","rotate(180deg)","#sticky_select_optionContent",this) :select_switch_fn("none","rotate(0deg)", "#sticky_select_optionContent",this)
+    });
 
     $(document).on("click","span[data-option-value]",function(e){
         const option_val = $(e.target).attr('data-option-value')
@@ -240,5 +271,4 @@ $(function(){
             }
         });
     })
-
 });

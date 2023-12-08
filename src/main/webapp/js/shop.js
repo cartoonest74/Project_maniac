@@ -10,7 +10,7 @@ $(function(){
         ShopMenu_Content.html(tag_data);
         // page 번호 처리
         const countNum = document.getElementById("shop_pageCount_num")
-        if(all_reviewCount < 10){
+        if(all_reviewCount < 20){
             countNum.style.display="none";
             return '';
         }
@@ -27,8 +27,10 @@ $(function(){
 
         let page_increase= Math.floor(review_limit / 5) ? Math.floor(review_limit / 5) : 0
 
-        const remaining_reviewCount = all_reviewCount - (page_increase * 50)
-
+        // page_increase * n
+        // n = 1p에 보여질 페이지 넘버 * 1p에 보여질 데이터 개수
+        const remaining_reviewCount = all_reviewCount - (page_increase * 100)
+        console.log(page_increase)
 
         // page 개수
         let pageCount =  remaining_reviewCount / regular_pageDataLimit;
@@ -50,7 +52,6 @@ $(function(){
                         </button>`
             arr_page.push(page_tag);
         }
-
         for(let i = 0; i < review_page; i++){
             page_tag =`<button type="button" data-page-id="${prev_num}" class="info_pageNum">${prev_num+1}</button>`
             arr_page.push(page_tag);
@@ -59,6 +60,7 @@ $(function(){
 
         // 한페이지에 보여질 개수 n개
         // all_reviewCount > prev_num * n;
+        console.log("all_reviewCount=",all_reviewCount,"prev_num=", prev_num)
         if(all_reviewCount > prev_num * 20){
             page_tag = `<button id="d_lastPageId" class="info_nextPrev" type="button" data-last-page-id="${prev_num}">
                 <i data-last-page-id="${prev_num}" class="fa-solid fa-angle-right fa-lg"></i></button>`

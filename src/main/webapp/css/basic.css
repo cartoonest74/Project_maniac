@@ -155,3 +155,9 @@ input[hidden="hidden"]{
 .margin-Left10{
     margin-left:10px;
 }
+.justify-content-center{
+    justify-content:center;
+}
+.justify-content-start{
+    justify-content:flex-start;
+}

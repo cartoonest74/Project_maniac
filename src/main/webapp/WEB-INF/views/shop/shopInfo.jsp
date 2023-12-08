@@ -49,6 +49,7 @@
 <c:set var="category" value="${productinfo.category}" />
 <c:set var="price" value="${productinfo.price}" />
 <c:set var="optionList" value="${fn:split(productinfo.optionList,',')}" />
+<c:set var="productArtistId" value="${productinfo.artistId}"/>
 <c:choose>
     <c:when test="${optionList[0] ne 'single'}">
         <c:set var="optionListLength" value="${fn:length(optionList)}"/>
@@ -64,7 +65,7 @@
 <c:set var="noticeList" value="${fn:split(productinfo.notice,',')}"/>
 <c:set var="noticeListLength" value="${fn:length(noticeList)}"/>
 
-<c:url var="shopPage" value="/product/${artistId}/shop/${category}?page=1" />
+<c:url var="shopPage" value="/product/${productArtistId}/shop/${category}?page=1" />
 <%
 request.setCharacterEncoding("UTF-8");
 %>
@@ -96,7 +97,7 @@ request.setCharacterEncoding("UTF-8");
                         </div>
                     </c:if>
                     <c:if test="${empty optionList}">
-                        <div class="shopInfo_optionBox">
+                        <div class="sticky_shopInfo_optionBox">
                             <nav class="quantity_btn_box">
                                 <button data-minus-quantity="single" type="button">
                                     <img data-minus-quantity="single" src="/img/icon/quantity_down.jpg" alt="quantity_down">

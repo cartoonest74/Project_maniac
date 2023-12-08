@@ -23,6 +23,11 @@
     .stickyItemBox{
         width:80%;
     }
+
+    /*basket*/
+    .basketName{
+        font-size:1.5em;
+    }
 }
 @media screen and (max-width:420px){
     .resizeMenu_partBox{

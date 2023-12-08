@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Cart {
-    private int product_no;
+    private int productNo;
     private String title;
     private String singleMultiple;
     private String price;

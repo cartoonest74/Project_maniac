@@ -122,14 +122,35 @@ $(function(){
     // edit
     $(document).on("click","button[data-btn-edit]",function(e){
         const cartKey = $(e.target).attr("data-btn-edit")
+        const resolve_del_cart = "/"
         $(e.target).attr("data-plus-quantity","mx6011")
         $.ajax({
-            type:"post",
+            type:"PUT",
             async:true,
             url: resolve_add_cart,
-            dataType:""
-        })
+            dataType:"text",
+            data:{
+            },
+            success:function(data, success){
+                console.log(data)
+            }
+        });
     })
 
     //delete
+    $(document).on("click","button[data-btn-remove]",function(e){
+        const _cartKey = $(e.target).attr("data-btn-remove");
+        $.ajax({
+            type:"DELETE",
+            async:true,
+            url:resolve_del_cart,
+            dataType:"text",
+            data:{
+                cartKey:_cartKey
+            },
+            success: function(data, success){
+                console.log(data);
+            }
+        });
+    });
 });

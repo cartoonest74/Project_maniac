@@ -196,13 +196,28 @@ public class ProductController {
     }
 
     @ResponseBody
-    @PostMapping("/{artistId}/edit-cart")
-    private String editCart(@PathVariable Integer artistId,@RequestParam String cartKey,@RequestParam JSONObject option){
+    @PutMapping("/edit-cart")
+    private String editCart(@RequestParam String cartKey,@RequestParam JSONObject option){
         String[] cartKey_arr = cartKey.split("x");
         String option_part_keyWord = cartKey_arr[0];
         String product_no = cartKey_arr[1];
         String option_index = cartKey_arr[2];
         return "";
+    }
+
+    @ResponseBody
+    @DeleteMapping("/del-cart")
+    private String deleteCart(@RequestParam String cartKey, HttpServletRequest request){
+        Integer user_id = loginSessionManager.sessionUUIDcheck(request);
+        if (user_id == 0) {
+            return "redirect:/member/login-account";
+        }
+        String jsonKey = new StringBuilder()
+                .append("$.")
+                .append(cartKey)
+                .toString();
+        cartService.delete_cart(user_id, jsonKey);
+        return "ok";
     }
 
     private void create_shopMenuTag(Product product, String likeHeart_class) {

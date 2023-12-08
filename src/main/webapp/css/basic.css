@@ -44,7 +44,7 @@ a{
     width:100%;
     height:100px;
     align-items: center;
-    background-color:rgb(233, 101, 78);
+    background-color:#D91A2A;
     padding:70px 0px;
 }
 /* shopTitle */
@@ -121,7 +121,7 @@ a{
     width:100%;
     justify-content:center;
     flex-wrap:wrap;
-    background-color:#f5f2f2;s
+    background-color:white;
 }
 
 /* footer */
@@ -160,4 +160,10 @@ input[hidden="hidden"]{
 }
 .justify-content-start{
     justify-content:flex-start;
+}
+.align-items-center{
+    align-items:center;
+}
+.align-items-left{
+    align-items:left;
 }

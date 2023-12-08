@@ -83,7 +83,7 @@ button[data-btn-hmtype]>nav{
     display:inline-block;
     font-size:inherit;
 }
-button[data-btn-hmtype]>a{
+button[data-btn-hmtype]>a *{
     display:inline-block;
     font-size:inherit;
 }

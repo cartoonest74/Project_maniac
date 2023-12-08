@@ -3,14 +3,14 @@ $(function(){
     const selectOption_tag_obj = new Array();
 
     function order_add_btn_allowed_bg (allow){
-        const order_add_btn = document.querySelector('[data-productNo]')
+        const $order_add_btn = $('button[data-productNo]')
         if(allow.includes("ok")){
-            order_add_btn.removeAttribute('order_box_not_allowed')
-            order_add_btn.setAttribute('class','order_box_allowed')
+            $order_add_btn.removeClass('order_box_not_allowed')
+            $order_add_btn.addClass('order_box_allowed')
             return
         }
-        order_add_btn.removeAttribute('order_box_allowed')
-        order_add_btn.setAttribute('class','order_box_not_allowed')
+        $order_add_btn.removeClass('order_box_allowed')
+        $order_add_btn.addClass('order_box_not_allowed')
     }
 
     const create_selectOption = () =>{
@@ -132,9 +132,9 @@ $(function(){
         $option_container.remove();
         const $option_priceTotal = $('h3[data-option_priceTotal="total"]')
         trans_price_calc(option_close_name,0,$option_priceTotal)
-
-        if(option_containers.length == 1){
-            price_total_tag.remove()
+        console.log(option_containers.length)
+        if(option_containers.length == 2){
+            $option_priceTotal.remove()
             order_add_btn_allowed_bg("No")
         }
     });

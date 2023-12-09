@@ -92,7 +92,7 @@ $(function(){
         order_add_btn_allowed_bg("ok")
     }
 
-
+    // select 아이콘 animation
     const select_switch_fn =(display, rotate, select_optionContent, e)=>{
         const select_option_part = document.querySelector(select_optionContent)
         const $select_option_part = $(select_optionContent)

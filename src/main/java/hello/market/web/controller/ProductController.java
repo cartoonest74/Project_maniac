@@ -196,13 +196,27 @@ public class ProductController {
     }
 
     @ResponseBody
-    @PutMapping("/edit-cart")
-    private String editCart(@RequestParam String cartKey,@RequestParam JSONObject option){
-        String[] cartKey_arr = cartKey.split("x");
-        String option_part_keyWord = cartKey_arr[0];
-        String product_no = cartKey_arr[1];
-        String option_index = cartKey_arr[2];
-        return "";
+    @PostMapping("/view/edit-cart")
+    private String view_editCart(@RequestParam Integer editGoods_Id){
+        Product product1 = productService.findProduct(editGoods_Id);
+
+        int id = product1.getId();
+        String title = product1.getTitle();
+        String optionList = product1.getOptionList();
+        String mainImg = product1.getMainImg();
+        String price = product1.getPrice();
+        String optionMent = product1.getOptionMent();
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("id", id);
+        jsonObject.put("title", title);
+        jsonObject.put("optionList",optionList );
+        jsonObject.put("mainImg", mainImg);
+        jsonObject.put("price", price);
+        jsonObject.put("optionMent", optionMent);
+
+        String jsonObjectString = jsonObject.toString();
+        return jsonObjectString;
     }
 
     @ResponseBody

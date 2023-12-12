@@ -25,8 +25,14 @@
     }
 
     /*basket*/
+    .basketContent{
+        width:100%;
+    }
     .basketName{
-        font-size:1.5em;
+        font-size:1.4em;
+    }
+    .basketEdit_contentBox{
+        width:100%;
     }
 }
 @media screen and (max-width:420px){

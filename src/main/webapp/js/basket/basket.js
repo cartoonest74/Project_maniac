@@ -1,101 +1,34 @@
 $(function(){
     const basket_obj = new Array();
+    const selectOption_tag_obj = new Array();
+    const optionList_obj = new Array();
+    const option_quantity_obj = new Array();
 
-    // edit_tag
-    const create_editTag = (json_editInfo)=>{
-        let String_to_json = JSON.parse(data);
-        let String_edit_Tag = `
-            <button id="basketEdit_Exit" class="basket_btn_exit">
-                <i class="fa-solid fa-x fa-lg"></i>
-            </button>
-            <ul class="basket_Item_Box">
-                <li class="shopInfo_img">
-                    <nav class="shopInfo_MainImg">
-                        <img src="${contextPath}${mainImg}" alt="${title}">
-                    </nav>
-                </li>
-                <li class="shopInfo_item">
-                    <p class="shopInfo_itemTitle">
-                        <span class="shopInfo_itemContent">${title}</span>
-                    </p>
-                    <p class="shopInfo_itemTitle">
-                        <span id="basic_productPrice" class="shopInfo_itemContent">${price}</span>
-                    </p>
-                    <p class="shopInfo_itemTitle">
-                        <span id="option_max" class="shopInfo_itemContent">
-                            <i class="fa-regular fa-circle fa-sm"></i>&nbsp;&nbsp;${optionMent}
-                        </span>
-                    </p>
-                </li>
-                <c:if test="${not empty optionList}">
-                    <li class="shopInfo_selectTag justify-content-center">
-                        <div id="SelectOption" class="select_option">
-                            <nav class="select_tag">
-                                <span>--&nbsp;Select Option&nbsp;--</span>
-                                <i class="fa-solid fa-chevron-down fa-lg" style="transform:rotate(0deg)"></i>
-                            </nav>
-                        <c:forEach var="i" begin="0" end="${forBreak}" varStatus="status">
-                            <c:if test="${status.getCount() %2 eq 0}">
-                                <input data-option-value="${optionList[status.getCount()]}" hidden="hidden">
-                            </c:if>
-                        </c:forEach>
-                            <div id="select_optionContent" class="select_option_part">
-                            </div>
-                        </div>
-                    </li>
-                </c:if>
-                <li id="shopInfoOptionBox" class="shopInfo_optionBox">
-                <c:if test="${empty optionList}">
-                    <input data-option-value="single" hidden="hidden">
-                    <nav class="quantity_btn_box">
-                        <button data-minus-quantity="single" type="button">
-                            <img data-minus-quantity="single" src="/img/icon/quantity_down.jpg" alt="quantity_down">
-                        </button>
-                        <input type="text" data-quantity-name="single"  value="1" name="single" maxlength="3" disabled>
-                        <button data-plus-quantity="single" type="button">
-                            <img data-plus-quantity="single" src="/img/icon/quantity_up.jpg" alt="quantity_up">
-                        </button>
-                    </nav>
-                </c:if>
-                </li>
-            </ul>
-            <div id="hiddenMenu_line" class="shopInfo_optionBox">
-                <div class="option_price_total">
-                    <c:if test="${empty optionList}">
-                        <h3 data-option_priceTotal="total">${price}</h3>
-                    </c:if>
-                </div>
-                <div class="shopInfo_order_box">
-                     <c:choose>
-                        <c:when test="${empty optionList}">
-                            <c:set var="order_class" value="order_box_allowed"/>
-                        </c:when>
-                        <c:otherwise>
-                            <c:set var="order_class" value="order_box_not_allowed"/>
-                        </c:otherwise>
-                     </c:choose>
-                    <button class="${order_class}" data-productNo="${productNo}" type="button">Add To Cart</button>
-                </div>
-            </div>
-        `;
+    function order_add_btn_allowed_bg (allow){
+        const $order_add_btn = $('button[data-productNo]')
+        if(allow.includes("ok")){
+            $order_add_btn.removeClass('order_box_not_allowed')
+            $order_add_btn.addClass('order_box_allowed')
+            return
+        }
+        $order_add_btn.removeClass('order_box_allowed')
+        $order_add_btn.addClass('order_box_not_allowed')
     }
 
     const create_selectOption = () =>{
-        const selectOption_tag_nodeList = document.querySelectorAll("[data-option-value]")
         const add_selectOption_tag = []
-        for(let i=0; i<selectOption_tag_nodeList.length; i++){
-            const selectOption_val = selectOption_tag_nodeList.item(i).getAttribute('data-option-value').trim()
+        optionList_obj.forEach((val, i)=>{
+            const selectOption_val = val.trim()
             const selectOption_tag = `
                 <span data-option-value="${selectOption_val}">
                     ${selectOption_val}
                 </span>
             `
             add_selectOption_tag.push(selectOption_tag)
-        }
+        });
         selectOption_tag_obj["SelectOption"] = add_selectOption_tag
     }
     // 1번 실행되면서 select option 부분들을 미리 생성
-    create_selectOption()
 
     const create_option_priceTotal = ()=>{
             const option_priceTotal_Tag=`<h3 data-option_priceTotal="total"></h3>`;
@@ -117,14 +50,13 @@ $(function(){
                                         <button data-minus-quantity="${option_val}" type="button">
                                             <img data-minus-quantity="${option_val}" src="/img/icon/quantity_down.jpg" alt="quantity_down">
                                         </button>
-                                        <input type="text" data-quantity-name="${option_val}"  value="1" name="${option_val}" maxlength="3" disabled>
+                                        <input type="text" data-editQuantity-name="${option_val}"  value="1" name="${option_val}" maxlength="3" disabled>
                                         <button data-plus-quantity="${option_val}" type="button">
                                             <img data-plus-quantity="${option_val}" src="/img/icon/quantity_up.jpg" alt="quantity_up">
                                         </button>
                                     </nav>
                                 </div>`;
             // 중복 생성 방지
-            console.log(document.querySelector(`[data-option-container="${option_val}"]`))
             if(document.querySelector(`[data-option-container="${option_val}"]`)){
                 return "";
             }
@@ -132,7 +64,6 @@ $(function(){
             const $option_priceTotal = $('h3[data-option_priceTotal="total"]')
             trans_price_calc(option_val,1,$option_priceTotal)
             $("#shopInfoOptionBox").append(option_tag)
-            $("#sticky_optionContent").append(sticky_option_tag)
             order_add_btn_allowed_bg("ok")
     }
 
@@ -155,7 +86,7 @@ $(function(){
     });
 
     // select option click
-    $("#SelectOption>nav:first-child").click(function(){
+    $(document).on("click","#SelectOption>nav:first-child",function(){
         const select_close_open = this.children[1].style.transform
         ! select_close_open.includes("180deg")? select_switch_fn("flex","rotate(180deg)","#select_optionContent",this) :select_switch_fn("none","rotate(0deg)", "#select_optionContent",this)
     })
@@ -163,29 +94,26 @@ $(function(){
     // option part close
     $(document).on("click","button[data-option-part-close]",function(e){
         const option_close_name = $(e.target).attr('data-option-part-close').trim();
-        const $option_container = $(`div[data-option-container='${option_close_name}']`)
+        const $option_container = $(`div[data-option-container="${option_close_name}"]`)
         const option_containers = document.querySelectorAll("[data-option-container]");
         const price_total_tag = document.querySelector('[data-option_priceTotal="total"]')
 
         $option_container.remove();
         const $option_priceTotal = $('h3[data-option_priceTotal="total"]')
         trans_price_calc(option_close_name,0,$option_priceTotal)
-        console.log(option_containers.length)
-        if(option_containers.length == 2){
+        if(option_containers.length == 1){
             $option_priceTotal.remove()
             order_add_btn_allowed_bg("No")
         }
     });
 
     function option_dictionary(){
-        const option_nodeList =  document.querySelectorAll("[data-option-value]")
-        for(let i=0; i<option_nodeList.length; i++){
-            let option_name = option_nodeList.item(i).getAttribute('data-option-value').trim()
+        optionList_obj.forEach((val,i)=>{
+            let option_name = val.trim();
             const option_quantity = option_name.includes("single") ? 1:0
             option_quantity_obj[option_name] = [0,option_quantity]
-        }
+        })
     }
-    option_dictionary();
 
     // 수량 계산 부분
     function trans_price_calc (target_quantity_name, quantity_val, $option_priceTotal){
@@ -226,8 +154,8 @@ $(function(){
         const $option_priceTotal = $('h3[data-option_priceTotal="total"]')
         const target_quantity_name = $(e.target).attr(pm_quantity);
 
-        const $quantity_name = $(`input[data-quantity-name="${target_quantity_name}"]`)
-        const quantity_name = $quantity_name.attr("data-quantity-name").trim()
+        const $quantity_name = $(`input[data-editQuantity-name="${target_quantity_name}"]`)
+        const quantity_name = $quantity_name.attr("data-editQuantity-name").trim()
 
         // max quantity
         const regex = /[^0-9]/g;
@@ -287,7 +215,6 @@ $(function(){
         option_quantity_json.id =_productNo
         option_quantity_json.option = option_quantity_arr
         const option_json = JSON.stringify(option_quantity_json)
-        console.log(option_json)
         $.ajax({
             type: "PUT",
             async: true,
@@ -299,18 +226,12 @@ $(function(){
                 option:option_json
             },
             success: function(data, status) {
-                console.log(data)
                 if(Number(data)!== 0){
                     $("#header_cart_btn").text("CART( "+data+" )");
                     return '';
                 }
             }
         });
-    });
-
-    // edit click
-    $(document).on("click","button[data-btn-edit]",function(e){
-        $(e.target.)
     });
 
 // basket basic
@@ -344,47 +265,14 @@ $(function(){
             option_name = option_nodeList.item(i).getAttribute('data-quantity-name').trim()
             quantity_goods = parseInt(option_nodeList.item(i).value)
             basket_obj[option_name] = [0,0]
-            trans_price_calc(option_name,quantity_goods)
+            basket_trans_price_calc(option_name,quantity_goods)
         }
     }
     basket_dictionary();
 
-//    const basic_total = () =>{
-//        const basket_price_nodeList = document.querySelectorAll("[data-basket-price]");
-//        for(let i=0; i<basket_price_nodeList.length; i++){
-//            let basket_tag_name = basket_price_nodeList.item(i).getAttribute('data-basket-price').trim()
-//            trans_price_calc()
-//        }
-//    }
-
-    const quantity_btn =(pm_quantity,e)=>{
-
-        const target_quantity_name = $(e.target).attr(pm_quantity);
-
-        const $quantity_name = $(`input[data-quantity-name=${target_quantity_name}]`)
-        const quantity_name = $quantity_name.attr("data-quantity-name")
-
-        // max quantity
-        const regex = /[^0-9]/g;
-        const option_max = $quantity_name.attr("data-quantity-max");
-
-        if(quantity_name == target_quantity_name && pm_quantity.includes("plus")){
-            let quantity_val = $quantity_name.val()
-            quantity_val < option_max ? quantity_val++ : alert("최대 수량을 초과하였습니다.")
-            $quantity_name.val(quantity_val)
-            trans_price_calc(target_quantity_name,quantity_val)
-        }
-
-        if(quantity_name == target_quantity_name && pm_quantity.includes("minus")){
-            let quantity_val = $quantity_name.val()
-            quantity_val > 1 ? quantity_val-- : ''
-            $quantity_name.val(quantity_val)
-            trans_price_calc(target_quantity_name,quantity_val)
-        }
-    }
 
     // 수량 계산 부분
-        function trans_price_calc(target_quantity_name, quantity_val){
+        function basket_trans_price_calc(target_quantity_name, quantity_val){
             // total part
             const $basket_price = $(`p[data-basket-price=${target_quantity_name}]`)
             const $subtotalTag = $("#subtotalTag")
@@ -420,34 +308,174 @@ $(function(){
 
             total_tag(currency_unit,basket_total,$basketTotal)
         }
+    //basket_tag
+    const create_basketTag =(data)=>{
+        const singleMultiple = "";
+        const optionTitle = "";
+        let optionName_tag = "";
 
-        // plus quantity
-        $(document).on("click","button[data-plus-quantity]",function(e){
-            quantity_btn("data-plus-quantity",e)
-        })
+        if(singleMultiple == "m"){
+            optionName_tag=`<span class="optionName">${optionTitle}</span>`;
+        }
 
-        //    minus quantity
-        $(document).on("click","button[data-minus-quantity]",function(e){
-            quantity_btn("data-minus-quantity",e)
-        })
+        let String_basket_tag =`<li class="basketContent">
+                                    <nav class="basketImgBox">
+                                        <a href="${shopInfo}" class="basketImg">
+                                            <img src=${mainImg} alt="${title}">
+                                        </a>
+                                    </nav>
+                                    <nav class="basketName">
+                                        <span>${title}</span>
+                                        <!-- ${singleMultiple} -->
+                                        ${optionName_tag}
+                                    </nav>
+                                    <nav class="basketPriceBox">
+                                        <input type="text" name="quantity" data-quantity-max="${maxQuantity}" data-quantity-name="${cartKey}" value="${quantity}" disabled>
+                                        <p data-original-price="${price}" data-basket-price="${cartKey}" class="basketPrice">${price}</p>
+                                    </nav>
+                                    <nav class="basketOptionBtn">
+                                        <button data-btn-edit="${cartKey}" type="button">Edit</button>
+                                        <button data-btn-remove="${cartKey}" type="button">Delete</button>
+                                    </nav>
+                                </li>`
+    }
 
-    // edit
+    // edit_tag
+    const control_editWindow = (edit_tag) =>{
+        const BasketEdit_content =document.getElementById("basketEdit_content");
+        const basketEdit_box = document.querySelector(".basketEdit_box");
+        basketEdit_box.classList.toggle("none");
+        BasketEdit_content.innerHTML = edit_tag
+    }
+
+    const create_editTag = (data)=>{
+        const String_to_json = JSON.parse(data);
+        const basket_editId = String_to_json.id;
+        const basket_editTitle = String_to_json.title;
+        const basket_editOptionList = String_to_json.optionList;
+        const basket_editMainImg = String_to_json.mainImg;
+        const basket_editPrice = String_to_json.price;
+        const basket_editOptionMent = String_to_json.optionMent;
+
+        const optionList = basket_editOptionList.split(",");
+
+        optionList_obj.length = 0;
+        optionList.forEach((val,i)=>{
+            val = val.trim();
+            if(val == "single"){
+                optionList_obj.push(val);
+                return "";
+            }
+
+            if((i+1)%2 != 0){
+                optionList_obj.push(val);
+            }
+
+        });
+
+        let String_edit_Tag = `
+            <button id="basketEdit_Exit" class="basket_btn_exit" type="button">
+                <i class="fa-solid fa-x fa-lg"></i>
+            </button>
+            <ul class="basket_Item_Box">
+                <li class="shopInfo_img">
+                    <nav class="shopInfo_MainImg">
+                        <img src="${basket_editMainImg}" alt="${basket_editTitle}">
+                    </nav>
+                </li>
+                <li class="shopInfo_item">
+                    <p class="shopInfo_itemTitle">
+                        <span class="shopInfo_itemContent">${basket_editTitle}</span>
+                    </p>
+                    <p class="shopInfo_itemTitle">
+                        <span id="basic_productPrice" class="shopInfo_itemContent">${basket_editPrice}</span>
+                    </p>
+                    <p class="shopInfo_itemTitle">
+                        <span id="option_max" class="shopInfo_itemContent">
+                            <i class="fa-regular fa-circle fa-sm"></i>&nbsp;&nbsp;${basket_editOptionMent}
+                        </span>
+                    </p>
+                </li>`;
+
+        if(optionList.length > 2){
+            String_edit_Tag += `<li class="shopInfo_selectTag justify-content-center">
+                        <div id="SelectOption" class="select_option">
+                            <nav class="select_tag">
+                                <span>--&nbsp;Select Option&nbsp;--</span>
+                                <i class="fa-solid fa-chevron-down fa-lg" style="transform:rotate(0deg)"></i>
+                            </nav>
+                            <div id="select_optionContent" class="select_option_part">
+                            </div>
+                        </div>
+                    </li>
+                    <li id="shopInfoOptionBox" class="shopInfo_optionBox">
+                    </li>
+                </ul>
+                <div id="hiddenMenu_line" class="shopInfo_optionBox">
+                    <div class="option_price_total">
+                            <h3 data-option_priceTotal="total"></h3>
+                    </div>
+                    <div class="shopInfo_order_box">
+                        <button class="order_box_not_allowed" data-productNo="${basket_editId}" type="button">Add To Cart</button>
+                    </div>
+                </div>
+                `;
+        }else{
+            String_edit_Tag += `<li id="shopInfoOptionBox" class="shopInfo_optionBox">
+                <nav class="quantity_btn_box">
+                    <button data-minus-quantity="single" type="button">
+                        <img data-minus-quantity="single" src="/img/icon/quantity_down.jpg" alt="quantity_down">
+                    </button>
+                    <input type="text" data-editQuantity-name="single"  value="1" name="single" maxlength="3" disabled>
+                    <button data-plus-quantity="single" type="button">
+                        <img data-plus-quantity="single" src="/img/icon/quantity_up.jpg" alt="quantity_up">
+                    </button>
+                </nav>
+            </li>
+            </ul>
+            <div id="hiddenMenu_line" class="shopInfo_optionBox">
+                <div class="option_price_total">
+                    <h3 data-option_priceTotal="total">${basket_editPrice}</h3>
+                </div>
+                <div class="shopInfo_order_box">
+                    <button class="order_box_allowed" data-productNo="${basket_editId}" type="button">Add To Cart</button>
+                </div>
+            </div>`
+        }
+        return String_edit_Tag;
+    }
+
+    // edit 페이지 띄우기
     $(document).on("click","button[data-btn-edit]",function(e){
-        const cartKey = $(e.target).attr("data-btn-edit")
-        const resolve_del_cart = "/"
-        $(e.target).attr("data-plus-quantity","mx6011")
+        const cartKey = $(e.target).attr("data-btn-edit");
+        const resolve_view_edit = "/product/view/edit-cart";
+
+        const arr_cartKey = cartKey.split("x");
+        const _editGoods_Id = arr_cartKey[1];
+        const editGoods_optionPart = arr_cartKey[1];
+        const editGoods_optionId = arr_cartKey[2];
+
         $.ajax({
-            type:"PUT",
+            type:"post",
             async:true,
-            url: resolve_add_cart,
+            url: resolve_view_edit,
             dataType:"text",
             data:{
+               editGoods_Id:_editGoods_Id
             },
-            success:function(data, success){
-                console.log(data)
+            success: function(data, status){
+                let edit_tag = create_editTag(data);
+                control_editWindow(edit_tag);
+                option_dictionary();
+                create_selectOption();
             }
         });
     })
+
+    // edit 페이지 exit
+    $(document).on("click","#basketEdit_Exit",function(){
+        control_editWindow("")
+    });
 
     //delete
     $(document).on("click","button[data-btn-remove]",function(e){

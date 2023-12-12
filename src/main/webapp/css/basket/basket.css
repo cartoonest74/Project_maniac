@@ -1,7 +1,6 @@
 @charset "UTF-8";
 .basketForm{
     display:inline-flex;
-    min-width:360px;
     width:70%;
     justify-content:center;
     flex-wrap: wrap;
@@ -52,10 +51,10 @@
 .basketContent{
     position:relative;
     display:inline-flex;
-    min-width:450px;
     width:70%;
     padding:10px 0;
     justify-content:center;
+    flex-wrap:wrap;
 }
 .basketImgBox{
     display: inline-block;
@@ -73,7 +72,6 @@
 }
 /* 이름 & 가격 & 옵션 */
 .basketOptionBtn{
-    position:absolute;
     display:inline-flex;
     width:100%;
     justify-content:center;

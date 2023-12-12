@@ -16,16 +16,13 @@ request.setCharacterEncoding("UTF-8");
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
-<link rel="stylesheet"
-	href="${contextPath}/css/main.css">
-<link rel="stylesheet"
-	href="${contextPath}/css/basic.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/basket/basket.css">
-	href="${pageContext.request.contextPath}/css/basket/basket_edit.css">
+<link rel="stylesheet" href="${contextPath}/css/main.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/basket/basket.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/basket/basket_edit.css">
 <link rel="stylesheet" href="${contextPath}/css/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
 <link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
+<link rel="stylesheet" href="${contextPath}/css/basic.css">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,14 +36,13 @@ request.setCharacterEncoding("UTF-8");
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
-<script type="text/javascript" src="${contextPath}/js/cart.js"></script>
 <script type="text/javascript" src="${contextPath}/js/basket/basket.js"></script>
 
 
 </head>
 <body>
     <!-- basket edit -->
-    <div class="basketEdit_box">
+    <div class="basketEdit_box none">
         <div id="basketEdit_content" class="basketEdit_contentBox">
 
         </div>
@@ -92,14 +88,6 @@ request.setCharacterEncoding("UTF-8");
                         </nav>
                         <nav class="basketPriceBox">
                             <input type="text" name="quantity" data-quantity-max="${maxQuantity}" data-quantity-name="${cartKey}" value="${quantity}" disabled>
-                            <nav class="basketQuanttiyBtn">
-                                <button data-plus-quantity="${cartKey}" type="button">
-                                    <i data-plus-quantity="${cartKey}" class="fa-solid fa-chevron-up fa-xl"></i>
-                                </button>
-                                <button data-minus-quantity="${cartKey}" type="button">
-                                    <i data-minus-quantity="${cartKey}" class="fa-solid fa-chevron-down fa-xl"></i>
-                                </button>
-                            </nav>
                             <p data-original-price="${price}" data-basket-price="${cartKey}" class="basketPrice">${price}</p>
                         </nav>
                         <nav class="basketOptionBtn">

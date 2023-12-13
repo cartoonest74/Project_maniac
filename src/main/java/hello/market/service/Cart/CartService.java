@@ -11,5 +11,5 @@ public interface CartService {
     void add_cart(int user_id,String productNo, int quantity);
 
     Integer cart_length(int user_id);
-    List<Cart> select_cart(int user_id);
+    List<Cart> select_cart(int user_id, int limit);
 }

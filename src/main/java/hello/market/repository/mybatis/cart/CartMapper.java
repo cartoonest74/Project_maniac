@@ -14,7 +14,7 @@ public interface CartMapper {
 
 	void save(@Param("user_id") int user_id, @Param("productNo") String productNo, @Param("quantity") int quantity);
 
-	List<Cart> select(@Param("user_id") int user_id);
+	List<Cart> select(@Param("user_id") int user_id, @Param("limit") int limit);
 
 	Integer cart_length(@Param("user_id") int user_id);
 }

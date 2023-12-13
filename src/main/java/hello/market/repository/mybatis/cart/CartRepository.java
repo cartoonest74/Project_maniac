@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface CartRepository {
-	List<Cart> db_select(int user_id);
+	List<Cart> db_select(int user_id, int limit);
 	void db_save(int productNo,String option_id, int quantity);
 
 	void db_delete(int user_id,String productNo);

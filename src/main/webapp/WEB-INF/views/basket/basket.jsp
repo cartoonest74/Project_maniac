@@ -61,7 +61,7 @@ request.setCharacterEncoding("UTF-8");
       </div>
       <c:choose>
           <c:when test="${not empty cartList}">
-            <ul class="basketInfoBox">
+            <ul id="basketInfo" class="basketInfoBox">
             <c:forEach var="cart" items="${cartList}">
                 <c:set var="productNo" value="${cart.productNo}" />
                 <c:set var="singleMultiple" value="${cart.singleMultiple}" />

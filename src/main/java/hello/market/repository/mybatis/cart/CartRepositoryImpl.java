@@ -22,8 +22,8 @@ public class CartRepositoryImpl implements CartRepository {
 	private int cartMapCount;
 
 	@Override
-	public List<Cart> db_select(int user_id) {
-		List<Cart> cartList = cartMapper.select(user_id);
+	public List<Cart> db_select(int user_id, int limit) {
+		List<Cart> cartList = cartMapper.select(user_id, limit);
 		return cartList;
 	}
 

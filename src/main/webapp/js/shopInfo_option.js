@@ -224,7 +224,7 @@ $(function(){
     $("button[data-productNo]").click(function(){
         const CONTEXTPATH = $("#contextPath").val();
         const ARTIST_ID =$("input[name='artistId']").val();
-        const resolve_add_cart = "/product/add-cart";
+        const resolve_add_cart = "cart/add-cart";
         const price_total_tag = document.querySelector('[data-option_priceTotal="total"]')
         const _productNo = $("button[data-productNo]").attr('data-productNo')
         if(! price_total_tag){

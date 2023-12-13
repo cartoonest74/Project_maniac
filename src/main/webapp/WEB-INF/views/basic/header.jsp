@@ -25,7 +25,7 @@ request.setCharacterEncoding("UTF-8");
     <c:url var="main" value="/" />
 </c:if>
 <c:url var="about" value="/about" />
-<c:url var="viewCart" value="/product/${artistId}/view-cart" />
+<c:url var="viewCart" value="/cart/${artistId}/view-cart" />
 <c:url var="maniac" value="/img/web_logo/maniac.png" />
 <c:url var="maniac_simple_log_c" value="/img/web_logo/Simple_logoC.png" />
 

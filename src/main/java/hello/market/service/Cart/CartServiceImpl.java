@@ -32,8 +32,8 @@ public class CartServiceImpl implements  CartService{
     }
 
     @Override
-    public List<Cart> select_cart(int user_id) {
-        List<Cart> cartList = cartRepository.db_select(user_id);
+    public List<Cart> select_cart(int user_id, int limit) {
+        List<Cart> cartList = cartRepository.db_select(user_id, limit);
         return cartList;
     }
 

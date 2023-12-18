@@ -62,12 +62,13 @@ $(function(){
         // ch1 string to trans number price
         const basket_originalPrice = $basket_price.attr("data-original-price")
         const currency_unit = basket_originalPrice[0]
-        const arr_product_price = basket_originalPrice.substring(1).split(",")
-        const money_digit = (arr_product_price.length - 1) * 1000
-        const add_digit_price = parseInt(arr_product_price[0]) * money_digit
+        const str_product_price = basket_originalPrice.substring(1).replace(/,/g,"")
+//        const money_digit = (arr_product_price.length - 1) * 1000
+        console.log()
+        const product_price = parseInt(str_product_price)
 
         // ch2 quantity calculation
-        let calc_product_price = add_digit_price * quantity_val
+        let calc_product_price = product_price * quantity_val
 
         // ch3 multiple & single quantity total
         basket_obj[target_quantity_name][0]=calc_product_price
@@ -103,7 +104,6 @@ $(function(){
         const cartKey = Cart.cart_key;
         const singleMultiple = Cart.single_multiple;
         const optionTitle = Cart.option_title;
-        console.log()
         if(singleMultiple == "m"){
             optionName_tag=`<span class="optionName">${optionTitle}</span>`;
         }
@@ -131,43 +131,43 @@ $(function(){
         arr_main_basketTag.push(String_basket_tag)
     }
 
-    function post_viewCart(){
+    // cart 페이지 목록띄우기
+    async function post_viewCart(){
         const post_mappingViewCart = "/cart/view-cart";
-        $.ajax({
-            type:"post",
-            async:true,
-            url:post_mappingViewCart,
-            dataType:"text",
-            data:{},
-            success:function(data, status){
+        const empty_announcement = `<div>장바구니 안에 상품이 없습니다.</div>`;
+        const res = await fetch(post_mappingViewCart,{
+            method:"post"
+        }).then((response)=>response.text())
+        .then((data)=>{
 
-                const today = get_today();
-                console.log(today)
-                arr_main_basketTag.length = 0
-
-                const json = JSON.parse(data);
-                let cart_array = json.cart_array;
-                cart_array.forEach((val,i)=>{
-                    const Cart = JSON.parse(val);
-                    create_basketTag(Cart);
-                });
-                const Str_arr_main_basketTag = arr_main_basketTag.join("");
-                $("#basketInfo").html(Str_arr_main_basketTag)
+            if(data=="empty"){
+                $("#basketBody").html(empty_announcement);
+                return "";
             }
-        });
+            arr_main_basketTag.length = 0
+
+            const json = JSON.parse(data);
+            let cart_array = json.cart_array;
+            cart_array.forEach((val,i)=>{
+                const Cart = JSON.parse(val);
+                create_basketTag(Cart);
+            });
+
+            const Str_arr_main_basketTag = arr_main_basketTag.join("");
+            $("#basketInfo").html(Str_arr_main_basketTag);
+            basket_dictionary();
+        })
     }
 
-    post_viewCart();
 //TODO Edit window part
-    const control_editWindow = (edit_tag) =>{
+    const show_editWindow = (edit_tag) =>{
         const BasketEdit_content =document.getElementById("basketEdit_content");
         const basketEdit_box = document.querySelector(".basketEdit_box");
         basketEdit_box.classList.toggle("none");
         BasketEdit_content.innerHTML = edit_tag
     }
 
-    const create_editTag = (data)=>{
-        const String_to_json = JSON.parse(data);
+    const create_editTag = (String_to_json)=>{
         const basket_editId = String_to_json.id;
         const basket_editTitle = String_to_json.title;
         const basket_editOptionList = String_to_json.optionList;
@@ -263,31 +263,37 @@ $(function(){
         return String_edit_Tag;
     }
 
+    function option_dictionary(){
+            optionList_obj.forEach((val,i)=>{
+            let option_name = val.trim();
+            const option_quantity = option_name.includes("single") ? 1:0
+            option_quantity_obj[option_name] = [0,option_quantity]
+        })
+    }
+
     // edit 페이지 띄우기
-    $(document).on("click","button[data-btn-edit]",function(e){
+    $(document).on("click","button[data-btn-edit]",async function(e){
         const cartKey = $(e.target).attr("data-btn-edit");
-        const resolve_view_edit = "/cart/view/edit-cart";
 
         const arr_cartKey = cartKey.split("x");
         const _editGoods_Id = arr_cartKey[1];
         const editGoods_optionPart = arr_cartKey[1];
         const editGoods_optionId = arr_cartKey[2];
+        const resolve_view_edit = "/cart/view/edit-cart";
 
-        $.ajax({
-            type:"post",
-            async:true,
-            url: resolve_view_edit,
-            dataType:"text",
-            data:{
-               editGoods_Id:_editGoods_Id
-            },
-            success: function(data, status){
-                let edit_tag = create_editTag(data);
-                control_editWindow(edit_tag);
-                option_dictionary();
-                create_selectOption();
-            }
-        });
+        const formData = new FormData();
+        formData.append("editGoods_Id",_editGoods_Id);
+        const res = await fetch(resolve_view_edit,{
+            method:"POST",
+            body:formData
+        }).then((response)=>response.json())
+        .then((data)=>{
+            let edit_tag = create_editTag(data);
+            show_editWindow(edit_tag);
+            option_dictionary();
+            create_selectOption();
+        })
+        .catch((error)=>console.log(error))
     })
 
     function order_add_btn_allowed_bg (allow){
@@ -393,24 +399,15 @@ $(function(){
         }
     });
 
-    function option_dictionary(){
-        optionList_obj.forEach((val,i)=>{
-            let option_name = val.trim();
-            const option_quantity = option_name.includes("single") ? 1:0
-            option_quantity_obj[option_name] = [0,option_quantity]
-        })
-    }
-
     // 수량 계산 부분
     function trans_price_calc (target_quantity_name, quantity_val, $option_priceTotal){
         // ch1 string to trans number price
         const currency_unit = $("#basic_productPrice").text()[0]
-        const arr_product_price = $("#basic_productPrice").text().substring(1).split(",")
-        const money_digit = (arr_product_price.length - 1) * 1000
-        const add_digit_price = parseInt(arr_product_price[0]) * money_digit
+        const str_product_price = $("#basic_productPrice").text().substring(1).replace(/,/g,"")
+        const product_price = parseInt(str_product_price)
 
         // ch2 quantity calculation
-        let calc_product_price = add_digit_price * quantity_val
+        let calc_product_price = product_price * quantity_val
         // ch3 multiple & single quantity total
         option_quantity_obj[target_quantity_name][0]=calc_product_price
         option_quantity_obj[target_quantity_name][1]=quantity_val
@@ -447,15 +444,14 @@ $(function(){
         const regex = /[^0-9]/g;
         const option_max = parseInt($("#option_max").text().replace(regex,''))
 
+        let quantity_val = Number($quantity_name.val());
         if(quantity_name == target_quantity_name && pm_quantity.includes("plus")){
-            let quantity_val = $quantity_name.val()
             quantity_val < option_max ? quantity_val++ : alert("최대 수량을 초과하였습니다.")
             $quantity_name.val(quantity_val)
             trans_price_calc(target_quantity_name,quantity_val, $option_priceTotal)
         }
 
         if(quantity_name == target_quantity_name && pm_quantity.includes("minus")){
-            let quantity_val = $quantity_name.val()
             quantity_val > 1 ? quantity_val-- : ''
             $quantity_name.val(quantity_val)
             trans_price_calc(target_quantity_name,quantity_val, $option_priceTotal)
@@ -473,7 +469,7 @@ $(function(){
     })
 
     // add to cart
-    $("button[data-productNo]").click(function(){
+    $(document).on("click","button[data-productNo]",async function(){
         const resolve_add_cart = "/cart/add-cart";
         const price_total_tag = document.querySelector('[data-option_priceTotal="total"]')
         const _productNo = $("button[data-productNo]").attr('data-productNo')
@@ -501,47 +497,45 @@ $(function(){
         option_quantity_json.id =_productNo
         option_quantity_json.option = option_quantity_arr
         const option_json = JSON.stringify(option_quantity_json)
-        $.ajax({
-            type: "PUT",
-            async: true,
-            url: resolve_add_cart,
-            dataType: "text",
-            data: {
-                option_part:_option_part,
-                productNo: _productNo,
-                option:option_json
-            },
-            success: function(data, status) {
-                if(Number(data)!== 0){
-                    $("#header_cart_btn").text("CART( "+data+" )");
-                    return '';
-                }
-            }
-        });
-    });
 
+        const formData = new FormData();
+        formData.append("option_part",_option_part);
+        formData.append("productNo",_productNo);
+        formData.append("option",option_json);
+
+        const res = await fetch(resolve_add_cart,{
+            method:"PUT",
+            body:formData
+        }).then((response)=>response.text())
+        .then((data)=>{
+            show_editWindow("");
+            post_viewCart();
+        })
+        .catch((error)=>{
+            console.log(data);
+        })
+    });
 
     // edit 페이지 exit
     $(document).on("click","#basketEdit_Exit",function(){
-        control_editWindow("")
+        show_editWindow("")
     });
 
-
-
     //delete
-    $(document).on("click","button[data-btn-remove]",function(e){
+    $(document).on("click","button[data-btn-remove]",async function(e){
         const _cartKey = $(e.target).attr("data-btn-remove");
-        $.ajax({
-            type:"DELETE",
-            async:true,
-            url:resolve_del_cart,
-            dataType:"text",
-            data:{
-                cartKey:_cartKey
-            },
-            success: function(data, success){
-                console.log(data);
-            }
-        });
+        const resolve_del_cart = "/cart/del-cart";
+
+        const formData = new FormData();
+        formData.append("cartKey",_cartKey);
+
+        const res = await fetch(resolve_del_cart,{
+            method:"DELETE",
+            body:formData
+        }).then((response)=> response.text())
+            .then((data)=> {
+                post_viewCart();
+            })
+            .catch((error)=> console.log(error))
     });
 });

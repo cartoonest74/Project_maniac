@@ -2,6 +2,7 @@ $(function(){
     const option_quantity_obj = new Array();
     const selectOption_tag_obj = new Array();
 
+
     function order_add_btn_allowed_bg (allow){
         const $order_add_btn = $('button[data-productNo]')
         if(allow.includes("ok")){
@@ -80,7 +81,6 @@ $(function(){
                                         </nav>
                                     </div>`;
         // 중복 생성 방지
-        console.log(document.querySelector(`[data-option-container="${option_val}"]`))
         if(document.querySelector(`[data-option-container="${option_val}"]`)){
             return "";
         }
@@ -106,13 +106,13 @@ $(function(){
     }
 
     // select option click
-    $("#SelectOption>nav:first-child").click(function(){
+    $(document).on("click","#SelectOption>nav:first-child",function(){
         const select_close_open = this.children[1].style.transform
         ! select_close_open.includes("180deg")? select_switch_fn("flex","rotate(180deg)","#select_optionContent",this) :select_switch_fn("none","rotate(0deg)", "#select_optionContent",this)
     })
 
     // sticky select option click
-    $("#sticky_selectOption>nav:first-child").click(function(){
+    $(document).on("click","#sticky_selectOption>nav:first-child",function(){
         const select_close_open = this.children[1].style.transform
         ! select_close_open.includes("180deg")? select_switch_fn("flex","rotate(180deg)","#sticky_select_optionContent",this) :select_switch_fn("none","rotate(0deg)", "#sticky_select_optionContent",this)
     });
@@ -132,7 +132,6 @@ $(function(){
         $option_container.remove();
         const $option_priceTotal = $('h3[data-option_priceTotal="total"]')
         trans_price_calc(option_close_name,0,$option_priceTotal)
-        console.log(option_containers.length)
         if(option_containers.length == 2){
             $option_priceTotal.remove()
             order_add_btn_allowed_bg("No")
@@ -153,12 +152,11 @@ $(function(){
     function trans_price_calc (target_quantity_name, quantity_val, $option_priceTotal){
         // ch1 string to trans number price
         const currency_unit = $("#basic_productPrice").text()[0]
-        const arr_product_price = $("#basic_productPrice").text().substring(1).split(",")
-        const money_digit = (arr_product_price.length - 1) * 1000
-        const add_digit_price = parseInt(arr_product_price[0]) * money_digit
+        const str_product_price = $("#basic_productPrice").text().substring(1).replace(/,/g,"")
+        const product_price = parseInt(str_product_price)
 
         // ch2 quantity calculation
-        let calc_product_price = add_digit_price * quantity_val
+        let calc_product_price = product_price * quantity_val
         // ch3 multiple & single quantity total
         option_quantity_obj[target_quantity_name][0]=calc_product_price
         option_quantity_obj[target_quantity_name][1]=quantity_val
@@ -221,10 +219,9 @@ $(function(){
     })
 
     // add to cart
-    $("button[data-productNo]").click(function(){
-        const CONTEXTPATH = $("#contextPath").val();
+    $(document).on("click","button[data-productNo]",async function(){
         const ARTIST_ID =$("input[name='artistId']").val();
-        const resolve_add_cart = "cart/add-cart";
+        const resolve_add_cart = "/cart/add-cart";
         const price_total_tag = document.querySelector('[data-option_priceTotal="total"]')
         const _productNo = $("button[data-productNo]").attr('data-productNo')
         if(! price_total_tag){
@@ -251,24 +248,187 @@ $(function(){
         option_quantity_json.id =_productNo
         option_quantity_json.option = option_quantity_arr
         const option_json = JSON.stringify(option_quantity_json)
-        console.log(option_json)
-        $.ajax({
-            type: "PUT",
-            async: true,
-            url: resolve_add_cart,
-            dataType: "text",
-            data: {
-                option_part:_option_part,
-                productNo: _productNo,
-                option:option_json
-            },
-            success: function(data, status) {
-                console.log(data)
-                if(Number(data)!== 0){
-                    $("#header_cart_btn").text("CART( "+data+" )");
-                    return '';
-                }
+
+        const formData = new FormData();
+        formData.append("option_part",_option_part)
+        formData.append("productNo",_productNo)
+        formData.append("option",option_json)
+        const res = await fetch(resolve_add_cart,{
+            method:"PUT",
+            body:formData
+        }).then((response)=>response.text())
+        .then((data)=>{
+            if(Number(data)!== 0){
+                $("#header_cart_btn").text("CART( "+data+" )");
+                return '';
             }
-        });
-    })
+        }).catch((error)=>console.log(error))
+
+        const checkMsg_res =  await void_addCheckMsg_ani();
+        const checkMsg_remove = await remove_basket();
+    });
+
+     const create_stickyHead_tag = ()=>{
+              const shopInfoMain_img_src = $("#shopInfoMain_img").attr("src");
+              const shopInfoMain_title = $("#shopInfoMain_img").attr("alt");
+              const shopInfoMain_price = $("#basic_productPrice").html();
+              const option_keys = Object.keys(option_quantity_obj);
+              const shopInfoMain_id = Object.keys(option_quantity_obj);
+              const productNo = $("#addToCart").attr("data-productNo");
+
+              let stickyOption_tag ="";
+              let stickyTotal_tag = "";
+              let stickyOrder_class = "order_box_allowed";
+
+              if(option_keys[0]!="single"){
+                stickyOption_tag = `<div class="shopInfo_selectTag justify-content-start">
+                                       <div id="sticky_selectOption" class="select_option">
+                                           <nav class="select_tag">
+                                               <span>--&nbsp;Select Option&nbsp;--</span>
+                                               <i class="fa-solid fa-chevron-down fa-lg" style="transform:rotate(0deg)"></i>
+                                           </nav>
+                                           <nav id="sticky_select_optionContent" class="select_option_part">
+                                           </nav>
+                                       </div>
+                                   </div>`;
+
+               stickyOrder_class = "order_box_not_allowed";
+              }else{
+                stickyOption_tag = `<div class="sticky_shopInfo_optionBox">
+                                       <nav class="quantity_btn_box">
+                                           <button data-minus-quantity="single" type="button">
+                                               <img data-minus-quantity="single" src="/img/icon/quantity_down.jpg" alt="quantity_down">
+                                           </button>
+                                           <input type="text" data-quantity-name="single"  value="1" name="single" maxlength="3" disabled>
+                                           <button data-plus-quantity="single" type="button">
+                                               <img data-plus-quantity="single" src="/img/icon/quantity_up.jpg" alt="quantity_up">
+                                           </button>
+                                       </nav>
+                                   </div>`;
+
+                stickyTotal_tag = `<h3 data-option_priceTotal="total">${shopInfoMain_price}</h3>`;
+              }
+            let stickyHead_tag=`<div id="stickyInfo" class="sticky_info">
+                                      <div class="stickyItemBox">
+                                          <header class="stickyHeader">
+                                              <div class="stickyImgBox">
+                                                  <img src="${shopInfoMain_img_src}" alt="${shopInfoMain_title}">
+                                              </div>
+                                              <nav class="stickyInfo">
+                                                  <h2>${shopInfoMain_title}</h2>
+                                                  <h3>${shopInfoMain_price}</h3>
+                                                  ${stickyOption_tag}
+                                              </nav>
+                                          </header>
+                                          <section class="sticky_section">
+                                              <div id="sticky_optionContent" class="sticky_optionContentBox">
+                                              </div>
+                                              <div class="sticky_order_box">
+                                                  <nav class="sticky_total_price">
+                                                      ${stickyTotal_tag}
+                                                  </nav>
+                                                  <button class="${stickyOrder_class}" data-productNo="${productNo}" type="button">Add To Cart</button>
+                                              </div>
+                                          </section>
+                                      </div>
+                                  </div>`
+            return stickyHead_tag;
+        }
+
+    let currentScene = 0;
+    let yOffset =0;
+    let prevScrollHeight = 0;
+
+    const create_sideOptionBtn = () =>{
+        const topBtn_tag = `<div id="sideOption" class="sideOptionBox">
+                                <button id="topBtn" type="button" class="cls_topBtn">
+                                    <i class="fa-solid fa-circle-up fa-2xl"></i>
+                                </button>
+                            </div>`;
+        return topBtn_tag;
+    }
+
+    function body_append(position, text){
+        const body = document.querySelector("body");
+        body.insertAdjacentHTML(position,text);
+    }
+
+    window.addEventListener("scroll",()=>{
+        yOffset = window.scrollY
+        const hiddenMenu_noneLine = document.querySelector("#hiddenMenu_noneLine");
+        const hiddenMenu_line = document.querySelector("#hiddenMenu_line");
+        const appear_hiddenMenu_val = hiddenMenu_line.offsetHeight + hiddenMenu_noneLine.offsetHeight + 140
+
+        let stickyInfo = document.querySelector("#stickyInfo");
+        let sideOption = document.querySelector("#sideOption");
+        let keyframes =[
+                {opacity:0},
+                {opacity:0.2},
+                {opacity:1}
+            ];
+        let options={
+                delay:100,
+                duration: 1000,
+                easing: "ease-in",
+                iterations: 1,
+                fill: "forwards"
+            };
+
+        if(yOffset > appear_hiddenMenu_val){
+            if(stickyInfo == null){
+                // scroll menu
+                let stickyHead_tag = create_stickyHead_tag()
+                body_append("afterbegin",stickyHead_tag);
+                stickyInfo = document.querySelector("#stickyInfo")
+                stickyInfo.animate(keyframes, options);
+
+                // side option
+                let sideOption_tag = create_sideOptionBtn()
+                body_append("afterbegin",sideOption_tag);
+                sideOption = document.querySelector("#sideOption")
+                sideOption.animate(keyframes, options);
+            }
+        }else{
+            if(stickyInfo != null){
+                stickyInfo.remove();
+                sideOption.remove();
+            }
+        }
+    });
+    $(document).on("click","button#topBtn",function(){
+        window.scrollTo({top:0, left:0, behavior:"smooth"})
+    });
+
+    function remove_basket(){
+         return new Promise((resolve, reject)=>{
+                setTimeout(()=>{
+                    let remove_checkMsg_basket = $("#show_addCheckMsg").remove();
+                    resolve(remove_checkMsg_basket)
+                },10000);
+            });
+    }
+
+    async function void_addCheckMsg_ani(){
+        const artistId = $("#artistId").val();
+        const add_checkMsgTag = `<div id="show_addCheckMsg" class="addCheckMsg_box">
+                                         <a href="/cart/${artistId}/view-cart" id="goToCart" type="button">
+                                             <i class="fa-solid fa-cart-shopping fa-2xl"></i>
+                                         </a>
+                                     </div>`
+        body_append("afterbegin",add_checkMsgTag);
+        const goToCart = document.getElementById("show_addCheckMsg");
+        let keyframes =[
+            {opacity:0, transform: "translate(0,10px)"},
+            {opacity:0.2, transform: "translate(0,2px)"},
+            {opacity:1, transform: "translate(0,0)"}
+        ];
+        let options={
+            delay:100,
+            duration: 1000,
+            easing: "ease-in",
+            iterations: 1,
+            fill: "forwards"
+        }
+        goToCart.animate(keyframes, options)
+    }
 });

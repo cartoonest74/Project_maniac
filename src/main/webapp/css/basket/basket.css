@@ -39,6 +39,12 @@
 }
 
 /* cartBody */
+.cls_basketBody{
+    display:inline-flex;
+    width:100%;
+    justify-content:center;
+    flex-wrap: wrap;
+}
 .basketInfoBox{
     display:flex;
     width:100%;

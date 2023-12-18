@@ -51,7 +51,7 @@ request.setCharacterEncoding("UTF-8");
 
 	<c:import url="../basic/header.jsp">
 	</c:import>
-	<form action="" id="bakset_Form" class="basketForm" method="post">
+	<section id="basketBox" class="basketForm">
 	  <div class="basketHeader">
             <div class="basketTitle">
                 <h2>CART</h2>
@@ -59,6 +59,7 @@ request.setCharacterEncoding("UTF-8");
             </div>
             <button id="soldDel" class="soldDelbtn" type="button">품절 상품 삭제</button>
       </div>
+      <div id="basketBody" class="cls_basketBody">
       <c:choose>
           <c:when test="${not empty cartList}">
             <ul id="basketInfo" class="basketInfoBox">
@@ -108,7 +109,8 @@ request.setCharacterEncoding("UTF-8");
             <div>장바구니 안에 상품이 없습니다.</div>
           </c:otherwise>
       </c:choose>
-	</form>
+      </div>
+	</section>
 	<jsp:include page="../basic/footer.jsp" flush="true" />
 </body>
 </html>

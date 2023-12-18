@@ -9,6 +9,7 @@ request.setCharacterEncoding("UTF-8");
 <!-- session value -->
 <c:set var="loginUserId" value="${userId}" />
 <c:set var="loginGrade" value="${grade}" />
+<c:set var="cartLength" value="${cartCount}"/>
 
 <!-- controller mapping url -->
 <c:url var="shop" value="/product/product-shop" />
@@ -28,10 +29,6 @@ request.setCharacterEncoding("UTF-8");
 <c:url var="viewCart" value="/cart/${artistId}/view-cart" />
 <c:url var="maniac" value="/img/web_logo/maniac.png" />
 <c:url var="maniac_simple_log_c" value="/img/web_logo/Simple_logoC.png" />
-
-<!-- request cartCount ${main} -->
-<c:set var="cartCount" value="${cartCount}"/>
-<script type="text/javascript" src=""></script>
 <div class="box">
 	<input id="contextPath" value="${contextPath}" type="text" hidden="hidden" />
 	<input id="artistId" value="${artistId}" type="text" hidden="hidden" />
@@ -179,13 +176,8 @@ request.setCharacterEncoding("UTF-8");
                 </c:otherwise>
             </c:choose>
             <a href="${viewCart}" id="header_cart_btn" class="header_btn" type="button">
-            <c:if test="${cartCount gt 0}">
-                <i class="fa-solid fa-cart-shopping fa-lg"></i><c:out value="( ${cartCount} )"/>
-            </c:if>
-
-            <c:if test="${cartCount eq 0}">
                 <i class="fa-solid fa-cart-shopping fa-lg"></i>
-            </c:if>
+                <input data-cart="${cartLength}" hidden="hidden" />
             </a>
         </nav>
 	</header>

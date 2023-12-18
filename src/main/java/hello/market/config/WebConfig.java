@@ -1,7 +1,7 @@
 package hello.market.config;
 
 import hello.market.repository.mybatis.cart.CartRepository;
-import hello.market.web.interceptor.CartInterceptor;
+//import hello.market.web.interceptor.CartInterceptor;
 import hello.market.web.interceptor.LoginCheckInterceptor;
 import hello.market.web.session.CartSessionManager;
 import lombok.RequiredArgsConstructor;
@@ -17,13 +17,13 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new CartInterceptor(cartRepository, cartSessionManager))
-                .order(1)
-                .addPathPatterns("/**")
-                .excludePathPatterns("/css/**", "/*.ico", "/error");
+//        registry.addInterceptor(new CartInterceptor(cartRepository, cartSessionManager))
+//                .order(1)
+//                .addPathPatterns("/**")
+//                .excludePathPatterns("/css/**", "/*.ico", "/error");
         registry.addInterceptor(new LoginCheckInterceptor())
-                .order(2)
-                .addPathPatterns("/product/*/view-cart")
+                .order(1)
+                .addPathPatterns("/cart/*/view-cart")
                 .excludePathPatterns("/css/**", "/*.ico", "/error");
     }
 }

@@ -1,7 +1,49 @@
 @charset "UTF-8";
+/*side option btn*/
+.sideOptionBox{
+    position:fixed;
+    display:inline-block;
+    bottom:2vh;
+    right:2px;
+    opacity:0;
+    z-index:2;
+}
+.cls_topBtn{
+    display:inline-block;
+    font-size:2.2em;
+    color:#40b9a5;
+    background:transparent;
+    border:0px;
+    border-radius:5px;
+    cursor:pointer;
+}
+/*add cart btn ok*/
+.addCheckMsg_box{
+    position: fixed;
+    display:inline-block;
+    left:50%;
+    bottom:2vh;
+    border-radius:100%;
+    background:black;
+    overflow:hidden;
+    text-align:center;
+    opacity:0;
+    z-index:2;
+}
+.addCheckMsg_box a{
+    display:inline-block;
+    padding:20px 22px;
+    font-size:2.1em;
+    color:white;
+    background:transparent;
+    cursor: pointer;
+}
+.addCheckMsg_box a *{
+    font-size:inherit;
+}
 /*sticky menu*/
 .sticky_info{
-    position:sticky;
+    position:fixed;
     display:flex;
     width:100%;
     justify-content: center;
@@ -11,7 +53,7 @@
     /*background:#D91A2A;*/
     box-shadow:2px 2px 2px 2px rgba(0,0,0,0.3);
     top:0px;
-    transition:all 0.1s;
+    opacity:0;
     Z-index:1;
 }
 .stickyItemBox{

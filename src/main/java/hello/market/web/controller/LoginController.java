@@ -1,6 +1,7 @@
 package hello.market.web.controller;
 
 import hello.market.dto.Member;
+import hello.market.service.Cart.CartService;
 import hello.market.service.login.LoginService;
 import hello.market.service.member.MemberService;
 import hello.market.web.session.LoginSessionManager;
@@ -27,6 +28,7 @@ public class LoginController {
     private final MemberService memberService;
     private final LoginService loginService;
     private final LoginSessionManager loginSessionManager;
+    private final CartService cartService;
 
     @PostMapping("/login")
     private String login(@RequestParam(defaultValue = "/main") String referUrl) {
@@ -51,7 +53,8 @@ public class LoginController {
         int userNo = member.getId();
         int grade = member.getGrade();
 
-        loginSessionManager.createSessionLogin(response, request, userId, userNo, grade);
+        Integer cartLength = cartService.cart_length(userNo);
+        loginSessionManager.createSessionLogin(response, request, userId, userNo, grade, cartLength);
         return "";
     }
 

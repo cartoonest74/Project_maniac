@@ -13,12 +13,9 @@ request.setCharacterEncoding("UTF-8");
 <!-- controller mapping url -->
 <c:url var="loginAccount" value="/member/login-account" />
 <c:url var="loginInfo" value="/member/login-info" />
-<c:url var="viewCart" value="/product/0/view-cart" />
+<c:url var="viewCart" value="/cart/0/view-cart" />
 <c:url var="rootInfo" value="/manager/info" />
 <c:url var="maniac" value="/img/web_logo/maniac.png" />
-
-<!-- request cartCount -->
-<c:set var="cartCount" value="${cartCount}"/>
 
 <div class="box">
     <input id="contextPath" type="text" value="${contextPath}" hidden>
@@ -70,13 +67,7 @@ request.setCharacterEncoding("UTF-8");
 		    </c:choose>
 
             <a href="${viewCart}" id="header_cart_btn" class="header_btn" type="button">
-            <c:if test="${cartCount gt 0}">
-                <i class="fa-solid fa-cart-shopping fa-lg"></i><c:out value="( ${cartCount} )"/>
-            </c:if>
-
-            <c:if test="${cartCount eq 0}">
                 <i class="fa-solid fa-cart-shopping fa-lg"></i>
-            </c:if>
             </a>
 		</nav>
 	</header>

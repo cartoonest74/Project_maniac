@@ -17,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,9 +42,12 @@ public class BasketController {
             return "0";
         }
 
+        LocalDateTime date = LocalDateTime.now();
+        String dateFormat = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
         JSONArray option_arr = option.getJSONArray("option");
         List<Cart> po_list = new ArrayList<>();
-        log.info("option_part {}", option_part);
+
         for (int i = 0; i < option_arr.length(); i++) {
             Integer optionId = (Integer) ((JSONObject) option_arr.get(i)).get("option_id");
             Integer quantity = (Integer) ((JSONObject) option_arr.get(i)).get("quantity");
@@ -61,6 +66,7 @@ public class BasketController {
                     .append("[")
                     .append(quantity)
                     .append(",")
+                    .append(dateFormat)
                     .append("]")
                     .toString();
 
@@ -81,8 +87,7 @@ public class BasketController {
 
     @ResponseBody
     @PostMapping("/view-cart")
-    private String post_viewCart(@RequestParam(value="page", required = false,defaultValue = "0") int limit
-            ,HttpServletRequest request) throws JsonProcessingException {
+    private String post_viewCart(HttpServletRequest request) throws JsonProcessingException {
         JSONObject jsonObject = new JSONObject();
 
         Integer user_id = loginSessionManager.sessionUUIDcheck(request);
@@ -92,7 +97,7 @@ public class BasketController {
             return "empty";
         }
 
-        List<Cart> cartList = cartService.select_cart(user_id,limit);
+        List<Cart> cartList = cartService.select_cart(user_id,0);
         ObjectMapper objectMapper = new ObjectMapper();
         JSONArray jsonArray = new JSONArray();
         for (Cart cart : cartList) {
@@ -109,7 +114,6 @@ public class BasketController {
 
     @GetMapping("/{artistId}/view-cart")
     private String get_viewCart(@PathVariable(required = false) Integer artistId,
-            @RequestParam(value="page", required = false,defaultValue = "0") int limit,
             HttpServletRequest request, Model model){
         if(artistId == null) artistId = 0;
 
@@ -124,7 +128,7 @@ public class BasketController {
             return "/basket/basket";
         }
 
-        List<Cart> cartList = cartService.select_cart(user_id, limit);
+        List<Cart> cartList = cartService.select_cart(user_id, 0);
         for (Cart cart : cartList) {
             String mainImg = cart.getMainImg();
             log.info("mainImg={}", mainImg);
@@ -149,6 +153,7 @@ public class BasketController {
     @ResponseBody
     @PostMapping("/view/edit-cart")
     private String view_editCart(@RequestParam Integer editGoods_Id){
+        log.info("zzzzz= {}", 1111111111);
         Product product1 = productService.findProduct(editGoods_Id);
 
         int id = product1.getId();

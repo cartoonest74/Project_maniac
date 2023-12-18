@@ -33,17 +33,15 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <script type="text/javascript"
-	src="${contextPath}/js/shopInfo_subcontent.js">	
+	src="${contextPath}/js/shopInfo/shopInfo_subcontent.js">
 </script>
-<script type="text/javascript" src="${contextPath}/js/shopInfo_option.js"></script>
-<script type="text/javascript" src="${contextPath}/js/window_scroll.js"></script>
+<script type="text/javascript" src="${contextPath}/js/shopInfo/shopInfo_option.js"></script>
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
 <script type="text/javascript" src="${contextPath}/js/cart.js"></script>
 
 <!-- session -->
-
 <c:set var="productNo" value="${productinfo.id}" />
 <c:set var="title" value="${productinfo.title}" />
 <c:set var="category" value="${productinfo.category}" />
@@ -75,64 +73,6 @@ request.setCharacterEncoding("UTF-8");
 	<c:import url="../basic/header.jsp">
 		<c:param name="cartCount" value="${cartCount}" />
 	</c:import>
-    <div id="stickyInfo" class="sticky_info none">
-        <div class="stickyItemBox">
-            <header class="stickyHeader">
-                <div class="stickyImgBox">
-                    <img src="${contextPath}${mainImg}" alt="${title}">
-                </div>
-                <nav class="stickyInfo">
-                    <h2>${title}</h2>
-                    <h3>${price}</h3>
-                    <c:if test="${not empty optionList}">
-                        <div class="shopInfo_selectTag justify-content-start">
-                            <div id="sticky_selectOption" class="select_option">
-                                <nav class="select_tag">
-                                    <span>--&nbsp;Select Option&nbsp;--</span>
-                                    <i class="fa-solid fa-chevron-down fa-lg" style="transform:rotate(0deg)"></i>
-                                </nav>
-                                <nav id="sticky_select_optionContent" class="select_option_part">
-                                </nav>
-                            </div>
-                        </div>
-                    </c:if>
-                    <c:if test="${empty optionList}">
-                        <div class="sticky_shopInfo_optionBox">
-                            <nav class="quantity_btn_box">
-                                <button data-minus-quantity="single" type="button">
-                                    <img data-minus-quantity="single" src="/img/icon/quantity_down.jpg" alt="quantity_down">
-                                </button>
-                                <input type="text" data-quantity-name="single"  value="1" name="single" maxlength="3" disabled>
-                                <button data-plus-quantity="single" type="button">
-                                    <img data-plus-quantity="single" src="/img/icon/quantity_up.jpg" alt="quantity_up">
-                                </button>
-                            </nav>
-                        </div>
-                    </c:if>
-                </nav>
-            </header>
-            <section class="sticky_section">
-                <div id="sticky_optionContent" class="sticky_optionContentBox">
-                </div>
-                <div class="sticky_order_box">
-                    <nav class="sticky_total_price">
-                        <c:if test="${empty optionList}">
-                            <h3 data-option_priceTotal="total">${price}</h3>
-                        </c:if>
-                    </nav>
-                <c:choose>
-                    <c:when test="${empty optionList}">
-                        <c:set var="order_class" value="order_box_allowed"/>
-                    </c:when>
-                    <c:otherwise>
-                        <c:set var="order_class" value="order_box_not_allowed"/>
-                    </c:otherwise>
-                </c:choose>
-                    <button class="${order_class}" data-productNo="${productNo}" type="button">Add To Cart</button>
-                </div>
-            </section>
-        </div>
-    </div>
 	<div class="shopInfo">
 		<ul id="hiddenMenu_noneLine" class="shopInfo_Item_Box">
 		    <a href="${shopPage}" class="shopInfo_category">
@@ -140,7 +80,7 @@ request.setCharacterEncoding("UTF-8");
 		    </a>
 			<li class="shopInfo_img">
                 <nav class="shopInfo_MainImg">
-                    <img src="${contextPath}${mainImg}" alt="${title}">
+                    <img id="shopInfoMain_img" src="${contextPath}${mainImg}" alt="${title}">
                 </nav>
 			</li>
 			<li class="shopInfo_item">
@@ -164,9 +104,7 @@ request.setCharacterEncoding("UTF-8");
                             <i class="fa-solid fa-chevron-down fa-lg" style="transform:rotate(0deg)"></i>
                         </nav>
                     <c:forEach var="i" begin="0" end="${forBreak}" varStatus="status">
-                        <c:if test="${status.getCount() %2 eq 0}">
-                            <input data-option-value="${optionList[status.getCount()]}" hidden="hidden">
-                        </c:if>
+                        <input data-option-value="${optionList[2*i]}" hidden="hidden">
                     </c:forEach>
                         <div id="select_optionContent" class="select_option_part">
                         </div>
@@ -203,7 +141,7 @@ request.setCharacterEncoding("UTF-8");
                         <c:set var="order_class" value="order_box_not_allowed"/>
                     </c:otherwise>
                  </c:choose>
-                <button class="${order_class}" data-productNo="${productNo}" type="button">Add To Cart</button>
+                <button id="addToCart" class="${order_class}" data-productNo="${productNo}" type="button">Add To Cart</button>
             </div>
 		</div>
 		<nav class="shopInfo_ContentBox">

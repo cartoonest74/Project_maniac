@@ -13,4 +13,10 @@ $(function(){
             $("#currentArtist").html(data);
         }
     });
+
+    const cartCount = ()=>{
+        const cartLength = $("input[data-cart]").attr("data-cart").trim();
+        console.log("cartLength= ",cartLength)
+    }
+    cartCount();
 });

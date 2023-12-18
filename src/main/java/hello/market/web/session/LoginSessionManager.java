@@ -27,13 +27,19 @@ public class LoginSessionManager {
     private final LoginService loginService;
     private final MemberService memberService;
 
-    public void createSessionLogin(HttpServletResponse response, HttpServletRequest request, String userId, int userNo, int grade) {
+    public void createSessionLogin(HttpServletResponse response, HttpServletRequest request,
+                                   String userId,
+                                   int userNo,
+                                   int grade,
+                                   int cartLenth) {
+        log.info("cartLenth = {}", cartLenth);
         String uuid = UUID.randomUUID().toString();
 
         HttpSession session = request.getSession();
         session.setAttribute(LOGIN_USERID, userId);
         session.setAttribute(LOGIN_UUID, uuid);
         session.setAttribute(LOGIN_GRADE, grade);
+        session.setAttribute(CARTCOUNT, cartLenth);
         session.setMaxInactiveInterval(60 * 30);
 
         loginService.insert(userNo, uuid);

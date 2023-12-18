@@ -13,7 +13,6 @@ $(function() {
 	const resolve_view_qna= `/product-qna/${ARTIST_ID}/view-qna`
 	const resolve_view_addQna = `/product-qna/${ARTIST_ID}/view-addQna`
 	const resolve_view_addReview = `/product-review/${ARTIST_ID}/view-addReview`
-	const resolve_add_cart = `/product/${ARTIST_ID}/add-cart`
 
 	// review * qna menu btn
 	const SHOPINFO_REVIEW ="#shopInfo_review";

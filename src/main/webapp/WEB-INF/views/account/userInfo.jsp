@@ -8,22 +8,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css">
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/basic.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/usreInfo.css">
-<title>Document</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/account/userInfo.css">
+<link rel="stylesheet" href="${contextPath}/css/search_artist.css">
+<link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
+<link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;900&display=swap" rel="stylesheet">
+
+<title>Maniac</title>
 <%
 	request.setCharacterEncoding("UTF-8");
 %>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <script src="https://code.jquery.com/jquery-2.2.4.js"
 	  integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
 	  crossorigin="anonymous"></script>
-<script type="text/javascript" src="${contextPath}/js/header.js"></script>
-<script type="text/javascript" src="${contextPath}/js/cart.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://kit.fontawesome.com/7938f26122.js" crossorigin="anonymous"></script>
 
-<c:set var="productMainCount" value="${1}" />
+<script type="text/javascript" src="${contextPath}/js/header.js"></script>
+
+<script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
+<script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
+
 <c:set var="logoutUrl" value="/login-action/logout" />
 
 <!-- controller mapping url -->

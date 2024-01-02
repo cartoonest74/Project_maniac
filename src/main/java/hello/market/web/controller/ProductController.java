@@ -9,7 +9,6 @@ import hello.market.service.Cart.CartService;
 import hello.market.service.like.LikeService;
 import hello.market.service.member.MemberService;
 import hello.market.service.product.ProductService;
-import hello.market.web.session.CartSessionManager;
 import hello.market.web.session.LoginSessionManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -41,7 +40,6 @@ public class ProductController {
 
     private final ProductService productService;
     private final CartRepository cartRepository;
-    private final CartSessionManager cartSessionManager;
     private final LoginSessionManager loginSessionManager;
     private final LikeService likeService;
 

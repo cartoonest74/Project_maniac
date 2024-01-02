@@ -51,7 +51,7 @@ $(function(){
     basket_dictionary();
 
 
-    // 수량 계산 부분
+    //TODO 수량 계산 부분
     function basket_trans_price_calc(target_quantity_name, quantity_val){
         // total part
         const $basket_price = $(`p[data-basket-price=${target_quantity_name}]`)
@@ -108,7 +108,7 @@ $(function(){
             optionName_tag=`<span class="optionName">${optionTitle}</span>`;
         }
 
-        let String_basket_tag =`<li class="basketContent">
+        let String_basket_tag =`<li data-basket-box="${cartKey}" class="basketContent">
                                     <nav class="basketImgBox">
                                         <a href="${shopInfo}" class="basketImg">
                                             <img src=${mainImg} alt="${title}">
@@ -399,7 +399,7 @@ $(function(){
         }
     });
 
-    // 수량 계산 부분
+    //TODO 수량 계산 부분
     function trans_price_calc (target_quantity_name, quantity_val, $option_priceTotal){
         // ch1 string to trans number price
         const currency_unit = $("#basic_productPrice").text()[0]
@@ -411,6 +411,7 @@ $(function(){
         // ch3 multiple & single quantity total
         option_quantity_obj[target_quantity_name][0]=calc_product_price
         option_quantity_obj[target_quantity_name][1]=quantity_val
+        console.log(option_quantity_obj)
         let quantity_total = 0
         for(let key in option_quantity_obj){
             quantity_total += option_quantity_obj[key][0]
@@ -516,19 +517,18 @@ $(function(){
         })
     });
 
-    // edit 페이지 exit
+    //TODO edit 페이지 exit
     $(document).on("click","#basketEdit_Exit",function(){
         show_editWindow("")
     });
 
-    //delete
+    //TODO delete
     $(document).on("click","button[data-btn-remove]",async function(e){
         const _cartKey = $(e.target).attr("data-btn-remove");
         const resolve_del_cart = "/cart/del-cart";
 
         const formData = new FormData();
         formData.append("cartKey",_cartKey);
-
         const res = await fetch(resolve_del_cart,{
             method:"DELETE",
             body:formData
@@ -538,4 +538,74 @@ $(function(){
             })
             .catch((error)=> console.log(error))
     });
+
+    // Todo recall tag
+    const recall_msg_tag =(recall_array)=>{
+       const arr_recall_tag = new Array;
+       recall_array.forEach((val,i)=>{
+               const recall_json = JSON.parse(val);
+               let cartKey =  recall_json.cart_key;
+               let recall_basket = document.querySelector(`[data-basket-box="${cartKey}"]`)
+               recall_basket.style.border="2px solid rgb(197, 43, 69)"
+               let title =recall_json.title;
+               let optionTitle =recall_json.option_title.replace(/["]/g,'');
+               let restQuantity =recall_json.rest_quantity;
+
+               let span_tag = `<span style="font-size:2em;">${title}</span>
+                              <span style="font-size:1.5em;">${optionTitle}</span>
+                              <span style="font-size:2.3em; color:rgb(197, 43, 69); margin-bottom:10px;">${restQuantity}</span>`
+
+               if(title == "single"){
+                span_tag =`<span style="font-size:2em;">${title}</span>
+                            <span style="font-size:2.3em; color:rgb(197, 43, 69); margin-bottom:10px;">${restQuantity}</span>`
+               }
+
+               arr_recall_tag.push(span_tag)
+        });
+       let recall_info = arr_recall_tag.join("\n");
+       const recall_tag = `<div id="recallBox" class="recall_Box">
+                               <div class="recall_cotent">
+                                   <h2>Excess of merchandise&#33;</h2>
+                                   <p>
+                                        ${recall_info}
+                                   </p>
+                                   <button id="recall_Close" type="button">OK</button>
+                               </div>
+                           </div>`
+       return recall_tag;
+    }
+
+    function body_append(position, text){
+            const body = document.querySelector("body");
+            body.insertAdjacentHTML(position,text);
+    }
+
+    // recall_box remove
+    $(document).on("click","button#recall_Close",function(e){
+        const recallBox = document.querySelector("#recallBox");
+        recallBox.remove();
+    });
+
+    // TODO payment btn
+    $("#basketOrderBtn").click(async function(){
+        const ArtistId = $("#artistId").val();
+        const resolve_order = `/order`;
+        const res = await fetch(resolve_order,{
+            method:"POST"
+        }).then((response)=>response.text())
+        .then((data)=>{
+            const json = JSON.parse(data);
+            const json_key = Object.keys(json)[0];
+            if(json_key != "uuid"){
+                let recall_array = json.recall_array;
+                const recall_tag = recall_msg_tag(recall_array);
+                body_append("afterbegin",recall_tag)
+                return
+            }
+            const uuid = json.uuid;
+            window.location.href =`/order/${ArtistId}?orderCheck=${uuid}`
+        })
+        .catch((error)=>console.log(error))
+    });
+
 });

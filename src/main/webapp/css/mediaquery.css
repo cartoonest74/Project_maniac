@@ -36,6 +36,13 @@
     }
 }
 @media screen and (max-width:420px){
+    /*header*/
+    .current_artist{
+        font-size:1.5em;
+    }
+    .orBox{
+           width:100%;
+    }
     .resizeMenu_partBox{
         width:100%;
     }

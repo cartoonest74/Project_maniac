@@ -26,7 +26,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/cart")
-public class BasketController {
+public class CartController {
 
     private final ProductService productService;
     private final LoginSessionManager loginSessionManager;
@@ -60,14 +60,6 @@ public class BasketController {
                     .append(productNo)
                     .append("x")
                     .append(optionId)
-                    .toString();
-
-            String optionInfo = new StringBuilder()
-                    .append("[")
-                    .append(quantity)
-                    .append(",")
-                    .append(dateFormat)
-                    .append("]")
                     .toString();
 
             cartService.add_cart(user_id, goodsNo, quantity);
@@ -153,7 +145,6 @@ public class BasketController {
     @ResponseBody
     @PostMapping("/view/edit-cart")
     private String view_editCart(@RequestParam Integer editGoods_Id){
-        log.info("zzzzz= {}", 1111111111);
         Product product1 = productService.findProduct(editGoods_Id);
 
         int id = product1.getId();

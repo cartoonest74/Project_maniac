@@ -1,29 +1,26 @@
-*{
-    margin:0;
-    box-sizing: border-box;
-    font-size:10px;
-}
-html,body{
-    display:inline-flex;
+.fixedBox{
+    position: fixed;
+    display:flex;
     width:100%;
     height:100%;
     justify-content:center;
     align-items:center;
-    background-color:rgba(0,0,0,0.1);
+    z-index:2;
+    background:rgba(0,0,0,0.7);
 }
 .orBox{
-    position: relative;
+    position:relative;
     display:inline-flex;
-    min-width: 360px;
-    width:50%;
+    width:420px;
     justify-content:center;
     flex-wrap: wrap;
     background-color:rgb(255,255,255);
+    border-radius:15px;
     padding:10px 5px;
 }
 .orBoxExit{
     position:absolute;
-    font-size:2em;
+    font-size:1.5em;
     background-color:transparent;
     border:0px;
     right:5px;
@@ -35,12 +32,55 @@ html,body{
     width:100%;
 }
 .orHeader>h1{
-    font-size:2em;
+    font-size:1.8em;
     font-weight:600;
 }
 .orContent{
     display:inline-block;
     padding:0px 10px;
+}
+.orInfoCheck{
+    position:relative;
+    display:inline-flex;
+    font-size:1.7em;
+    padding:10px 0;
+    align-items:center;
+}
+.orInfoCheck input{
+    position:absolute;
+    width:100%;
+    height:100%;
+    cursor:pointer;
+    opacity:0;
+    z-index:1;
+    left:0;
+    top:0;
+}
+.orderRegistry_checkBox{
+    position:relative;
+    display:inline-block;
+    width:20px;
+    height:20px;
+    margin-right:10px;
+    border-radius:20px;
+    border:1px solid black;
+    background:transparent;
+}
+.orderRegistry_checkBox span{
+    position: absolute;
+    display:inline-block;
+    width:10px;
+    height:10px;
+    left:4px;
+    top:4px;
+    border-radius:10px;
+
+}
+.orInfoCheck>input[type="checkbox"]:checked+.orderRegistry_checkBox>span{
+    background-color:black;
+}
+.orInfoCheck *{
+    font-size:inherit;
 }
 .orInfo{
     display:inline-block;
@@ -65,7 +105,7 @@ html,body{
 .orInfo>span:last-child{
     width:100%;
     font-size:inherit;
-    color:rgba(70, 62, 62, 0.74);
+    color:rgba(223, 52, 52, 0.74);
 }
 .orSaveBtn{
     display: inline-block;
@@ -83,12 +123,7 @@ html,body{
     border:0px;
     cursor: pointer;
 }
-.inlineblock{
-    display:inline-block;
-}
-.none{
-    display:none;
-}
+
 .orSaveBtn>button:hover{
     background-color: #2fac82bd;
 }

@@ -4,7 +4,7 @@
     width:70%;
     justify-content:center;
     flex-wrap: wrap;
-    padding:10px 0;
+    padding:5vh 0;
 }
 /* cartHeader */
 .basketHeader{
@@ -224,4 +224,65 @@
     flex-wrap: wrap;
     padding:5vh 0 2vh 0;
     border-bottom:1px solid rgba(80, 34, 34,0.5);
+}
+/* recall box */
+.recall_Box{
+    position:fixed;
+    display:inline-flex;
+    width:100%;
+    height:100%;
+    left:0;
+    top:0;
+    justify-content:center;
+    align-items:center;
+    background-color:rgba(0,0,0,0.5);
+    z-index:2;
+}
+.recall_cotent{
+    position: relative;
+    display:inline-flex;
+    width:300px;
+    height:50vh;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:center;
+    padding:5px 2px;
+    overflow:hidden;
+    background-color:white;
+    border-radius:15px;
+}
+.recall_cotent h2{
+    display:inline-block;
+    width:100%;
+    color:rgb(236, 49, 49);
+    font-size:2.4em;
+    text-align:left;
+    padding-left:5px;
+    padding-bottom:5px;
+    border-bottom:1px solid black;
+}
+.recall_cotent p{
+    display:inline-block;
+    width:100%;
+    height:70%;
+    font-weight:600;
+    overflow:auto;
+    padding:5px 0;
+}
+.recall_cotent p span{
+    display:inline-block;
+    width:100%;
+    text-align:center;
+}
+.recall_cotent button{
+    display:inline-block;
+    width:80%;
+    font-size:2em;
+    font-weight:600;
+    padding:10px 20px;
+    border:0px;
+    border-radius:15px;
+    color:white;
+    background-color:rgb(197, 43, 69);
+    cursor: pointer;
 }

@@ -31,15 +31,15 @@ public class LoginSessionManager {
                                    String userId,
                                    int userNo,
                                    int grade,
-                                   int cartLenth) {
-        log.info("cartLenth = {}", cartLenth);
+                                   int cartLength) {
+        log.info("cartLenth = {}", cartLength);
         String uuid = UUID.randomUUID().toString();
 
         HttpSession session = request.getSession();
         session.setAttribute(LOGIN_USERID, userId);
         session.setAttribute(LOGIN_UUID, uuid);
         session.setAttribute(LOGIN_GRADE, grade);
-        session.setAttribute(CARTCOUNT, cartLenth);
+        session.setAttribute(CARTCOUNT, cartLength);
         session.setMaxInactiveInterval(60 * 30);
 
         loginService.insert(userNo, uuid);

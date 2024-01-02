@@ -17,10 +17,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CartRepositoryImpl implements CartRepository {
 
 	private final CartMapper cartMapper;
-
-	private Map<Integer, Integer> cartMap = new ConcurrentHashMap<>();
-	private int cartMapCount;
-
+	@Override
+	public List<Cart> quantity_check(int user_id) {
+		List<Cart> carts = cartMapper.quantity_check(user_id);
+		return carts;
+	}
 	@Override
 	public List<Cart> db_select(int user_id, int limit) {
 		List<Cart> cartList = cartMapper.select(user_id, limit);
@@ -48,28 +49,5 @@ public class CartRepositoryImpl implements CartRepository {
 		return cart_length;
 	}
 
-	@Override
-	public void save(int productNo, int quantity) {cartMap.put(productNo, quantity);
-	}
 
-	@Override
-	public void remove(int key) {
-		cartMap.remove(key);
-	}
-
-	@Override
-	public Map<Integer, Integer> all() {
-		return cartMap;
-	}
-
-	@Override
-	public int show_length() {
-		cartMapCount = cartMap.size();
-		return cartMapCount;
-	}
-
-	@Override
-	public void clear() {
-		cartMap.clear();
-	}
 }

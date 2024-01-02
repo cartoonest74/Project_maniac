@@ -16,6 +16,12 @@ public class CartServiceImpl implements  CartService{
     private final CartRepository cartRepository;
 
     @Override
+    public List<Cart> quantity_check(int user_id) {
+        List<Cart> carts = cartRepository.quantity_check(user_id);
+        return carts;
+    }
+
+    @Override
     public void create_cart(int user_id) {
         cartRepository.db_create(user_id);
     }

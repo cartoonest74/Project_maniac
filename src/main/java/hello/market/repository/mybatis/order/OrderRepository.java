@@ -5,8 +5,7 @@ import hello.market.dto.Order;
 import java.util.List;
 
 public interface OrderRepository {
-    Order select_remainAmount(int productNo);
-
+    void update_orderInfo(int user_id,String orderInfo);
     void update_singleQuantity(int productNo, int optionQuantity);
     void update_multiQuantity(int productNo, int optionNo, int optionQuantity);
 

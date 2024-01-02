@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface OrderService {
-    Order show_remainAmount(int productNo);
+    void add_orderInfo(int user_id, String orderInfo);
     void calc_singleQuantity(int productNo, int optionQuantity);
     void calc_multiQuantity(int productNo, int optionNo, int optionQuantity);
 

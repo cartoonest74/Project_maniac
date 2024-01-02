@@ -71,6 +71,6 @@ public class LoginController {
             session.invalidate();
         }
         loginSessionManager.expire(response);
-        return "redirect:/artist";
+        return "redirect:/";
     }
 }

@@ -16,13 +16,12 @@ request.setCharacterEncoding("UTF-8");
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
-<link rel="stylesheet" href="${contextPath}/css/main.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/basket/basket.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/basket/basket_edit.css">
 <link rel="stylesheet" href="${contextPath}/css/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
-<link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
 <link rel="stylesheet" href="${contextPath}/css/basic.css">
+<link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -74,7 +73,7 @@ request.setCharacterEncoding("UTF-8");
                 <c:set var="cartKey" value="${cart.cartKey}" />
                 <c:set var="quantity" value="${cart.quantity}" />
                 <c:url var="shopInfo" value="/product/${artistId}/find-product/${productNo}"/>
-                    <li class="basketContent">
+                    <li data-basket-box="${cartKey}" class="basketContent">
                         <nav class="basketImgBox">
                             <a href="${shopInfo}" class="basketImg">
                                 <img src=${mainImg} alt="${title}">

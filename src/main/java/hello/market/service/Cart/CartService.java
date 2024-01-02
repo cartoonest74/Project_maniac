@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface CartService {
 
+    List<Cart> quantity_check(int user_id);
     void create_cart(int user_id);
     void delete_cart(int user_id,String productNo);
     void add_cart(int user_id,String productNo, int quantity);

@@ -8,6 +8,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.net.MalformedURLException;
@@ -17,44 +18,45 @@ import static hello.market.dto.UploadDirName.*;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/img")
 public class ImgController {
 
     private final FileStore fileStore;
 
     @ResponseBody
-    @GetMapping("/img/shopimg/review/{fileName}")
+    @GetMapping("/shopimg/review/{fileName}")
     private Resource shopImg_mapping(@PathVariable String fileName) throws MalformedURLException {
-        String fullPath = fileStore.getFullPath(REVIEW_SHOP_IMG_DIR,fileName);
+        String fullPath = fileStore.getFullPath(REVIEW_SHOP_IMG_DIR, fileName);
         log.info("fullPath = {}", fullPath);
         return new UrlResource("file:" + fullPath);
     }
 
     @ResponseBody
-    @GetMapping("/img/icon/{fileName}")
+    @GetMapping("/icon/{fileName}")
     private Resource icon_mapping(@PathVariable String fileName) throws MalformedURLException {
-        String fullPath = fileStore.getFullPath(iCON_IMG_DIR,fileName);
+        String fullPath = fileStore.getFullPath(iCON_IMG_DIR, fileName);
         log.info("fullPath = {}", fullPath);
         return new UrlResource("file:" + fullPath);
     }
 
     @ResponseBody
-    @GetMapping("/img/web_logo/{fileName}")
+    @GetMapping("/web_logo/{fileName}")
     private Resource maniac_mapping(@PathVariable String fileName) throws MalformedURLException {
-        String fullPath = fileStore.getFullPath(WebLogo_IMG_DIR,fileName);
+        String fullPath = fileStore.getFullPath(WebLogo_IMG_DIR, fileName);
         log.info("fullPath = {}", fullPath);
         return new UrlResource("file:" + fullPath);
     }
 
     @ResponseBody
-    @GetMapping("/img/main_bg/{fileName}")
+    @GetMapping("/main_bg/{fileName}")
     private Resource mainBg_mapping(@PathVariable String fileName) throws MalformedURLException {
-        String fullPath = fileStore.getFullPath(MainBg_IMG_DIR,fileName);
+        String fullPath = fileStore.getFullPath(MainBg_IMG_DIR, fileName);
         log.info("fullPath = {}", fullPath);
         return new UrlResource("file:" + fullPath);
     }
 
     @ResponseBody
-    @GetMapping("/img/artist/notice/{artistFolder}/{fileName}")
+    @GetMapping("/artist/notice/{artistFolder}/{fileName}")
     private Resource artistNotice_mapping(@PathVariable String artistFolder, @PathVariable String fileName) throws MalformedURLException {
         String artist_directory = new StringBuilder()
                 .append(Artist_Notice_IMG_DIR)
@@ -66,4 +68,13 @@ public class ImgController {
         log.info("fullPath = {}", fullPath);
         return new UrlResource("file:" + fullPath);
     }
+
+    @ResponseBody
+    @GetMapping("/paymentMethod/{fileName}")
+    private Resource paymentMethod_mapping(@PathVariable String fileName) throws MalformedURLException {
+        String fullPath = fileStore.getFullPath(PaymentMethod_IMG_DIR, fileName);
+        log.info("fullPath = {}", fullPath);
+        return new UrlResource("file:" + fullPath);
+    }
+
 }

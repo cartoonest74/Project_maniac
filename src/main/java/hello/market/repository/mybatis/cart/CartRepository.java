@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface CartRepository {
+	List<Cart> quantity_check(int user_id);
 	List<Cart> db_select(int user_id, int limit);
 	void db_save(int productNo,String option_id, int quantity);
 
@@ -17,10 +18,4 @@ public interface CartRepository {
 	void db_create(int user_id);
 
 	Integer cart_length(int user_id);
-	void save(int productNo,int quantity);
-
-	void remove(int key);
-	Map<Integer, Integer> all();
-	int show_length();
-	void clear();
 }

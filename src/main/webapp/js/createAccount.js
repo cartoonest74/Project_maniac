@@ -358,7 +358,6 @@ $(function() {
 		const POST_NUM = $("#postNum").val();
 		const MAIN_ADDR = $("#mainAddr").val();
 		const DETAIL_ADDR = $("#detailAddr").val();
-		const SUB_ADDR = $("#subAddr").val();
 
 		if(POST_NUM == '' && MAIN_ADDR == ''&& DETAIL_ADDR == ''){
 			$("#result_post").attr("value","none");
@@ -406,7 +405,7 @@ $(function() {
 		    return '';
 		};
         // 이 순서로 보내야 이상적인 주소가 나옴
-        full_addr = CREATE_ADDR_FN(MAIN_ADDR, SUB_ADDR, DETAIL_ADDR, POST_NUM);
+        full_addr = CREATE_ADDR_FN(MAIN_ADDR, DETAIL_ADDR, POST_NUM);
         $("#Addr").attr("value", full_addr);
 
 		return $("#createAccountForm").submit();

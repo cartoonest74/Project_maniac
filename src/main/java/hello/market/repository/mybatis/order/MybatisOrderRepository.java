@@ -1,6 +1,8 @@
 package hello.market.repository.mybatis.order;
 
 import hello.market.dto.Order;
+import hello.market.dto.OrderDelivery_info;
+import hello.market.dto.OrderRegistry_info;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -13,6 +15,23 @@ import java.util.List;
 public class MybatisOrderRepository implements OrderRepository {
 
     private final OrderMapper orderMapper;
+
+    @Override
+    public List<OrderDelivery_info> select_deliveryAddr(int user_id) {
+        List<OrderDelivery_info> orderDeliveryInfo = orderMapper.select_deliveryAddr(user_id);
+        return orderDeliveryInfo;
+    }
+
+    @Override
+    public OrderRegistry_info select_orderInfo(int user_id) {
+        OrderRegistry_info orderRegistryInfo = orderMapper.select_orderInfo(user_id);
+        return orderRegistryInfo;
+    }
+
+    @Override
+    public void update_deliveryAddr(int user_id, OrderDelivery_info orderDeliveryInfo) {
+        orderMapper.update_deliveryAddr(user_id, orderDeliveryInfo);
+    }
 
     @Override
     public void update_orderInfo(int user_id, String orderInfo) {

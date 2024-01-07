@@ -39,8 +39,8 @@ request.setCharacterEncoding("UTF-8");
 <script type="text/javascript" src="${contextPath}/js/cart.js"></script>
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" src="${contextPath}/js/postDaum/postDaum.js"></script>
 <script type="text/javascript" src="${contextPath}/js/createAccount.js"></script>
-<script type="text/javascript" src="${contextPath}/js/postDaum.js"></script>
 
 <c:url var="accountUrl" value="/member/complete-account"/>
 </head>
@@ -120,7 +120,6 @@ request.setCharacterEncoding("UTF-8");
 				</nav>
 				<nav class="addrContent">
 					<input type="text" id="detailAddr" placeholder="상세주소">
-					<input type="text" id="subAddr" placeholder="참고사항">
 				</nav>
 			</div>
 			<input id="Addr" type="text" name="addr" class="none">

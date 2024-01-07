@@ -175,7 +175,7 @@
 .orderInfoHeader{
     display:inline-flex;
     width:100%;
-    justify-content:space-between;
+    align-items:center;
 }
 .orderInfoHeader>h2{
     font-size:2em;
@@ -194,6 +194,11 @@
     font-size:1.5em;
     padding:10px 0px;
     color:rgba(63, 52, 52, 0.7);
+}
+.orderInfoSubCaption *{
+    font-size:inherit;
+    color:black;
+    margin-top:3px;
 }
 .orderInfoSub{
     display:inline-block;

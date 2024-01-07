@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hello.market.dto.Cart;
 import hello.market.dto.Member;
+import hello.market.dto.OrderDelivery_info;
 import hello.market.dto.OrderRegistry_info;
 import hello.market.repository.mybatis.order.OrderCheckRepositoryImpl;
 import hello.market.service.Cart.CartService;
@@ -47,9 +48,14 @@ public class OrderController {
         }
 
         List<Cart> carts = cartService.select_cart(user_id, 0);
+        OrderRegistry_info orderInfo = orderService.get_orderInfo(user_id);
+        List<OrderDelivery_info> orderDelivery = orderService.get_deliveryAddr(user_id);
         model.addAttribute("carts", carts);
+        model.addAttribute("orderInfo", orderInfo);
+        model.addAttribute("orderDelivery", orderDelivery);
         return "/order/order";
     }
+    // 결제페이지 가기전에 장바구니에서 비동기로 점검
     @ResponseBody
     @PostMapping("")
     private String post_orderPage(HttpServletRequest request) throws JsonProcessingException {
@@ -100,8 +106,8 @@ public class OrderController {
     }
 
     @ResponseBody
-    @PostMapping("/save_registryInfo")
-    private String post_save_registryInfo(@ModelAttribute OrderRegistry_info orderRegistry_info,
+    @PutMapping("/save_registryInfo")
+    private String put_save_registryInfo(@ModelAttribute OrderRegistry_info orderRegistry_info,
                                           HttpServletRequest request) throws UnsupportedEncodingException {
         request.setCharacterEncoding("UTF-8");
         Integer user_id = loginSessionManager.sessionUUIDcheck(request);
@@ -124,9 +130,50 @@ public class OrderController {
                 .append("\""+tel+"\"")
                 .append("}]")
                 .toString();
-        log.info("orderInfo ={}", orderInfo);
-        log.info("user_id ={}", user_id);
         orderService.add_orderInfo(user_id,orderInfo);
+        return "ok";
+    }
+
+    @ResponseBody
+    @PutMapping("/save_deliveryInfo")
+    private String put_save_deliveryInfo(@ModelAttribute OrderDelivery_info orderDeliveryInfo
+            , HttpServletRequest request) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("UTF-8");
+        Integer user_id = loginSessionManager.sessionUUIDcheck(request);
+        int basicMain = orderDeliveryInfo.getBasicMain();
+        int deliveryIndex = orderDeliveryInfo.getDeliveryIndex();
+
+        String delivery_index = new StringBuilder()
+                .append("$[")
+                .append(deliveryIndex)
+                .append("]")
+                .toString();
+        orderService.add_deliveryAddr(user_id,orderDeliveryInfo);
+        return "ok";
+    }
+
+    @ResponseBody
+    @PostMapping("/deliveryInfo")
+    private String post_deliveryInfo(HttpServletRequest request) throws JsonProcessingException {
+        Integer user_id = loginSessionManager.sessionUUIDcheck(request);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+
+        List<OrderDelivery_info> deliveryAddr = orderService.get_deliveryAddr(user_id);
+        for (OrderDelivery_info orderDeliveryInfo : deliveryAddr) {
+            String writeValueAsString = objectMapper.writeValueAsString(orderDeliveryInfo);
+            jsonArray.put(writeValueAsString);
+        }
+        jsonObject.put("delivery_array", jsonArray);
+        return jsonObject.toString();
+    }
+
+    @ResponseBody
+    @DeleteMapping("/del_deliveryInfo")
+    private String del_deliveryInfo(@RequestParam  int delivery_index, HttpServletRequest request) {
+
         return "ok";
     }
 }

@@ -33,11 +33,12 @@ const addr_execDaumPostcode = ()=> {
                     if(extraAddr !== ''){
                         extraAddr = ' (' + extraAddr + ')';
                     }
+
                     // 조합된 참고항목을 해당 필드에 넣는다.
-                    document.getElementById("subAddr").value = extraAddr;
+                    //document.getElementById("subAddr").value = extraAddr;
                 
                 } else {
-                    document.getElementById("subAddr").value = '';
+                    //document.getElementById("subAddr").value = '';
                 }
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.

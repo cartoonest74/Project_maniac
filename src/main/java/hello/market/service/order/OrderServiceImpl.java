@@ -1,6 +1,8 @@
 package hello.market.service.order;
 
 import hello.market.dto.Order;
+import hello.market.dto.OrderDelivery_info;
+import hello.market.dto.OrderRegistry_info;
 import hello.market.repository.mybatis.order.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,23 @@ import java.util.List;
 public class OrderServiceImpl implements  OrderService {
 
     private final OrderRepository orderRepository;
+
+    @Override
+    public List<OrderDelivery_info> get_deliveryAddr(int user_id) {
+        List<OrderDelivery_info> orderDeliveryInfo = orderRepository.select_deliveryAddr(user_id);
+        return orderDeliveryInfo;
+    }
+
+    @Override
+    public OrderRegistry_info get_orderInfo(int user_id) {
+        OrderRegistry_info orderRegistryInfo = orderRepository.select_orderInfo(user_id);
+        return orderRegistryInfo;
+    }
+
+    @Override
+    public void add_deliveryAddr(int user_id, OrderDelivery_info orderDeliveryInfo) {
+        orderRepository.update_deliveryAddr(user_id, orderDeliveryInfo);
+    }
 
     @Override
     public void add_orderInfo(int user_id, String orderInfo) {

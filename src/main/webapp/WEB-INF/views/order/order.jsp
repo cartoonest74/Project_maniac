@@ -40,6 +40,10 @@ request.setCharacterEncoding("UTF-8");
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
 <script type="text/javascript" src="${contextPath}/js/cart.js"></script>
 
+<!-- postDaum -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" src="${contextPath}/js/postDaum/postDaum.js"></script>
+
 <!--  portOne -->
 <script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
 
@@ -48,6 +52,10 @@ request.setCharacterEncoding("UTF-8");
 <c:url var="npay" value="/img/paymentMethod/npay.png"/>
 <c:url var="payco" value="/img/paymentMethod/payco.png"/>
 <c:url var="toss" value="/img/paymentMethod/toss.png"/>
+
+<!-- response order -->
+<c:set var="order_info" value="${orderInfo}"/>
+<c:set var="order_delivery" value="${orderDelivery[0]}"/>
 </head>
 <body>
 	<c:import url="../basic/header.jsp">
@@ -101,24 +109,73 @@ request.setCharacterEncoding("UTF-8");
             </dl>
             <div class="orderInfo">
                 <div class="orderInfoPart">
-                    <nav class="orderInfoHeader">
+            <c:choose>
+                <c:when test="${empty order_info}">
+                    <nav class="orderInfoHeader justify-content-between">
                         <h2>주문자</h2>
                         <button id="OrderRegistry_info" type="button">등록</button>
                     </nav>
-                    <p class="orderInfoSubCaption">주문자 정보를 등록주세요</p>
+                    <div data-order-caption="info" class="orderInfoSubCaption">주문자 정보를 등록주세요</div>
+                </c:when>
+                <c:otherwise>
+                    <nav class="orderInfoHeader justify-content-start">
+                        <h2>주문자</h2>
+                        <button id="OrderRegistry_infoEdit" type="button">수정</button>
+                    </nav>
+                    <div data-order-caption="info" class="orderInfoSubCaption">
+                        <c:set var="first_name" value="${orderInfo.firstname}"/>
+                        <c:set var="last_name" value="${orderInfo.lastname}"/>
+                        <c:set var="email" value="${orderInfo.email}"/>
+                        <c:set var="tel" value="${orderInfo.tel}"/>
+                        <p>
+                            <span data-registry-edit="Firstname">${first_name}</span>&nbsp;<span data-registry-edit="Lastname">${last_name}</span>
+                        </p>
+                        <p><span data-registry-edit="Email">${email}</span></p>
+                        <p><span data-registry-edit="Tel">${tel}</span></p>
+                    </div>
+                </c:otherwise>
+            </c:choose>
                 </div>
                 <div class="orderInfoPart">
-                    <nav class="orderInfoHeader">
+            <c:choose>
+                <c:when test="${empty order_delivery.firstname}">
+                    <nav class="orderInfoHeader justify-content-between">
                         <h2>배송주소</h2>
                         <button id="OrderRegistry_delivery" type="button">등록</button>
                     </nav>
-                    <p class="orderInfoSubCaption">배송 주소 정보를 등록주세요</p>
+                    <div data-order-caption="deliveryAddr" class="orderInfoSubCaption">배송 주소 정보를 등록주세요</div>
+                </c:when>
+                <c:otherwise>
+                    <nav class="orderInfoHeader justify-content-start">
+                        <h2>배송주소</h2>
+                        <button id="OrderRegistry_deliveryEdit" type="button">변경</button>
+                    </nav>
+                    <div data-order-caption="deliveryAddr" class="orderInfoSubCaption">
+                        <c:set var="basic_main" value="${order_delivery.basicMain}"/>
+                        <c:set var="addr_num" value="${order_delivery.num}"/>
+                        <c:set var="addr_firstName" value="${order_delivery.firstname}"/>
+                        <c:set var="addr_lastName" value="${order_delivery.lastname}"/>
+                        <c:set var="main_addr" value="${order_delivery.mainAddr}"/>
+                        <c:set var="detail_addr" value="${order_delivery.detailAddr}"/>
+                        <c:set var="post_num" value="${order_delivery.postNum}"/>
+                        <c:set var="addr_tel" value="${order_delivery.tel}"/>
+                        <p>
+                            <span data-addrRegistry-edit="Firstname">${addr_firstName}</span>&nbsp;<span data-addrRegistry-edit="Lastname">${addr_lastName}</span>
+                        </p>
+                        <p>
+                            <span data-addrRegistry-edit="main_addr">${main_addr}</span>&nbsp;<span data-addrRegistry-edit="detail_addr">${detail_addr}</span>
+                        </p>
+                        <p><span data-addrRegistry-edit="post_num">${post_num}</span></p>
+                        <p><span data-addrRegistry-edit="Tel">${addr_tel}</span></p>
+                    </div>
+                </c:otherwise>
+            </c:choose>
                 </div>
                 <div class="orderInfoPart">
-                    <nav class="orderInfoHeader">
+                    <nav class="orderInfoHeader justify-content-between">
                         <h2>배송 수단</h2>
                     </nav>
-                    <p class="orderInfoSubCaption">배송 수단 정보를 등록주세요</p>
+                    <div data-order-caption="deliveryMethod" class="orderInfoSubCaption">배송 수단 정보를 등록주세요</div>
                 </div>
             </div>
             <div class="orderTotal">

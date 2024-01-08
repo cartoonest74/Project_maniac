@@ -151,8 +151,6 @@ request.setCharacterEncoding("UTF-8");
                         <button id="OrderRegistry_deliveryEdit" type="button">변경</button>
                     </nav>
                     <div data-order-caption="deliveryAddr" class="orderInfoSubCaption">
-                        <c:set var="basic_main" value="${order_delivery.basicMain}"/>
-                        <c:set var="addr_num" value="${order_delivery.num}"/>
                         <c:set var="addr_firstName" value="${order_delivery.firstname}"/>
                         <c:set var="addr_lastName" value="${order_delivery.lastname}"/>
                         <c:set var="main_addr" value="${order_delivery.mainAddr}"/>

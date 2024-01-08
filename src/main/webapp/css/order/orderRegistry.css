@@ -165,13 +165,13 @@
 /* 배송지 주소 변경 창 */
 .orAddrBox{
     display:inline-flex;
-    min-width: 360px;
     width:50%;
     justify-content:center;
     flex-wrap: wrap;
     background-color:rgb(255,255,255);
     padding:10px 0px;
     border-radius:15px;
+    z-index:2;
 }
 .orAddrHeader{
     display:inline-flex;

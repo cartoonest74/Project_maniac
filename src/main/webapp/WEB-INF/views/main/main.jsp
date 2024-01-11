@@ -40,34 +40,102 @@
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
 <script type="text/javascript" src="${contextPath}/js/cart.js"></script>
 
+<!-- response data -->
+<c:set var="product_list" value="${productList}"/>
+<c:set var="goods_list" value="${goodsList}"/>
+<c:set var="artist_v" value="${artist}"/>
+<c:set var="artistSns_list" value="${artistSnsList}"/>
+<c:set var="artistMember_list" value="${artistMemberList}"/>
+
 <!-- controller mapping url -->
-<c:url var="shopInfo" value="/product/${artistId}/find-product/" />
+<c:url var="shopInfo" value="/product/${artistId}/find-product/"/>
+<c:url var="resolve_album" value="/product/${artistId}/shop/album?page=1" />
+<c:url var="resolve_goods" value="/product/${artistId}/shop/goods?page=1" />
 
 </head>
 <body>
 	<c:import url="../basic/header.jsp" >
 	</c:import>
-	<div>
-
-	</div>
-	<div class="shopMainContent">
-        <c:forEach var="product" items="${productList}">
-                <c:set var="artistId" value="${product.artistId}" />
-                <c:set var="title" value="${product.title}" />
-                <c:set var="price" value="${product.price}" />
-                <c:set var="mainImg" value="${product.mainImg}" />
-                <div class="shopMainContentBox">
-                    <a href="${shopInfo}${product.id}" class="shopMainContentImg">
-                        <img src="${contextPath}${mainImg}" alt="${title}">
+	<c:set var="artist_mainImg" value="${artist_v.mainImg}"/>
+	<c:set var="name" value="${artist_v.name}"/>
+    <div class="chapter_mainBox">
+        <div class="chapter_mainAbout">
+            <div class="chapter_mainTitle">
+                <h2>${name}</h2>
+                <nav class="main_snsBox">
+                <c:forEach var="artistSns" items="${artistSns_list}">
+                    <c:set var="sns_href" value="${artistSns.snsHref}"/>
+                    <c:set var="sns_class" value="${artistSns.snsClass}"/>
+                    <c:set var="sns_title" value="${artistSns.snsTitle}"/>
+                    <c:url var="sns_src" value="/icon/${sns_title}"/>
+                    <a target="_blank" href="${sns_href}">
+                        <i class="fa-brands ${sns_class}"></i>
                     </a>
-                    <nav class="shopMainContentInfo">
-                        <h1>${title}</h1>
-                        <p>${price}</p>
-                        <button data-productNo="${product.id}" type="button">Like</button>
-                    </nav>
-                </div>
-        </c:forEach>
-	</div>
+                </c:forEach>
+                </nav>
+            </div>
+            <div class="main_artistBox">
+            <!-- ${artist_mainImg} -->
+                <img src="${artist_mainImg}" alt="${name}"/>
+            </div>
+            <iframe width="100%" height="355" src="https://www.youtube.com/embed/EIz09kLzN9k?si=fvY2o-Swgl5WL_1K" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+
+            </iframe>
+        </div>
+        <div class="chapter_mainAlbum">
+            <div class="chapter_title">
+                <h2>Album</h2><a href="${resolve_album}"><i class="fa-solid fa-plus fa-lg"></i></a>
+            </div>
+            <section class="mainShopContent">
+                <c:forEach var="product" items="${product_list}">
+                    <c:set var="productId" value="${product.id}" />
+                    <c:set var="artistId" value="${product.artistId}" />
+                    <c:set var="title" value="${product.title}" />
+                    <c:set var="price" value="${product.price}" />
+                    <c:set var="mainImg" value="${product.mainImg}" />
+                    <c:url var="shopInfo" value="/product/${artistId}/find-product/${productId}" />
+                    <div class="shopEtc_content">
+                        <button data-btn-artistId="${artistId}" data-btn-like="${productId}" class="btnLike" type="button">
+                            <i data-btn-artistId="${artistId}" data-btn-like="${productId}" class="fa-regular  fa-heart fa-lg"></i>
+                        </button>
+                        <a href="${shopInfo}" class="shopEtc_contentImg">
+                            <img src="${mainImg}" alt="${title}">
+                        </a>
+                        <nav class="shopEtc_contentInfo">
+                            <h1>${title}</h1>
+                            <p>${price}</p>
+                        </nav>
+                    </div>
+                </c:forEach>
+            </section>
+        </div>
+        <div class="chpater_mainGoods">
+            <div class="chapter_title">
+                <h2>Goods</h2><a href="${resolve_goods}"><i class="fa-solid fa-plus fa-lg"></i></a>
+            </div>
+            <section class="mainShopContent">
+                <c:forEach var="goods" items="${goods_list}">
+                    <c:set var="goodsId" value="${goods.id}" />
+                    <c:set var="goods_title" value="${goods.title}" />
+                    <c:set var="goods_price" value="${goods.price}" />
+                    <c:set var="goods_mainImg" value="${goods.mainImg}" />
+                    <c:url var="goods_shopInfo" value="/product/${artistId}/find-product/${productId}" />
+                    <div class="shopEtc_content">
+                        <button data-btn-artistId="${artistId}" data-btn-like="${goods_price}" class="btnLike" type="button">
+                            <i data-btn-artistId="${artistId}" data-btn-like="${goods_price}" class="fa-regular  fa-heart fa-lg"></i>
+                        </button>
+                        <a href="${goods_shopInfo}" class="shopEtc_contentImg">
+                            <img src="${goods_mainImg}" alt="${goods_title}">
+                        </a>
+                        <nav class="shopEtc_contentInfo">
+                            <h1>${goods_title}</h1>
+                            <p>${goods_price}</p>
+                        </nav>
+                    </div>
+                </c:forEach>
+            </section>
+        </div>
+    </div>
 	<jsp:include page="../basic/footer.jsp" flush="true" />
 	<script type="text/javascript" src="${contextPath}/js/artist_main_slide.js"></script>
 </body>

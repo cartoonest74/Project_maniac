@@ -15,18 +15,5 @@ public class Artist {
     private String korean_name;
     private String debut;
 
-    private String sns_name;
-    private String sns_url;
-
-    private String member_name;
-    private String member_en_name;
-    private String member_ko_name;
-    private String member_date;
-    private String member_country;
-
-    private String mv_date;
-    private String mv_name;
-    private String mv_url;
-
-    private String image;
+    private String mainImg;
 }

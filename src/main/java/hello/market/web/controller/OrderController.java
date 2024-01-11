@@ -108,7 +108,7 @@ public class OrderController {
     @ResponseBody
     @PutMapping("/save_registryInfo")
     private String put_save_registryInfo(@ModelAttribute OrderRegistry_info orderRegistry_info,
-                                          HttpServletRequest request) throws UnsupportedEncodingException {
+                                         HttpServletRequest request) throws UnsupportedEncodingException {
         request.setCharacterEncoding("UTF-8");
         Integer user_id = loginSessionManager.sessionUUIDcheck(request);
         String firstname = orderRegistry_info.getFirstname();

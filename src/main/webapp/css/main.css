@@ -1,110 +1,136 @@
-@charset "UTF-8";
-/* billboard */
-.billboard {
-    position:relative;
-	display:flex;
-	width: 100%;
-	height: 350px;
-	justify-content:center;
-	overflow:hidden;
-}
-.bilboardList {
+@charset "EUC-KR";
+.chapter_mainBox {
 	display: inline-block;
-	width: 100%;
-	height: 100%;
+	width: 80%;
+	padding:5vh 0;
 }
-
-.billboardImg {
-	position: relative;
-	display: inline-flex;
-	width: 100%;
-	height: 100%;
-	justify-content: center;
-    align-items:center;
-	background-color: black;
-}
-.billboardImg>p{
-	color:white;
-	font-size:2em;
-}
-.billboardImg>img {
-	display: inline-block;
-	width: 100%;
-	height: 100%;
-}
-/* shopMain */
-.shopMainContent {
-	display: inline-flex;
-	width: 60%;
-	justify-content: space-between;
-	align-items:stretch;
-	flex-wrap: wrap;
-	padding: 50px 0;
-}
-
-.shopMainContentBox {
-	display: inline-flex;
-	width: 200px;
-	margin-top: 20px;
-	justify-content: center;
-	align-items:stretch;
-	flex-wrap: wrap;
-	border-radius: 5px;
-}
-/* submit click */
-
-.shopMainContentImg {
-	position:relative;
-	display: inline-block;
-	width:100%;
-	height:240px;
-}
-.SubmitClick{
-	position:absolute;
-	display:inline-block;	
-	width:100%;
-	height:100%;
-	left:0;
-	top:0;
-	opacity:0;
-	cursor:pointer;
-}
-
-.shopMainContentImg>img {
-	display: inline-block;
-	width: 100%;
-	height: 100%;
-}
-
-.shopMainContentInfo {
-	display: inline-flex;
-	width: 100%;
+.chapter_mainAbout{
+    display:inline-flex;
+    width:100%;
     justify-content:center;
-    align-items:flex-start;
+    flex-wrap: wrap;
+}
+/* header */
+.chapter_mainTitle{
+    display:flex;
+    width:100%;
+    align-items:center;
+    flex-wrap:wrap;
+    font-size:6em;
+    padding:2vh 0;
+}
+.chapter_mainTitle h2{
+    width:100%;
+    text-align:left;
+    font-size:inherit;
+}
+.chapter_title{
+    display:inline-flex;
+    width:100%;
+    border-bottom:1px solid rgb(232, 230, 230);
+    justify-content:space-between;
+    padding:10px 0;
+}
+.chapter_title h2{
+    display:inline-block;
+    font-size:3em;
+}
+.chapter_title a{
+    display:inline-block;
+    font-weight:600;
+    font-size:1.8em;
+    text-transform: uppercase;
+    cursor:pointer;
+}
+/* sns */
+.main_snsBox{
+    display:inline-block;
+    width:100%;
+    text-align:right;
+    padding:5px;
+}
+.main_snsBox a{
+    display:inline-block;
+    overflow:hidden;
+    padding:5px 10px;
+    border:0px;
+    background:black;
+    border-radius:15px;
+    font-size:1.8em;
+    cursor:pointer;
+}
+.main_snsBox a>*{
+    color:red;
+    cursor:pointer;
+    font-size:inherit;
+}
+/* artist Img 부분*/
+.main_artistBox{
+    display:inline-block;
+    width:100%;
+    border-top:5px solid black;
+    overflow:hidden;
+}
+.main_artistBox>img{
+    display:inline-block;
+    width:100%;
+}
+/* main product goods Content*/
+.mainShopContent{
+    display:flex;
+    width:100%;
+    padding-left:2vw;
+    justify-content:flex-start;
+    align-items:stretch;
     flex-wrap:wrap;
 }
-
-.shopMainContentInfo>h1, p {
-	display: inline-block;
-	width: 100%;
-	text-align:left;
-	padding:5px 10px;
+/* 상품 부분 */
+.shopEtc_content{
+    position:relative;
+    display: inline-block;
+    width: 200px;
+    border-radius: 5px;
+    margin-top:20px;
+    margin-right:3vw;
 }
-.shopMainContentInfo>h1{
-	font-size: 1.3em;
-	font-weight:400;
+.btnLike{
+    position:absolute;
+    display:inline-block;
+    right:0;
+    top:0;
+    border:0;
+    font-size:1.5em;
+    cursor:pointer;
+    background:transparent;
 }
-.shopMainContentInfo p{
-	font-size: 1.5em;
+.shopEtc_contentImg{
+    display:inline-block;
+    width:100%;
+    height:240px;
+}
+.shopEtc_contentImg img{
+    display:inline-block;
+    width:100%;
+    height:100%;
+}
+/* 상퓸 이름 가격 장바구니 */
+.shopEtc_contentInfo{
+    display: inline-flex;
+    width: 100%;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+.shopEtc_contentInfo *{
+    font-size:1.5em;
+}
+.shopEtc_contentInfo h1{
+    font-weight:400;
+}
+.shopEtc_contentInfo p{
     font-weight:600;
 }
-.shopMainContentInfo>button {
-	display: inline-block;
-	width: 70%;
-	padding: 10px 20px;
-	font-size: 1.5em;
-	font-weight:600;
-	border-radius: 10px;
-	border: 1px solid rgba(255, 255, 255, 0.8);
-	cursor:pointer;
+.shopEtc_contentInfo h1, p{
+    display:inline-block;
+    width:100%;
+    text-align:left;
 }

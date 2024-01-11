@@ -1,6 +1,6 @@
 .shopMainContent {
 	display: inline-flex;
-	width: 60%;
+	width: 70%;
 	justify-content:center;
 	flex-wrap: wrap;
 	padding: 20px 0;
@@ -53,6 +53,7 @@ shopEtc_headerMenu{
     border:0;
     font-size:1.5em;
     cursor:pointer;
+    background:transparent;
 }
 .shopEtc_contentImg{
     display:inline-block;

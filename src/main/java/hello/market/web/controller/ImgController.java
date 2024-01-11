@@ -77,4 +77,47 @@ public class ImgController {
         return new UrlResource("file:" + fullPath);
     }
 
+    @ResponseBody
+    @GetMapping("/artist/info/{artistFolder}/main/{fileName}")
+    private Resource artistMainImg_mapping(@PathVariable String artistFolder, @PathVariable String fileName) throws MalformedURLException {
+        String artistMainImg_dir = new StringBuilder()
+                .append(ArtistInfo_DIR)
+                .append("/")
+                .append(artistFolder)
+                .append("/main/")
+                .toString();
+        String fullPath = fileStore.getFullPath(artistMainImg_dir, fileName);
+        log.info("fullPath = {}", fullPath);
+        return new UrlResource("file:" + fullPath);
+    }
+
+    @ResponseBody
+    @GetMapping("/artist/info/{artistFolder}/{artistName}/{fileName}")
+    private Resource memberImg_mapping(@PathVariable String artistFolder, @PathVariable String artistName, @PathVariable String fileName) throws MalformedURLException {
+        String memberImg_dir = new StringBuilder()
+                .append(ArtistInfo_DIR)
+                .append("/")
+                .append(artistFolder)
+                .append("/")
+                .append(artistName)
+                .append("/")
+                .toString();
+        String fullPath = fileStore.getFullPath(memberImg_dir, fileName);
+        return new UrlResource("file:" + fullPath);
+    }
+
+    @ResponseBody
+    @GetMapping("/artist/product/{artistFolder}/{category}/{fileName}")
+    private Resource product_mapping(@PathVariable String artistFolder, @PathVariable String category, @PathVariable String fileName) throws MalformedURLException {
+        String productImg_dir = new StringBuilder()
+                .append(ArtistProduct_DIR)
+                .append("/")
+                .append(artistFolder)
+                .append("/")
+                .append(category)
+                .append("/")
+                .toString();
+        String fullPath = fileStore.getFullPath(productImg_dir, fileName);
+        return new UrlResource("file:" + fullPath);
+    }
 }

@@ -7,4 +7,6 @@ public interface UploadDirName {
     String MainBg_IMG_DIR = "/main_bg/";
     String Artist_Notice_IMG_DIR = "/artist/notice/";
     String PaymentMethod_IMG_DIR = "/paymentMethod/";
+    String ArtistInfo_DIR = "/artist/info/";
+    String ArtistProduct_DIR = "/artist/product/";
 }

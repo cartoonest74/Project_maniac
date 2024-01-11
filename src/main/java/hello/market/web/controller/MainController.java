@@ -1,9 +1,12 @@
 package hello.market.web.controller;
 
-import hello.market.dto.Artist;
-import hello.market.dto.Member;
-import hello.market.dto.Product;
+import hello.market.dto.*;
 import hello.market.service.artist.ArtistService;
+import hello.market.service.artist.artistAlbum.ArtistAlbumService;
+import hello.market.service.artist.artistImg.ArtistImgService;
+import hello.market.service.artist.artistMember.ArtistMemberService;
+import hello.market.service.artist.artistMv.ArtistMvService;
+import hello.market.service.artist.artistSns.ArtistSnsService;
 import hello.market.service.member.MemberService;
 import hello.market.service.product.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,6 +33,11 @@ public class MainController {
 
     private final ProductService productService;
     private final ArtistService artistService;
+    private final ArtistSnsService artistSnsService;
+    private final ArtistMvService artistMvService;
+    private final ArtistMemberService artistMemberService;
+    private final ArtistImgService artistImgService;
+    private final ArtistAlbumService artistAlbumService;
 
     @GetMapping("/")
     private String home(Model model){
@@ -41,8 +49,36 @@ public class MainController {
 
     @GetMapping("/main/{artist_id}")
     private String movePageMain(@PathVariable int artist_id, Model model) {
+        List<Artist_sns> artistSns = artistSnsService.snsSelect(artist_id);
+        Artist artist = artistService.artistSelect(artist_id);
+        log.info("artist.getMain_img()= {}",artist.getMainImg());
+        List<Artist_member> artistMembers = artistMemberService.memberSelect(artist_id);
         List<Product> products = productService.findProducts(artist_id, "album", 0);
-        model.addAttribute("productList", products);
+        List<Product> goodsList = productService.findProducts(artist_id, "goods", 0);
+        List<Product> product_limit3 = new ArrayList<>();
+        List<Product> goods_limit3 = new ArrayList<>();
+        int index = 1;
+        int index_limit = 4;
+        for (Product product : products) {
+            if(product == null) break;
+
+            product_limit3.add(product);
+
+            if(index == index_limit) break;
+            index++;
+        }
+        index = 1;
+        for (Product goods : goodsList) {
+            goods_limit3.add(goods);
+            if(index == index_limit) break;
+            index++;
+        }
+
+        model.addAttribute("productList", product_limit3);
+        model.addAttribute("goodsList", goods_limit3);
+        model.addAttribute("artist", artist);
+        model.addAttribute("artistSnsList", artistSns);
+        model.addAttribute("artistMemberList", artistMembers);
         model.addAttribute("artistId", artist_id);
         return "/main/main";
     }

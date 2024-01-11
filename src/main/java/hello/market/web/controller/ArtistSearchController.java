@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ import java.util.Map;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-public class ArtistController {
+public class ArtistSearchController {
     private Map<Integer, List<Artist>> artistPack = new HashMap<>();
     private List<Artist> artists = new ArrayList<>();
 
@@ -40,7 +39,7 @@ public class ArtistController {
 
         for (Artist artist : artistList) {
             artistId = String.valueOf(artist.getId());
-            artistImg = String.valueOf(artist.getImage());
+            artistImg = String.valueOf(artist.getMainImg());
             artistName = String.valueOf(artist.getName());
             String builder_toString = builder.append(artistId)
                     .append(",")

@@ -18,7 +18,10 @@
      .shopInfo{
         width:100%;
      }
-
+    /*shop*/
+    .shopMainContent{
+        width:80%;
+    }
      /*sticky shopInfo*/
     .stickyItemBox{
         width:99%;
@@ -36,6 +39,24 @@
     }
 }
 @media screen and (max-width:420px){
+    /* main */
+    .chapter_mainBox{
+        width:100%;
+    }
+    /*shop*/
+    .shopMainContent{
+        width:90%;
+    }
+    .shopEtc_contentBox{
+        justify-content:space-between;
+    }
+    .shopEtc_content{
+        width:45%;
+        margin-right:2vw;
+    }
+    .shopEtc_contentImg{
+        height:150px;
+    }
     /*header*/
     .current_artist{
         font-size:1.5em;

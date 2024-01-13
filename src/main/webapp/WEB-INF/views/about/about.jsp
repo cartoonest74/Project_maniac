@@ -20,7 +20,6 @@ request.setCharacterEncoding("UTF-8");
 %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
-<script type="text/javascript" src="${contextPath}/libs/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script src="https://code.jquery.com/jquery-2.2.4.js"
 	integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
 	crossorigin="anonymous"></script>
@@ -30,41 +29,73 @@ request.setCharacterEncoding("UTF-8");
 <body>
 	<c:import url="../basic/header.jsp">
 	</c:import>
-	<form action="#" id="WriterQnaForm" class="Writer_qna_Form" method="post" enctype="multipart/form-data">
-    		<input type="text" name="productNo" value="${productNo}" hidden="hidden">
-    		<nav class="writere_tag">Review</nav>
-    		<nav class="writer_qna_header">
-    			<h1>
-    				<span>${name}</span>
-    			</h1>
-    			<div class="qna_basicInfo">
-    				<span>${memberId}</span> <span>/</span> <span>2023.04.28</span>
-    			</div>
-    		</nav>
-    		<div class="fileUploadPart">
-    			<label class="boardFileUploadName"> UPLOAD <input
-    				class="blind" type="file" id="reviewImgFile" name="reviewImgFile">
-    			</label>
-    			<nav class="preview_upload">
-    				<img id="previewImg" class="boardPreview none" />
-    				<p id="previewName" class="fileUpload_name none"></p>
-    				<button class="removeBtn none" type="button" id="previewRemove">
-    					<i class="fa-solid fa-xmark fa-lg"></i>
-    				</button>
-    			</nav>
-    		</div>
-    		<nav class="qnaTextBox">
-    		 <textarea id="txtContent" name="content" cols="20" rows="3" wrap="hard" autofocus="autofocus" maxlength="200" placeholder="write...." required></textarea>
-    		</nav>
-    		<button onclick="submitPost();" type="button" class="qnaSendbtn">SEND</button>
-    </form>
-	<!--
-	<div class="aboutBox">
-	<p>To Be Continue.......</p>
-	</div>
-	-->
-	<jsp:include page="../basic/footer.html" flush="true" />
-    <script type="text/javascript" src="${contextPath}/js/smartEditorSave.js"></script>
-	<script id="smartEditor" type="text/javascript" src="${contextPath}/js/smarteditor.js"></script>
+        <div class="about_Box">
+            <header class="about_header">
+                <div class="about_MainImg">
+                    <img src="./akmu2.webp" alt="">
+                    <h2 class="about_title">BTS</h2>
+                </div>
+            </header>
+            <section class="about_contentBox">
+                <div class="about_content">
+                    <button class="about_artistInfo" type="button">아티스트 정보</button>
+                </div>
+                <div class="about_content">
+                    <div class="about_contentTitle">
+                        <h2>mv</h2>
+                    </div>
+                    <nav class="about_infoContent">
+                        <a class="about_mv" href="#" target="_blank">
+                            <span>
+                                No More Dream
+                                <br>
+                                2013-06-11
+                            </span>
+                        </a>
+                    </nav>
+                </div>
+                <div class="about_content">
+                    <div class="about_contentTitle">
+                        <h2>discography</h2>
+                    </div>
+                    <div class="about_infoContent">
+                        <button class="about_discography" type="button">
+                            <img src="./lovelee.webp" alt="">
+                        </button>
+                    </div>
+                    <nav class="about_contentPage">
+                        <button type="button">
+                            <i data-last-page-id="1" class="fa-solid fa-angle-left fa-lg"></i>
+                        </button>
+                        <button type="button">1</button>
+                        <button type="button">1</button>
+                        <button type="button">1</button>
+                        <button type="button">1</button>
+                        <button type="button">
+                            <i data-last-page-id="1" class="fa-solid fa-angle-right fa-lg"></i>
+                        </button>
+                    </nav>
+                </div>
+                <div class="about_content">
+                    <div class="about_contentTitle">
+                        <h2>photo</h2>
+                    </div>
+                    <div class="about_infoContent">
+                        <button class="about_artistImg">
+                            <img src="akmu1.webp" alt="">
+                        </button>
+                    </div>
+                    <nav class="about_contentPage">
+                    </nav>
+                </div>
+                <div class="about_snsBox">
+                    <nav class="about_sns">
+                        <a target="_blank" href="#">
+                            <i class="fa-brands fa-facebook"></i>
+                        </a>
+                    </nav>
+                </div>
+            </section>
+	<jsp:include page="../basic/footer.jsp" flush="true" />
 </body>
 </html>

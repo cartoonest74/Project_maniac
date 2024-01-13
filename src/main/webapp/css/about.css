@@ -1,10 +1,166 @@
 @charset "UTF-8";
-.aboutBox{
-	display:inline-flex;
-	width:80%;
-	height:770px;
-	justify-content: center;
-	align-items:center;
-	flex-wrap:wrap;
-	font-size:2em;
+.shopBody{
+    background: rgb(0,0,0);
+    background: linear-gradient(360deg, rgba(0,0,0,1) 77%, rgba(233,101,78,1) 100%);
+}
+.box{padding:0;}
+.about_Box{
+    display:inline-flex;
+    width:70%;
+    justify-content:center;
+    flex-wrap:wrap;
+    padding:20vh 0;
+}
+.about_header{
+    position: relative;
+    display: inline-block;
+    width:100%;
+}
+.about_MainImg{
+    display:inline-block;
+    width:100%;
+    border-top:5px solid black;
+}
+.about_MainImg img{
+    display:inline-block;
+    width:100%;
+}
+.about_title{
+    position: absolute;
+    color:#47f33b;
+    font-size:10vw;
+    top:-8vw;
+    left:0;
+}
+/* content */
+.about_contentBox{
+    display:inline-flex;
+    width:100%;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+/*mv, discography, photo*/
+.about_content{
+    display:flex;
+    width:100%;
+    justify-content:center;
+    flex-wrap:wrap;
+    padding:5vh 0;
+}
+.about_artistInfo{
+    display:inline-block;
+    font-size:2em;
+    font-weight:600;
+    padding:10px 15px;
+    border-radius:30px;
+    color:black;
+    cursor: pointer;
+    border:0px;
+    background-color:limegreen;
+}
+.about_contentTitle{
+    display:inline-block;
+    width:100%;
+    text-transform: uppercase;
+    font-size:4vw;
+    margin-bottom:2vh;
+    border-bottom:2px solid rgb(55, 56, 55);
+}
+.about_contentTitle h2{
+    color:rgb(255, 255, 255);
+    font-size:inherit;
+}
+.about_infoContent{
+    display:flex;
+    width:100%;
+    justify-content:flex-start;
+    align-items:center;
+    flex-wrap:wrap;
+    padding:3vh 0;
+    border-radius:5px;
+    background:rgb(55, 56, 55);
+}
+.about_infoContent button{
+    margin-top:1vh;
+    margin-left:2vw;
+}
+/* mv */
+.about_mv{
+    display:inline-flex;
+    width:150px;
+    height:150px;
+    justify-content:center;
+    flex-wrap:wrap;
+    align-items:center;
+    background:white;
+    border-radius:100%;
+    margin-top:1vh;
+    margin-left:2vw;
+}
+.about_mv span{
+    display:inline-block;
+    font-size:1.5em;
+    font-weight:600;
+    text-align: center;
+}
+/*discography*/
+.about_discography{
+    display:inline-block;
+    width:180px;
+    border:0px;
+    background:transparent;
+    cursor:pointer;
+    padding:0px;
+}
+.about_discography img{
+    display:inline-block;
+    width:100%;
+}
+/* artistImg */
+.about_artistImg{
+    display:inline-block;
+    width:180px;
+    border:0px;
+    background:transparent;
+    cursor:pointer;
+    padding:0px;
+}
+.about_artistImg img{
+    display:inline-block;
+    width:100%;
+}
+/*count page */
+.about_contentPage{
+    display:inline-block;
+    margin-top:5vh;
+}
+.about_contentPage button{
+    border:0px;
+    font-size:2em;
+    background:transparent;
+}
+.about_contentPage *{
+    color:white;
+}
+/* sns */
+.about_snsBox{
+    display:inline-block;
+    width:100%;
+    text-align:center;
+    padding:5px;
+}
+.about_sns a{
+    display:inline-block;
+    overflow:hidden;
+    padding:5px 10px;
+    border:0px;
+    background:black;
+    border-radius:15px;
+    font-size:2em;
+    cursor:pointer;
+}
+.about_sns a>*{
+    color:red;
+    cursor:pointer;
+    font-size:inherit;
 }

@@ -51,6 +51,7 @@
 <c:url var="shopInfo" value="/product/${artistId}/find-product/"/>
 <c:url var="resolve_album" value="/product/${artistId}/shop/album?page=1" />
 <c:url var="resolve_goods" value="/product/${artistId}/shop/goods?page=1" />
+<c:url var="resolve_about" value="/product/${artistId}/shop/goods?page=1" />
 
 </head>
 <body>
@@ -62,6 +63,8 @@
         <div class="chapter_mainAbout">
             <div class="chapter_mainTitle">
                 <h2>${name}</h2>
+                <a href="${resolve_about}"><i class="fa-solid fa-plus fa-lg"></i></a>
+                <!--
                 <nav class="main_snsBox">
                 <c:forEach var="artistSns" items="${artistSns_list}">
                     <c:set var="sns_href" value="${artistSns.snsHref}"/>
@@ -73,6 +76,7 @@
                     </a>
                 </c:forEach>
                 </nav>
+                -->
             </div>
             <div class="main_artistBox">
             <!-- ${artist_mainImg} -->
@@ -137,6 +141,5 @@
         </div>
     </div>
 	<jsp:include page="../basic/footer.jsp" flush="true" />
-	<script type="text/javascript" src="${contextPath}/js/artist_main_slide.js"></script>
 </body>
 </html>

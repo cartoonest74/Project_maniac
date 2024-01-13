@@ -14,32 +14,39 @@
 .chapter_mainTitle{
     display:flex;
     width:100%;
+    justify-content:space-between;
     align-items:center;
     flex-wrap:wrap;
-    font-size:6em;
     padding:2vh 0;
 }
 .chapter_mainTitle h2{
-    width:100%;
+    display:inline-block;
     text-align:left;
-    font-size:inherit;
+    font-size:6em;
+}
+.chapter_mainTitle a{
+    display:inline-block;
+    font-weight:600;
+    font-size:4em;
+    cursor:pointer;
 }
 .chapter_title{
     display:inline-flex;
     width:100%;
     border-bottom:1px solid rgb(232, 230, 230);
     justify-content:space-between;
+    align-items:center;
     padding:10px 0;
 }
 .chapter_title h2{
     display:inline-block;
+    padding-left:1vw;
     font-size:3em;
 }
 .chapter_title a{
     display:inline-block;
     font-weight:600;
     font-size:1.8em;
-    text-transform: uppercase;
     cursor:pointer;
 }
 /* sns */

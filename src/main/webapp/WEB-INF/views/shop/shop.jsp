@@ -36,7 +36,7 @@
 <script type="text/javascript" src="${contextPath}/js/cart.js"></script>
 <script type="text/javascript" src="${contextPath}/js/shop.js"></script>
 
-<c:set var="headerTitle" value="${fn:toUpperCase(products[0].category)}"/>
+<c:set var="headerTitle" value="${products[0].category}"/>
 </head>
 <body>
 	<c:import url="../basic/header.jsp" >

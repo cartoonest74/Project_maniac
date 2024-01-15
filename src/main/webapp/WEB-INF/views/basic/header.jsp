@@ -25,7 +25,7 @@ request.setCharacterEncoding("UTF-8");
 <c:if test="${empty artistId || artistId eq 0}">
     <c:url var="main" value="/" />
 </c:if>
-<c:url var="about" value="/about" />
+<c:url var="about" value="/about/${artistId}" />
 <c:url var="viewCart" value="/cart/${artistId}/view-cart" />
 <c:url var="maniac" value="/img/web_logo/maniac.png" />
 <c:url var="maniac_simple_log_c" value="/img/web_logo/Simple_logoC.png" />
@@ -105,7 +105,7 @@ request.setCharacterEncoding("UTF-8");
                     </span>
                     <nav class="resizeMenuPart">
                         <button data-btn-hmtype="about" class="resizeMenuInfo" type="button">
-                            <a href="#">
+                            <a href="${about}">
                                 <span>ABOUT</span>
                                 <span class="rm_bottom_impact"></span>
                             </a>

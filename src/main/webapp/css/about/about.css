@@ -6,7 +6,7 @@
 .box{padding:0;}
 .about_Box{
     display:inline-flex;
-    width:70%;
+    width:80%;
     justify-content:center;
     flex-wrap:wrap;
     padding:20vh 0;
@@ -24,6 +24,7 @@
 .about_MainImg img{
     display:inline-block;
     width:100%;
+    over-fit:contain;
 }
 .about_title{
     position: absolute;
@@ -35,7 +36,7 @@
 /* content */
 .about_contentBox{
     display:inline-flex;
-    width:100%;
+    width:1000px;
     justify-content:center;
     flex-wrap:wrap;
 }
@@ -82,7 +83,7 @@
 }
 .about_infoContent button{
     margin-top:1vh;
-    margin-left:2vw;
+    margin-left:1vw;
 }
 /* mv */
 .about_mv{
@@ -103,8 +104,8 @@
     font-weight:600;
     text-align: center;
 }
-/*discography*/
-.about_discography{
+
+.about_img{
     display:inline-block;
     width:180px;
     border:0px;
@@ -112,20 +113,7 @@
     cursor:pointer;
     padding:0px;
 }
-.about_discography img{
-    display:inline-block;
-    width:100%;
-}
-/* artistImg */
-.about_artistImg{
-    display:inline-block;
-    width:180px;
-    border:0px;
-    background:transparent;
-    cursor:pointer;
-    padding:0px;
-}
-.about_artistImg img{
+.about_img img{
     display:inline-block;
     width:100%;
 }

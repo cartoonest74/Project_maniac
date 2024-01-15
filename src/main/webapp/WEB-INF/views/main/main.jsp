@@ -23,9 +23,6 @@
 <link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
 <link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;900&display=swap" rel="stylesheet">
@@ -51,7 +48,7 @@
 <c:url var="shopInfo" value="/product/${artistId}/find-product/"/>
 <c:url var="resolve_album" value="/product/${artistId}/shop/album?page=1" />
 <c:url var="resolve_goods" value="/product/${artistId}/shop/goods?page=1" />
-<c:url var="resolve_about" value="/product/${artistId}/shop/goods?page=1" />
+<c:url var="resolve_about" value="/about/${artistId}" />
 
 </head>
 <body>
@@ -82,9 +79,6 @@
             <!-- ${artist_mainImg} -->
                 <img src="${artist_mainImg}" alt="${name}"/>
             </div>
-            <iframe width="100%" height="355" src="https://www.youtube.com/embed/EIz09kLzN9k?si=fvY2o-Swgl5WL_1K" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
-
-            </iframe>
         </div>
         <div class="chapter_mainAlbum">
             <div class="chapter_title">

@@ -1,6 +1,6 @@
-.shopMainContent {
+.shopMainContent{
 	display: inline-flex;
-	width: 70%;
+	width: 1200px;
 	justify-content:center;
 	flex-wrap: wrap;
 	padding: 20px 0;
@@ -28,11 +28,11 @@ shopEtc_headerMenu{
 .shopEtc_headerTitle{
     font-size:3em;
     padding:10px 0px;
+    text-transform:uppercase;
 }
 /* 상품 부분 */
 .shopEtc_contentBox{
     display:flex;
-    width:100%;
     justify-content:flex-start;
     align-items: stretch;
     flex-wrap: wrap;

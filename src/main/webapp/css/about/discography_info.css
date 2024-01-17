@@ -41,7 +41,7 @@
     font-size:1.4em;
 }
 .discography_subHeader *{
-    color:rgb(210, 212, 213);
+    color:#585858;
     font-size:inherit;
 }
 /* track */
@@ -57,8 +57,8 @@
 .track{
     width:100%;
     text-align:center;
-    font-size:2vw;
-    padding:2vh 0;
+    font-size:2em;
+    padding:1vh 0;
     border-bottom:1px solid rgb(216, 211, 211);
 }
 .track:last-child{

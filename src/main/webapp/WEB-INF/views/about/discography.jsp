@@ -16,8 +16,8 @@ request.setCharacterEncoding("UTF-8");
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <link rel="stylesheet" href="${contextPath}/css/basic.css">
-<link rel="stylesheet" href="${contextPath}/css/about/about_subMenu.css">
 <link rel="stylesheet" href="${contextPath}/css/pageCount/pageCount.css">
+<link rel="stylesheet" href="${contextPath}/css/about/about_subMenu.css">
 <link rel="stylesheet" href="${contextPath}/css/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
 <link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
@@ -33,6 +33,7 @@ request.setCharacterEncoding("UTF-8");
 	  integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
 	  crossorigin="anonymous"></script>
 
+<script type="text/javascript" src="${contextPath}/js/about/about_subMenu.js"></script>
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
@@ -60,7 +61,7 @@ request.setCharacterEncoding("UTF-8");
         </div>
         <div class="discography_Box">
             <h2>discography</h2>
-            <div class="discography_contentBox">
+            <div id="aboutSubMenuContent" class="discography_contentBox">
             <c:forEach var="discography" items="${albumList}">
                 <c:set var="album_num" value="${discography.rowNum}"/>
                 <c:set var="album_src" value="${discography.albumSrc}"/>
@@ -72,13 +73,13 @@ request.setCharacterEncoding("UTF-8");
                         <img src="${album_src}" alt="${album_name}">
                     </a>
                     <nav>
-                        <p style="font-size:1.5em; text-align: center;">${album_name}</p>
-                        <p style="font-size:1.3em; text-align: center;">${album_date}</p>
+                        <p class="content_name">${album_name}</p>
+                        <p class="content_date">${album_date}</p>
                     </nav>
                 </div>
             </c:forEach>
             </div>
-            <nav class="pageCount">
+            <nav id="aboutSubMenu_pageCount_num" class="pageCount">
             </nav>
         </div>
     <jsp:include page="../basic/footer.jsp" flush="true" />

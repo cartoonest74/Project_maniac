@@ -30,6 +30,11 @@
         height:150px;
     }
 
+    /* about_subMenu */
+    .discography_Box{
+        width:90vw;
+    }
+
     /*shop*/
     .shopMainContent{
         width:99%;
@@ -67,6 +72,20 @@
     .about_memberInfo span:last-child{
         font-size:0.9em;
     }
+    /* about_subMenu */
+    .discography_Box{
+        width:90vw;
+    }
+    .discography_content{
+        width:100px;
+    }
+    .discography_img{
+        height:100px;
+    }
+    .aboutInfo_menu *{
+        font-size:2vw;
+    }
+
     /* main */
     .chapter_mainBox{
         width:100%;

@@ -35,15 +35,15 @@ window.onload =function(){
         body.insertAdjacentHTML(position,text);
     }
 
-    $(document).on("click","button[data-about-member]",function(e){
-        const artistImg_num = $(e.target).attr("data-about-member");
-        const arr_artistImgs = document.querySelectorAll('img[data-about-member]')
+    $(document).on("click","button[data-swiper-num]",function(e){
+        const artistImg_num = $(e.target).attr("data-swiper-num");
+        const arr_artistImgs = document.querySelectorAll('img[data-swiper-num]')
         const aboutImage_windowTag = create_aboutImage_windowTag(arr_artistImgs);
 
         body_append("afterbegin",aboutImage_windowTag)
 
         const swiper = about_obj.member_swiper()
-        swiper.slideTo(artistImg_num-1,0,"")
+        swiper.slideTo(artistImg_num,0,"")
     });
 
     $(document).on("click","button#aiwExit",function(){

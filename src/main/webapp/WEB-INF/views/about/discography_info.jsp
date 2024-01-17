@@ -43,7 +43,7 @@ request.setCharacterEncoding("UTF-8");
 <c:set var="album_name" value="${artist_album.albumName}"/>
 <c:set var="album_date" value="${artist_album.albumDate}"/>
 <c:set var="album_src" value="${artist_album.albumSrc}"/>
-<c:set var="album_track" value="${artist_album.trackList}"/>
+<c:set var="jsonArray" value="${jsonArray}"/>
 <c:set var="album_length" value="${artist_album.trackLength}"/>
 <c:url var="resolve_discography" value="/about/${artistId}/discography"/>
 </head>
@@ -63,8 +63,11 @@ request.setCharacterEncoding("UTF-8");
                     <p class="discography_subHeader"><span>${album_date}</span><br><span>${album_length}</span></p>
                 </div>
                 <ul class="trackList">
+                <c:forEach var="i" begin="0" end="${jsonArray.length() -1}">
                     <li class="track">
+                        ${jsonArray.get(i)}
                     </li>
+                </c:forEach>
                 </ul>
             </div>
         </div>

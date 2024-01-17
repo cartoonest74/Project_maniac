@@ -16,8 +16,9 @@ request.setCharacterEncoding("UTF-8");
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <link rel="stylesheet" href="${contextPath}/css/basic.css">
-<link rel="stylesheet" href="${contextPath}/css/about/about_subMenu.css">
 <link rel="stylesheet" href="${contextPath}/css/pageCount/pageCount.css">
+<link rel="stylesheet" href="${contextPath}/css/about/about_subMenu.css">
+<link rel="stylesheet" href="${contextPath}/css/about/about_slide.css">
 <link rel="stylesheet" href="${contextPath}/css/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
 <link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
@@ -29,10 +30,10 @@ request.setCharacterEncoding("UTF-8");
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;900&display=swap" rel="stylesheet">
 
 <script src="https://kit.fontawesome.com/7938f26122.js" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-2.2.4.js"
-	  integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
-	  crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
 
+<script type="text/javascript" src="${contextPath}/js/about/about_subMenu.js"></script>
+<script type="text/javascript" src="${contextPath}/js/about/about.js"></script>
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
@@ -60,18 +61,18 @@ request.setCharacterEncoding("UTF-8");
         </div>
         <div class="discography_Box">
             <h2>gallery</h2>
-            <div class="discography_contentBox">
+            <div id="aboutSubMenuContent" class="discography_contentBox">
             <c:forEach var="artist_img" items="${artistImgs}" varStatus="status">
                 <c:set var="artistImg_num" value="${artist_img.rowNum}"/>
                 <c:set var="artistImg_src" value="${artist_img.artistSrc}"/>
                 <div class="discography_content">
-                    <a data-swiper-num="${status.index}" class="discography_img" href="">
+                    <button data-swiper-num="${status.index}" class="discography_img" type="button">
                         <img data-swiper-num="${status.index}" src="${artistImg_src}" alt="${artistImg_num}">
-                    </a>
+                    </button>
                 </div>
             </c:forEach>
             </div>
-            <nav class="pageCount">
+            <nav id="aboutSubMenu_pageCount_num" class="pageCount">
             </nav>
         </div>
     <jsp:include page="../basic/footer.jsp" flush="true" />

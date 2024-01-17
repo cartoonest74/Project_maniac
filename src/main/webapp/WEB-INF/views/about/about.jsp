@@ -73,16 +73,16 @@ request.setCharacterEncoding("UTF-8");
                 <section class="about_contentBox">
                     <!-- member -->
                     <div class="about_content">
-                    <c:forEach var="member" items="${memberList}">
+                    <c:forEach var="member" items="${memberList}" varStatus="status">
 
-                        <c:set var="member_num" value="${member.rowNum}"/>
+                        <c:set var="member_num" value="${status.index}"/>
                         <c:set var="member_src" value="${member.memberSrc}"/>
                         <c:set var="member_artistName" value="${member.artistName}"/>
                         <c:set var="member_birth" value="${member.birth}"/>
 
                         <nav class="about_memberBox">
-                            <button data-about-member="${member_num}" class="about_member" type="button">
-                                <img data-about-member="${member_num}" src="${member_src}" alt="${member_artistName}" data-about-member="${member_num}">
+                            <button data-swiper-num="${member_num}" class="about_member" type="button">
+                                <img data-swiper-num="${member_num}" src="${member_src}" alt="${member_artistName}">
                             </button>
                             <p class="about_memberInfo">
                                 <span>${member_artistName}</span>

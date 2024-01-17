@@ -18,6 +18,12 @@ public class MybatisArtistAlbumRepository implements  ArtistAlbumRepository {
     }
 
     @Override
+    public Artist_album select_one(int id, int rowNum) {
+        Artist_album artistAlbum = artistAlbumMapper.select_one(id, rowNum);
+        return artistAlbum;
+    }
+
+    @Override
     public Integer select_total(int id) {
         Integer total = artistAlbumMapper.select_total(id);
         return total;

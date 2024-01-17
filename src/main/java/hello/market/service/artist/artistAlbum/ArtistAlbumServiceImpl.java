@@ -23,6 +23,12 @@ public class ArtistAlbumServiceImpl implements ArtistAlbumService {
     }
 
     @Override
+    public Artist_album albumSelect_one(int id, int rowNum) {
+        Artist_album artistAlbum = artistAlbumRepository.select_one(id, rowNum);
+        return artistAlbum;
+    }
+
+    @Override
     public Integer albumTotal(int id) {
         Integer total = artistAlbumRepository.select_total(id);
         return total;

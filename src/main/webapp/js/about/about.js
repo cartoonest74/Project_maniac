@@ -1,23 +1,24 @@
 window.onload =function(){
-    const create_aboutImage_contentTag = (num,src,alt)=>{
-        let aboutImage_windowContent =`<div data-swiper-slide="${num}" class="swiper-slide">
-                                            <img src="${src}" alt="${alt}">
-                                        </div>`
-        return aboutImage_windowContent;
+    const about_obj = {
+        member_swiper:()=>{
+            const swiper = new Swiper(".memberSwiper", {
+                spaceBetween:30
+            });
+            return swiper
+        }
     }
-    const create_aboutImage_windowTag=()=>{
-        const data_about_artistImg = document.querySelectorAll("img[data-about-artistImg]");
-
+    const create_aboutImage_windowTag=(data_about_menu)=>{
         let aboutImage_windowTag=`<div id="aboutImage_Window" class="about_imageWindow">
-                                    <div class="swiper mySwiper">
+                                    <div class="swiper memberSwiper">
                                         <div class="swiper-wrapper">`;
 
         let aboutImage_windowContent ="";
-        data_about_artistImg.forEach((item,i)=>{
-            const num = i + 1;
+        data_about_menu.forEach((item,i)=>{
             const src = item.getAttribute("src");
             const alt = item.getAttribute("alt");
-            aboutImage_windowContent += create_aboutImage_contentTag(num, src, alt)
+            aboutImage_windowContent += `<div class="swiper-slide">
+                                            <img src="${src}" alt="${alt}">
+                                        </div>`
         });
         aboutImage_windowTag += aboutImage_windowContent;
         aboutImage_windowTag +=`</div>
@@ -34,20 +35,14 @@ window.onload =function(){
         body.insertAdjacentHTML(position,text);
     }
 
-    $(document).on("click","button[data-about-artistImg]",function(e){
-        const arr_artistImgs = document.querySelectorAll("button[data-about-artistImg]")
-        const artistImg_num = $(e.target).attr("data-about-artistImg");
-        const aboutImage_windowTag = create_aboutImage_windowTag();
+    $(document).on("click","button[data-about-member]",function(e){
+        const artistImg_num = $(e.target).attr("data-about-member");
+        const arr_artistImgs = document.querySelectorAll('img[data-about-member]')
+        const aboutImage_windowTag = create_aboutImage_windowTag(arr_artistImgs);
+
         body_append("afterbegin",aboutImage_windowTag)
-        const swiper = new Swiper(".mySwiper", {
-            spaceBetween:30
-            // navigation: {
-            //     nextEl: ".swiper-btn-next",
-            //     nextEl: ".swiper-btn-prev",
-            //     nextEl: ".swiper-btn-active",
-            //     prevEl: ".swiper-btn-prev",
-            // },
-        });
+
+        const swiper = about_obj.member_swiper()
         swiper.slideTo(artistImg_num-1,0,"")
     });
 
@@ -55,5 +50,4 @@ window.onload =function(){
         const aboutImage_Window = document.getElementById("aboutImage_Window")
         aboutImage_Window.remove();
     });
-
 }

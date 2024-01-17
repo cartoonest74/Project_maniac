@@ -41,12 +41,13 @@ request.setCharacterEncoding("UTF-8");
 <script type="text/javascript" src="${contextPath}/js/about/about.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-<c:set var="mvList" value="${artistMvs}"/>
-<c:set var="albumList" value="${artistAlbums}"/>
-<c:set var="imgList" value="${artistImgs}"/>
 <c:set var="memberList" value="${artistMembers}"/>
 <c:set var="snsList" value="${artistSns}"/>
 <c:set var="artist" value="${artist_dto}"/>
+
+<c:url var="resolve_discography" value="/about/${artistId}/discography"/>
+<c:url var="resolve_gallery" value="/about/${artistId}/gallery"/>
+<c:url var="resolve_mv" value="/about/${artistId}/mv"/>
 </head>
 <body>
 	<c:import url="../basic/header.jsp">
@@ -56,72 +57,42 @@ request.setCharacterEncoding("UTF-8");
                     <div class="about_MainImg">
                         <img src="${artist.mainImg}" alt="${artist.name}">
                         <h2 class="about_title">${artist.name}</h2>
+                        <nav class="about_subMenuBox">
+                            <p>
+                                <a href="${resolve_mv}">mv</a>
+                            </p>
+                            <p>
+                                <a href="${resolve_gallery}">gallery</a>
+                            </p>
+                            <p>
+                                <a href="${resolve_discography}">discography</a>
+                            </p>
+                        </nav>
                     </div>
                 </header>
                 <section class="about_contentBox">
+                    <!-- member -->
                     <div class="about_content">
-                        <button class="about_artistInfo" type="button">아티스트 정보</button>
-                    </div>
-                    <div class="about_content">
-                        <div class="about_contentTitle">
-                            <h2>mv</h2>
-                        </div>
-                        <nav class="about_infoContent">
-                        <c:forEach var="mvs" items="${mvList}">
-                            <c:set var="mv_name" value="${mvs.mvName}"/>
-                            <c:set var="mv_debut" value="${mvs.mvDate}"/>
-                            <c:set var="mv_href" value="${mvs.mvHref}"/>
-                            <!-- ${mv_href} -->
-                            <a class="about_mv" href="${mv_href}" target="_blank">
-                                <span>
-                                    ${mv_name}
-                                    <br>
-                                    ${mv_debut}
-                                </span>
-                            </a>
-                        </c:forEach>
+                    <c:forEach var="member" items="${memberList}">
+
+                        <c:set var="member_num" value="${member.rowNum}"/>
+                        <c:set var="member_src" value="${member.memberSrc}"/>
+                        <c:set var="member_artistName" value="${member.artistName}"/>
+                        <c:set var="member_birth" value="${member.birth}"/>
+
+                        <nav class="about_memberBox">
+                            <button data-about-member="${member_num}" class="about_member" type="button">
+                                <img data-about-member="${member_num}" src="${member_src}" alt="${member_artistName}" data-about-member="${member_num}">
+                            </button>
+                            <p class="about_memberInfo">
+                                <span>${member_artistName}</span>
+                                <span>${member_birth}</span>
+                            </p>
                         </nav>
+
+                    </c:forEach>
                     </div>
-                    <div class="about_content">
-                        <div class="about_contentTitle">
-                            <h2>discography</h2>
-                        </div>
-                        <div class="about_infoContent">
-                        <c:forEach var="albums" items="${albumList}">
-                            <c:set var="album_num" value="${albums.rowNum}"/>
-                            <c:set var="album_name" value="${albums.albumName}"/>
-                            <c:set var="album_href" value="${albums.albumHref}"/>
-                            <button data-about-album="${album_num}" class="about_img" type="button">
-                                <img src="${album_href}" alt="${album_name}">
-                            </button>
-                        </c:forEach>
-                        </div>
-                        <nav class="about_contentPage">
-                            <button type="button">
-                                <i data-last-page-id="1" class="fa-solid fa-angle-left fa-lg"></i>
-                            </button>
-                            <button type="button">1</button>
-                            <button type="button">
-                                <i data-last-page-id="1" class="fa-solid fa-angle-right fa-lg"></i>
-                            </button>
-                        </nav>
-                    </div>
-                    <div class="about_content">
-                        <div class="about_contentTitle">
-                            <h2>photo</h2>
-                        </div>
-                        <div class="about_infoContent">
-                        <c:forEach var="imgs" items="${imgList}">
-                            <c:set var="img_num" value="${imgs.rowNum}"/>
-                            <c:set var="img_src" value="${imgs.artistSrc}"/>
-                            <button data-about-artistImg="${img_num}" class="about_img">
-                                <img data-about-artistImg="${img_num}" src="${img_src}" alt="1">
-                            </button>
-                        </c:forEach>
-                        </div>
-                        <nav class="about_contentPage">
-                        </nav>
-                    </div>
+                    <!-- sns -->
                     <div class="about_snsBox">
                         <nav class="about_sns">
                         <c:forEach var="sns" items="${snsList}">

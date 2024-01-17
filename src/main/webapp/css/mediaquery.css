@@ -18,6 +18,18 @@
      .shopInfo{
         width:100%;
      }
+
+     /* about-member */
+     .memberSwiper{
+         width:50vw;
+     }
+    .about_memberBox{
+        width:150px;
+    }
+    .about_member{
+        height:150px;
+    }
+
     /*shop*/
     .shopMainContent{
         width:99%;
@@ -39,6 +51,22 @@
     }
 }
 @media screen and (max-width:420px){
+    /* about- member */
+    .memberSwiper{
+        width:100vw;
+    }
+    .about_memberBox{
+        width:100px;
+    }
+    .about_member{
+        height:100px;
+    }
+    .about_memberInfo span:first-child{
+        font-size:1.3em;
+    }
+    .about_memberInfo span:last-child{
+        font-size:0.9em;
+    }
     /* main */
     .chapter_mainBox{
         width:100%;

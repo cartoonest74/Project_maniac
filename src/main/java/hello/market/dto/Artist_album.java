@@ -14,7 +14,7 @@ public class Artist_album {
     private int rowNum;
     private String albumName;
     private String albumDate;
-    private String albumHref;
+    private String albumSrc;
     private String trackList;
     private String trackLength;
 }

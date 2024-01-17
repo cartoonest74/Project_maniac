@@ -8,5 +8,6 @@ import java.util.List;
 public interface ArtistAlbumService {
     List<Artist_album> albumSelect(int id, int limit);
 
+    Artist_album albumSelect_one(int id, int rowNum);
     Integer albumTotal(int id);
 }

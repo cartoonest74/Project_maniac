@@ -13,5 +13,6 @@ import lombok.NoArgsConstructor;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class Artist_img {
     private int rowNum;
+    private String artistName;
     private String artistSrc;
 }

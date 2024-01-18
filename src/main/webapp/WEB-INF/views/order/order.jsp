@@ -35,6 +35,7 @@ request.setCharacterEncoding("UTF-8");
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script type="text/javascript" src="${contextPath}/js/order/order.js"></script>
+<script type="text/javascript" src="${contextPath}/js/order/order_registry.js"></script>
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
@@ -108,17 +109,17 @@ request.setCharacterEncoding("UTF-8");
                 <dd id="orderTotal">₩500,000,000</dd>
             </dl>
             <div class="orderInfo">
-                <div class="orderInfoPart">
+                <div id="infoPart" class="orderInfoPart">
             <c:choose>
                 <c:when test="${empty order_info}">
-                    <nav class="orderInfoHeader justify-content-between">
+                    <nav data-order-header="info" data-orderHeader-part="add" class="orderInfoHeader justify-content-between">
                         <h2>주문자</h2>
                         <button id="OrderRegistry_info" type="button">등록</button>
                     </nav>
                     <div data-order-caption="info" class="orderInfoSubCaption">주문자 정보를 등록주세요</div>
                 </c:when>
                 <c:otherwise>
-                    <nav class="orderInfoHeader justify-content-start">
+                    <nav data-order-header="info" data-orderHeader-part="edit" class="orderInfoHeader justify-content-start">
                         <h2>주문자</h2>
                         <button id="OrderRegistry_infoEdit" type="button">수정</button>
                     </nav>
@@ -136,17 +137,17 @@ request.setCharacterEncoding("UTF-8");
                 </c:otherwise>
             </c:choose>
                 </div>
-                <div class="orderInfoPart">
+                <div id="addrPart" class="orderInfoPart">
             <c:choose>
                 <c:when test="${empty order_delivery.firstname}">
-                    <nav class="orderInfoHeader justify-content-between">
+                    <nav data-order-header="deliveryAddr" data-orderHeader-part="add" class="orderInfoHeader justify-content-between">
                         <h2>배송주소</h2>
                         <button id="OrderRegistry_delivery" type="button">등록</button>
                     </nav>
                     <div data-order-caption="deliveryAddr" class="orderInfoSubCaption">배송 주소 정보를 등록주세요</div>
                 </c:when>
                 <c:otherwise>
-                    <nav class="orderInfoHeader justify-content-start">
+                    <nav data-order-header="deliveryAddr" data-orderHeader-part="edit" class="orderInfoHeader justify-content-start">
                         <h2>배송주소</h2>
                         <button id="OrderRegistry_deliveryEdit" type="button">변경</button>
                     </nav>

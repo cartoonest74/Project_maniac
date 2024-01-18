@@ -2,7 +2,16 @@
  * login
  */
 $(function() {
-const CONTEXTPATH = $("#contextPath").val();
+    const subMenu_none =()=>{
+        const header_login_btn = document.getElementById("header_login_btn");
+        header_login_btn.style.display = "none";
+        const header_cart_btn = document.getElementById("header_cart_btn");
+        header_cart_btn.style.display = "none";
+        const header_heart_btn = document.getElementById("header_heart_btn");
+        header_heart_btn.style.display = "none";
+    }
+    subMenu_none();
+    const CONTEXTPATH = $("#contextPath").val();
 	const LOGINACTION_URL = CONTEXTPATH.concat("/login-action/login-inspect");
 	const LOGINFORM_ERR_ID = "#LoginIdFormErr";
 	const LOGINFORM_ERR_PWD = "#loginPwdFormErr";

@@ -42,7 +42,7 @@ request.setCharacterEncoding("UTF-8");
 <script type="text/javascript" src="${contextPath}/js/postDaum/postDaum.js"></script>
 <script type="text/javascript" src="${contextPath}/js/createAccount.js"></script>
 
-<c:url var="accountUrl" value="/member/complete-account"/>
+<c:url var="accountUrl" value="/${artistId}/member/complete-account"/>
 </head>
 <body>
 	<c:import url="../basic/header.jsp">

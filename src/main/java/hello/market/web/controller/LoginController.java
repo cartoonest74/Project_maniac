@@ -31,7 +31,7 @@ public class LoginController {
     private final CartService cartService;
 
     @PostMapping("/login")
-    private String login(@RequestParam(defaultValue = "/main") String referUrl) {
+    private String login(@RequestParam(defaultValue = "/") String referUrl) {
         return "redirect:"+referUrl;
     }
 

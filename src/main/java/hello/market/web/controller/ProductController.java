@@ -66,7 +66,7 @@ public class ProductController {
         List<Integer> likes = new ArrayList<>();
 
         if(user_id != 0){
-            likes = likeService.my_likeList(1);
+            likes = likeService.my_likeList(user_id);
         }
 
         List<Product> products = productService.findProducts(artistId, category, page);

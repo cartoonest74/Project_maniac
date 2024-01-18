@@ -39,9 +39,6 @@
 
 <c:set var="logoutUrl" value="/login-action/logout" />
 
-<!-- controller mapping url -->
-<c:url var="shopinfo" value="/product/find-product" />
-
 </head>
 <body>
 	<c:import url="../basic/header.jsp" >

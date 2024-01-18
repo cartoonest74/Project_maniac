@@ -34,13 +34,13 @@
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
 
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
-<script type="text/javascript" src="${contextPath}/js/login.js"></script>
+<script type="text/javascript" src="${contextPath}/js/login/login.js"></script>
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
 
 <c:set var="referUrl" value="${referUrl}" />
-<c:url var="forgotAccount" value="/member/forgot-account"/>
-<c:url var="createAccount" value="/member/create-account"/>
-<c:url var="loginAccount" value="/member/login-account"/>
+<c:url var="forgotAccount" value="/${artistId}/member/forgot-account"/>
+<c:url var="createAccount" value="/${artistId}/member/create-account"/>
+<c:url var="loginAccount" value="/${artistId}/member/login-account"/>
 <c:url var="loginPassUrl" value="/login-action/login"/>
 </head>
 <body>

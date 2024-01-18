@@ -34,7 +34,7 @@ $(function() {
 			$.ajax({
 				type: "post",
 				async: true,
-				url: "/member/duple_check",
+				url: "0/member/duple_check",
 				dataType: "text",
 				data: {
 					id: INSEPECT_VAL

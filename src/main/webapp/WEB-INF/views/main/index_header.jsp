@@ -46,6 +46,7 @@ request.setCharacterEncoding("UTF-8");
                 </section>
             </div>
      </div>
+    <!--
 	<header class="shopHead">
 		<nav class="navLeft">
             <c:if test="${loginGrade eq 0}">
@@ -71,5 +72,6 @@ request.setCharacterEncoding("UTF-8");
             </a>
 		</nav>
 	</header>
+	-->
 	<section class="shopBody">
 

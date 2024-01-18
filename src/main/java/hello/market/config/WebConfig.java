@@ -23,7 +23,7 @@ public class WebConfig implements WebMvcConfigurer {
 //                .excludePathPatterns("/css/**", "/*.ico", "/error");
         registry.addInterceptor(new LoginCheckInterceptor())
                 .order(1)
-                .addPathPatterns("/cart/*/view-cart")
+                .addPathPatterns("/cart/*/view-cart","/*/like/view","/order/**")
                 .excludePathPatterns("/css/**", "/*.ico", "/error");
     }
 }

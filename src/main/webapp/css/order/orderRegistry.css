@@ -166,12 +166,12 @@
 .orAddrBox{
     display:inline-flex;
     width:50%;
-    justify-content:center;
+    justify-content:flex-start;
     flex-wrap: wrap;
     background-color:rgb(255,255,255);
     padding:10px 0px;
     border-radius:15px;
-    z-index:2;
+    z-index:1;
 }
 .orAddrHeader{
     display:inline-flex;
@@ -201,7 +201,8 @@
 }
 .orAddrContents{
     display:inline-block;
-    padding:5vh 2vw;
+    width:100%;
+    padding:3vh 2vw;
 }
 .orAddrContent{
     display:inline-flex;

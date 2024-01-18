@@ -12,11 +12,9 @@ request.setCharacterEncoding("UTF-8");
 <c:set var="cartLength" value="${cartCount}"/>
 
 <!-- controller mapping url -->
-<c:url var="shop" value="/product/product-shop" />
-<c:url var="loginAccount" value="/member/login-account" />
-<c:url var="loginInfo" value="/member/login-info" />
+<c:url var="loginAccount" value="/${artistId}/member/login-account" />
+<c:url var="loginInfo" value="/${artistId}/member/login-info" />
 <c:url var="rootInfo" value="/manager/info" />
-<c:url var="artistName" value="/artist/${artistId}"/>
 
 <c:url var="notice" value="/main/${artistId}/notice?page=1" />
 <c:url var="album" value="/product/${artistId}/shop/album?page=1" />
@@ -26,7 +24,9 @@ request.setCharacterEncoding("UTF-8");
     <c:url var="main" value="/" />
 </c:if>
 <c:url var="about" value="/about/${artistId}" />
-<c:url var="viewCart" value="/cart/${artistId}/view-cart" />
+<c:url var="viewCart" value="/cart/${artistId}/view-cart"/>
+<c:url var="viewLike" value="/${artistId}/like/view"/>
+
 <c:url var="maniac" value="/img/web_logo/maniac.png" />
 <c:url var="maniac_simple_log_c" value="/img/web_logo/Simple_logoC.png" />
 <div class="box">
@@ -170,7 +170,7 @@ request.setCharacterEncoding("UTF-8");
                     </a>
                 </c:when>
                 <c:otherwise>
-                    <a href="${loginAccount}" class="header_btn">
+                    <a id="header_login_btn" href="${loginAccount}" class="header_btn">
                         <i class="fa-regular fa-user fa-lg"></i>
                     </a>
                 </c:otherwise>
@@ -178,6 +178,9 @@ request.setCharacterEncoding("UTF-8");
             <a href="${viewCart}" id="header_cart_btn" class="header_btn" type="button">
                 <i class="fa-solid fa-cart-shopping fa-lg"></i>
                 <input data-cart="${cartLength}" hidden="hidden" />
+            </a>
+            <a href="${viewLike}" id="header_heart_btn" class="header_btn" type="button">
+                <i class="fa-solid fa-heart fa-lg"></i>
             </a>
         </nav>
 	</header>

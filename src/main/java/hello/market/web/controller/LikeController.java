@@ -32,16 +32,13 @@ public class LikeController {
     @ResponseBody
     @PutMapping("/add-like")
     private String addLike(@RequestParam Integer productId, @RequestParam Integer categoryId, HttpServletRequest request) {
-//        Integer user_id = loginSessionManager.sessionUUIDcheck(request);
-//        if(StringUtils.hasText(String.valueOf(user_id))){
-//            return "0";
-//        }
+        Integer user_id = loginSessionManager.sessionUUIDcheck(request);
         String json_key = new StringBuilder()
                 .append("$.p")
                 .append(productId)
                 .toString();
 
-        likeService.addLike(1, json_key, categoryId);
+        likeService.addLike(user_id, json_key, categoryId);
         return "ok";
     }
 
@@ -49,10 +46,7 @@ public class LikeController {
     @DeleteMapping("/del-like")
     private String delLike(@RequestParam JSONObject like_json, HttpServletRequest request){
         like_categoryTag.setLength(0);
-//        Integer user_id = loginSessionManager.sessionUUIDcheck(request);
-//        if(StringUtils.hasText(String.valueOf(user_id))){
-//            return "0";
-//        }
+        Integer user_id = loginSessionManager.sessionUUIDcheck(request);
         JSONArray like_arr = like_json.getJSONArray("like");
 
         for(int i = 0; i< like_arr.length(); i++){
@@ -69,7 +63,7 @@ public class LikeController {
                 .append("\" class=\"likeCategory\" type=\"button\">")
                 .append("All")
                 .append("</button>");
-        List<Artist> artists = likeService.likeCategory(1);
+        List<Artist> artists = likeService.likeCategory(user_id);
         for (Artist artist : artists) {
             create_likeCategoryTag(artist);
         }
@@ -78,21 +72,21 @@ public class LikeController {
     }
 
     @ResponseBody
-    @PostMapping("/like/view")
-    private String post_showLike(@RequestParam int page, @RequestParam int limit,@RequestParam int categoryId, HttpServletRequest request){
+    @PostMapping("/{artistId}/like/view")
+    private String post_showLike(@PathVariable int artistId,@RequestParam int page, @RequestParam int limit,@RequestParam int categoryId, HttpServletRequest request){
         like_menuTag.setLength(0);
 
-//        Integer user_id = loginSessionManager.sessionUUIDcheck(request);
+        Integer user_id = loginSessionManager.sessionUUIDcheck(request);
 //        if(StringUtils.hasText(String.valueOf(user_id))){
 //            return "0";
 //        }
 
-        List<Product> products = likeService.showAllLike(1, limit, categoryId);
+        List<Product> products = likeService.showAllLike(user_id, limit, categoryId);
         for (Product product : products) {
             create_likeTag(product);
         }
 
-        Integer likeLength = likeService.likeLength(1, categoryId);
+        Integer likeLength = likeService.likeLength(user_id, categoryId);
         String like_menuTagString = like_menuTag.toString();
 
         JSONObject jsonObject = new JSONObject();
@@ -101,20 +95,18 @@ public class LikeController {
         return jsonObject.toString();
     }
 
-    @GetMapping("/like/view")
-    private String get_showLike(@RequestParam(value="page",required = false,defaultValue = "1")int page,
+    @GetMapping("/{artistId}/like/view")
+    private String get_showLike(@PathVariable int artistId,@RequestParam(value="page",required = false,defaultValue = "1")int page,
                                 HttpServletRequest request, Model model){
         page = page < 1 ? 1 : page;
         int limit = (page - 1) * 20;
-//        Integer user_id = loginSessionManager.sessionUUIDcheck(request);
-//        if(StringUtils.hasText(String.valueOf(user_id))){
-//            return "0";
-//        }
-        List<Product> products = likeService.showAllLike(1, limit, 0);
-        Integer likeLength = likeService.likeLength(1, 0);
-        List<Artist> artists = likeService.likeCategory(1);
+        Integer user_id = loginSessionManager.sessionUUIDcheck(request);
+        List<Product> products = likeService.showAllLike(user_id, limit, 0);
+        Integer likeLength = likeService.likeLength(user_id, 0);
+        List<Artist> artists = likeService.likeCategory(user_id);
 
         model.addAttribute("category", artists);
+        model.addAttribute("artistId", artistId);
         model.addAttribute("likeMenuList", products);
         return "/like/like";
     }

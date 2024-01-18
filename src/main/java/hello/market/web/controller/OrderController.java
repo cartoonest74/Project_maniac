@@ -41,6 +41,10 @@ public class OrderController {
                                  @RequestParam("orderCheck") String orderCheck,
                                  HttpServletRequest request, Model model) {
         Integer user_id = loginSessionManager.sessionUUIDcheck(request);
+        log.info("user_id={}", user_id);
+        if (user_id == 0) {
+            return "redirect:/";
+        }
         String orderUUID = orderCheckRepository.get_orderUUID(user_id);
         log.info("orderCheck={},orderUUID={}", orderCheck, orderUUID);
         if (! orderUUID.equals(orderCheck)) {

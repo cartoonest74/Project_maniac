@@ -31,6 +31,7 @@
 <script src="https://code.jquery.com/jquery-2.2.4.js"
 	  integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
 	  crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script type="text/javascript" src="${contextPath}/js/shop/btnLike.js"></script>
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
@@ -116,12 +117,12 @@
                 <c:forEach var="goods" items="${goods_list}">
                     <c:set var="goodsId" value="${goods.id}" />
                     <c:set var="goods_title" value="${goods.title}" />
-                    <c:set var="goods_price" value="${goods.price}" />
+                    <c:set var="goods_price" value="${goods.price}"/>
                     <c:set var="goods_mainImg" value="${goods.mainImg}" />
                     <c:url var="goods_shopInfo" value="/product/${artistId}/find-product/${productId}" />
                     <div class="shopEtc_content">
-                        <button data-btn-artistId="${artistId}" data-btn-like="${goods_price}" class="btnLike" type="button">
-                            <i data-btn-artistId="${artistId}" data-btn-like="${goods_price}" class="fa-regular  fa-heart fa-lg"></i>
+                        <button data-btn-artistId="${artistId}" data-btn-like="${goodsId}" class="btnLike" type="button">
+                            <i data-btn-artistId="${artistId}" data-btn-like="${goodsId}" class="fa-regular  fa-heart fa-lg"></i>
                         </button>
                         <a href="${goods_shopInfo}" class="shopEtc_contentImg">
                             <img src="${goods_mainImg}" alt="${goods_title}">

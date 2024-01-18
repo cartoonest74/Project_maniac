@@ -34,7 +34,7 @@
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
 <script type="text/javascript" src="${contextPath}/js/cart.js"></script>
-<script type="text/javascript" src="${contextPath}/js/like.js"></script>
+<script type="text/javascript" src="${contextPath}/js/like/like.js"></script>
 
 <c:set var="headerTitle" value="${fn:toUpperCase(products[0].category)}"/>
 </head>
@@ -58,7 +58,7 @@
             </nav>
         </header>
         <ul id="LikeMenu_Content" class="likeBox">
-        <c:forEach var="product" items="${products}">
+        <c:forEach var="product" items="${likeMenuList}">
             <c:set var="productId" value="${product.id}" />
             <c:set var="artistId" value="${product.artistId}" />
             <c:set var="title" value="${product.title}" />

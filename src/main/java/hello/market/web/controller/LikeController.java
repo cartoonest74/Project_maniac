@@ -33,13 +33,16 @@ public class LikeController {
     @PutMapping("/add-like")
     private String addLike(@RequestParam Integer productId, @RequestParam Integer categoryId, HttpServletRequest request) {
         Integer user_id = loginSessionManager.sessionUUIDcheck(request);
+        if(user_id ==0){
+            return "0";
+        }
         String json_key = new StringBuilder()
                 .append("$.p")
                 .append(productId)
                 .toString();
 
         likeService.addLike(user_id, json_key, categoryId);
-        return "ok";
+        return "1";
     }
 
     @ResponseBody

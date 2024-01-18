@@ -1,11 +1,23 @@
 $(function(){
     const LikeMenu_Content = $("#LikeMenu_Content");
-
+    const done_likeProduct = (arr_check_product)=>{
+        const Like_category = document.getElementById("Like_category");
+        const likeHeader_option = document.querySelector(".likeHeader_option")
+        const LikeMenu_Content = document.getElementById("LikeMenu_Content");
+        if(arr_check_product.length == 0){
+            Like_category.remove();
+            likeHeader_option.remove();
+            LikeMenu_Content.innerHTML = `<div style="padding:5vh 0; text-align:center;">
+                                                <span>관심있는 상품을 등록해주세요.</span>
+                                          </div>`
+            return
+        }
+    }
     // page number
     const like_menu_page = (data, review_limit)=>{
         let string_to_json = JSON.parse(data);
         let all_reviewCount = string_to_json.allCount;
-        console.log(all_reviewCount)
+//        console.log(all_reviewCount)
         // review & qna tag data
         let tag_data = string_to_json.content;
         LikeMenu_Content.html(tag_data);
@@ -24,7 +36,7 @@ $(function(){
         const regular_pageLimit = 5;
 
         // 1 page = data n개
-        const regular_pageDataLimit = 20;
+        const regular_pageDataLimit = 10;
 
         let page_increase= Math.floor(review_limit / 5) ? Math.floor(review_limit / 5) : 0
 
@@ -60,7 +72,7 @@ $(function(){
 
         // 한 페이지에 보여질 목록 n개
         // all_reviewCount > prev_num * n
-        if(all_reviewCount > prev_num *20){
+        if(all_reviewCount > prev_num *10){
             page_tag = `<button id="d_lastPageId" class="info_nextPrev" type="button" data-last-page-id="${prev_num}">
                 <i data-last-page-id="${prev_num}" class="fa-solid fa-angle-right fa-lg"></i></button>`
             arr_page.push(page_tag);
@@ -91,7 +103,7 @@ $(function(){
             const REVIEW_CONTROLLER_URL = current_url;
             // 한 페이지에 보여질 목록 n개
             // review_limit * n
-            let _pageData_limit = review_limit * 20;
+            let _pageData_limit = review_limit * 10;
             $.ajax({
                 type: "post",
                 async: true,
@@ -103,6 +115,8 @@ $(function(){
                 },
                 success: function(data, textStatus) {
                     like_menu_page(data,review_limit)
+                    const arr_check_product = document.querySelectorAll("input[data-check-product]");
+                    done_likeProduct(arr_check_product);
                 }
             });
             return;
@@ -148,7 +162,7 @@ $(function(){
 
     // delete
     const likeDel_btn = document.getElementById("likeDel");
-    likeDel_btn.addEventListener("click",(e)=>{
+    likeDel_btn.addEventListener("click",async (e)=>{
         const like_json = new Object();
         const arr_check = [];
         const is_likeDel = window.confirm("선택하신 목록을 삭제하시겠습니까?");
@@ -165,7 +179,7 @@ $(function(){
         });
         like_json.like = arr_check
         const _strLike_json = JSON.stringify(like_json);
-        console.log(_strLike_json)
+//        console.log(_strLike_json)
         $.ajax({
             type:"DELETE",
             async:true,

@@ -240,6 +240,7 @@
     border:1px solid rgb(163, 158, 158);
     background:transparent;
     border-radius:5px;
+    cursor:pointer;
 }
 .orAddrSaveBtn{
     display: inline-block;

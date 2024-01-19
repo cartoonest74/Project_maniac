@@ -1,13 +1,14 @@
 $(function(){
  // btn_like
     async function add_like_axios(resolveMapping,_method,formData, _ProductId, heartTag){
+        const artistId = document.querySelector("#artistId").value;
         const res = await fetch(resolveMapping,{
                 method:_method,
                 body:formData})
                 .then((response)=>response.text())
                 .then((data)=>{
                     if(Number(data)==0){
-                        alert("로그인 플리스");
+                        window.location.href=`/${artistId}/member/login-account`
                         return;
                     }
                     $("button[data-btn-like="+_ProductId+"]").html(heartTag)

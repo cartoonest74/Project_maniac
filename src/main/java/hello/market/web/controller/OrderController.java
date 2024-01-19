@@ -175,9 +175,10 @@ public class OrderController {
     }
 
     @ResponseBody
-    @DeleteMapping("/del_deliveryInfo")
-    private String del_deliveryInfo(@RequestParam  int delivery_index, HttpServletRequest request) {
-
+    @PutMapping("/del_deliveryInfo")
+    private String del_deliveryInfo(@RequestParam  int deliveryNum, HttpServletRequest request) {
+        Integer user_id = loginSessionManager.sessionUUIDcheck(request);
+        orderService.delete_deliveryAddr(user_id, deliveryNum);
         return "ok";
     }
 }

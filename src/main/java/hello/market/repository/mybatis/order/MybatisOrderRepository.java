@@ -29,6 +29,11 @@ public class MybatisOrderRepository implements OrderRepository {
     }
 
     @Override
+    public void update_deleteAddr(int user_id, int deliveryNum) {
+        orderMapper.update_deleteAddr(user_id, deliveryNum);
+    }
+
+    @Override
     public void update_deliveryAddr(int user_id, OrderDelivery_info orderDeliveryInfo) {
         orderMapper.update_deliveryAddr(user_id, orderDeliveryInfo);
     }

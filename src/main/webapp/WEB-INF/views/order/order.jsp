@@ -158,6 +158,8 @@ request.setCharacterEncoding("UTF-8");
                         <c:set var="detail_addr" value="${order_delivery.detailAddr}"/>
                         <c:set var="post_num" value="${order_delivery.postNum}"/>
                         <c:set var="addr_tel" value="${order_delivery.tel}"/>
+                        <c:set var="delivery_index" value="${order_delivery.deliveryIndex}"/>
+                        <input name="home_deliveryIndex" value="${delivery_index}" hidden="hidden"/>
                         <p>
                             <span data-addrRegistry-edit="Firstname">${addr_firstName}</span>&nbsp;<span data-addrRegistry-edit="Lastname">${addr_lastName}</span>
                         </p>

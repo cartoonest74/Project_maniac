@@ -28,8 +28,8 @@ public class OrderServiceImpl implements  OrderService {
     }
 
     @Override
-    public void delete_deliveryAddr(int user_id, int deliveryNum) {
-        orderRepository.update_deleteAddr(user_id, deliveryNum);
+    public void delete_deliveryAddr(int user_id, OrderDelivery_info orderDeliveryInfo) {
+        orderRepository.update_deleteAddr(user_id, orderDeliveryInfo);
     }
 
     @Override

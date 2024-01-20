@@ -144,14 +144,7 @@ public class OrderController {
             , HttpServletRequest request) throws UnsupportedEncodingException {
         request.setCharacterEncoding("UTF-8");
         Integer user_id = loginSessionManager.sessionUUIDcheck(request);
-        int basicMain = orderDeliveryInfo.getBasicMain();
-        int deliveryIndex = orderDeliveryInfo.getDeliveryIndex();
 
-        String delivery_index = new StringBuilder()
-                .append("$[")
-                .append(deliveryIndex)
-                .append("]")
-                .toString();
         orderService.add_deliveryAddr(user_id,orderDeliveryInfo);
         return "ok";
     }
@@ -176,9 +169,9 @@ public class OrderController {
 
     @ResponseBody
     @PutMapping("/del_deliveryInfo")
-    private String del_deliveryInfo(@RequestParam  int deliveryNum, HttpServletRequest request) {
+    private String del_deliveryInfo(@ModelAttribute OrderDelivery_info orderDeliveryInfo, HttpServletRequest request) {
         Integer user_id = loginSessionManager.sessionUUIDcheck(request);
-        orderService.delete_deliveryAddr(user_id, deliveryNum);
+        orderService.delete_deliveryAddr(user_id, orderDeliveryInfo);
         return "ok";
     }
 }

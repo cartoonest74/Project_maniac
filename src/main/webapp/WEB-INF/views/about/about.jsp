@@ -57,13 +57,13 @@ request.setCharacterEncoding("UTF-8");
                         <img src="${artist.mainImg}" alt="${artist.name}">
                         <h2 class="about_title">${artist.name}</h2>
                         <nav class="about_subMenuBox">
-                            <p>
+                            <p data-about-menu="mv">
                                 <a href="${resolve_mv}">mv</a>
                             </p>
-                            <p>
+                            <p data-about-menu="gallery">
                                 <a href="${resolve_gallery}">gallery</a>
                             </p>
-                            <p>
+                            <p data-about-menu="discography">
                                 <a href="${resolve_discography}">discography</a>
                             </p>
                         </nav>

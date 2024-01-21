@@ -220,7 +220,7 @@ $(function(){
 
     // add to cart
     $(document).on("click","button[data-productNo]",async function(){
-        const ARTIST_ID =$("input[name='artistId']").val();
+        const artistId =document.getElementById("artistId").value;
         const resolve_add_cart = "/cart/add-cart";
         const price_total_tag = document.querySelector('[data-option_priceTotal="total"]')
         const _productNo = $("button[data-productNo]").attr('data-productNo')
@@ -258,10 +258,12 @@ $(function(){
             body:formData
         }).then((response)=>response.text())
         .then((data)=>{
-            if(Number(data)!== 0){
-                $("#header_cart_btn").text("CART( "+data+" )");
-                return '';
+            if(Number(data)== 0){
+                location.href= `/${artistId}/member/login-account`
+                return;
             }
+            $("#header_cart_btn").text("CART( "+data+" )");
+            return;
         }).catch((error)=>console.log(error))
 
         const checkMsg_res =  await void_addCheckMsg_ani();

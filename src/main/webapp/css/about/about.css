@@ -57,6 +57,16 @@
 .about_subMenuBox p:firstChild:hover{
     color:black;
 }
+
+p[data-about-menu="mv"]:hover{
+    color:black;
+}
+p[data-about-menu="gallery"]:hover{
+    color:black;
+}
+p[data-about-menu="discography"]:hover{
+    color:black;
+}
 /* content */
 .about_contentBox{
     display:inline-flex;
@@ -137,3 +147,4 @@
     cursor:pointer;
     font-size:inherit;
 }
+

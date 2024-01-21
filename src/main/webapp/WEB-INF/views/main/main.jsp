@@ -119,7 +119,7 @@
                     <c:set var="goods_title" value="${goods.title}" />
                     <c:set var="goods_price" value="${goods.price}"/>
                     <c:set var="goods_mainImg" value="${goods.mainImg}" />
-                    <c:url var="goods_shopInfo" value="/product/${artistId}/find-product/${productId}" />
+                    <c:url var="goods_shopInfo" value="/product/${artistId}/find-product/${goodsId}" />
                     <div class="shopEtc_content">
                         <button data-btn-artistId="${artistId}" data-btn-like="${goodsId}" class="btnLike" type="button">
                             <i data-btn-artistId="${artistId}" data-btn-like="${goodsId}" class="fa-regular  fa-heart fa-lg"></i>

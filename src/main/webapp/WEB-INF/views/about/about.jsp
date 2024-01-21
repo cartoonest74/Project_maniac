@@ -35,7 +35,6 @@ request.setCharacterEncoding("UTF-8");
 
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
-<script type="text/javascript" src="${contextPath}/js/header.js"></script>
 <script type="text/javascript" src="${contextPath}/js/cart.js"></script>
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
 <script type="text/javascript" src="${contextPath}/js/about/about.js"></script>

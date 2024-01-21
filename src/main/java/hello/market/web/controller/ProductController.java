@@ -57,12 +57,12 @@ public class ProductController {
     @PostMapping("/{artistId}/shop/{category}")
     private String post_productShop(@PathVariable Integer artistId,
                                @PathVariable("category") String category,
-                               @RequestParam("limit") int page, Model model,
+                               @RequestParam("limit") int page,
                                     HttpServletRequest request){
         Integer user_id = loginSessionManager.sessionUUIDcheck(request);
 
         shop_menuTag.setLength(0);
-        int limit = (page-1) *20;
+//        int limit = (page-1) *20;
         List<Integer> likes = new ArrayList<>();
 
         if(user_id != 0){
@@ -129,7 +129,7 @@ public class ProductController {
                                 .append(likeHeart_class)
                         .append("</button>")
                         .append("<a href="+shopInfoUrl+" class=\"shopEtc_contentImg\">\n")
-                            .append("<img src="+shop_mainImg+" alt="+shop_title+">\n")
+                            .append("<img src=\""+shop_mainImg+"\" alt=\""+shop_title+"\">\n")
                         .append("</a>\n")
                         .append("<nav class=\"shopEtc_contentInfo\">\n")
                             .append("<h1>"+shop_title+"</h1>\n")

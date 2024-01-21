@@ -54,27 +54,29 @@
             </h1>
 	    </header>
         <section id="shopMenuContent" class="shopEtc_contentBox">
+        <!--
 		<c:forEach var="product" items="${products}">
 			<c:set var="productId" value="${product.id}" />
 			<c:set var="artistId" value="${product.artistId}" />
-            <c:set var="title" value="${product.title}" />
+            <c:set var="product_title" value="${product.title}" />
             <c:set var="category" value="${product.category}" />
             <c:set var="price" value="${product.price}" />
-            <c:set var="mainImg" value="${product.mainImg}" />
+            <c:set var="main_img" value="${product.mainImg}" />
             <c:url var="shopInfo" value="/product/${artistId}/find-product/${productId}" />
             <div class="shopEtc_content">
                 <button data-btn-artistId="${artistId}" data-btn-like="${productId}" class="btnLike" type="button">
                     <i data-btn-artistId="${artistId}" data-btn-like="${productId}" class="fa-regular  fa-heart fa-lg"></i>
                 </button>
                 <a href="${shopInfo}" class="shopEtc_contentImg">
-                    <img src="${contextPath}${mainImg}" alt="${title}">
+                    <img src="${main_img}" alt="${product_title}">
                 </a>
                 <nav class="shopEtc_contentInfo">
-                    <h1>${title}</h1>
+                    <h1>${product_title}</h1>
                     <p>${price}</p>
                 </nav>
             </div>
         </c:forEach>
+        -->
 		</section>
 		<div id="shop_pageCount_num" class="pageCount">
 

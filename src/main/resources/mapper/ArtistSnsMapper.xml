@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hello.market.repository.mybatis.artist.artistSns.ArtistSnsMapper">
+    <select id="select" resultType="Artist_sns">
+        select json_key snsTitle,
+        json_unquote(json_extract(sns,CONCAT("$.",json_key,"[0]"))) snsHref,
+        json_unquote(json_extract(sns,CONCAT("$.",json_key,"[1]"))) snsClass
+        from artist, json_table(json_keys(sns), "$[*]" columns(
+        json_key varchar(30) path "$"
+        ))t
+        where id =#{id};
+    </select>
+</mapper>

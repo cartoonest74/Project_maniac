@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hello.market.repository.mybatis.member.MemberMapper">
+    <insert id="insert">
+        insert into Member(user_id, name, birth, gender, addr, phone, pwd, email)
+        values(#{userId}, #{name}, #{birth}, #{gender}, #{addr}, #{phone}, #{pwd}, #{email})
+    </insert>
+    <update id="update">
+
+    </update>
+    <delete id="delete">
+
+    </delete>
+    <select id="str_select" resultType="Member">
+            select user_id as userId, name, birth, gender, addr, phone, pwd, email, grade
+            from Member
+            where user_id = #{userId}
+    </select>
+    <select id="int_select" resultType="Member">
+        select user_id as userId, name, birth, gender, addr, phone, pwd, email, grade
+        from Member
+        where id = #{id}
+    </select>
+    <select id="selectAll" resultType="Member">
+        select user_id as userId, name, birth, gender, addr, phone, pwd, email, grade
+        from Member
+    </select>
+</mapper>

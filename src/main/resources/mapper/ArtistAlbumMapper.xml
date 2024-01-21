@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hello.market.repository.mybatis.artist.artistAlbum.ArtistAlbumMapper">
+    <select id="select" resultType="Artist_album">
+        select *
+        from(
+            select row_number() over(order by album_date desc) rowNum,
+                album_name albumName,
+                DATE_FORMAT(album_date,"%Y-%m-%d") albumDate,
+                src albumSrc
+            from artist, json_table(album,"$[*]" columns(
+                src varchar(150) path "$.src",
+                album_date timestamp path "$.date",
+                album_name varchar(150) path "$.name"
+            ))t
+            where id =#{id}) artistAlbum_table
+        where rowNum > #{limit}
+        order by rowNum asc limit 10;
+    </select>
+    <select id="select_one" resultType="Artist_album">
+        select *
+        from(
+            select row_number() over(order by album_date desc) rowNum,
+                album_name albumName,
+                DATE_FORMAT(album_date,"%Y-%m-%d") albumDate,
+                src albumSrc,
+                track trackList,
+                track_length trackLength
+            from artist, json_table(album,"$[*]" columns(
+                src varchar(150) path "$.src",
+                album_date timestamp path "$.date",
+                album_name varchar(150) path "$.name",
+                track json path "$.track",
+                track_length varchar(10) path "$.track_length"
+            ))t
+            where id =#{id}) artistAlbum_table
+        where rowNum = #{rowNum}
+        order by rowNum asc limit 10;
+    </select>
+    <select id="select_total" resultType="Integer">
+        select json_length(album ->> "$")
+        from artist
+        where id =#{id};
+    </select>
+</mapper>

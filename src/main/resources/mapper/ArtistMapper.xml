@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hello.market.repository.mybatis.artist.ArtistMapper">
+    <select id="selectAll" resultType="Artist">
+        select id, name, artist_img ->> "$.main_img" main_img
+        from Artist
+    </select>
+    <select id="search_select" resultType="Artist">
+        select id, name, artist_img ->> "$.main_img" main_img
+        from Artist
+        where name like '%${artistName}%' or korean_name like '%${artistName}%'
+    </select>
+    <select id ="select" resultType="Artist">
+        select id, name, korean_name, debut, artist_img ->> "$.main_img" mainImg
+        from Artist
+        where id = #{id}
+    </select>
+    <select id="search_count_max" resultType="Artist">
+        select art.id, art.name, artist_img ->> "$.main_img" main_img
+        from Artist as art
+            inner join Artist_record as ar
+            on art.id = ar.id
+        order by ar.search_count desc limit ${limit}
+    </select>
+</mapper>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hello.market.repository.mybatis.order.OrderMapper">
+    <select id="select_orderInfo" resultType="OrderRegistry_info">
+        select first_name Firstname,
+            last_name Lastname,
+            email Email,
+            tel Tel
+        from order_list, json_table(order_info,
+        '$[*]' COLUMNS(
+            first_name varchar(20) PATH '$.first_name',
+            last_name varchar(100) PATH '$.last_name',
+            email varchar(50) PATH '$.email',
+            tel varchar(15) PATH '$.tel'
+        ))t
+        where user_id =#{user_id};
+    </select>
+    <select id="select_deliveryAddr" resultType="OrderDelivery_info">
+        select delivery_main_index basicMain,
+            num deliveryIndex,
+            first_name Firstname,
+            last_name Lastname,
+            main_addr mainAddr,
+            detail_addr detailAddr,
+            post_num postNum,
+            tel Tel
+        from order_list, json_table(delivery_addr,
+        '$[*]' COLUMNS(
+            num int unsigned PATH '$.num',
+            first_name varchar(20) PATH '$.first_name',
+            last_name varchar(100) PATH '$.last_name',
+            main_addr varchar(50) PATH '$.main_addr',
+            detail_addr varchar(50) PATH '$.detail_addr',
+            post_num varchar(50) PATH '$.post_num',
+            tel varchar(15) PATH '$.tel',
+            registry_date timestamp PATH '$.registry_date'
+        ))t
+        where user_id =1 AND NOT num IS NULL
+        order by registry_date asc;
+    </select>
+<!--    arg1 :user_id, arg2:basicMain, arg3:deliveryIndex, arg4:Firstname, arg5:Lastname
+        arg6: mainAddr, arg7:detailAddr, arg8:postNum, arg9:Tel-->
+    <update id="update_deliveryAddr">
+        update order_list
+            set delivery_addr = json_set(delivery_addr,CONCAT("$[",#{OrderDelivery_info.deliveryIndex},"]"),
+                                    json_object("num",#{OrderDelivery_info.deliveryIndex},
+                                                "first_name",#{OrderDelivery_info.Firstname},
+                                                "last_name",#{OrderDelivery_info.Lastname},
+                                                "main_addr",#{OrderDelivery_info.mainAddr},
+                                                "detail_addr",#{OrderDelivery_info.detailAddr},
+                                                "post_num",#{OrderDelivery_info.postNum},
+                                                "tel",#{OrderDelivery_info.Tel},
+                                                "registry_date",current_timestamp())),
+                delivery_main_index = #{OrderDelivery_info.basicMain}
+        where user_id=#{user_id};
+    </update>
+    <update id="update_deleteAddr">
+        update order_list
+        set delivery_addr = json_set(delivery_addr,concat("$[",#{OrderDelivery_info.deliveryIndex},"]"),(json_object())),
+            delivery_main_index = #{OrderDelivery_info.basicMain}
+        where user_id =#{user_id};
+    </update>
+    <update id="update_orderInfo">
+        update order_list
+        set order_info =#{orderInfo} where user_id =#{user_id}
+    </update>
+    <update id="update_singleQuantity">
+        update Product_artist
+        set option_size=JSON_REPLACE(option_size,'$.option[1]',#{optionQuantity}) where id =#{productNo};
+    </update>
+    <!-- 1:productNo, 2:optionNo, 3:optionQuantity-->
+    <update id="update_multiQuantity">
+        update Product_artist
+        set option_size=JSON_REPLACE(option_size,'$.option[#{optionNo}][1]',#{optionQuantity}) where id =#{productNo}
+    </update>
+    <select id="select_orderList" resultType="Order">
+        select single_multiple as singleMultiple,
+            CAST(product_no as unsigned) productNo,
+            REGEXP_SUBSTR(option_ment,'[0-9]+') maxQuantity,
+            price,
+            json_key as cartKey,
+            JSON_EXTRACT(main_img,'$.img[0][0]') mainImg,
+            title,
+            JSON_EXTRACT(option_size, CONCAT('$.option[',option_no,'][0]')) optionTitle,
+            quantity
+        from
+            (select row_number() over(order by t1.order_date desc) no, t1.*
+            from
+                (select
+                    json_key,
+                    SUBSTRING_INDEX(json_key,"x",1) as single_multiple,
+                    SUBSTRING_INDEX(SUBSTRING_INDEX(json_key,"x",2),"x",-1) as product_no,
+                    SUBSTRING_INDEX(json_key,"x",-1) as option_no,
+                    json_extract(option_json,concat('$.',json_key,'[0]')) quantity,
+                    json_extract(option_json,concat('$.',json_key,'[1]')) order_date
+                from Cart,json_table(JSON_KEYS(option_json),
+                '$[*]' COLUMNS(json_key varchar(20) PATH '$')) t
+                where user_id = #{arg0}) t1
+            ) ex_cart inner join Product_artist pa
+        on ex_cart.product_no = pa.id
+        where no>#{arg1}
+        order by no
+    </select>
+    <select id="select_orderListLength" resultType="Integer">
+        select json_length(option_json) orderList_count
+        from order_list
+        where user_id = #{user_id}
+    </select>
+</mapper>

@@ -149,13 +149,13 @@ request.setCharacterEncoding("UTF-8");
 			</h1>
 		</nav>
 		<nav class="navLeft">
-		    <c:if test="${not empty artistId && artistId ne 0}">
+            <button id="searchBtn" class="header_btn" type="button">
                 <nav class="current_artist">
                     <span id="currentArtist"></span>
                 </nav>
-		    </c:if>
-            <button id="searchBtn" class="header_btn" type="button">
-                <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+                <span class="artist_searchIcon">
+                    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+                </span>
             </button>
 	        <c:if test="${loginGrade eq 0}">
 	            <a href="${rootInfo}" class="header_btn">

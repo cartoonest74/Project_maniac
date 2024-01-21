@@ -11,6 +11,47 @@ $(function(){
          }
          addrEdit_Box.style.display = is_display;
    }
+   const mainDeliveryAdd_tag=()=>{
+        const addrPart = document.getElementById("addrPart")
+        const main_deliveryAdd_tag = `<nav data-order-header="deliveryAddr" data-orderHeader-part="add" class="orderInfoHeader justify-content-between">
+                                                        <h2>배송주소</h2>
+                                                        <button id="OrderRegistry_delivery" type="button">등록</button>
+                                                    </nav>
+                                                    <div data-order-caption="deliveryAddr" class="orderInfoSubCaption">배송 주소 정보를 등록주세요</div>`
+        addrPart.innerHTML = main_deliveryAdd_tag
+        return ""
+   }
+   /* main 배송주소 업데이트 태그 */
+   const create_mainDeliveryInfo_tag=()=>{
+       const arr_addrSelect = document.querySelectorAll('[name="addrSelect"]');
+       if(arr_addrSelect.length == 0){
+            mainDeliveryAdd_tag();
+       }
+       let menu_checkIndex = 0;
+       arr_addrSelect.forEach((val)=>{
+            if(val.checked){
+                menu_checkIndex = val.value
+            }
+       });
+       const arr_addrCheckData = document.querySelectorAll(`p[data-addrSelect-num="${menu_checkIndex}"]`)
+       let addrCheck_text = ""
+       arr_addrCheckData.forEach((val)=>{
+                addrCheck_text += "<p>"+val.innerHTML+"</p>";
+       });
+
+       const cap_deliveryAddr = document.querySelector('[data-order-caption="deliveryAddr"]');
+       cap_deliveryAddr.innerHTML = addrCheck_text;
+
+       const popup_tag = "addrEdit_Box";
+       exit_termBox(popup_tag)
+
+       /* 기본마크 지우기 */
+       const basic_mark_tag = document.querySelector("[data-basic-check]");
+       if(basic_mark_tag == null){
+            return ""
+       }
+       basic_mark_tag.remove()
+   }
 
 // 주문지 및 배송지 팝업창 닫기
    const exit_termBox = (popup_tag)=>{
@@ -25,8 +66,7 @@ $(function(){
    });
 
    $(document).on("click","button#editAddrClose",function(){
-        const popup_tag = "addrEdit_Box";
-        exit_termBox(popup_tag)
+        create_mainDeliveryInfo_tag();
    })
 
 // TODO RegistryInfo
@@ -239,8 +279,10 @@ $(function(){
                                        </div>`
             return orderRegistryDelivery_tag;
    }
+   /* 배송지 주소선택 메뉴 - 메뉴 태그 */
    const create_deliveryInfo_tag = (obj_deliveryInfo)=>{
-        const home_deliveryIndex = document.querySelector('input[name="home_deliveryIndex"]').value
+        const home_deliveryIndex_tag = document.querySelector('input[name="home_deliveryIndex"]')
+        const home_deliveryIndex = home_deliveryIndex_tag != null? home_deliveryIndex_tag.value:0
         const basic_main = obj_deliveryInfo.basic_main;
         const delivery_index = obj_deliveryInfo.delivery_index;
         const firstname = obj_deliveryInfo.firstname.trim();
@@ -251,8 +293,10 @@ $(function(){
         const tel = obj_deliveryInfo.tel.trim();
 //        console.log("basic_main",basic_main)
 //        console.log("delivery_index",delivery_index)
-        /* main에 나와 있는 배송주소 index로 check*/
+
+        /* main에 나와 있는 배송주소 index로 check */
         const main_check = home_deliveryIndex == delivery_index? "checked": "";
+
         /* 기본설정 */
         const basic_mark = basic_main == delivery_index? `<span data-basic-check="${basic_main}" class="addrBasic_mark">기본</span>` : "";
 
@@ -288,7 +332,7 @@ $(function(){
         return deliveryInfo_tag;
    }
 
-   // 배송지 정보 변경 태그
+   // 배송지 주소 정보 메뉴 - 변경 태그
    const create_orderRegistryDelivery_editTag = (json_array)=>{
         const arr_deliveryInfo_tag = new Array();
         let top_index  = 0;
@@ -306,7 +350,6 @@ $(function(){
             }
             j_index ++;
         }
-        console.log(top_index)
         if(arr_deliveryInfo_tag.length > 1){
             const basic_tag = arr_deliveryInfo_tag.splice(top_index,1);
             arr_deliveryInfo_tag.unshift(basic_tag);
@@ -364,6 +407,7 @@ $(function(){
         /* orderInfoHeader */
         const change_orderInfoHeaderTag = document.querySelector("[data-order-header="+caption_selector+"]")
         const header_part = change_orderInfoHeaderTag.getAttribute("data-orderHeader-part");
+
         /* 등록모드가 아닐경우 이미 변경된 것이기 떄문에 반환 */
         if(header_part != "add"){
             return ""
@@ -413,8 +457,8 @@ $(function(){
             const registry_name = item.getAttribute("data-registry-name")
             const registry_val = registryObj[registry_name].value
             const registryObj_errorMsg = registryObj[registry_name].error_msg
-//            console.log("registry_val",registry_val)
 //            console.log("registry_name",registry_name)
+//            console.log("registry_val",registry_val)
             if(! registry_val.length){
                 registryInfo_msg("on",registry_name,registryObj_errorMsg);
             }else{
@@ -425,6 +469,7 @@ $(function(){
 
         const object_keys = Object.keys(req_InfoData);
         let info_tag = ""
+        /* 배송주소 처음 등록할 경우 main에 들어갈 tag */
         for(let i=0; i<object_keys.length; i++){
             let item = object_keys[i];
             let object_val =  req_InfoData[item];
@@ -553,6 +598,7 @@ $(function(){
         const orderRegistryDelivery_tag = create_orderRegistryDelivery_tag(basic_index,delivery_index);
         body_append("afterbegin",orderRegistryDelivery_tag)
         registryObj["basicMain"].value = delivery_index;
+        registryObj["deliveryIndex"].value = delivery_index;
         addrEditBox_display("none");
         const arr_registry_name = document.querySelectorAll("input[data-registry-name]");
         arr_registry_name.forEach((val)=>{
@@ -566,53 +612,36 @@ $(function(){
 
    // 배송지 주소선택 메뉴 박스 - 삭제
    $(document).on("click","button[data-addr-del]",async function(e){
-        const delivery_num = e.target.getAttribute("data-addr-del");
+        const delivery_delNum = e.target.getAttribute("data-addr-del");
         const del_deliveryInfo_resolve = "/order/del_deliveryInfo"
         const arr_addrSelect = document.querySelectorAll('input[name="addrSelect"]');
         const basic_check_index = document.querySelector('span[data-basic-check]').getAttribute("data-basic-check");
-
+        const home_deliveryIndex_tag = document.querySelector('input[name="home_deliveryIndex"]');
         /* 기본 주소를 삭제할경우 2번째 주소가 기본이 되게 설정 */
-        const basic_main = basic_check_index == delivery_num && arr_addrSelect.length > 1? arr_addrSelect[1].value : 0;
-        console.log("basic_main",basic_main)
+        const basic_main = basic_check_index == delivery_delNum && arr_addrSelect.length > 1? arr_addrSelect[1].value : 0;
         const formData = new FormData();
         formData.append("basicMain",basic_main);
-        formData.append("deliveryIndex",delivery_num);
+        formData.append("deliveryIndex",delivery_delNum);
 
         const update_delAddr = await axios.put(del_deliveryInfo_resolve,formData)
                                          .then((response)=>response.data)
                                          .then(data=>console.log(data));
+
         exit_termBox("addrEdit_Box");
         const orderRegistryDelivery_editTag = await post_deliveryInfo();
         body_append("afterbegin",orderRegistryDelivery_editTag);
+        /* 배송지 주소 선택 메뉴 창에 menu list가 0일 경우 #addrPart 등록모드로 변경
+            , main home_index == delivery_delNum 같은 경우
+            [data-order-caption="deliveryAddr"]안에 비우기 */
+        if(home_deliveryIndex_tag.value == delivery_delNum){
+            const caption_delivery = document.querySelector('div[data-order-caption="deliveryAddr"]')
+            caption_delivery.innerHTML = "";
+        }
    });
 
    // 배송지 선택 메뉴 OK 버튼
    $(document).on("click","button#editDeliveryMenu_ok",function(){
-       const arr_addrSelect = document.querySelectorAll('[name="addrSelect"]');
-       let menu_checkIndex = 0;
-       arr_addrSelect.forEach((val)=>{
-            if(val.checked){
-                menu_checkIndex = val.value
-            }
-       });
-       const arr_addrCheckData = document.querySelectorAll(`p[data-addrSelect-num="${menu_checkIndex}"]`)
-       let addrCheck_text = ""
-       arr_addrCheckData.forEach((val)=>{
-                addrCheck_text += "<p>"+val.innerHTML+"</p>";
-       });
-
-       const cap_deliveryAddr = document.querySelector('[data-order-caption="deliveryAddr"]');
-       cap_deliveryAddr.innerHTML = addrCheck_text;
-
-       const popup_tag = "addrEdit_Box";
-       exit_termBox(popup_tag)
-
-       /* 기본마크 지우기 */
-       const basic_mark_tag = document.querySelector("[data-basic-check]");
-       if(basic_mark_tag == null){
-            return ""
-       }
-        basic_mark_tag.remove()
+        create_mainDeliveryInfo_tag();
    });
 
    //배송지정보 save btn
@@ -629,7 +658,6 @@ $(function(){
         registryObj["postNum"].value =document.querySelector("#postNum").value;
         registryObj["deliveryIndex"].value =document.querySelector('input[data-registry-name="deliveryIndex"]').value;
         const save_source = await info_save_source(caption_selector,resolve_mapping)
-
         /*배송지 주소선택 메뉴 박스 check*/
         const addrEdit_Box = document.querySelector("#addrEdit_Box")
         if(addrEdit_Box == null){

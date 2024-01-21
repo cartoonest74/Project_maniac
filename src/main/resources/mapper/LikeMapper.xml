@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hello.market.repository.mybatis.like.LikeMapper">
+    <insert id="update">
+        update Product_like
+        set option_json = JSON_SET(option_json,#{productId},#{categoryId})
+        where user_id =#{memberId};
+    </insert>
+    <delete id="delete">
+        update Product_like
+        set option_json = JSON_REMOVE(option_json,#{param2})
+        where id =#{param1};
+    </delete>
+    <select id="select" resultType="Product">
+        select pa.id, pa.artist_id artistId,
+            pa.title, pa.price,
+            JSON_EXTRACT(main_img,"$.img[0][0]") mainImg
+        from Product_artist pa inner join
+            (select row_number() over(order by pl_json.product_id) no, product_id, artist_id
+            from(
+                select SUBSTRING(json_key,2) product_id, JSON_EXTRACT(option_json,CONCAT('$.',json_key)) artist_id
+                from product_like,
+                    json_table(JSON_KEYS(option_json),'$[*]' COLUMNS(json_key varchar(20) PATH '$'))t
+                where user_id = #{memberId}
+            )pl_json
+        <if test="artistId != 0">
+            where artist_id = #{artistId}
+        </if>
+            ) pl on pa.id = pl.product_id
+        where pl.no>#{limit}
+        order by pl.no limit 10;
+    </select>
+    <select id="selectLength" resultType="Integer">
+        select count(*)
+        from(
+            select json_extract(option_json,CONCAT('$.',json_key)) artist_id
+            from product_like,
+                json_table(JSON_KEYS(option_json),
+                '$[*]' COLUMNS(json_key varchar(20) PATH '$'))t
+            where user_id =#{memberId})pl_json
+        <if test="artistId != 0">
+            where artist_id = #{artistId};
+        </if>
+    </select>
+    <select id="selectCategory" resultType="Artist">
+        select art.id, art.name
+        from artist art inner join (
+            select JSON_EXTRACT(option_json, CONCAT('$.',json_key)) artist_id
+            from Product_like, json_table(JSON_KEYS(option_json),'$[*]' columns(json_key varchar(20) PATH '$'))t
+            where user_id = #{memberId}
+            ) pl on art.id = pl.artist_id
+        group by id;
+    </select>
+    <select id="selectLike" resultType="Integer">
+        select SUBSTRING(json_key,2) productId
+        from Product_like,
+            json_table(JSON_KEYS(option_json),'$[*]' columns(json_key varchar(20) PATH '$'))t
+        where user_id = #{memberId};
+    </select>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hello.market.repository.mybatis.artist.artistMv.ArtistMvMapper">
+    <select id="select" resultType="Artist_mv">
+        select *
+        from (select
+            row_number() over (order by mv_date desc) rowNum,
+        DATE_FORMAT(mv_date,"%Y-%m-%d") mvDate,
+            mv_name mvName,
+            mv_href mvHref
+            from artist, json_table(mv ->> "$.mv","$[*]" columns(
+            mv_date timestamp path "$[0]",
+            mv_name varchar(90) path "$[1]",
+            mv_href varchar(100) path "$[2]"
+            ))t
+        where id =#{id}) mv_table
+        where rowNum > #{limit};
+    </select>
+    <select id="select_total" resultType="Integer">
+        select json_length(mv ->> "$.mv") total
+        from artist
+        where id=#{id};
+    </select>
+</mapper>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hello.market.repository.mybatis.shopReview.ShopReviewMapper">
+
+    <insert id="insert">
+        INSERT INTO Shop_review(product_no, user_id, url, content)
+        VALUES(#{productNo}, #{userNo}, #{url}, #{content})
+    </insert>
+
+    <delete id="delete">
+        delete from Shop_review
+        where id = #{id}
+    </delete>
+
+    <select id="selectAll" resultType="ShopReview">
+        select 	id,
+            title,
+            productNo,
+            userNo,
+            userId,
+            url,
+            content,
+            date  from
+            (select row_number() over(order by id desc) no,
+                sr.id as id,
+                pa.title,
+                product_no as productNo,
+                m.id userNo,
+                m.user_id userId,
+                sr.url url,
+                sr.content content,
+                sr.date date
+            from Shop_review as sr
+                inner join Member m
+                    on sr.user_id = m.id
+                inner join Product_artist pa
+                    on sr.product_no = pa.id
+            where product_no = #{arg0}) as review
+        where review.no > #{arg1}
+        order by date desc limit 10
+    </select>
+
+    <select id="selectLength" resultType="Integer">
+        select
+        <if test="arg0 != 0">
+            count(product_no)
+        </if>
+        <if test="arg1 != 0">
+            count(user_id)
+        </if>
+        from shop_review
+        <if test="arg0 != 0">
+            group by product_no
+            having product_no = #{arg0}
+        </if>
+        <if test="arg1 != 0">
+            group by user_id
+            having user_id = #{arg1}
+        </if>
+    </select>
+    <select id="select" resultType="shopReview">
+        select id,
+            title,
+            productNo,
+            userNo,
+            userId,
+            url,
+            content,
+            date  from
+            (select row_number() over(order by id desc) noo,
+                sr.id as id,
+                pa.title,
+                product_no as productNo,
+                m.id userNo,
+                m.user_id userId,
+                sr.url url,
+                sr.content content,
+                sr.date date
+            from Shop_review as sr
+            inner join Member m
+                on sr.user_id = m.id
+            inner join Product_artist pa
+                on sr.product_no = pa.id
+        where sr.user_id = #{arg0} and product_no = #{arg1}) as review
+        order by date desc limit 10
+    </select>
+    <update id="update">
+
+    </update>
+</mapper>

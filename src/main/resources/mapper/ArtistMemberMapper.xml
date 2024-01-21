@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hello.market.repository.mybatis.artist.artistMember.ArtistMemberMapper">
+    <select id="select" resultType="Artist_member">
+        select row_num,
+            member_src ->> "$[0]" memberSrc,
+            member_info ->> "$[0]" artistName,
+            member_info ->> "$[1]" enName,
+            member_info ->> "$[2]" koName,
+            member_info ->> "$[3]" birth,
+            member_info ->> "$[4]" country
+        from artist, json_table(member_img ->> "$.img", "$[*]" columns(
+                row_num for ordinality,
+                member_src json path "$"
+                )) json_memberSrc
+        inner join
+                json_table(member ->> "$.member", "$[*]" columns(
+                row_num2 for ordinality,
+                member_info json path "$"
+                )) json_memberInfo
+        on json_memberSrc.row_num = json_memberInfo.row_num2
+        where id = #{id};
+    </select>
+</mapper>

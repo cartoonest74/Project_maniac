@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hello.market.repository.mybatis.artist.artistImg.ArtistImgMapper">
+    <select id="select" resultType="Artist_img">
+        select row_num rowNum,
+            imgJson ->> "$[0]" artistSrc,
+            name artistName
+        from artist, json_table(artist_img ->> "$.img", "$[*]" columns (
+        row_num for ordinality,
+        imgJson json path "$"
+        ))t
+        where id =#{id} and row_num > #{limit}
+        order by row_num limit 10;
+    </select>
+    <select id="select_total" resultType="Integer">
+        select json_length(artist_img ->> "$.img") total from artist
+        where id = #{id};
+    </select>
+</mapper>

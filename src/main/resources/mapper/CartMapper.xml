@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hello.market.repository.mybatis.cart.CartMapper">
+    <insert id="create_cart">
+        insert into Cart(user_id) values(#{user_id})
+    </insert>
+<!--    arg0: user_id
+        arg1: productNo -->
+    <update id="save">
+        UPDATE Cart
+        SET option_json = JSON_SET(option_json,#{arg1},json_array(#{arg2},CURDATE()))
+        WHERE user_id = #{arg0}
+    </update>
+<!--    arg0: user_id
+        arg1: productNo -->
+    <update id="delete">
+        update Cart
+        set option_json = JSON_REMOVE(option_json,#{arg1})
+        where id = #{arg0};
+    </update>
+<!--    arg0: user_id
+        arg1: limit -->
+    <select id="select" resultType="Cart">
+        select single_multiple as singleMultiple,
+            CAST(product_no as unsigned) productNo,
+            REGEXP_SUBSTR(option_ment,'[0-9]+') maxQuantity,
+            price,
+            json_key as cartKey,
+            JSON_EXTRACT(main_img,'$.img[0][0]') mainImg,
+            title,
+            JSON_EXTRACT(option_size, CONCAT('$.option[',option_no,'][0]')) optionTitle,
+            quantity
+        from
+            (select row_number() over(order by t1.cart_date desc) no, t1.*
+            from
+                (select
+                    json_key,
+                    SUBSTRING_INDEX(json_key,"x",1) as single_multiple,
+                    SUBSTRING_INDEX(SUBSTRING_INDEX(json_key,"x",2),"x",-1) as product_no,
+                    SUBSTRING_INDEX(json_key,"x",-1) as option_no,
+                    json_extract(option_json,concat('$.',json_key,'[0]')) quantity,
+                    json_extract(option_json,concat('$.',json_key,'[1]')) cart_date
+                from Cart,json_table(JSON_KEYS(option_json),
+                    '$[*]' COLUMNS(json_key varchar(20) PATH '$')) t
+                where user_id = #{arg0}) t1
+                ) ex_cart inner join Product_artist pa
+        on ex_cart.product_no = pa.id
+        where no>#{arg1}
+        order by no;
+    </select>
+<!--    arg0:productNo, arg1:option_id, arg2:quantity-->
+    <select id="quantity_check" resultType="Cart">
+        select title,
+            json_key cartKey,
+            JSON_EXTRACT(option_size, CONCAT("$.option[",option_no,"][0]")) optionTitle,
+            (JSON_EXTRACT(option_size, CONCAT("$.option[",option_no,"][1]"))-quantity) restQuantity,
+            quantity
+        from
+            (select
+                json_key,
+                SUBSTRING_INDEX(SUBSTRING_INDEX(json_key,"x",2),"x",-1) as product_no,
+                SUBSTRING_INDEX(json_key,"x",-1) as option_no,
+                json_extract(option_json,concat('$.',json_key,'[0]')) quantity
+            from Cart,json_table(JSON_KEYS(option_json),
+                '$[*]' COLUMNS(json_key varchar(20) PATH '$')) t
+            where user_id =#{user_id})as ex_cart
+        inner join Product_artist pa
+        on ex_cart.product_no = pa.id;
+    </select>
+    <select id="cart_length" resultType="Integer">
+        select count(SUBSTRING_INDEX(SUBSTRING_INDEX(json_key,"x",2),"x",-1)) as cart_length
+            from Cart,json_table(JSON_KEYS(option_json),
+            '$[*]' COLUMNS(json_key varchar(20) PATH '$')) t
+        where user_id =#{user_id};
+    </select>
+</mapper>

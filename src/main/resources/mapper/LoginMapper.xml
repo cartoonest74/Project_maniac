@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hello.market.repository.mybatis.login.LoginMapper">
+    <select id="inspect" resultType="Member">
+        select id, user_id as userId, name, birth, gender, addr, phone, email, grade
+        from Member
+        where
+            user_id = #{arg0} and pwd = #{arg1}
+    </select>
+
+    <select id="select" resultType="LoginCheck">
+        select *
+        from
+            login_check
+        where
+            uuid = #{uuid}
+    </select>
+    <insert id="insert">
+        insert into login_check values(#{arg0}, #{arg1})
+    </insert>
+    <delete id="delete">
+        delete from login_check where userNo = #{userNo}
+    </delete>
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hello.market.repository.mybatis.product.ProductMapper">
+    <insert id="insert">
+
+    </insert>
+    <update id="update">
+
+    </update>
+    <delete id="delete">
+
+    </delete>
+    <select id="select" resultType="Product">
+        select id, artist_id as artistId, title, category, price,
+            option_ment as optionMent,
+            JSON_UNQUOTE(main_img -&gt; '$.img[0][0]') as mainImg,
+            REPLACE(
+                REPLACE(
+                    REPLACE(JSON_UNQUOTE(sub_img -> '$.img'),'[','')
+                    ,']',''),
+            '"','')as subImg,
+            REPLACE(
+                REPLACE(
+                    REPLACE(JSON_UNQUOTE(notice -> '$.p_notice'),'[','')
+                    ,']',''),
+            '"','')as notice,
+            REPLACE(
+                REPLACE(
+                    REPLACE(JSON_UNQUOTE(option_size -> '$.option'),'[','')
+                ,']',''),
+            '"','')as optionList
+        from Product_artist
+        where id = #{id}
+    </select>
+    <select id="select_all" resultType="Product">
+        select no, id, artist_id as artistId, title, category, price,
+            JSON_UNQUOTE(main_img -> '$.img[0][0]') as mainImg
+        from (select row_number() over(order by id)as no,
+                id, artist_id, title, category, price,main_img,date
+            from Product_artist
+            where artist_id = #{arg0} and category = #{arg1}
+            )as pa
+        where pa.no > #{arg2}
+        order by date desc limit 20
+    </select>
+    <select id="selectLength" resultType="Integer">
+        select count(*)
+        from product_artist
+        where artist_id=#{arg0} and category=#{arg1}
+        group by category;
+    </select>
+</mapper>

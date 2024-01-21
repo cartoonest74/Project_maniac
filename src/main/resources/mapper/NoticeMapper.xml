@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hello.market.repository.mybatis.notice.NoticeMapper">
+    <select id="selectAll" resultType="Notice">
+        select id,
+            artistId,
+            category,
+            REPLACE(JSON_EXTRACT(title,"$.title"),'"','') title,
+            SUBSTR(
+            JSON_EXTRACT(content,"$.content"),2,(CHAR_LENGTH(JSON_EXTRACT(content,"$.content"))-2)
+            ) content,
+        TRIM(SUBSTRING(date,1,10)) date
+        from
+            (select row_number() over(order by id) no,
+                an.id,
+                an.artist_id artistId,
+                an.category category,
+                an.title title,
+                an.content content,
+                an.date date
+            from artist_notice as an
+            where artist_id = #{param1}) as notice
+        where notice.no > #{param2}
+        order by date desc limit 10;
+    </select>
+    <select id="select" resultType="Notice">
+        select id, artist_id artistId, category,
+            REPLACE(JSON_EXTRACT(title,"$.title"),'"','') title,
+            SUBSTR(
+            JSON_EXTRACT(content,"$.content"),2,(CHAR_LENGTH(JSON_EXTRACT(content,"$.content"))-2)
+            ) content,
+            TRIM(SUBSTR(date,1,10)) date
+        from artist_notice
+        where id =#{noticeId};
+    </select>
+    <select id="selectLength" resultType="Integer">
+        select count(*)
+        from artist_notice
+        where artist_id = #{artistId}
+        group by artist_id;
+    </select>
+</mapper>

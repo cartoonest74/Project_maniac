@@ -5,7 +5,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 **/src/main/resources/
-**/src/main/webapp/js/order/**.js
+**/src/main/webapp/js/order/order.js
 **/src/test/
 
 ### STS ###

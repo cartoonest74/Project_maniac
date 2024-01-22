@@ -97,17 +97,19 @@ a{
 /* navLeft */
 .navLeft{
     position: absolute;
-    display:inline-block;
+    display:flex;
+    align-items:center;
     padding:5px;
     top:0;
     right:0;
+    margin-left:50px;
 }
 .current_artist{
     display:inline-block;
     padding:3px 15px;
     background-color:black;
     color:white;
-    font-size:inherit;
+    font-size:1.3em;
     font-weight:600;
     border-radius:80px;
 }
@@ -117,17 +119,22 @@ a{
 .leftForm{
     display:inline-block;
 }
-
 .header_btn{
     display:inline-block;
-    cursor:pointer;
-    font-size:2rem;
+    font-size:2em;
     margin-right:10px;
     background-color:transparent;
     border:0px;
+    cursor:pointer;
+}
+button[class="header_btn"]{
+    display:flex;
+    align-items:center;
+    padding:0px;
 }
 .artist_searchIcon{
     font-size:inherit;
+    margin-left:2px;
 }
 .header_btn i{
     font-size:inherit;

@@ -2,6 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hello.market.repository.mybatis.order.OrderMapper">
+<!--    arg1 :user_id, arg2:basicMain, arg3:deliveryIndex, arg4:Firstname, arg5:Lastname
+        arg6: mainAddr, arg7:detailAddr, arg8:postNum, arg9:Tel-->
+    <update id="update_deliveryAddr">
+        update order_list
+            set delivery_addr = json_set(delivery_addr,CONCAT("$[",#{OrderDelivery_info.deliveryIndex},"]"),
+                                    json_object("num",#{OrderDelivery_info.deliveryIndex},
+                                                "first_name",#{OrderDelivery_info.Firstname},
+                                                "last_name",#{OrderDelivery_info.Lastname},
+                                                "main_addr",#{OrderDelivery_info.mainAddr},
+                                                "detail_addr",#{OrderDelivery_info.detailAddr},
+                                                "post_num",#{OrderDelivery_info.postNum},
+                                                "tel",#{OrderDelivery_info.Tel},
+                                                "registry_date",current_timestamp())),
+                delivery_main_index = #{OrderDelivery_info.basicMain}
+        where user_id=#{user_id};
+    </update>
+    <update id="update_deleteAddr">
+        update order_list
+        set delivery_addr = json_set(delivery_addr,concat("$[",#{OrderDelivery_info.deliveryIndex},"]"),(json_object())),
+            delivery_main_index = #{OrderDelivery_info.basicMain}
+        where user_id =#{user_id};
+    </update>
+    <update id="update_orderInfo">
+        update order_list
+        set order_info =#{orderInfo} where user_id =#{user_id}
+    </update>
+    <update id="update_singleQuantity">
+        update Product_artist
+        set option_size=JSON_REPLACE(option_size,'$.option[1]',#{optionQuantity}) where id =#{productNo};
+    </update>
+    <!-- 1:productNo, 2:optionNo, 3:optionQuantity-->
+    <update id="update_multiQuantity">
+        update Product_artist
+        set option_size=JSON_REPLACE(option_size,'$.option[#{optionNo}][1]',#{optionQuantity}) where id =#{productNo}
+    </update>
     <select id="select_orderInfo" resultType="OrderRegistry_info">
         select first_name Firstname,
             last_name Lastname,
@@ -39,41 +74,6 @@
         where user_id =1 AND NOT num IS NULL
         order by registry_date asc;
     </select>
-<!--    arg1 :user_id, arg2:basicMain, arg3:deliveryIndex, arg4:Firstname, arg5:Lastname
-        arg6: mainAddr, arg7:detailAddr, arg8:postNum, arg9:Tel-->
-    <update id="update_deliveryAddr">
-        update order_list
-            set delivery_addr = json_set(delivery_addr,CONCAT("$[",#{OrderDelivery_info.deliveryIndex},"]"),
-                                    json_object("num",#{OrderDelivery_info.deliveryIndex},
-                                                "first_name",#{OrderDelivery_info.Firstname},
-                                                "last_name",#{OrderDelivery_info.Lastname},
-                                                "main_addr",#{OrderDelivery_info.mainAddr},
-                                                "detail_addr",#{OrderDelivery_info.detailAddr},
-                                                "post_num",#{OrderDelivery_info.postNum},
-                                                "tel",#{OrderDelivery_info.Tel},
-                                                "registry_date",current_timestamp())),
-                delivery_main_index = #{OrderDelivery_info.basicMain}
-        where user_id=#{user_id};
-    </update>
-    <update id="update_deleteAddr">
-        update order_list
-        set delivery_addr = json_set(delivery_addr,concat("$[",#{OrderDelivery_info.deliveryIndex},"]"),(json_object())),
-            delivery_main_index = #{OrderDelivery_info.basicMain}
-        where user_id =#{user_id};
-    </update>
-    <update id="update_orderInfo">
-        update order_list
-        set order_info =#{orderInfo} where user_id =#{user_id}
-    </update>
-    <update id="update_singleQuantity">
-        update Product_artist
-        set option_size=JSON_REPLACE(option_size,'$.option[1]',#{optionQuantity}) where id =#{productNo};
-    </update>
-    <!-- 1:productNo, 2:optionNo, 3:optionQuantity-->
-    <update id="update_multiQuantity">
-        update Product_artist
-        set option_size=JSON_REPLACE(option_size,'$.option[#{optionNo}][1]',#{optionQuantity}) where id =#{productNo}
-    </update>
     <select id="select_orderList" resultType="Order">
         select single_multiple as singleMultiple,
             CAST(product_no as unsigned) productNo,

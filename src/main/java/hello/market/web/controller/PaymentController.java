@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 public class PaymentController {
     @ResponseBody
     @PostMapping("/complete")
-    private String callback_receive(Portone entity) {
-        String txId = entity.getTxId();
-        String paymentId = entity.getPaymentId();
+    private String callback_receive(@ModelAttribute Portone portone) {
+        String txId = portone.getTxId();
+        String paymentId = portone.getPaymentId();
         log.info("txId = {},paymentId ={}", txId, paymentId);
         return "ok";
     }

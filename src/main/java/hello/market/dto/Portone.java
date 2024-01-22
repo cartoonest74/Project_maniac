@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class Portone {
     private String txId;
     private String paymentId;
-    private String code;
-    private String message;
+    private String purchaseList;
+    private String amount;
 }

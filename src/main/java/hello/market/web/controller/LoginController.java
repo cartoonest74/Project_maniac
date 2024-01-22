@@ -46,6 +46,7 @@ public class LoginController {
         member = new Member();
         member = loginService.loginAction(id, pwd);
         if (Objects.isNull(member)) {
+            log.info("pwdNo");
             return "pwdNo";
         }
 

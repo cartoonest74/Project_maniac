@@ -90,6 +90,9 @@
     .chapter_mainBox{
         width:100%;
     }
+    .chapter_mainTitle h2{
+        font-size:1.8em;
+    }
 
     /*shop*/
     .shopMainContent{
@@ -107,7 +110,7 @@
     }
     /*header*/
     .current_artist{
-        font-size:1.5em;
+        font-size:3vw;
     }
     .orBox{
            width:100%;

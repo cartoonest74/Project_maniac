@@ -32,6 +32,7 @@ request.setCharacterEncoding("UTF-8");
 <script src="https://code.jquery.com/jquery-2.2.4.js"
 	  integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
 	  crossorigin="anonymous"></script>
+<!-- axios -->
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script type="text/javascript" src="${contextPath}/js/order/order.js"></script>
@@ -265,9 +266,8 @@ request.setCharacterEncoding("UTF-8");
                         <label for="termsOfuseOk">
                             <input type="checkbox" name="termsOfuseCheck" value="termsOfuseOk">
                             <span>
-                                <span class="termsOfuseCheck">
-                                    <i class="fa-solid fa-circle-check fa-lg"></i>
-                                    &nbsp;
+                                <span id="final_termCheck_icon" class="termsOfuseCheck">
+                                    <i class="fa-regular fa-circle-check fa-lg"></i>&nbsp;
                                 </span>
                                 <span>위 약관에 모두 동의합니다</span>
                             </span>

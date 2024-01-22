@@ -12,12 +12,12 @@ $(function() {
     }
     subMenu_none();
     const CONTEXTPATH = $("#contextPath").val();
-	const LOGINACTION_URL = CONTEXTPATH.concat("/login-action/login-inspect");
+	const LOGINACTION_URL = "/login-action/login-inspect";
 	const LOGINFORM_ERR_ID = "#LoginIdFormErr";
 	const LOGINFORM_ERR_PWD = "#loginPwdFormErr";
 	const ON = 'on';
 	
-	$("#loginActionBtn").click(function() {
+	$("#loginActionBtn").click(async function() {
 		const ID = $("#loginId").val();
 		const PWD = $("#loginPwd").val();
 		const LOGINFORM = $("#loginForm");
@@ -38,25 +38,19 @@ $(function() {
 		if(ID.trim().length < 5 || PWD.trim().length < 8){
 			return;
 		}
-		$.ajax({
-			type: "post",
-			async: true,
-			url: LOGINACTION_URL,
-			dataType: "text",
-			data: {
-				id: ID,
-				pwd: PWD
-			},
-			success: function(data, status) {
-				let dataMsgs = data.split(',').length
-				if (dataMsgs > 1) {
-					LOGINFORM_ERR_VISIBLE(LOGINFORM_ERR_ID, '', OFF);
-					LOGINFORM_ERR_VISIBLE(LOGINFORM_ERR_PWD, LOGINFORM_ERR_AND_MSG, ON);
-					return;
-				}
-				LOGINFORM.submit();
-			}
-		});
+		const formData = new FormData();
+		formData.append("id",ID)
+		formData.append("pwd",PWD)
+        const res_login = await axios.post(LOGINACTION_URL,formData)
+            .then((response)=>response.data).then(data=>{
+                    if (data != "") {
+                        LOGINFORM_ERR_VISIBLE(LOGINFORM_ERR_ID, '', OFF);
+                        LOGINFORM_ERR_VISIBLE(LOGINFORM_ERR_PWD, LOGINFORM_ERR_AND_MSG, ON);
+                        return;
+                    }
+                    console.log(11111)
+                    LOGINFORM.submit();
+        });
 	});
 
 	const LOGINFORM_ERR_VISIBLE = (err_id, err_msg, onoff) => {

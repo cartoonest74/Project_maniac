@@ -8,10 +8,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Maniac</title>
+<%
+	request.setCharacterEncoding("UTF-8");
+%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/loginForm.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/basic.css">
+<link rel="stylesheet" href="${contextPath}/css/loginForm.css">
+<link rel="stylesheet" href="${contextPath}/css/basic.css">
 <link rel="stylesheet" href="${contextPath}/css/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
 <link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
@@ -21,15 +25,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;900&display=swap" rel="stylesheet">
 
 
-<title>Maniac</title>
-<%
-	request.setCharacterEncoding("UTF-8");
-%>
 <script src="https://code.jquery.com/jquery-2.2.4.js"
 	  integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
 	  crossorigin="anonymous"></script>
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://kit.fontawesome.com/7938f26122.js" crossorigin="anonymous"></script>
+
+<!-- axios -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
 

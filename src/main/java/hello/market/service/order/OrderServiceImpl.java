@@ -3,6 +3,7 @@ package hello.market.service.order;
 import hello.market.dto.Order;
 import hello.market.dto.OrderDelivery_info;
 import hello.market.dto.OrderRegistry_info;
+import hello.market.dto.Portone;
 import hello.market.repository.mybatis.order.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,11 @@ public class OrderServiceImpl implements  OrderService {
     public OrderRegistry_info get_orderInfo(int user_id) {
         OrderRegistry_info orderRegistryInfo = orderRepository.select_orderInfo(user_id);
         return orderRegistryInfo;
+    }
+
+    @Override
+    public void add_purchaseList(int user_id, Portone portone) {
+        orderRepository.update_purchaseList(user_id, portone);
     }
 
     @Override

@@ -37,6 +37,11 @@
         update Product_artist
         set option_size=JSON_REPLACE(option_size,'$.option[#{optionNo}][1]',#{optionQuantity}) where id =#{productNo}
     </update>
+    <update id="update_purchaseList">
+        update Purchase
+        set purchase_list = json_set(purchase_list,#{Portone.paymentId},json_array(#{Portone.txId},#{Portone.purchaseList},#{Portone.amount},CURDATE()))
+        where user_id = #{user_id}
+    </update>
     <select id="select_orderInfo" resultType="OrderRegistry_info">
         select first_name Firstname,
             last_name Lastname,

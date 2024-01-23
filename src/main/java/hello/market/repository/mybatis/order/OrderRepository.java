@@ -3,6 +3,7 @@ package hello.market.repository.mybatis.order;
 import hello.market.dto.Order;
 import hello.market.dto.OrderDelivery_info;
 import hello.market.dto.OrderRegistry_info;
+import hello.market.dto.Portone;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ public interface OrderRepository {
 
     OrderRegistry_info select_orderInfo(int user_id);
 
+    void update_purchaseList(int user_id, Portone portone);
     void update_deleteAddr(int user_id, OrderDelivery_info orderDeliveryInfo);
     void update_deliveryAddr(int user_id, OrderDelivery_info orderDeliveryInfo);
     void update_orderInfo(int user_id,String orderInfo);

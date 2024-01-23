@@ -3,6 +3,7 @@ package hello.market.repository.mybatis.order;
 import hello.market.dto.Order;
 import hello.market.dto.OrderDelivery_info;
 import hello.market.dto.OrderRegistry_info;
+import hello.market.dto.Portone;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -26,6 +27,11 @@ public class MybatisOrderRepository implements OrderRepository {
     public OrderRegistry_info select_orderInfo(int user_id) {
         OrderRegistry_info orderRegistryInfo = orderMapper.select_orderInfo(user_id);
         return orderRegistryInfo;
+    }
+
+    @Override
+    public void update_purchaseList(int user_id, Portone portone) {
+        orderMapper.update_purchaseList(user_id, portone);
     }
 
     @Override

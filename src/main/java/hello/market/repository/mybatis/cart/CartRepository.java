@@ -1,12 +1,8 @@
 package hello.market.repository.mybatis.cart;
 
 import hello.market.dto.Cart;
-import org.apache.ibatis.annotations.Mapper;
-import org.json.JSONObject;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Map;
 
 public interface CartRepository {
 	List<Cart> quantity_check(int user_id);

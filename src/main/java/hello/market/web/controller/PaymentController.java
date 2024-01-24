@@ -1,19 +1,17 @@
 package hello.market.web.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import hello.market.dto.Portone;
 import hello.market.service.order.OrderService;
 import hello.market.web.session.LoginSessionManager;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Iterator;
 import java.util.Set;
 
 @Slf4j
@@ -25,12 +23,14 @@ public class PaymentController {
     private final LoginSessionManager loginSessionManager;
     @ResponseBody
     @PostMapping("/complete")
-    private String callback_receive(@ModelAttribute Portone portone, HttpServletRequest request) throws JsonProcessingException {
+    private String callback_receive(@ModelAttribute Portone portone, HttpServletRequest request) throws ParseException {
         Integer user_id = loginSessionManager.sessionUUIDcheck(request);
         String purchaseList = portone.getPurchaseList();
-        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
-        JSONObject jsonObject = mapper.readValue(purchaseList, JSONObject.class);
+        JSONParser jsonParser = new JSONParser();
+        Object parse = jsonParser.parse(purchaseList);
+        JSONObject jsonObject = (JSONObject) parse;
         Set<String> keySet = jsonObject.keySet();
+        log.info("keySet={}", keySet);
         log.info("jsonObject={}", jsonObject);
         for (String key : keySet) {
             String[] arr_cartKey = key.split("x");
@@ -45,7 +45,7 @@ public class PaymentController {
             log.info("product_id={}", product_id);
             log.info("quantity={}", quantity);
         }
-        orderService.add_purchaseList(user_id,portone);
+//        orderService.add_purchaseList(user_id,portone);
         return "ok";
     }
 }

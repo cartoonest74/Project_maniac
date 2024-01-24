@@ -1,21 +1,14 @@
 package hello.market.web.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import hello.market.dto.Product;
-import hello.market.dto.Cart;
 import hello.market.repository.mybatis.cart.CartRepository;
-import hello.market.service.Cart.CartService;
 import hello.market.service.like.LikeService;
-import hello.market.service.member.MemberService;
 import hello.market.service.product.ProductService;
 import hello.market.web.session.LoginSessionManager;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

@@ -18,10 +18,10 @@ request.setCharacterEncoding("UTF-8");
 
 <link rel="stylesheet" href="${contextPath}/css/order/order.css">
 <link rel="stylesheet" href="${contextPath}/css/order/orderRegistry.css">
-<link rel="stylesheet" href="${contextPath}/css/order/orderTerms.css">
 <link rel="stylesheet" href="${contextPath}/css/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
 <link rel="stylesheet" href="${contextPath}/css/basic.css">
+<link rel="stylesheet" href="${contextPath}/css/order/orderTerms.css">
 <link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,6 +36,7 @@ request.setCharacterEncoding("UTF-8");
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script type="text/javascript" src="${contextPath}/js/order/order.js"></script>
+<script type="text/javascript" src="${contextPath}/js/order/order_term.js"></script>
 <script type="text/javascript" src="${contextPath}/js/order/order_registry.js"></script>
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
@@ -257,11 +258,11 @@ request.setCharacterEncoding("UTF-8");
                     <nav>
                         <p>
                             <span>주문 상품 정보, 가격, 배송, 반품, 교환, 환불 정책에 동의</span>
-                            <button onclick="" type="button">자세히 보기</button>
+                            <button id="orderTerm1" type="button">자세히 보기</button>
                         </p>
                         <p>
                             <span>개인정보 수집 이용 동의</span>
-                            <button onclick="" type="button">자세히 보기</button>
+                            <button id="orderTerm2" type="button">자세히 보기</button>
                         </p>
                         <label for="termsOfuseOk">
                             <input type="checkbox" name="termsOfuseCheck" value="termsOfuseOk">

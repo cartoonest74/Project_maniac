@@ -42,11 +42,12 @@
         where id =#{productNo};
     </update>
     <update id="update_purchaseList">
-        update Purchase
-        set purchase_list = json_set(purchase_list,#{Portone.paymentId},json_array(#{Portone.txId},(
+        update Purchase pur, cart ca
+        set pur.purchase_list = json_set(purchase_list,#{Portone.paymentId},json_array(#{Portone.txId},(
             select option_json from cart where user_id = #{user_id}
-        ),#{Portone.amount},#{Portone.deliveryStatus}))
-        where user_id = #{user_id}
+        ),#{Portone.amount},#{Portone.deliveryStatus})),
+            ca.option_json = (json_object())
+        where pur.user_id = #{user_id} and ca.user_id = #{user_id}
     </update>
     <select id="select_orderInfo" resultType="OrderRegistry_info">
         select first_name Firstname,
@@ -82,7 +83,7 @@
             tel varchar(15) PATH '$.tel',
             registry_date timestamp PATH '$.registry_date'
         ))t
-        where user_id =1 AND NOT num IS NULL
+        where user_id =#{user_id} AND NOT num IS NULL
         order by registry_date asc;
     </select>
     <select id="select_orderList" resultType="Order">

@@ -189,6 +189,7 @@
     cursor: pointer;
     margin-left:1vw;
 }
+
 .orderInfoSubCaption{
     display:inline-block;
     width: 100%;
@@ -199,7 +200,6 @@
 .orderInfoSubCaption *{
     font-size:inherit;
     color:black;
-    margin-top:3px;
 }
 .orderInfoSub{
     display:inline-block;
@@ -207,6 +207,45 @@
     font-size:1.5em;
     padding:10px 0px;
     color:black;
+}
+
+/*delivery Message*/
+label[for="deliveryMessage"]{
+    display:inline-block;
+    width:100%;
+}
+label[for="deliveryMessage"] select{
+    display:inline-block;
+    width:100%;
+    padding:10px 15px;
+    font-size:1.4em;
+    border:1px solid #d0caca;
+    margin:2vh 0;
+}
+label[for="deliveryMessage"] select *{
+    font-size:inherit;
+}
+#deliveryMsgDirectBox{
+    position:relative;
+    display:inline-block;
+    width:100%;
+}
+#deliveryMsgDirectBox input{
+    display:inline-block;
+    width:100%;
+    padding:10px 48px 10px 7px;
+    font-size:1.5em;
+}
+#deliveryMsgDirectBox p{
+    position:absolute;
+    display:inline-block;
+    top:18%;
+    right:10px;
+    font-size:1.5em;
+    color:rgba(63, 52, 52, 0.7);
+}
+#deliveryMsgDirectBox p>span{
+    font-size:inherit;
 }
 /* order total */
 .orderTotal{
@@ -272,7 +311,7 @@
     display:inline-block;
 }
 .paymentMethodTitle>span{
-    font-size:1.5em;
+    font-size:1.3em;
 }
 .paymentMethodTitle>img{
     display:inline-block;

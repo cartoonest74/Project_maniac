@@ -16,12 +16,10 @@ request.setCharacterEncoding("UTF-8");
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
-<link rel="stylesheet" href="${contextPath}/css/order/order.css">
-<link rel="stylesheet" href="${contextPath}/css/order/orderRegistry.css">
+<link rel="stylesheet" href="${contextPath}/css/order/order_complete.css">
 <link rel="stylesheet" href="${contextPath}/css/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
 <link rel="stylesheet" href="${contextPath}/css/basic.css">
-<link rel="stylesheet" href="${contextPath}/css/order/orderTerms.css">
 <link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,9 +33,6 @@ request.setCharacterEncoding("UTF-8");
 <!-- axios -->
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-<script type="text/javascript" src="${contextPath}/js/order/order.js"></script>
-<script type="text/javascript" src="${contextPath}/js/order/order_term.js"></script>
-<script type="text/javascript" src="${contextPath}/js/order/order_registry.js"></script>
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
@@ -47,66 +42,100 @@ request.setCharacterEncoding("UTF-8");
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="${contextPath}/js/postDaum/postDaum.js"></script>
 
-<!--  portOne -->
-<script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
 
-<!-- paymentMethod -->
-<c:url var="kakaopay" value="/img/paymentMethod/kakaopay.png"/>
-<c:url var="npay" value="/img/paymentMethod/npay.png"/>
-<c:url var="payco" value="/img/paymentMethod/payco.png"/>
-<c:url var="toss" value="/img/paymentMethod/toss.png"/>
+<!-- response  -->
+<c:set var="purchaseList" value="${purchaseList}"/>
+<c:set var="orderNo" value="${orderNo}"/>
+<c:set var="Complete_deliveryInfo" value="${delivery_info}"/>
 
-<!-- response order -->
-<c:set var="order_info" value="${orderInfo}"/>
-<c:set var="order_delivery" value="${orderDelivery[0]}"/>
+<c:set var="firstName" value="${Complete_deliveryInfo.firstName}"/>
+<c:set var="lastName" value="${Complete_deliveryInfo.lastName}"/>
+<c:set var="mainAddr" value="${Complete_deliveryInfo.mainAddr}"/>
+<c:set var="detailAddr" value="${Complete_deliveryInfo.detailAddr}"/>
+<c:set var="postNum" value="${Complete_deliveryInfo.postNum}"/>
+<c:set var="tel" value="${Complete_deliveryInfo.tel}"/>
+<c:set var="purchaseAmount" value="${Complete_deliveryInfo.purchaseAmount}"/>
+<c:set var="deliveryMethod" value="${Complete_deliveryInfo.deliveryMethod}"/>
+<c:set var="deliveryMsg" value="${Complete_deliveryInfo.deliveryMsg}"/>
+<c:set var="deliveryStatus" value="${Complete_deliveryInfo.deliveryStatus}"/>
+
 </head>
 <body>
 	<c:import url="../basic/header.jsp">
 	</c:import>
         <div class="orderCompleteBox">
+                <a href="#" class="orderComplete_category">
+                    주문&nbsp;내역
+                </a>
                 <header class="orderCompleateHeader">
                     <h1>주문완료</h1>
                     <div class="orderHeader_comment">
                         <p>MARKET을 이용해주셔서 감사합니다.</p>
                         <p>고객님이 주문하신 주문번호는</p>
-                        <p><span style="padding:5px 10px; background:rgba(210, 255, 250, 0.733); color:red; font-weight:600;">1230123021310</span>입니다.</p>
+                        <p><span style="padding:5px 10px; background:rgba(210, 255, 250, 0.733); color:red; font-weight:600;">${orderNo}</span>입니다.</p>
                         <p>주문내역 확인은 배송/마이페이지의</p>
                         <p> "주문/배송조회"에서 확인하실 수 있습니다.</p>
                     </div>
                 </header>
                 <dl class="orderCompleteCotent">
+
                     <div>
-                        <dt>
-                            결제정보
-                        </dt>
-                        <dd><span>Jung Kook (BTS) 'GOLDEN' (Set)</span></dd>
-                    </div>
-                    <div>
-                        <dt>
-                            주문번호
-                        </dt>
-                        <dd></dd>
-                    </div>
-                    <div>
-                        <dt>배송지</dt>
+                        <dt>주문내역</dt>
                         <dd>
-                            <p><span>한 경</span></p>
-                            <span>경기 안성시 공도읍 서동대로 3860</span>&nbsp;<spna>동양123</spna></p>
-                            <p><span>17564</span></p>
-                            <p><span>010-9494-9494</span></p>
+                        <c:forEach var="cart" items="${purchaseList}">
+                            <c:set var="productNo" value="${cart.productNo}"/>
+                            <c:set var="title" value="${cart.title}"/>
+                            <c:set var="quantity" value="${cart.quantity}"/>
+                            <c:set var="optionTitle" value="${cart.optionTitle}"/>
+                            <p>
+                                <span>${title}</span>
+                            <c:if test="${optionTitle eq 'single'}">
+                                <span>&nbsp;(${quantity})</span>
+                            </c:if>
+                            </p>
+                            <c:if test="${optionTitle ne 'single'}">
+                                <p>
+                                    <span>${optionTitle}</span><span>&nbsp;(${quantity})</span>
+                                </p>
+                            </c:if>
+                        </c:forEach>
                         </dd>
                     </div>
                     <div>
-                        <dt>배송방법
-                        </dt>
-                        <dd>택배</dd>
+                        <dt>결제금액</dt>
+                        <dd>
+                            <p><span>${purchaseAmount}</span></p>
+                        </dd>
+                    </div>
+                    <div>
+                        <dt>배송상태</dt>
+                        <dd>
+                            <p><span>${deliveryStatus}</span></p>
+                        </dd>
+                    </div>
+                    <div>
+                        <dt>주문번호</dt>
+                        <dd><p><span>${orderNo}</span></p></dd>
+                    </div>
+                    <div>
+                        <dt>배송지&nbsp;&nbsp;&nbsp;</dt>
+                        <dd>
+                            <p><span>${firstName}</span>&nbsp;<span>${lastName}</span></p>
+                            <span>${mainAddr}</span>&nbsp;<spna>${detailAddr}</spna></p>
+                            <p><span>${postNum}</span></p>
+                            <p><span>${tel}</span></p>
+                        </dd>
+                    </div>
+                    <div>
+                        <dt>배송방법</dt>
+                        <dd><p><span>${deliveryMethod}</span></p></dd>
                     </div>
                     <div>
                         <dt>배송메모</dt>
-                        <dd></dd>
+                        <dd><p><span>${deliveryMsg}</span></p></dd>
                     </div>
                 </dl>
-                <a class="order_completeBtn" href="">홈으로</a>
+                <a class="order_completeBtn" href="/">홈으로</a>
         </div>
     <jsp:include page="../basic/footer.jsp" flush="true" />
 </body>

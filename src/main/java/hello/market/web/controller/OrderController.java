@@ -2,13 +2,11 @@ package hello.market.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hello.market.dto.Cart;
-import hello.market.dto.Member;
-import hello.market.dto.OrderDelivery_info;
-import hello.market.dto.OrderRegistry_info;
+import hello.market.dto.*;
 import hello.market.repository.mybatis.order.OrderCheckRepositoryImpl;
 import hello.market.service.Cart.CartService;
 import hello.market.service.member.MemberServiceImpl;
+import hello.market.service.myPage.MyPageService;
 import hello.market.service.order.OrderService;
 import hello.market.web.session.LoginSessionManager;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,7 +33,7 @@ public class OrderController {
     private final OrderService orderService;
     private final OrderCheckRepositoryImpl orderCheckRepository;
     private final MemberServiceImpl memberService;
-
+    private final MyPageService myPageService;
     @GetMapping("/{artistId}")
     private String get_orderPage(@PathVariable("artistId") int artistId,
                                  @RequestParam("orderCheck") String orderCheck,
@@ -173,5 +171,23 @@ public class OrderController {
         Integer user_id = loginSessionManager.sessionUUIDcheck(request);
         orderService.delete_deliveryAddr(user_id, orderDeliveryInfo);
         return "ok";
+    }
+
+    @GetMapping("/{artistId}/complete")
+    private String get_completeOrder(@PathVariable int artistId,
+                                     @RequestParam("orderKey") String orderKey,
+                                     Model model,
+                                     HttpServletRequest request) {
+        String paymentId = new StringBuilder()
+                .append("$.ok_")
+                .append(orderKey)
+                .toString();
+        int user_id = loginSessionManager.sessionUUIDcheck(request);
+        Complete_deliveryInfo completeDeliveryInfo = myPageService.view_purchase_deliveryInfo(user_id, paymentId);
+        List<Cart> carts = myPageService.get_purchaseList(user_id, paymentId);
+        model.addAttribute("delivery_info", completeDeliveryInfo);
+        model.addAttribute("purchaseList", carts);
+        model.addAttribute("orderNo", orderKey);
+        return "/order/order_complete";
     }
 }

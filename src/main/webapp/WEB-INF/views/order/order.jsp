@@ -178,7 +178,33 @@ request.setCharacterEncoding("UTF-8");
                     <nav class="orderInfoHeader justify-content-between">
                         <h2>배송 수단</h2>
                     </nav>
-                    <div data-order-caption="deliveryMethod" class="orderInfoSubCaption">배송 수단 정보를 등록주세요</div>
+                    <div data-order-caption="deliveryMethod" class="orderInfoSubCaption">
+                        <nav class="paymentMethodPart">
+                            <label for="nationalCar">
+                                <input type="radio" name="deliveryMethod" value="nationalCar" checked>
+                                <span class="payMentMethodCheck">
+                                    <span></span>
+                                </span>
+                                <span class="paymentMethodTitle">
+                                    <span>국내택배</span>
+                                </span>
+                            </label>
+                        </nav>
+                    </div>
+                </div>
+                <div id="deliveryMsgBox" class="orderInfoPart">
+                    <nav class="orderInfoHeader justify-content-between">
+                        <h2>배송 메세지</h2>
+                    </nav>
+                    <label for="deliveryMessage">
+                        <select name="delivery_msg" id="deliveryMsg">
+                            <option value="front_door">부재 시 문 앞에 놔주세요</option>
+                            <option value="contact_before">배송 전 연락 주세요</option>
+                            <option value="delivery_box">부재 시 경비실에 놔주세요</option>
+                            <option value="fragile">파손 위험, 배송 시 주의해주세요</option>
+                            <option value="direct">직접 입력</option>
+                        </select>
+                    </label>
                 </div>
             </div>
             <div class="orderTotal">

@@ -42,12 +42,21 @@
         where id =#{productNo};
     </update>
     <update id="update_purchaseList">
-        update Purchase pur, cart ca
-        set pur.purchase_list = json_set(purchase_list,#{Portone.paymentId},json_array(#{Portone.txId},(
-            select option_json from cart where user_id = #{user_id}
-        ),#{Portone.amount},#{Portone.deliveryStatus})),
-            ca.option_json = (json_object())
-        where pur.user_id = #{user_id} and ca.user_id = #{user_id}
+        update Purchase as pur, cart as cart1
+        set pur.tx_id = json_set(tx_id,#{Portone.paymentId},#{Portone.txId}),
+            pur.delivery_list = json_set(delivery_list,#{Portone.paymentId},
+                (select addr.deliveryAddr from(
+                    select json_extract(delivery_addr,CONCAT("$[",#{Portone.deliveryIndex},"]")) deliveryAddr
+                    from order_list where user_id=#{user_id})addr)),
+            pur.purchase_list = json_set(purchase_list,#{Portone.paymentId},
+                (select ca.option_json from(
+                    select option_json
+                    from cart where user_id = #{user_id})ca)),
+            pur.amount = json_set(amount,#{Portone.paymentId},#{Portone.amount}),
+            pur.delivery_status = json_set(delivery_status,#{Portone.paymentId},
+                json_array(#{Portone.deliveryMethod},#{Portone.deliveryMsg},#{Portone.deliveryStatus})),
+            cart1.option_json = (json_object())
+        where pur.user_id = #{user_id} and cart1.user_id = #{user_id}
     </update>
     <select id="select_orderInfo" resultType="OrderRegistry_info">
         select first_name Firstname,

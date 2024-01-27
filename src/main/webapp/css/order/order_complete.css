@@ -1,9 +1,20 @@
 .orderCompleteBox {
+    position:relative;
 	display: inline-flex;
 	width: 50%;
 	justify-content:center;
 	flex-wrap: wrap;
-	padding: 10vh 0;
+	margin-top:5vh;
+	padding: 5vh 0;
+}
+.orderComplete_category{
+    position:absolute;
+    display:inline-block;
+    top:0;
+    left:0;
+    font-size:1.5em;
+    font-weight:600;
+    cursor:pointer;
 }
 .orderCompleateHeader{
     display:flex;
@@ -25,13 +36,15 @@
     flex-wrap:wrap;
     border:1px solid rgba(210, 255, 250, 1);
     font-size:2em;
-    padding:5px 10px;
+    padding:2vh 2wh;
+    margin-top:2vh;
     border-radius:10px;
 }
 .orderHeader_comment *{
     display:inline-block;
     text-align:center;
     font-size:inherit;
+    padding-top:1vh;
 }
 .orderCompleteCotent{
     display:inline-block;
@@ -39,6 +52,7 @@
     border-top:1px solid rgba(132, 170, 170,0.8);
     border-bottom:1px solid rgba(132, 170, 170,0.8);
     padding-top:2vh;
+    margin-top:4vh;
 }
 .orderCompleteCotent div{
     display:flex;
@@ -54,12 +68,17 @@
     padding-left:1vh;
 }
 .orderCompleteCotent div>dd{
-    font-size:2em;
+    font-weight:400;
+    font-size:1.3em;
+}
+.orderCompleteCotent div>dd *{
+    font-size:inherit;
 }
 .order_completeBtn{
     width:80%;
     font-size:2em;
     color:white;
+    margin-top:4vh;
     padding:10px;
     text-align:center;
     border-radius:5px;

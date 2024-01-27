@@ -14,4 +14,7 @@ public class Portone {
     private String purchaseList;
     private String amount;
     private String deliveryStatus;
+    private String deliveryMethod;
+    private String deliveryMsg;
+    private int deliveryIndex;
 }

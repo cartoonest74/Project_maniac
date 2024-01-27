@@ -30,6 +30,8 @@ public class PaymentController {
         Object parse = jsonParser.parse(purchaseList);
         JSONObject jsonObject = (JSONObject) parse;
         Set<String> keySet = jsonObject.keySet();
+        int deliveryIndex = portone.getDeliveryIndex();
+        log.info("deliveryIndex ={}",deliveryIndex);
         for (String key : keySet) {
             String[] arr_cartKey = key.split("x");
             String option_part = arr_cartKey[0];

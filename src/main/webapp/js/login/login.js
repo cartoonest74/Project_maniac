@@ -3,6 +3,8 @@
  */
 $(function() {
     const subMenu_none =()=>{
+        const resize_login_btn = document.getElementById("resize_login_btn");
+        resize_login_btn.style.display = "resize_login_btn";
         const header_login_btn = document.getElementById("header_login_btn");
         header_login_btn.style.display = "none";
         const header_cart_btn = document.getElementById("header_cart_btn");
@@ -10,6 +12,9 @@ $(function() {
         const header_heart_btn = document.getElementById("header_heart_btn");
         header_heart_btn.style.display = "none";
     }
+    resize_login_btn.addEventListener("click",function(e){
+        e.preventDefault();
+    })
     subMenu_none();
     const CONTEXTPATH = $("#contextPath").val();
 	const LOGINACTION_URL = "/login-action/login-inspect";
@@ -48,7 +53,6 @@ $(function() {
                         LOGINFORM_ERR_VISIBLE(LOGINFORM_ERR_PWD, LOGINFORM_ERR_AND_MSG, ON);
                         return;
                     }
-                    console.log(11111)
                     LOGINFORM.submit();
         });
 	});

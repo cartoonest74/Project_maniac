@@ -13,7 +13,7 @@ request.setCharacterEncoding("UTF-8");
 
 <!-- controller mapping url -->
 <c:url var="loginAccount" value="/${artistId}/member/login-account" />
-<c:url var="loginInfo" value="/${artistId}/member/login-info" />
+<c:url var="loginInfo" value="/myPage/${artistId}" />
 <c:url var="rootInfo" value="/manager/info" />
 
 <c:url var="notice" value="/main/${artistId}/notice?page=1" />
@@ -124,11 +124,20 @@ request.setCharacterEncoding("UTF-8");
                         </button>
                     </nav>
                     <nav class="resizeMenuPart resizeBottomMenu">
-                        <button class="resizeMenuInfo" type="button">
-                            <!-- <span>LOGIN</span> -->
-                            &nbsp;
-                            <span><i class="fa-solid fa-user fa-lg"></i></span>
-                        </button>
+                    <!-- <span>LOGIN</span> -->
+                    <c:choose>
+                        <c:when test="${not empty loginUserId}">
+                            <input data-login hidden="hidden"/>
+                            <a href="${loginInfo}" class="resizeMenuInfo">
+                                <i class="fa-solid fa-user fa-lg"></i>
+                            </a>
+                        </c:when>
+                        <c:otherwise>
+                            <a id="resize_login_btn" href="${loginAccount}" class="resizeMenuInfo">
+                                <i class="fa-regular fa-user fa-lg"></i>
+                            </a>
+                        </c:otherwise>
+                    </c:choose>
                         <button class="resizeMenuInfo" type="button">
                             <span><i class="fa-solid fa-sun fa-lg"></i></span>
                             <!-- <span>LIGHT</span> -->

@@ -19,12 +19,6 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberService memberService;
 
-    @GetMapping("/login-info")
-    public String loginInfo(@PathVariable int artistId,Model model) {
-        model.addAttribute("artistId", artistId);
-        return "/account/userInfo";
-    }
-
     @GetMapping("/forgot-account")
     public String forgotAccount(@PathVariable int artistId,Model model) {
         model.addAttribute("artistId", artistId);

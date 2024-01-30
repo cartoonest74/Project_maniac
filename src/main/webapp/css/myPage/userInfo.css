@@ -16,62 +16,95 @@
     font-weight:600;
     text-transform:uppercase;
 }
+/*header*/
 .myPageHeader{
-    position: relative;
     display:inline-block;
-    width:420px;
+    width:100%;
     background:rgb(45, 44, 44);
     margin-top:30px;
-    padding:48px 0 10px 0;
+    padding:0px 1vw;
+    padding-bottom:2vh;
     border-radius:10px;
     border:0px solid black;
 }
 .myPageHeader_info{
     display:inline-block;
-    width:100%;
     font-weight:600;
-    padding:2vh 0;
     text-align:center;
     color:white;
+    font-size:1.5em;
 }
-.myPageHeader_info:first-child{
-    font-size:2.4em;
-}
-.myPageHeader_info:last-child{
-    font-size:2em;
-}
-/*로그아웃, 회원정보 수정*/
-.myPage_basicSubBox{
-    position: absolute;
+/*로그아웃*/
+.logOutBox{
     display:flex;
     width:100%;
-    justify-content:flex-end;
+    justify-content:space-between;
     align-items:center;
     font-size:2em;
     padding:5px 0;
-    right:0;
-    top:0;
-}
-.myPage_basicSubBox form{
-    display:inline-block;
-    font-size:inherit;
 }
 .myPage_basicSubBtn{
     display:inline-block;
     color:white;
     background:transparent;
     font-size:inherit;
-    margin-right:1vw;
     padding:5px;
     border:0px solid black;
     border-radius:10px;
     cursor: pointer;
 }
-.myPage_basicSubBox a:hover{
+.myPage_basicSubBtn:hover{
     color:rgb(251, 64, 64);
 }
-button.myPage_basicSubBtn:hover{
-    color:rgb(251, 64, 64);
+/* 가입자정보 */
+.subInfoBox{
+    display:inline-block;
+    width:100%;
+    background-color:white;
+    padding:2vh 1vw;
+}
+.subInfo{
+    display:flex;
+    width:100%;
+    justify-content:flex-start;
+    align-items:center;
+    margin-top:1vh;
+}
+.subInfo dt{
+    display:inline-block;
+    width:23px;
+    text-align:left;
+    color:black;
+    font-size:1.8em;
+    margin-right:1vw;
+}
+.subInfo dd{
+    display:flex;
+    width:100%;
+    justify-content:space-between;
+}
+.subInfoContent{
+    display:flex;
+    width:100%;
+    background:rgb(232, 229, 229);
+    border:0px;
+    color:rgb(161, 150, 150);
+    justify-content:center;
+    align-items:center;
+    font-weight:600;
+    font-size:1.4em;
+}
+.editManageBtn{
+    display:inline-block;
+    width:50px;
+    border:0px;
+    border-radius:5px;
+    color:white;
+    font-weight:600;
+    font-size:1.3em;
+    padding:10px 5px;
+    background:rgb(21, 44, 45);
+    cursor:pointer;
 }
 
 .myPageContent{

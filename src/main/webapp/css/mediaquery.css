@@ -56,6 +56,18 @@
     }
 }
 @media screen and (max-width:420px){
+    /* myPage*/
+    .myPageBox{
+        width:100%;
+    }
+    .myPage_orderStatus dt{
+        font-size:1em;
+    }
+    /*회원가입*/
+    .createAccount{
+        width:100%;
+    }
+
     /* about- member */
     .memberSwiper{
         width:100vw;

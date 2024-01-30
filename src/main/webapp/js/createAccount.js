@@ -12,7 +12,56 @@ $(function() {
     const EmailInspectMessage = '#EmailInspectMessage';
     const TYPE_EMAIL = "email";
     const TYPE_TEL = "tel";
-
+    const result_obj = [
+        {
+            id:"#result_id",
+            msg_id:"#idInspectIMessage",
+            msg:"아이디: 아이디를 입력해주세요",
+            value:""
+        },
+        {
+            id:"#result_pwd",
+            msg_id:"#pwdInspectMessgae",
+            msg:"비밀번호: 비밀번호를 입력해주세요",
+            value:""
+        },
+        {
+            id:"#result_name",
+            msg_id:"#nameInspectMessage",
+            msg:"아이디: 아이디를 입력해주세요",
+            value:""
+        },
+        {
+            id:"#result_birth",
+            msg_id:"#birthInspectMessage",
+            msg:"생일: 생일를 입력해주세요",
+            value:""
+        },
+        {
+            id:"#result_Email",
+            msg_id:"#EmailInspectMessage",
+            msg:"Email: Email를 입력해주세요",
+            value:""
+        },
+        {
+            id:"#result_gender",
+            msg_id:"#genderInspectMessgae",
+            msg:"성별: 성별를 입력해주세요",
+            value:""
+        },
+        {
+            id:"#result_post",
+            msg_id:"#addrInspectMessgae",
+            msg:"주소: 주소를 입력해주세요",
+            value:""
+        },
+        {
+            id:"#result_tel",
+            msg_id:"#telInspectMessage",
+            msg:"전화번호: 전화번호를 입력해주세요",
+            value:""
+        },
+    ];
 
 	document.addEventListener('keydown', function(event) {
 		if (event.keyCode === 13) {
@@ -343,16 +392,18 @@ $(function() {
       }
 
 //   결과부분 유효성 체크
-    const RESULT_CHECK_FN = (result_input, result_msg_id, err_msg) => {
-		const RESULT_INPUT_V = $(result_input).val();
+    const RESULT_CHECK_FN = (obj) => {
+		const RESULT_INPUT_V = $(obj.id).val();
 		if (RESULT_INPUT_V != "ok") {
-			$(result_msg_id).removeClass("none");
-			$(result_msg_id).addClass("inlineblock");
-			$(result_msg_id).text(err_msg);
-			return;
+			$(obj.msg_id).removeClass("none");
+			$(obj.msg_id).addClass("inlineblock");
+			$(obj.msg_id).text(obj.msg);
+			obj.value = "";
+			return "";
 		}
+		obj.value = RESULT_INPUT_V;
+		return "";
 	}
-
 	//sendBtn
 	$("#sendBtn").click(function() {
 		const POST_NUM = $("#postNum").val();
@@ -362,44 +413,15 @@ $(function() {
 		if(POST_NUM == '' && MAIN_ADDR == ''&& DETAIL_ADDR == ''){
 			$("#result_post").attr("value","none");
 		}
-
-		const RESULT_ID = "#result_id";
-		const RESULT_PWD = "#result_pwd";
-		const RESULT_NAME = "#result_name";
-		const RESULT_BIRTH = "#result_birth";
-		const RESULT_EMAIL = "#result_Email";
-		const RESULT_GENDER = "#result_gender";
-		const RESULT_POST = "#result_post";
-		const RESULT_TEL = "#result_tel";
-
-		const IDERR_MSG_ID = "#idInspectIMessage";
-		const PWDERR_MSG_ID = "#pwdInspectMessgae";
-		const NAMEERR_MSG_ID = "#nameInspectMessage";
-		const BIRTHERR_MSG_ID = "#birthInspectMessage";
-		const EMAILERR_MSG_ID = "#EmailInspectMessage";
-		const GENDERERR_MSG_ID = "#genderInspectMessgae";
-		const ADDRERR_MSG_ID = "#addrInspectMessgae";
-		const TELRERR_MSG_ID = "#telInspectMessage";
-
-		const IDERR_MSG = "아이디: 아이디를 입력해주세요";
-		const PWDERR_MSG = "비밀번호: 비밀번호를 입력해주세요";
-		const NAMEERR_MSG = ": 이름를 입력해주세요";
-		const BIRTHERR_MSG = "생일: 생일를 입력해주세요";
-		const EMAILERR_MSG = "Email: Email를 입력해주세요";
-		const GENDERERR_MSG = "성별: 성별를 입력해주세요";
-		const ADDRERR_MSG = "주소: 주소를 입력해주세요";
-		const TELERR_MSG = "전화번호: 전화번호를 입력해주세요";
-		
-		RESULT_CHECK_FN(RESULT_ID, IDERR_MSG_ID, IDERR_MSG);
-		RESULT_CHECK_FN(RESULT_PWD, PWDERR_MSG_ID, PWDERR_MSG);
-		RESULT_CHECK_FN(RESULT_NAME, NAMEERR_MSG_ID, NAMEERR_MSG);
-		RESULT_CHECK_FN(RESULT_BIRTH, BIRTHERR_MSG_ID, BIRTHERR_MSG);
-		RESULT_CHECK_FN(RESULT_EMAIL, EMAILERR_MSG_ID, EMAILERR_MSG);
-		RESULT_CHECK_FN(RESULT_GENDER, GENDERERR_MSG_ID, GENDERERR_MSG);
-		RESULT_CHECK_FN(RESULT_POST, ADDRERR_MSG_ID, ADDRERR_MSG);
-		RESULT_CHECK_FN(RESULT_TEL, TELRERR_MSG_ID, TELERR_MSG);
-
-        console.log(EMAIL_CODE_CHECK());
+        result_obj.forEach(obj=>{
+		    RESULT_CHECK_FN(obj);
+        })
+        const arr_finalValue = result_obj.filter(obj => obj.value != "")
+        console.log(arr_finalValue.length)
+        if(result_obj.length != arr_finalValue.length){
+            console.log(result_obj.length)
+            return '';
+        }
 		if(! EMAIL_CODE_CHECK()){
 		   console.log("false");
 		    return '';

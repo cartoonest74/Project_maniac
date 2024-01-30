@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<link rel="stylesheet" href="${contextPath}/css/accountMain.css">
+<link rel="stylesheet" href="${contextPath}/css/complete_account.css">
 <link rel="stylesheet" href="${contextPath}/css/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
 <link rel="stylesheet" href="${contextPath}/css/basic.css">
@@ -27,15 +27,19 @@
 <script type="text/javascript" src="${contextPath}/js/cart.js"></script>
 
 <c:set var="createdId" value="${createdId}" />
-<c:url var="forgotAccount" value="${artistId}/member/forgot-account"/>
-<c:url var="createAccount" value="${artistId}/member/create-account"/>
 <c:url var="loginAccount" value="${artistId}/member/login-account"/>
 </head>
 <body>
 	<c:import url="../basic/header.jsp" >
 		<c:param name="cartCount" value="${cartCount}"/>
 	</c:import>
-           ㅋㅊㅋㅊㅋㅊㅋ ${createdId}
+	<div class="completeAccountBox">
+	    <p>회원가입을 축하드립니다.<p>
+	    <h2>
+            ${createdId}
+	    </h2>
+	    <a class="loginPageBtn" href="${loginAccount}">로그인 하러 가기</a>
+	</div>
 	<jsp:include page="../basic/footer.jsp" flush="true" />
 </body>
 </html>

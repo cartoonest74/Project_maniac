@@ -17,9 +17,7 @@ request.setCharacterEncoding("UTF-8");
 <link rel="stylesheet"
 	href="${contextPath}/css/basic.css">
 <link rel="stylesheet"
-	href="${contextPath}/css/main.css">
-<link rel="stylesheet"
-	href="${contextPath}/css/createAccount.css">
+	href="${contextPath}/css/account/createAccount.css">
 <link rel="stylesheet" href="${contextPath}/css/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
 <link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
@@ -49,7 +47,6 @@ request.setCharacterEncoding("UTF-8");
 		<c:param name="cartCount" value="${cartCount}" />
 	</c:import>
 	<div class="createAccount">
-		<h1>LOGO</h1>
 		<form action="${accountUrl}" id="createAccountForm" class="createAccountForm" method="post">
 			<!-- id -->
 			<nav class="createInfo">

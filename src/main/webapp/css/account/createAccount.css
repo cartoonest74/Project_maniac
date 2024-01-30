@@ -1,19 +1,12 @@
 .createAccount{
     display:inline-flex;
-    width:30%;
-    max-width: 400px;
-    min-width: 350px;
+    width:400px;
     justify-items:center;
     flex-wrap: wrap;
     align-items:center;
+    margin:10vh 0;
 }
-/* 제목 */
-.createAccount>h1{
-    display:inline-block;
-    width:100%;
-    font-size:3em;
-    text-align:center;
-}
+
 .createAccountForm{
     display:inline-flex;
     width:100%;
@@ -29,7 +22,6 @@
     position:relative;
     display:inline-block;
     width:100%;
-    min-width: 330px;
     border-radius: 4px;
     border-bottom:1px solid rgba(0,0,0,0.1);
 }
@@ -85,7 +77,6 @@
     position: relative;
     display: inline-block;
     width:40%;
-    min-width: 140px;
     padding:10px 15px;
     border:1px solid rgba(0,0,0,0.1);
     border-radius:3px;
@@ -143,7 +134,6 @@
 .addrContent:first-child>input{
     display:inline-block;
     width:73%;
-    min-width: 220px;
 }
 
 .postBtn{
@@ -156,23 +146,12 @@
     cursor:pointer;
 }
 
-.addrContent:nth-child(2)>input{
+.addrContent input{
     display:inline-block;
     width:100%;
-    min-width: 297px;
 }
 
-.addrContent:last-child>input:first-child{
-    display:inline-block;
-    width:58%;
-    margin-right:3px;
-    min-width: 172px;
-}
-.addrContent:last-child>input:last-child{
-    display:inline-block;
-    width:40%;
-    min-width: 118px;
-}
+
 /* create btn */
 .createAcoountBtn{
     width:100%;

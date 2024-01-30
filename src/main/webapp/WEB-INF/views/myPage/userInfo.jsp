@@ -31,7 +31,7 @@
 	  crossorigin="anonymous"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://kit.fontawesome.com/7938f26122.js" crossorigin="anonymous"></script>
-
+<script type="text/javascript" src="${contextPath}/js/myPage/myPageMain.js"></script>
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
 
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
@@ -41,6 +41,8 @@
 <c:set var="member" value="${memberInfo}"/>
 <c:set var="userId" value="${member.userId}"/>
 <c:set var="userEmail" value="${member.email}"/>
+<c:set var="userTel" value="${member.phone}"/>
+<c:set var="userAddr" value="${member.addr}"/>
 <c:set var="logoutUrl" value="/login-action/logout" />
 
 <!-- url -->
@@ -57,18 +59,43 @@
         <div class="myPageBox">
             <h2 class="myPageSubTitle">mypage</h2>
             <header class="myPageHeader">
-                <h2 class="myPageHeader_info">${userId}</h2>
-                <h3 class="myPageHeader_info">${userEmail}</h3>
-                <div class="myPage_basicSubBox">
-                    <a class="myPage_basicSubBtn" href="${userEdit}">
-                        <i class="fa-solid fa-user-pen fa-lg"></i>
-                    </a>
-                    <form action="${logoutUrl}" method="post">
-                        <button class="myPage_basicSubBtn" type="submit">
-                            <i class="fa-solid fa-power-off fa-lg"></i>
-                        </button>
-                    </form>
-                </div>
+                <form class="logOutBox" action="${logoutUrl}" method="post" >
+                    <span></span>
+                    <h2 class="myPageHeader_info">${userId}</h2>
+                    <button class="myPage_basicSubBtn" id="logOutBtn" type="button">
+                        <i class="fa-solid fa-power-off fa-lg"></i>
+                    </button>
+                </form>
+                <dl class="subInfoBox">
+                    <div class="subInfo">
+                        <dt><i class="fa-solid fa-square-phone-flip fa-lg"></i></dt>
+                        <dd>
+                            <p id="myPageTel" class="subInfoContent">${userTel}</p>
+                            <button class="editManageBtn" id="editTelPage" type="button">수정</button>
+                        </dd>
+                    </div>
+                    <div class="subInfo">
+                        <dt><i class="fa-solid fa-location-dot fa-lg"></i></dt>
+                        <dd>
+                            <p id="myPageAddr" class="subInfoContent">${userAddr}</p>
+                            <button class="editManageBtn" id="editDeliveryPage" type="button">수정</button>
+                        </dd>
+                    </div>
+                    <div class="subInfo">
+                        <dt><i class="fa-solid fa-lock fa-lg"></i></dt>
+                        <dd>
+                            <p class="subInfoContent">비밀번호 수정</p>
+                            <button class="editManageBtn" id="editPwdPage" type="button">수정</button>
+                        </dd>
+                    </div>
+                    <div class="subInfo">
+                        <dt><i class="fa-solid fa-envelope fa-lg"></i></dt>
+                        <dd>
+                            <p id="myPageEmail" class="subInfoContent">${userEmail}</p>
+                            <button class="editManageBtn" id="editEmailPage" type="button">수정</button>
+                        </dd>
+                    </div>
+                </dl>
             </header>
             <section class="myPageContent">
                 <dl class="myPage_orderStatusBox">

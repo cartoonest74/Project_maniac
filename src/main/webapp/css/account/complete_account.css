@@ -1,0 +1,28 @@
+.completeAccountBox{
+    display:flex;
+    width:100%;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+    margin:10vh 0;
+}
+.completeAccountBox p{
+    width:100%;
+    font-weight:400;
+    font-size:2em;
+    text-align:center;
+}
+.completeAccountBox h2{
+    text-align:center;
+    font-weight:600;
+    font-size:2em;
+}
+.loginPageBtn{
+    display:inline-block;
+    color:black;
+    background:black;
+    font-size:2em;
+    padding:10px 15px;
+    border:0px;
+    border-radius:5px;
+}

@@ -88,14 +88,14 @@ request.setCharacterEncoding("UTF-8");
                             <c:set var="quantity" value="${cart.quantity}"/>
                             <c:set var="optionTitle" value="${cart.optionTitle}"/>
                             <p>
-                                <span>${title}</span>
+                                <span style="font-weight:600;">${title}</span>
                             <c:if test="${optionTitle eq 'single'}">
                                 <span>&nbsp;(${quantity})</span>
                             </c:if>
                             </p>
                             <c:if test="${optionTitle ne 'single'}">
                                 <p>
-                                    <span>${optionTitle}</span><span>&nbsp;(${quantity})</span>
+                                    <span>&nbsp;${optionTitle}</span><span>&nbsp;(${quantity})</span>
                                 </p>
                             </c:if>
                         </c:forEach>
@@ -128,10 +128,33 @@ request.setCharacterEncoding("UTF-8");
                     </div>
                     <div>
                         <dt>배송방법</dt>
+                        <c:choose>
+                            <c:when test="${deliveryMethod eq 'nationalCar'}">
+                                <c:set var="deliveryMethod" value="국내택배"/>
+                            </c:when>
+                            <c:otherwise>
+                            </c:otherwise>
+                        </c:choose>
                         <dd><p><span>${deliveryMethod}</span></p></dd>
                     </div>
                     <div>
                         <dt>배송메모</dt>
+                        <c:choose>
+                            <c:when test="${deliveryMsg eq 'front_door'}">
+                                <c:set var="deliveryMsg" value="부재 시 문 앞에 놔주세요"/>
+                            </c:when>
+                            <c:when test="${deliveryMsg eq 'contact_before'}">
+                                <c:set var="deliveryMsg" value="배송 전 연락 주세요"/>
+                            </c:when>
+                            <c:when test="${deliveryMsg eq 'delivery_box'}">
+                                <c:set var="deliveryMsg" value="부재 시 경비실에 놔주세요"/>
+                            </c:when>
+                            <c:when test="${deliveryMsg eq 'fragile'}">
+                                <c:set var="deliveryMsg" value="파손 위험, 배송 시 주의해주세요"/>
+                            </c:when>
+                            <c:otherwise>
+                            </c:otherwise>
+                        </c:choose>
                         <dd><p><span>${deliveryMsg}</span></p></dd>
                     </div>
                 </dl>

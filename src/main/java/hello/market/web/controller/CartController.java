@@ -45,9 +45,11 @@ public class CartController {
         LocalDateTime date = LocalDateTime.now();
         String dateFormat = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
+        Integer max_quantity = (Integer) option.get("max");
         JSONArray option_arr = option.getJSONArray("option");
         List<Cart> po_list = new ArrayList<>();
-
+        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < option_arr.length(); i++) {
             Integer optionId = (Integer) ((JSONObject) option_arr.get(i)).get("option_id");
             Integer quantity = (Integer) ((JSONObject) option_arr.get(i)).get("quantity");
@@ -61,10 +63,24 @@ public class CartController {
                     .append("x")
                     .append(optionId)
                     .toString();
+            String purchase_productKey = new StringBuilder()
+                    .append(option_part)
+                    .append("x")
+                    .append(productNo)
+                    .append("x")
+                    .append(optionId)
+                    .toString();
+            Integer purchaseQuantity = cartService.purchaseQuantity_check(user_id, purchase_productKey);
+            purchaseQuantity = purchaseQuantity == null? 0:purchaseQuantity;
 
+            int calc_quantity = max_quantity - (purchaseQuantity + quantity);
+            if(calc_quantity < 0){
+                jsonArray.put(optionId);
+                continue;
+            }
             cartService.add_cart(user_id, goodsNo, quantity);
         }
-
+        jsonObject.put("overOptionId", jsonArray);
         Integer cartCount = cartService.cart_length(user_id);
 //        if (productNo != 0) {
 //            cartRepository.save(productNo, 1);
@@ -74,7 +90,8 @@ public class CartController {
 //        cartCount = cartRepository.show_length();
 //        cartMaps = cartRepository.all();
 
-        return String.valueOf(cartCount);
+        String jsonObjectString = jsonObject.toString();
+        return jsonObjectString;
     }
 
     @ResponseBody

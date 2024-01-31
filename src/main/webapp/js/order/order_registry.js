@@ -36,7 +36,8 @@ $(function(){
        const arr_addrCheckData = document.querySelectorAll(`p[data-addrSelect-num="${menu_checkIndex}"]`)
        let addrCheck_text = ""
        arr_addrCheckData.forEach((val)=>{
-                addrCheck_text += "<p>"+val.innerHTML+"</p>";
+                let trans_tag = val.innerHTML.replace("data-addrselect-part","data-addrregistry-edit")
+                addrCheck_text += "<p>"+trans_tag+"</p>";
        });
 
        const cap_deliveryAddr = document.querySelector('[data-order-caption="deliveryAddr"]');
@@ -300,6 +301,7 @@ $(function(){
         /* 기본설정 */
         const basic_mark = basic_main == delivery_index? `<span data-basic-check="${basic_main}" class="addrBasic_mark">기본</span>` : "";
 
+        /* 배송지 선택 메뉴 주소 태그 part */
         const deliveryInfo_tag =`<div class="orAddrContent">
                                      <label for="${delivery_index}">
                                          <input type="radio" name="addrSelect" value="${delivery_index}" ${main_check}>

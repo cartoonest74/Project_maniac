@@ -62,7 +62,7 @@
                 <form class="logOutBox" action="${logoutUrl}" method="post" >
                     <span></span>
                     <h2 class="myPageHeader_info">${userId}</h2>
-                    <button class="myPage_basicSubBtn" id="logOutBtn" type="button">
+                    <button class="myPage_basicSubBtn" id="logOutBtn" type="submit">
                         <i class="fa-solid fa-power-off fa-lg"></i>
                     </button>
                 </form>

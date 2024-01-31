@@ -19,6 +19,22 @@
         set option_json = JSON_REMOVE(option_json,#{arg1})
         where id = #{arg0};
     </update>
+    <select id="select_purchaseQuantity" resultType="Integer">
+        select sum(quantity)
+        from(
+            select productNo, json_extract(tmp.pl,concat("$.",productNo,"[0]")) quantity
+            from (select json_extract(purchase_list,CONCAT("$.",json_key)) pl, SUBSTRING_INDEX(json_key,"_",-1) regist_date
+                from purchase,
+                    json_table(json_keys(purchase_list),"$[*]" columns(
+                        json_key varchar(30) PATH "$"
+                    ))t
+                where user_id =#{arg0}) tmp,
+                json_table(json_keys(tmp.pl),"$[*]" columns(
+        productNo varchar(30) PATH "$"
+                ))t1
+        where productNo = #{arg1})t2
+        group by productNo;
+    </select>
 <!--    arg0: user_id
         arg1: limit -->
     <select id="select" resultType="Cart">

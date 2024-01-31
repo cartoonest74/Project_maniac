@@ -1,7 +1,9 @@
 $(function(){
     const option_quantity_obj = new Array();
     const selectOption_tag_obj = new Array();
-
+//    const param_date1 = new Date("1977-01-01").getTime();
+//    const param_date2 = new Date("1978-01-01").getTime();
+//    const test_date = new Date(1675154944694);
 
     function order_add_btn_allowed_bg (allow){
         const $order_add_btn = $('button[data-productNo]')
@@ -192,7 +194,6 @@ $(function(){
         // max quantity
         const regex = /[^0-9]/g;
         const option_max = parseInt($("#option_max").text().replace(regex,''))
-
         if(quantity_name == target_quantity_name && pm_quantity.includes("plus")){
             let quantity_val = $quantity_name.val()
             quantity_val < option_max ? quantity_val++ : alert("최대 수량을 초과하였습니다.")
@@ -218,12 +219,12 @@ $(function(){
         quantity_btn(6,"data-minus-quantity",e)
     })
 
-    // add to cart
+    // TODO add to cart
     $(document).on("click","button[data-productNo]",async function(){
         const artistId =document.getElementById("artistId").value;
         const resolve_add_cart = "/cart/add-cart";
         const price_total_tag = document.querySelector('[data-option_priceTotal="total"]')
-        const _productNo = $("button[data-productNo]").attr('data-productNo')
+        const _productNo = document.querySelector("button[data-productNo]").getAttribute('data-productNo')
         if(! price_total_tag){
             return
         }
@@ -245,10 +246,14 @@ $(function(){
             }
             option_quantity_arr.push({"option_id":option_key_index-1,"quantity":option_quantity_val[1]})
         }
-        option_quantity_json.id =_productNo
-        option_quantity_json.option = option_quantity_arr
-        const option_json = JSON.stringify(option_quantity_json)
 
+        // max quantity
+        const regex = /[^0-9]/g;
+        const option_max = parseInt(document.getElementById("option_max").innerText.replace(regex,''))
+//        option_quantity_json.id =_productNo
+        option_quantity_json.option = option_quantity_arr
+        option_quantity_json.max =option_max
+        const option_json = JSON.stringify(option_quantity_json)
         const formData = new FormData();
         formData.append("option_part",_option_part)
         formData.append("productNo",_productNo)
@@ -258,11 +263,16 @@ $(function(){
             body:formData
         }).then((response)=>response.text())
         .then((data)=>{
-            if(Number(data)== 0){
+            if(data == "0"){
                 location.href= `/${artistId}/member/login-account`
                 return;
             }
-            $("#header_cart_btn").text("CART( "+data+" )");
+            const option_keys = Object.keys(option_quantity_obj);
+            const json = JSON.parse(data);
+            const arr_overOptionId = json.overOptionId;
+            arr_overOptionId.forEach(val=>{
+               console.log(option_keys[val])
+            })
             return;
         }).catch((error)=>console.log(error))
 

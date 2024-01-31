@@ -45,6 +45,9 @@ public class OrderController {
         }
         String orderUUID = orderCheckRepository.get_orderUUID(user_id);
         log.info("orderCheck={},orderUUID={}", orderCheck, orderUUID);
+        if(orderUUID == null){
+            return "redirect:/cart/view-cart";
+        }
         if (! orderUUID.equals(orderCheck)) {
             return "redirect:/cart/view-cart";
         }

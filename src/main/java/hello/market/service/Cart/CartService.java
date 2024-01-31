@@ -5,7 +5,7 @@ import hello.market.dto.Cart;
 import java.util.List;
 
 public interface CartService {
-
+    Integer purchaseQuantity_check(int user_id, String product_no);
     List<Cart> quantity_check(int user_id);
     void create_cart(int user_id);
     void delete_cart(int user_id,String productNo);

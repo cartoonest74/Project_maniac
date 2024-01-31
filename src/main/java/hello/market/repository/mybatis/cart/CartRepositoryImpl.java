@@ -17,6 +17,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CartRepositoryImpl implements CartRepository {
 
 	private final CartMapper cartMapper;
+
+	@Override
+	public Integer select_purchaseQuantity(int user_id, String productNo) {
+		Integer purchase_quantity = cartMapper.select_purchaseQuantity(user_id, productNo);
+		return purchase_quantity;
+	}
+
 	@Override
 	public List<Cart> quantity_check(int user_id) {
 		List<Cart> carts = cartMapper.quantity_check(user_id);

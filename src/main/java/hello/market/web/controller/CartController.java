@@ -49,7 +49,8 @@ public class CartController {
         JSONArray option_arr = option.getJSONArray("option");
         List<Cart> po_list = new ArrayList<>();
         JSONObject jsonObject = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
+        JSONArray indexArray = new JSONArray();
+        JSONArray quantityArray = new JSONArray();
         for (int i = 0; i < option_arr.length(); i++) {
             Integer optionId = (Integer) ((JSONObject) option_arr.get(i)).get("option_id");
             Integer quantity = (Integer) ((JSONObject) option_arr.get(i)).get("quantity");
@@ -63,6 +64,7 @@ public class CartController {
                     .append("x")
                     .append(optionId)
                     .toString();
+
             String purchase_productKey = new StringBuilder()
                     .append(option_part)
                     .append("x")
@@ -70,17 +72,20 @@ public class CartController {
                     .append("x")
                     .append(optionId)
                     .toString();
+
             Integer purchaseQuantity = cartService.purchaseQuantity_check(user_id, purchase_productKey);
             purchaseQuantity = purchaseQuantity == null? 0:purchaseQuantity;
 
             int calc_quantity = max_quantity - (purchaseQuantity + quantity);
             if(calc_quantity < 0){
-                jsonArray.put(optionId);
+                indexArray.put(optionId);
+                quantityArray.put(purchaseQuantity);
                 continue;
             }
             cartService.add_cart(user_id, goodsNo, quantity);
         }
-        jsonObject.put("overOptionId", jsonArray);
+        jsonObject.put("overOptionId", indexArray);
+        jsonObject.put("overOptionQuantity", quantityArray);
         Integer cartCount = cartService.cart_length(user_id);
 //        if (productNo != 0) {
 //            cartRepository.save(productNo, 1);

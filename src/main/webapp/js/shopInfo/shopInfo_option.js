@@ -1,6 +1,7 @@
 $(function(){
     const option_quantity_obj = new Array();
     const selectOption_tag_obj = new Array();
+    const obj_overOptionLength = {overOptionLength:0}
 //    const param_date1 = new Date("1977-01-01").getTime();
 //    const param_date2 = new Date("1978-01-01").getTime();
 //    const test_date = new Date(1675154944694);
@@ -15,18 +16,62 @@ $(function(){
         $order_add_btn.removeClass('order_box_allowed')
         $order_add_btn.addClass('order_box_not_allowed')
     }
+    /* single, multi related msg */
+    const create_partQuantity_tag=(_option_part,json)=>{
+        const object_key = Object.keys(option_quantity_obj);
+        const arr_overOptionId = json.overOptionId;
+        const arr_overOptionQuantity = json.overOptionQuantity;
+        let overOption_tag = "";
 
+        if(_option_part == "s"){
+            overOption_tag += `<p>${arr_overOptionQuantity[0]}<p>`
+            return overOption_tag;
+        }
+
+        arr_overOptionId.forEach((val,i)=>{
+            const optionName = object_key[val];
+            const purchase_quantity = arr_overOptionQuantity[i];
+            overOption_tag += `<p>${optionName}&nbsp;${purchase_quantity}<p>`
+        });
+        return overOption_tag;
+    }
+
+    /* 수량 관련 error msg */
+    const create_quantity_errorMsg=(overOption_tag)=>{
+        let quantity_errorMsg = `<div id="overQuantity_ErrorMsg" class="overErrorMsgBox">
+                                    <div class="overErrorMsg">
+                                        <section class="overErrorMsg_content">`;
+        quantity_errorMsg += overOption_tag;
+        quantity_errorMsg += `
+                                        </section>
+                                        <button id="exitOverQuantityBtn" type="button" class="exitErrorMsgBtn">ok</button>
+                                    </div>
+                                </div>`;
+        return quantity_errorMsg;
+    }
+    $(document).on("click","button#exitOverQuantityBtn",function(){
+        const overQuantity_ErrorMsg = document.querySelector("div#overQuantity_ErrorMsg");
+        overQuantity_ErrorMsg.remove()
+    });
     const create_selectOption = () =>{
         const selectOption_tag_nodeList = document.querySelectorAll("[data-option-value]")
+        const selectQuantity_tag_nodeList = document.querySelectorAll("[data-option-quantity]")
         const add_selectOption_tag = []
         for(let i=0; i<selectOption_tag_nodeList.length; i++){
             const selectOption_val = selectOption_tag_nodeList.item(i).getAttribute('data-option-value').trim()
+            const selectQuantity_val = selectQuantity_tag_nodeList.item(i).getAttribute('data-option-quantity').trim()
             const selectOption_tag = `
                 <span data-option-value="${selectOption_val}">
                     ${selectOption_val}
                 </span>
             `
-            add_selectOption_tag.push(selectOption_tag)
+            const selectOption_tag_soldOut = `
+                            <span style="cursor:not-allowed; color:rgb(181, 177, 177);">
+                                ${selectOption_val}
+                            </span>
+                        `
+            const is_quantity = Number(selectQuantity_val) <= 0? selectOption_tag_soldOut:selectOption_tag;
+            add_selectOption_tag.push(is_quantity)
         }
         selectOption_tag_obj["SelectOption"] = add_selectOption_tag
     }
@@ -87,24 +132,23 @@ $(function(){
             return "";
         }
         create_option_priceTotal()
-        const $option_priceTotal = $('h3[data-option_priceTotal="total"]')
+        const $option_priceTotal = document.querySelector('h3[data-option_priceTotal="total"]');
         trans_price_calc(option_val,1,$option_priceTotal)
         $("#shopInfoOptionBox").append(option_tag)
-        $("#sticky_optionContent").append(sticky_option_tag)
+        $("#sticky_optionContent").append( )
         order_add_btn_allowed_bg("ok")
     }
 
     // select 아이콘 animation
     const select_switch_fn =(display, rotate, select_optionContent, e)=>{
         const select_option_part = document.querySelector(select_optionContent)
-        const $select_option_part = $(select_optionContent)
         select_option_part.style.display=display
         e.children[1].style.transform=rotate
         if(display.includes("none")){
-            $select_option_part.html()
+            select_option_part.innerHTML=""
             return ""
         }
-        $select_option_part.html(selectOption_tag_obj["SelectOption"].join(""))
+        select_option_part.innerHTML=selectOption_tag_obj["SelectOption"].join("")
     }
 
     // select option click
@@ -132,10 +176,11 @@ $(function(){
         const price_total_tag = document.querySelector('[data-option_priceTotal="total"]')
 
         $option_container.remove();
-        const $option_priceTotal = $('h3[data-option_priceTotal="total"]')
+        const $option_priceTotal = document.querySelector('h3[data-option_priceTotal="total"]')
         trans_price_calc(option_close_name,0,$option_priceTotal)
-        if(option_containers.length == 2){
-            $option_priceTotal.remove()
+        /* select option menu 하나 남으면 삭제 */
+        if(option_containers.length == 1){
+            $option_priceTotal.remove();
             order_add_btn_allowed_bg("No")
         }
     });
@@ -144,6 +189,10 @@ $(function(){
         const option_nodeList =  document.querySelectorAll("[data-option-value]")
         for(let i=0; i<option_nodeList.length; i++){
             let option_name = option_nodeList.item(i).getAttribute('data-option-value').trim()
+            /*
+                상품 single 일 경우 수량 1개 인식
+                상품 multi 일 경우 수량 0개 인식
+            */
             const option_quantity = option_name.includes("single") ? 1:0
             option_quantity_obj[option_name] = [0,option_quantity]
         }
@@ -180,31 +229,38 @@ $(function(){
             })
 
         const complete_calc_price = arr_complete_calc_price.reverse().join("")
-        $option_priceTotal.html(complete_calc_price)
+        $option_priceTotal.innerHTML=complete_calc_price;
     }
 
     const quantity_btn =(max,pm_quantity,e)=>{
 
-        const $option_priceTotal = $('h3[data-option_priceTotal="total"]')
+        const $option_priceTotal = document.querySelector('h3[data-option_priceTotal="total"]');
         const target_quantity_name = $(e.target).attr(pm_quantity);
 
-        const $quantity_name = $(`input[data-quantity-name="${target_quantity_name}"]`)
-        const quantity_name = $quantity_name.attr("data-quantity-name").trim()
+        const $quantity_name = document.querySelector(`input[data-quantity-name="${target_quantity_name}"]`)
+        const quantity_name = $quantity_name.getAttribute("data-quantity-name").trim()
+        const $option_name =document.querySelector(`input[data-option-value="${target_quantity_name}"]`)
+        console.log(target_quantity_name)
+        const stock_quantity_val =$option_name.getAttribute("data-option-quantity").trim();
 
         // max quantity
         const regex = /[^0-9]/g;
         const option_max = parseInt($("#option_max").text().replace(regex,''))
         if(quantity_name == target_quantity_name && pm_quantity.includes("plus")){
-            let quantity_val = $quantity_name.val()
-            quantity_val < option_max ? quantity_val++ : alert("최대 수량을 초과하였습니다.")
-            $quantity_name.val(quantity_val)
+            let quantity_val = $quantity_name.value
+            if(stock_quantity_val <= quantity_val){
+                alert("재고물량을 초과하였습니다.");
+                return "";
+            }
+            quantity_val < option_max ? quantity_val++ : alert("최대 수량을 초과하였습니다.");
+            $quantity_name.value= quantity_val
             trans_price_calc(target_quantity_name,quantity_val, $option_priceTotal)
         }
 
         if(quantity_name == target_quantity_name && pm_quantity.includes("minus")){
-            let quantity_val = $quantity_name.val()
+            let quantity_val = $quantity_name.value
             quantity_val > 1 ? quantity_val-- : ''
-            $quantity_name.val(quantity_val)
+            $quantity_name.value= quantity_val
             trans_price_calc(target_quantity_name,quantity_val, $option_priceTotal)
         }
     }
@@ -223,6 +279,7 @@ $(function(){
     $(document).on("click","button[data-productNo]",async function(){
         const artistId =document.getElementById("artistId").value;
         const resolve_add_cart = "/cart/add-cart";
+        const container_quantity_length = document.querySelectorAll("div[data-option-container]").length
         const price_total_tag = document.querySelector('[data-option_priceTotal="total"]')
         const _productNo = document.querySelector("button[data-productNo]").getAttribute('data-productNo')
         if(! price_total_tag){
@@ -267,85 +324,89 @@ $(function(){
                 location.href= `/${artistId}/member/login-account`
                 return;
             }
-            const option_keys = Object.keys(option_quantity_obj);
             const json = JSON.parse(data);
-            const arr_overOptionId = json.overOptionId;
-            arr_overOptionId.forEach(val=>{
-               console.log(option_keys[val])
-            })
+            const overOption_tag = create_partQuantity_tag(_option_part,json);
+            const overOption_length = json.overOptionId.length
+           if(overOption_length == 0){
+                return;
+           }
+            obj_overOptionLength.overOptionLength = overOption_length;
+            const quantity_errorMsg = create_quantity_errorMsg(overOption_tag);
+            body_append("afterbegin",quantity_errorMsg);
+        }).catch((error)=>console.log(error));
+        if(container_quantity_length == obj_overOptionLength.overOptionLength){
             return;
-        }).catch((error)=>console.log(error))
-
+        }
         const checkMsg_res =  await void_addCheckMsg_ani();
         const checkMsg_remove = await remove_basket();
     });
 
      const create_stickyHead_tag = ()=>{
-              const shopInfoMain_img_src = $("#shopInfoMain_img").attr("src");
-              const shopInfoMain_title = $("#shopInfoMain_img").attr("alt");
-              const shopInfoMain_price = $("#basic_productPrice").html();
-              const option_keys = Object.keys(option_quantity_obj);
-              const shopInfoMain_id = Object.keys(option_quantity_obj);
-              const productNo = $("#addToCart").attr("data-productNo");
+          const shopInfoMain_img_src = $("#shopInfoMain_img").attr("src");
+          const shopInfoMain_title = $("#shopInfoMain_img").attr("alt");
+          const shopInfoMain_price = $("#basic_productPrice").html();
+          const option_keys = Object.keys(option_quantity_obj);
+          const shopInfoMain_id = Object.keys(option_quantity_obj);
+          const productNo = $("#addToCart").attr("data-productNo");
 
-              let stickyOption_tag ="";
-              let stickyTotal_tag = "";
-              let stickyOrder_class = "order_box_allowed";
+          let stickyOption_tag ="";
+          let stickyTotal_tag = "";
+          let stickyOrder_class = "order_box_allowed";
 
-              if(option_keys[0]!="single"){
-                stickyOption_tag = `<div class="shopInfo_selectTag justify-content-start">
-                                       <div id="sticky_selectOption" class="select_option">
-                                           <nav class="select_tag">
-                                               <span>--&nbsp;Select Option&nbsp;--</span>
-                                               <i class="fa-solid fa-chevron-down fa-lg" style="transform:rotate(0deg)"></i>
-                                           </nav>
-                                           <nav id="sticky_select_optionContent" class="select_option_part">
-                                           </nav>
-                                       </div>
-                                   </div>`;
-
-               stickyOrder_class = "order_box_not_allowed";
-              }else{
-                stickyOption_tag = `<div class="sticky_shopInfo_optionBox">
-                                       <nav class="quantity_btn_box">
-                                           <button data-minus-quantity="single" type="button">
-                                               <img data-minus-quantity="single" src="/img/icon/quantity_down.jpg" alt="quantity_down">
-                                           </button>
-                                           <input type="text" data-quantity-name="single"  value="1" name="single" maxlength="3" disabled>
-                                           <button data-plus-quantity="single" type="button">
-                                               <img data-plus-quantity="single" src="/img/icon/quantity_up.jpg" alt="quantity_up">
-                                           </button>
+          if(option_keys[0]!="single"){
+            stickyOption_tag = `<div class="shopInfo_selectTag justify-content-start">
+                                   <div id="sticky_selectOption" class="select_option">
+                                       <nav class="select_tag">
+                                           <span>--&nbsp;Select Option&nbsp;--</span>
+                                           <i class="fa-solid fa-chevron-down fa-lg" style="transform:rotate(0deg)"></i>
                                        </nav>
-                                   </div>`;
+                                       <nav id="sticky_select_optionContent" class="select_option_part">
+                                       </nav>
+                                   </div>
+                               </div>`;
 
-                stickyTotal_tag = `<h3 data-option_priceTotal="total">${shopInfoMain_price}</h3>`;
-              }
-            let stickyHead_tag=`<div id="stickyInfo" class="sticky_info">
-                                      <div class="stickyItemBox">
-                                          <header class="stickyHeader">
-                                              <div class="stickyImgBox">
-                                                  <img src="${shopInfoMain_img_src}" alt="${shopInfoMain_title}">
-                                              </div>
-                                              <nav class="stickyInfo">
-                                                  <h2>${shopInfoMain_title}</h2>
-                                                  <h3>${shopInfoMain_price}</h3>
-                                                  ${stickyOption_tag}
+           stickyOrder_class = "order_box_not_allowed";
+          }else{
+            stickyOption_tag = `<div class="sticky_shopInfo_optionBox">
+                                   <nav class="quantity_btn_box">
+                                       <button data-minus-quantity="single" type="button">
+                                           <img data-minus-quantity="single" src="/img/icon/quantity_down.jpg" alt="quantity_down">
+                                       </button>
+                                       <input type="text" data-quantity-name="single"  value="1" name="single" maxlength="3" disabled>
+                                       <button data-plus-quantity="single" type="button">
+                                           <img data-plus-quantity="single" src="/img/icon/quantity_up.jpg" alt="quantity_up">
+                                       </button>
+                                   </nav>
+                               </div>`;
+
+            stickyTotal_tag = `<h3 data-option_priceTotal="total">${shopInfoMain_price}</h3>`;
+          }
+        let stickyHead_tag=`<div id="stickyInfo" class="sticky_info">
+                                  <div class="stickyItemBox">
+                                      <header class="stickyHeader">
+                                          <div class="stickyImgBox">
+                                              <img src="${shopInfoMain_img_src}" alt="${shopInfoMain_title}">
+                                          </div>
+                                          <nav class="stickyInfo">
+                                              <h2>${shopInfoMain_title}</h2>
+                                              <h3>${shopInfoMain_price}</h3>
+                                              ${stickyOption_tag}
+                                          </nav>
+                                      </header>
+                                      <section class="sticky_section">
+                                          <div id="sticky_optionContent" class="sticky_optionContentBox">
+                                          </div>
+                                          <div class="sticky_order_box">
+                                              <nav class="sticky_total_price">
+                                                  ${stickyTotal_tag}
                                               </nav>
-                                          </header>
-                                          <section class="sticky_section">
-                                              <div id="sticky_optionContent" class="sticky_optionContentBox">
-                                              </div>
-                                              <div class="sticky_order_box">
-                                                  <nav class="sticky_total_price">
-                                                      ${stickyTotal_tag}
-                                                  </nav>
-                                                  <button class="${stickyOrder_class}" data-productNo="${productNo}" type="button">Add To Cart</button>
-                                              </div>
-                                          </section>
-                                      </div>
-                                  </div>`
-            return stickyHead_tag;
-        }
+                                              <button class="${stickyOrder_class}" data-productNo="${productNo}" type="button">Add To Cart</button>
+                                          </div>
+                                      </section>
+                                  </div>
+                              </div>`
+        return stickyHead_tag;
+    }
 
     let currentScene = 0;
     let yOffset =0;

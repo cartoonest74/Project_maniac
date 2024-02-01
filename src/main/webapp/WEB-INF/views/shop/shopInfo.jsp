@@ -12,6 +12,7 @@
 <title>Document</title>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/shopinfo.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/errorPage/basic_err.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/pageCount/pageCount.css">
 <link rel="stylesheet" href="${contextPath}/css/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
@@ -46,7 +47,7 @@
 <c:set var="title" value="${productinfo.title}" />
 <c:set var="category" value="${productinfo.category}" />
 <c:set var="price" value="${productinfo.price}" />
-<c:set var="optionList" value="${fn:split(productinfo.optionList,',')}" />
+<c:set var="optionList" value="${fn:split(productinfo.optionList,',')}"/>
 <c:set var="productArtistId" value="${productinfo.artistId}"/>
 <c:choose>
     <c:when test="${optionList[0] ne 'single'}">
@@ -54,6 +55,7 @@
         <c:set var="forBreak" value="${(optionListLength / 2) - 1}"/>
     </c:when>
     <c:otherwise>
+        <c:set var="singleQuantity" value="${optionList[1]}"/>
         <c:set var="optionList" value=""/>
     </c:otherwise>
 </c:choose>
@@ -104,7 +106,7 @@ request.setCharacterEncoding("UTF-8");
                             <i class="fa-solid fa-chevron-down fa-lg" style="transform:rotate(0deg)"></i>
                         </nav>
                     <c:forEach var="i" begin="0" end="${forBreak}" varStatus="status">
-                        <input data-option-value="${optionList[2*i]}" hidden="hidden">
+                        <input data-option-value="${optionList[2*i]}" data-option-quantity="${optionList[(2*i)+1]}" hidden="hidden">
                     </c:forEach>
                         <div id="select_optionContent" class="select_option_part">
                         </div>
@@ -113,7 +115,7 @@ request.setCharacterEncoding("UTF-8");
             </c:if>
             <li id="shopInfoOptionBox" class="shopInfo_optionBox">
             <c:if test="${empty optionList}">
-                <input data-option-value="single" hidden="hidden">
+                <input data-option-value="single" data-option-quantity="${singleQuantity}" hidden="hidden">
                 <nav class="quantity_btn_box">
                     <button data-minus-quantity="single" type="button">
                         <img data-minus-quantity="single" src="/img/icon/quantity_down.jpg" alt="quantity_down">

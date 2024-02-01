@@ -106,7 +106,7 @@ request.setCharacterEncoding("UTF-8");
                             <i class="fa-solid fa-chevron-down fa-lg" style="transform:rotate(0deg)"></i>
                         </nav>
                     <c:forEach var="i" begin="0" end="${forBreak}" varStatus="status">
-                        <input data-option-value="${optionList[2*i]}" data-option-quantity="${optionList[(2*i)+1]}" hidden="hidden">
+                        <input data-option-value="${fn:trim(optionList[2*i])}" data-option-quantity="${fn:trim(optionList[(2*i)+1])}" hidden="hidden">
                     </c:forEach>
                         <div id="select_optionContent" class="select_option_part">
                         </div>
@@ -116,7 +116,7 @@ request.setCharacterEncoding("UTF-8");
             <li id="shopInfoOptionBox" class="shopInfo_optionBox">
             <c:if test="${empty optionList}">
                 <input data-option-value="single" data-option-quantity="${singleQuantity}" hidden="hidden">
-                <nav class="quantity_btn_box">
+                <div id="quantityBox" data-option-container="single" class="quantity_btn_box">
                     <button data-minus-quantity="single" type="button">
                         <img data-minus-quantity="single" src="/img/icon/quantity_down.jpg" alt="quantity_down">
                     </button>
@@ -124,12 +124,12 @@ request.setCharacterEncoding("UTF-8");
                     <button data-plus-quantity="single" type="button">
                         <img data-plus-quantity="single" src="/img/icon/quantity_up.jpg" alt="quantity_up">
                     </button>
-                </nav>
+                </div>
             </c:if>
             </li>
 		</ul>
 		<div id="hiddenMenu_line" class="shopInfo_optionBox">
-            <div class="option_price_total">
+            <div id="optionTotalPrice" class="option_price_total">
                 <c:if test="${empty optionList}">
                     <h3 data-option_priceTotal="total">${price}</h3>
                 </c:if>

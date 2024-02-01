@@ -6,12 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.util.StringUtils;
 
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,12 +28,16 @@ class MemberControllerTest {
     }
     @Test
     void arrayTest(){
-        String test = " z";
-        Member member = null;
-        log.info("member={}",member == null);
-        log.info("member={}", Objects.isNull(member));
-        log.info("test={}", test != null && test.equals(""));
-        log.info("test={}", StringUtils.hasText(test));
-
+        ArrayList<Integer> testa = new ArrayList<>(4);
+        testa.add(1);
+        testa.add(2);
+        testa.add(3);
+        testa.add(4);
+        log.info("testa={}",testa.size());
+        testa.add(5);
+        testa.add(6);
+        testa.add(7);
+        log.info("testa={}",testa.size());
+        log.info("testa={}",testa);
     }
 }

@@ -6,7 +6,7 @@ $(function(){
 //    const param_date2 = new Date("1978-01-01").getTime();
 //    const test_date = new Date(1675154944694);
 
-    function order_add_btn_allowed_bg (allow){
+    const order_add_btn_allowed_bg =(allow)=>{
         const $order_add_btn = $('button[data-productNo]')
         if(allow.includes("ok")){
             $order_add_btn.removeClass('order_box_not_allowed')
@@ -16,6 +16,7 @@ $(function(){
         $order_add_btn.removeClass('order_box_allowed')
         $order_add_btn.addClass('order_box_not_allowed')
     }
+
     /* single, multi related msg */
     const create_partQuantity_tag=(_option_part,json)=>{
         const object_key = Object.keys(option_quantity_obj);
@@ -24,15 +25,17 @@ $(function(){
         let overOption_tag = "";
 
         if(_option_part == "s"){
-            overOption_tag += `<p>${arr_overOptionQuantity[0]}<p>`
+            overOption_tag += `<p style="color:rgb(243, 103, 103);">${arr_overOptionQuantity[0]}ea</p>`
+            overOption_tag += `<p>구매한 이력이 있습니다.</p>`
             return overOption_tag;
         }
 
         arr_overOptionId.forEach((val,i)=>{
             const optionName = object_key[val];
             const purchase_quantity = arr_overOptionQuantity[i];
-            overOption_tag += `<p>${optionName}&nbsp;${purchase_quantity}<p>`
+            overOption_tag += `<p>${optionName}&nbsp;<span style="font-size:inherit; color:rgb(243, 103, 103);">${purchase_quantity}ea</span></p>`
         });
+            overOption_tag += `<p>구매한 이력이 있습니다.</p>`
         return overOption_tag;
     }
 
@@ -40,7 +43,8 @@ $(function(){
     const create_quantity_errorMsg=(overOption_tag)=>{
         let quantity_errorMsg = `<div id="overQuantity_ErrorMsg" class="overErrorMsgBox">
                                     <div class="overErrorMsg">
-                                        <section class="overErrorMsg_content">`;
+                                        <section class="overErrorMsg_content">
+                                            <h2><i class="fa-solid fa-bell fa-lg"></i>수량 초과 알림</h2>`;
         quantity_errorMsg += overOption_tag;
         quantity_errorMsg += `
                                         </section>
@@ -49,10 +53,12 @@ $(function(){
                                 </div>`;
         return quantity_errorMsg;
     }
+    /*수량 관련 error box 나가기 */
     $(document).on("click","button#exitOverQuantityBtn",function(){
         const overQuantity_ErrorMsg = document.querySelector("div#overQuantity_ErrorMsg");
         overQuantity_ErrorMsg.remove()
     });
+
     const create_selectOption = () =>{
         const selectOption_tag_nodeList = document.querySelectorAll("[data-option-value]")
         const selectQuantity_tag_nodeList = document.querySelectorAll("[data-option-quantity]")
@@ -81,12 +87,14 @@ $(function(){
     const create_option_priceTotal = ()=>{
         const option_priceTotal_Tag=`<h3 data-option_priceTotal="total"></h3>`;
         // main
-        $("div.option_price_total").html(option_priceTotal_Tag);
-
+        document.getElementById("optionTotalPrice").innerHTML= option_priceTotal_Tag
         // sticky
-        $("nav.sticky_total_price").html(option_priceTotal_Tag);
+        const stickyTotalPrice = document.querySelector("nav#stickyTotalPrice");
+        if(stickyTotalPrice != null){
+            stickyTotalPrice.innerHTML=option_priceTotal_Tag;
+        }
     }
-
+    /* multi option */
     const create_optionTag = (option_val) =>{
         const option_tag = `<div data-option-container="${option_val}" class="shoInfo_quantity">
                                 <button data-option-part-close="${option_val}" type="button">
@@ -97,7 +105,7 @@ $(function(){
                                         ${option_val}
                                     </h2>
                                 </nav>
-                                <nav class="quantity_btn_box">
+                                <nav id="quantityBox" class="quantity_btn_box">
                                     <button data-minus-quantity="${option_val}" type="button">
                                         <img data-minus-quantity="${option_val}" src="/img/icon/quantity_down.jpg" alt="quantity_down">
                                     </button>
@@ -117,7 +125,7 @@ $(function(){
                                                 ${option_val}
                                             </h2>
                                         </nav>
-                                        <nav class="sticky_quantityBox">
+                                        <nav id="stickyQuantityBox" class="sticky_quantityBox">
                                             <button data-minus-quantity="${option_val}" type="button">
                                                 <img data-minus-quantity="${option_val}" src="/img/icon/quantity_down.jpg" alt="quantity_down">
                                             </button>
@@ -132,10 +140,10 @@ $(function(){
             return "";
         }
         create_option_priceTotal()
-        const $option_priceTotal = document.querySelector('h3[data-option_priceTotal="total"]');
+        const $option_priceTotal = $('h3[data-option_priceTotal="total"]');
         trans_price_calc(option_val,1,$option_priceTotal)
         $("#shopInfoOptionBox").append(option_tag)
-        $("#sticky_optionContent").append( )
+        $("#sticky_optionContent").append(option_tag)
         order_add_btn_allowed_bg("ok")
     }
 
@@ -172,12 +180,13 @@ $(function(){
     $(document).on("click","button[data-option-part-close]",function(e){
         const option_close_name = $(e.target).attr('data-option-part-close').trim();
         const $option_container = $(`div[data-option-container='${option_close_name}']`)
-        const option_containers = document.querySelectorAll("[data-option-container]");
+        const option_containers = document.querySelectorAll("#shopInfoOptionBox>div[data-option-container]");
         const price_total_tag = document.querySelector('[data-option_priceTotal="total"]')
 
         $option_container.remove();
-        const $option_priceTotal = document.querySelector('h3[data-option_priceTotal="total"]')
+        const $option_priceTotal = $('h3[data-option_priceTotal="total"]')
         trans_price_calc(option_close_name,0,$option_priceTotal)
+
         /* select option menu 하나 남으면 삭제 */
         if(option_containers.length == 1){
             $option_priceTotal.remove();
@@ -229,38 +238,46 @@ $(function(){
             })
 
         const complete_calc_price = arr_complete_calc_price.reverse().join("")
-        $option_priceTotal.innerHTML=complete_calc_price;
+        $option_priceTotal.html(complete_calc_price);
     }
 
     const quantity_btn =(max,pm_quantity,e)=>{
 
-        const $option_priceTotal = document.querySelector('h3[data-option_priceTotal="total"]');
+        const $option_priceTotal = $('h3[data-option_priceTotal="total"]');
         const target_quantity_name = $(e.target).attr(pm_quantity);
 
-        const $quantity_name = document.querySelector(`input[data-quantity-name="${target_quantity_name}"]`)
-        const quantity_name = $quantity_name.getAttribute("data-quantity-name").trim()
+        const $quantity_name = $(`input[data-quantity-name="${target_quantity_name}"]`)
+        const quantity_name = $quantity_name.attr("data-quantity-name").trim()
         const $option_name =document.querySelector(`input[data-option-value="${target_quantity_name}"]`)
-        console.log(target_quantity_name)
-        const stock_quantity_val =$option_name.getAttribute("data-option-quantity").trim();
+        const stock_quantity_val = Number($option_name.getAttribute("data-option-quantity").trim());
 
         // max quantity
         const regex = /[^0-9]/g;
         const option_max = parseInt($("#option_max").text().replace(regex,''))
         if(quantity_name == target_quantity_name && pm_quantity.includes("plus")){
-            let quantity_val = $quantity_name.value
+            let quantity_val = $quantity_name.val()
             if(stock_quantity_val <= quantity_val){
-                alert("재고물량을 초과하였습니다.");
-                return "";
+                const stock_overMsg =`<p style="color:rgb(243, 103, 103);">재고물량을 초과하였습니다.</p>`
+                const stock_overMsg_tag = create_quantity_errorMsg(stock_overMsg);
+                body_append("afterbegin",stock_overMsg_tag);
+                return;
             }
-            quantity_val < option_max ? quantity_val++ : alert("최대 수량을 초과하였습니다.");
-            $quantity_name.value= quantity_val
+            if(quantity_val < option_max){
+                quantity_val++;
+            }else{
+                const max_overMsg =`<p style="color:rgb(243, 103, 103);">최대 수량을 초과하였습니다.</p>`
+                const max_overMsg_tag = create_quantity_errorMsg(max_overMsg);
+                body_append("afterbegin",max_overMsg_tag);
+                return;
+            }
+            $quantity_name.val(quantity_val)
             trans_price_calc(target_quantity_name,quantity_val, $option_priceTotal)
         }
 
         if(quantity_name == target_quantity_name && pm_quantity.includes("minus")){
-            let quantity_val = $quantity_name.value
+            let quantity_val = $quantity_name.val()
             quantity_val > 1 ? quantity_val-- : ''
-            $quantity_name.value= quantity_val
+            $quantity_name.val(quantity_val)
             trans_price_calc(target_quantity_name,quantity_val, $option_priceTotal)
         }
     }
@@ -279,8 +296,8 @@ $(function(){
     $(document).on("click","button[data-productNo]",async function(){
         const artistId =document.getElementById("artistId").value;
         const resolve_add_cart = "/cart/add-cart";
-        const container_quantity_length = document.querySelectorAll("div[data-option-container]").length
-        const price_total_tag = document.querySelector('[data-option_priceTotal="total"]')
+        const container_quantity_length = document.querySelectorAll("#shopInfoOptionBox>div[data-option-container]").length
+        const price_total_tag = document.querySelector('#optionTotalPrice>[data-option_priceTotal="total"]')
         const _productNo = document.querySelector("button[data-productNo]").getAttribute('data-productNo')
         if(! price_total_tag){
             return
@@ -291,17 +308,18 @@ $(function(){
         const option_quantity_arr = []
         let _option_part;
         for(let key in option_quantity_obj){
-            let option_quantity_val = option_quantity_obj[key]
+            const option_quantity_val = Number(option_quantity_obj[key][1])
             _option_part = key.includes("single")? "s":"m";
             if(_option_part == "s"){
-                option_quantity_arr.push({"option_id":option_key_index,"quantity":option_quantity_val[1]})
+                option_quantity_arr.push({"option_id":option_key_index,"quantity":option_quantity_val})
                 break
             }
             option_key_index++;
             if(option_quantity_obj[key][0] == 0){
                 continue
             }
-            option_quantity_arr.push({"option_id":option_key_index-1,"quantity":option_quantity_val[1]})
+            console.log("option_key_index-1",option_key_index-1,"option_quantity_val",option_quantity_val)
+            option_quantity_arr.push({"option_id":option_key_index-1,"quantity":option_quantity_val})
         }
 
         // max quantity
@@ -325,22 +343,26 @@ $(function(){
                 return;
             }
             const json = JSON.parse(data);
-            const overOption_tag = create_partQuantity_tag(_option_part,json);
             const overOption_length = json.overOptionId.length
+            obj_overOptionLength.overOptionLength = overOption_length;
+
+           /* over된 구매물량이 없다면 return */
            if(overOption_length == 0){
                 return;
            }
-            obj_overOptionLength.overOptionLength = overOption_length;
+
+            /* over된 구매물량이 있다면 errorMsg */
+            const overOption_tag = create_partQuantity_tag(_option_part,json);
             const quantity_errorMsg = create_quantity_errorMsg(overOption_tag);
             body_append("afterbegin",quantity_errorMsg);
         }).catch((error)=>console.log(error));
-        if(container_quantity_length == obj_overOptionLength.overOptionLength){
+        if(obj_overOptionLength.overOptionLength != 0 && container_quantity_length == obj_overOptionLength.overOptionLength){
             return;
         }
         const checkMsg_res =  await void_addCheckMsg_ani();
         const checkMsg_remove = await remove_basket();
     });
-
+    /* sticky tag */
      const create_stickyHead_tag = ()=>{
           const shopInfoMain_img_src = $("#shopInfoMain_img").attr("src");
           const shopInfoMain_title = $("#shopInfoMain_img").attr("alt");
@@ -368,7 +390,7 @@ $(function(){
            stickyOrder_class = "order_box_not_allowed";
           }else{
             stickyOption_tag = `<div class="sticky_shopInfo_optionBox">
-                                   <nav class="quantity_btn_box">
+                                   <nav id="stickyQuantityBox" class="quantity_btn_box">
                                        <button data-minus-quantity="single" type="button">
                                            <img data-minus-quantity="single" src="/img/icon/quantity_down.jpg" alt="quantity_down">
                                        </button>
@@ -397,7 +419,7 @@ $(function(){
                                           <div id="sticky_optionContent" class="sticky_optionContentBox">
                                           </div>
                                           <div class="sticky_order_box">
-                                              <nav class="sticky_total_price">
+                                              <nav id="stickyTotalPrice" class="sticky_total_price">
                                                   ${stickyTotal_tag}
                                               </nav>
                                               <button class="${stickyOrder_class}" data-productNo="${productNo}" type="button">Add To Cart</button>
@@ -424,6 +446,37 @@ $(function(){
     function body_append(position, text){
         const body = document.querySelector("body");
         body.insertAdjacentHTML(position,text);
+    }
+
+    const single_sticky_onLoad=(quantity_name)=>{
+        /*non-sticky*/
+        const quantity_value = quantity_name.value;
+        const optionTotalPriceBox = document.getElementById("optionTotalPrice")
+        const optionTotalPrice = optionTotalPriceBox.innerHTML
+        /*sticky*/
+        const stickyQuantity_input = document.querySelector("#stickyQuantityBox>input[data-quantity-name]")
+        const stickyTotalPrice = document.getElementById("stickyTotalPrice");
+        stickyTotalPrice.innerHTML =optionTotalPrice
+        stickyQuantity_input.value = quantity_value
+    }
+
+    const multi_sticky_onLoad=()=>{
+        const option_containers = document.querySelectorAll("#shopInfoOptionBox>div[data-option-container]");
+        if(option_containers.length == 0){
+            return;
+        }
+        /*non-sticky*/
+        const shopInfoOptionBox = document.querySelector("#shopInfoOptionBox");
+        const select_optionContent = shopInfoOptionBox.innerHTML
+        const optionTotalPriceBox = document.getElementById("optionTotalPrice")
+        const optionTotalPrice = optionTotalPriceBox.innerHTML
+
+        /*sticky*/
+        const sticky_optionContentBox = document.querySelector("div#sticky_optionContent");
+        const stickyTotalPrice = document.getElementById("stickyTotalPrice");
+        sticky_optionContentBox.innerHTML =select_optionContent
+        stickyTotalPrice.innerHTML =optionTotalPrice
+        order_add_btn_allowed_bg("ok");
     }
 
     window.addEventListener("scroll",()=>{
@@ -460,6 +513,16 @@ $(function(){
                 body_append("afterbegin",sideOption_tag);
                 sideOption = document.querySelector("#sideOption")
                 sideOption.animate(keyframes, options);
+
+                /* single */
+                const quantity_name = document.querySelector(`#quantityBox>input[data-quantity-name="single"]`)
+                if(quantity_name != null){
+                    single_sticky_onLoad(quantity_name);
+                    return;
+                }
+
+                /*multi*/
+                multi_sticky_onLoad();
             }
         }else{
             if(stickyInfo != null){

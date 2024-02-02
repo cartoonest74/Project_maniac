@@ -53,6 +53,7 @@ $(function(){
                                 </div>`;
         return quantity_errorMsg;
     }
+
     /*수량 관련 error box 나가기 */
     $(document).on("click","button#exitOverQuantityBtn",function(){
         const overQuantity_ErrorMsg = document.querySelector("div#overQuantity_ErrorMsg");
@@ -241,6 +242,7 @@ $(function(){
         $option_priceTotal.html(complete_calc_price);
     }
 
+    // TODO 수량 option
     const quantity_btn =(max,pm_quantity,e)=>{
 
         const $option_priceTotal = $('h3[data-option_priceTotal="total"]');
@@ -318,7 +320,6 @@ $(function(){
             if(option_quantity_obj[key][0] == 0){
                 continue
             }
-            console.log("option_key_index-1",option_key_index-1,"option_quantity_val",option_quantity_val)
             option_quantity_arr.push({"option_id":option_key_index-1,"quantity":option_quantity_val})
         }
 
@@ -333,6 +334,7 @@ $(function(){
         formData.append("option_part",_option_part)
         formData.append("productNo",_productNo)
         formData.append("option",option_json)
+
         const res = await fetch(resolve_add_cart,{
             method:"PUT",
             body:formData

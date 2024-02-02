@@ -45,7 +45,7 @@
             json_key as cartKey,
             JSON_EXTRACT(main_img,'$.img[0][0]') mainImg,
             title,
-            JSON_EXTRACT(option_size, CONCAT('$.option[',option_no,'][0]')) optionTitle,
+            JSON_UNQUOTE(JSON_EXTRACT(option_size, CONCAT('$.option[',option_no,'][0]'))) optionTitle,
             quantity
         from
             (select row_number() over(order by t1.cart_date desc) no, t1.*

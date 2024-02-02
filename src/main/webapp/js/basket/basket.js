@@ -1,12 +1,16 @@
 $(function(){
     // edit obj
     const basket_obj = new Array();
+    // multi select option menu tag
     const selectOption_tag_obj = new Array();
+    /* option menu title */
     const optionList_obj = new Array();
-    const option_quantity_obj = new Array();
-
+    /*재고수량 obj*/
+    const stockQuantity_obj = new Array();
     // basket tag
     const arr_main_basketTag = new Array;
+    // 구매수량
+    const obj_overOptionLength = {overOptionLength:0, quantityObj:[], stockQuantity_obj:[]}
 
   function get_today(){
      let today = new Date();
@@ -36,7 +40,7 @@ $(function(){
         });
         return arr_calc_price;
     }
-
+    // main total 부분
     function basket_dictionary(){
         const option_nodeList =  document.querySelectorAll("[data-quantity-name]")
         let quantity_max = 0
@@ -64,7 +68,6 @@ $(function(){
         const currency_unit = basket_originalPrice[0]
         const str_product_price = basket_originalPrice.substring(1).replace(/,/g,"")
 //        const money_digit = (arr_product_price.length - 1) * 1000
-        console.log()
         const product_price = parseInt(str_product_price)
 
         // ch2 quantity calculation
@@ -154,7 +157,8 @@ $(function(){
             });
 
             const Str_arr_main_basketTag = arr_main_basketTag.join("");
-            $("#basketInfo").html(Str_arr_main_basketTag);
+            const $basketInfo = document.getElementById("basketInfo");
+            $basketInfo.innerHTML=Str_arr_main_basketTag;
             basket_dictionary();
         })
     }
@@ -176,21 +180,25 @@ $(function(){
         const basket_editOptionMent = String_to_json.optionMent;
 
         const optionList = basket_editOptionList.split(",");
-
-        optionList_obj.length = 0;
+        optionList_obj.length=0;
+        const stockQuantity_obj = [];
         optionList.forEach((val,i)=>{
             val = val.trim();
+            /*single*/
             if(val == "single"){
                 optionList_obj.push(val);
+                stockQuantity_obj["signle"]=optionList[1];
+                return "";
+            }
+            /* multi */
+            if((i+1)%2 != 0){
+                optionList_obj.push(val);
+                stockQuantity_obj[val]=optionList[i+1];
                 return "";
             }
 
-            if((i+1)%2 != 0){
-                optionList_obj.push(val);
-            }
-
         });
-
+        obj_overOptionLength.stockQuantity_obj = stockQuantity_obj
         let String_edit_Tag = `
             <button id="basketEdit_Exit" class="basket_btn_exit" type="button">
                 <i class="fa-solid fa-x fa-lg"></i>
@@ -264,11 +272,14 @@ $(function(){
     }
 
     function option_dictionary(){
-            optionList_obj.forEach((val,i)=>{
+        /* option menu 수량 */
+        const option_quantity_obj = [];
+        optionList_obj.forEach((val,i)=>{
             let option_name = val.trim();
             const option_quantity = option_name.includes("single") ? 1:0
-            option_quantity_obj[option_name] = [0,option_quantity]
+            option_quantity_obj[option_name] = [0,option_quantity];
         })
+        obj_overOptionLength.quantityObj = option_quantity_obj
     }
 
     // edit 페이지 띄우기
@@ -309,6 +320,7 @@ $(function(){
 
     const create_selectOption = () =>{
         const add_selectOption_tag = []
+        const stockQuantityObj = obj_overOptionLength.stockQuantity_obj;
         optionList_obj.forEach((val, i)=>{
             const selectOption_val = val.trim()
             const selectOption_tag = `
@@ -316,7 +328,13 @@ $(function(){
                     ${selectOption_val}
                 </span>
             `
-            add_selectOption_tag.push(selectOption_tag)
+            const selectOption_tag_soldOut = `
+                <span style="cursor:not-allowed; color:rgb(181, 177, 177);">
+                    ${selectOption_val}
+                </span>
+            `
+            const is_quantity = Number(stockQuantityObj[selectOption_val]) <= 0? selectOption_tag_soldOut:selectOption_tag;
+            add_selectOption_tag.push(is_quantity)
         });
         selectOption_tag_obj["SelectOption"] = add_selectOption_tag
     }
@@ -409,12 +427,11 @@ $(function(){
         // ch2 quantity calculation
         let calc_product_price = product_price * quantity_val
         // ch3 multiple & single quantity total
-        option_quantity_obj[target_quantity_name][0]=calc_product_price
-        option_quantity_obj[target_quantity_name][1]=quantity_val
-        console.log(option_quantity_obj)
+        obj_overOptionLength.quantityObj[target_quantity_name][0]=calc_product_price
+        obj_overOptionLength.quantityObj[target_quantity_name][1]=quantity_val
         let quantity_total = 0
-        for(let key in option_quantity_obj){
-            quantity_total += option_quantity_obj[key][0]
+        for(let key in obj_overOptionLength.quantityObj){
+            quantity_total += obj_overOptionLength.quantityObj[key][0]
         }
 
         const arr_complete_calc_price = []
@@ -433,45 +450,103 @@ $(function(){
         $option_priceTotal.html(complete_calc_price)
     }
 
-    const quantity_btn =(max,pm_quantity,e)=>{
+    /* TODO 수량 알림 메세지 */
+    const create_partQuantity_tag=(_option_part,json)=>{
+        const object_key = Object.keys(obj_overOptionLength.quantityObj);
+        const arr_overOptionId = json.overOptionId;
+        const arr_overOptionQuantity = json.overOptionQuantity;
+        let overOption_tag = "";
 
-        const $option_priceTotal = $('h3[data-option_priceTotal="total"]')
+        if(_option_part == "s"){
+            overOption_tag += `<p style="color:rgb(243, 103, 103);">${arr_overOptionQuantity[0]}ea</p>`
+            overOption_tag += `<p>구매한 이력이 있습니다.</p>`
+            return overOption_tag;
+        }
+
+        arr_overOptionId.forEach((val,i)=>{
+            const optionName = object_key[val];
+            const purchase_quantity = arr_overOptionQuantity[i];
+            overOption_tag += `<p>${optionName}&nbsp;<span style="font-size:inherit; color:rgb(243, 103, 103);">${purchase_quantity}ea</span></p>`
+        });
+            overOption_tag += `<p>구매한 이력이 있습니다.</p>`
+        return overOption_tag;
+    }
+
+    /* 수량 관련 error msg */
+    const create_quantity_errorMsg=(overOption_tag)=>{
+        let quantity_errorMsg = `<div id="overQuantity_ErrorMsg" class="overErrorMsgBox">
+                                    <div class="overErrorMsg">
+                                        <section class="overErrorMsg_content">
+                                            <h2><i class="fa-solid fa-bell fa-lg"></i>수량 초과 알림</h2>`;
+        quantity_errorMsg += overOption_tag;
+        quantity_errorMsg += `
+                                        </section>
+                                        <button id="exitOverQuantityBtn" type="button" class="exitErrorMsgBtn">ok</button>
+                                    </div>
+                                </div>`;
+        return quantity_errorMsg;
+    }
+
+    /*수량 관련 error box 나가기 */
+    $(document).on("click","button#exitOverQuantityBtn",function(){
+        const overQuantity_ErrorMsg = document.querySelector("div#overQuantity_ErrorMsg");
+        overQuantity_ErrorMsg.remove()
+    });
+
+    // TODO 수량 Option
+    const quantity_btn =(pm_quantity,e)=>{
+        const $option_priceTotal = $('h3[data-option_priceTotal="total"]');
         const target_quantity_name = $(e.target).attr(pm_quantity);
-
-        const $quantity_name = $(`input[data-editQuantity-name="${target_quantity_name}"]`)
-        const quantity_name = $quantity_name.attr("data-editQuantity-name").trim()
+        const $quantity_name = document.querySelector(`input[data-editquantity-name="${target_quantity_name}"]`)
+        const quantity_name = $quantity_name.getAttribute("data-editquantity-name").trim();
+        const stockQuantityObj =obj_overOptionLength.stockQuantity_obj;
+        const stock_quantity_val = Number(stockQuantityObj[target_quantity_name]);
 
         // max quantity
         const regex = /[^0-9]/g;
         const option_max = parseInt($("#option_max").text().replace(regex,''))
-
-        let quantity_val = Number($quantity_name.val());
         if(quantity_name == target_quantity_name && pm_quantity.includes("plus")){
-            quantity_val < option_max ? quantity_val++ : alert("최대 수량을 초과하였습니다.")
-            $quantity_name.val(quantity_val)
+            let quantity_val = $quantity_name.value
+            if(stock_quantity_val <= quantity_val){
+                const stock_overMsg =`<p style="color:rgb(243, 103, 103);">재고물량을 초과하였습니다.</p>`
+                const stock_overMsg_tag = create_quantity_errorMsg(stock_overMsg);
+                body_append("afterbegin",stock_overMsg_tag);
+                return;
+            }
+            if(quantity_val < option_max){
+                quantity_val++;
+            }else{
+                const max_overMsg =`<p style="color:rgb(243, 103, 103);">최대 수량을 초과하였습니다.</p>`
+                const max_overMsg_tag = create_quantity_errorMsg(max_overMsg);
+                body_append("afterbegin",max_overMsg_tag);
+                return;
+            }
+            $quantity_name.value=quantity_val;
             trans_price_calc(target_quantity_name,quantity_val, $option_priceTotal)
         }
 
         if(quantity_name == target_quantity_name && pm_quantity.includes("minus")){
+            let quantity_val = $quantity_name.value
             quantity_val > 1 ? quantity_val-- : ''
-            $quantity_name.val(quantity_val)
+            $quantity_name.value=quantity_val;
             trans_price_calc(target_quantity_name,quantity_val, $option_priceTotal)
         }
     }
 
     // plus quantity
     $(document).on("click","button[data-plus-quantity]",function(e){
-        quantity_btn(6,"data-plus-quantity",e)
+        quantity_btn("data-plus-quantity",e)
     })
 
     // minus quantity
     $(document).on("click","button[data-minus-quantity]",function(e){
-        quantity_btn(6,"data-minus-quantity",e)
+        quantity_btn("data-minus-quantity",e)
     })
 
-    // add to cart
+    // TODO add to cart
     $(document).on("click","button[data-productNo]",async function(){
         const resolve_add_cart = "/cart/add-cart";
+        console.log("obj_overOptionLength.stockQuantity_obj",obj_overOptionLength.stockQuantity_obj);
         const price_total_tag = document.querySelector('[data-option_priceTotal="total"]')
         const _productNo = $("button[data-productNo]").attr('data-productNo')
         if(! price_total_tag){
@@ -481,21 +556,26 @@ $(function(){
         let option_key_index = 0;
         const option_quantity_json = new Object()
         const option_quantity_arr = []
-        let _option_part;
-        for(let key in option_quantity_obj){
-            let option_quantity_val = option_quantity_obj[key]
+        let _option_part = "";
+        for(let key in obj_overOptionLength.quantityObj){
+            let option_quantity_val = Number(obj_overOptionLength.quantityObj[key][1])
             _option_part = key.includes("single")? "s":"m";
             if(_option_part == "s"){
-                option_quantity_arr.push({"option_id":option_key_index,"quantity":option_quantity_val[1]})
+                option_quantity_arr.push({"option_id":option_key_index,"quantity":option_quantity_val})
                 break
             }
             option_key_index++;
-            if(option_quantity_obj[key][0] == 0){
+            if(obj_overOptionLength.quantityObj[key][0] == 0){
                 continue
             }
-            option_quantity_arr.push({"option_id":option_key_index-1,"quantity":option_quantity_val[1]})
+            option_quantity_arr.push({"option_id":option_key_index-1,"quantity":option_quantity_val})
         }
-        option_quantity_json.id =_productNo
+
+        // max quantity
+        const regex = /[^0-9]/g;
+        const option_max = parseInt(document.getElementById("option_max").innerText.replace(regex,''))
+//        option_quantity_json.id =_productNo
+        option_quantity_json.max =option_max
         option_quantity_json.option = option_quantity_arr
         const option_json = JSON.stringify(option_quantity_json)
 
@@ -510,11 +590,20 @@ $(function(){
         }).then((response)=>response.text())
         .then((data)=>{
             show_editWindow("");
-            post_viewCart();
+            const json = JSON.parse(data);
+            const overOption_length = json.overOptionId.length;
+            obj_overOptionLength.overOptionLength = overOption_length;
+           /* over된 구매물량이 없다면 return */
+           if(overOption_length == 0){
+                return;
+           }
+            /* over된 구매물량이 있다면 errorMsg */
+            const overOption_tag = create_partQuantity_tag(_option_part,json);
+            const quantity_errorMsg = create_quantity_errorMsg(overOption_tag);
+            body_append("afterbegin",quantity_errorMsg);
         })
-        .catch((error)=>{
-            console.log(data);
-        })
+        .catch((error)=>{})
+        const res2 = await post_viewCart();
     });
 
     //TODO edit 페이지 exit

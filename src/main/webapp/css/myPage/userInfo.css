@@ -169,3 +169,113 @@
 .myPageMenu *{
     font-size:inherit;
 }
+
+/*edit page*/
+.myPageEdit_box{
+    position:fixed;
+    display:flex;
+    width:100%;
+    height:100%;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,0.5);
+    z-index:3;
+}
+.myPageEdit{
+    display:flex;
+    width:420px;
+    justify-content:center;
+    flex-wrap:wrap;
+    background:white;
+    border-radius:5px;
+}
+.myPageEdit_header{
+    position: relative;
+    display:inline-block;
+    width:100%;
+    padding-top:30px;
+    text-align:center;
+    border-bottom:1px solid rgb(162, 159, 159);
+}
+.myPageEdit_header h1{
+    display:inline-block;
+    font-size:2em;
+    font-weight:600;
+}
+.myPageEditSection{
+    display:flex;
+    width:100%;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+    padding:1vh 5px;
+}
+.myPageEditContentBox{
+    display:inline-block;
+    width:100%;
+}
+.myPageEditContent_header{
+    display:inline-block;
+    width:100%;
+    text-align:left;
+    font-size:1.4em;
+    font-weight:400;
+    margin:0;
+    margin:1vh 0;
+    color:rgb(72, 70, 70);
+}
+.myPageEditContent{
+    display:flex;
+    width:100%;
+    justify-content:center;
+    margin:0;
+    margin-bottom:1vh;
+}
+.myPageEditContent input{
+    display:inline-block;
+    width:100%;
+    font-size:1.2em;
+    padding:10px 10px;
+    border:1px solid rgb(192, 187, 187);
+}
+#myPageEdit_Exit{
+    position:absolute;
+    display:inline-block;
+    padding:5px 15px;
+    font-size:1.5em;
+    border:0px;
+    background:transparent;
+    right:0;
+    top:0;
+    cursor:pointer;
+}
+.myPageEdit_btn{
+    width:100%;
+    border:0px;
+    color:white;
+    font-weight:600;
+    font-size:1em;
+    margin-top:2vh;
+    padding:10px 15px;
+    border-radius:5px;
+    background:rgb(236, 84, 84);
+    text-transform:uppercase;
+}
+/* 주소 변경 */
+.editAddr_icon{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:transparent;
+    border:0px;
+    color:rgba(0,0,0,0.7);
+    font-size:1.4em;
+    left:0;
+    top:0;
+    z-index:1;
+    text-align:left;
+    cursor:pointer;
+}
+.editAddr_icon >i{
+    font-size:inherit;
+}

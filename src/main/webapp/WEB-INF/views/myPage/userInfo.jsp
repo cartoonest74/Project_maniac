@@ -38,6 +38,9 @@
 <script type="text/javascript" src="${contextPath}/js/postDaum/postDaum.js"></script>
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
 
+<!-- axios -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 <!-- parameter -->
 <c:set var="member" value="${memberInfo}"/>
 <c:set var="userId" value="${member.userId}"/>
@@ -62,7 +65,7 @@
             <header class="myPageHeader">
                 <form class="logOutBox" action="${logoutUrl}" method="post" >
                     <span></span>
-                    <h2 class="myPageHeader_info">${userId}</h2>
+                    <h2 id="myPageUserId" class="myPageHeader_info">${userId}</h2>
                     <button class="myPage_basicSubBtn" id="logOutBtn" type="submit">
                         <i class="fa-solid fa-power-off fa-lg"></i>
                     </button>

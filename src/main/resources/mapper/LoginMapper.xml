@@ -3,12 +3,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hello.market.repository.mybatis.login.LoginMapper">
     <select id="inspect" resultType="Member">
-        select id, user_id as userId, name, birth, gender, addr, phone, email, grade
+        select id, user_id as userId, grade
         from Member
         where
             user_id = #{arg0} and pwd = #{arg1}
     </select>
-
     <select id="select" resultType="LoginCheck">
         select *
         from

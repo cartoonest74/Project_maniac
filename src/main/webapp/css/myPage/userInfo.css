@@ -260,6 +260,7 @@
     border-radius:5px;
     background:rgb(236, 84, 84);
     text-transform:uppercase;
+    cursor:pointer;
 }
 /* 주소 변경 */
 .editAddr_icon{

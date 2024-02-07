@@ -2,6 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hello.market.repository.mybatis.myPage.MyPageMapper">
+    <update id="update_pwd">
+        update member set pwd =#{edit_pwd} where id =#{user_id};
+    </update>
+    <update id="update_addr">
+        update member set addr =#{edit_addr} where id =#{user_id};
+    </update>
+    <update id="update_email">
+        update member set email =#{edit_email} where id =#{user_id};
+    </update>
+    <update id="update_tel">
+        update member set phone =#{edit_tel} where id =#{user_id};
+    </update>
     <select id="select_deliveryAddr" resultType="Complete_deliveryInfo">
         select amount ->> #{purchase_id} purchaseAmount,
         json_unquote(json_extract(delivery_status,CONCAT(#{purchase_id},"[0]"))) deliveryMethod,

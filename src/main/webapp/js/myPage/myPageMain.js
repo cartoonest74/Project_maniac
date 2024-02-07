@@ -3,19 +3,19 @@ $(function(){
     const editDeliveryPage = document.getElementById("editDeliveryPage")
     const editPwdPage = document.getElementById("editPwdPage")
     const editEmailPage = document.getElementById("editEmailPage")
-
+    const authNum
     const editUserInfo_obj={
         editPwd:{header_title:"비밀번호 변경",
-                edit_content:`<div data-edit-pwd="current" class="myPageEditContentBox">
+                edit_content:`<div data-edit-pwd="current_pwd" class="myPageEditContentBox">
                                   <h2 class="myPageEditContent_header">현재 비밀번호</h2>
                                   <div class="myPageEditContent">
-                                      <input type="password" data-edit-pwd="current">
+                                      <input type="password" data-edit-pwd="current_pwd">
                                   </div>
                               </div>
-                              <div data-edit-pwd="new" class="myPageEditContentBox">
+                              <div data-edit-pwd="new_pwd" class="myPageEditContentBox">
                                   <h2 class="myPageEditContent_header">새로운 비밀번호</h2>
                                   <div class="myPageEditContent">
-                                      <input type="password" data-edit-pwd="new">
+                                      <input type="password" data-edit-pwd="new_pwd">
                                   </div>
                               </div>
                               <div data-edit-pwd="new_check" class="myPageEditContentBox">
@@ -26,7 +26,11 @@ $(function(){
                               </div>
                               <button id="myPageEdit_pwdBtn" class="myPageEdit_btn" type="button">ok</button>
                               `,
-                value:"",
+                value:{
+                    current_pwd:"",
+                    new_pwd:"",
+                    new_check:""
+                },
                 reg:/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\$\!\@\#\%\^\&\*\(\)\\\<\>\?\/\+\_\-]).{8,16}$/g
         },
         editDelivery:{
@@ -178,40 +182,73 @@ $(function(){
         body_append("afterBegin",edit_Tag)
     });
 
+    const edit_pageBox_remove = ()=>{
+        const myPageEditBOX = document.querySelector("#myPageEditBOX");
+        myPageEditBOX.remove();
+    }
     // edit page exit
     $(document).on("click","button#myPageEdit_Exit",function(){
-       const myPageEditBOX = document.querySelector("#myPageEditBOX");
-       myPageEditBOX.remove();
+       edit_pageBox_remove();
     });
 
+    // TODO 비동기 server
+    // mail 인증 server
+    const mail_server = async (resolve_mapping, formData) =>{
+        const res = await axios.post(
+                                resolve_mapping,
+                                formData
+                            ).then((response)=>response.data)
+                            .then(data =>{
+                                return data;
+                            }).catch((error)=>console.log(error));
+        return res;
+    }
+
+    // patch
+    const patch_userInfo = async (resolve_mapping, formData)=>{
+        const res = await axios.patch(
+            resolve_mapping,
+            formData
+        ).then((response)=>response.data)
+        .then(data=>{
+            return data;
+        }).catch((error)=>console.log(error));
+        return res;
+    }
+
     // TODO edit page input
+
+    // edit pwd errorMsg_tag
+    const create_ErrorMsg = (attr_key,errorMsg)=>{
+        const pwd_containerBox = document.querySelector(`div.myPageEditContentBox[${attr_key}]`)
+        const error_pwd_tag = document.querySelector(`p[${attr_key}]`)
+        let pwd_regErrorMsg = `<p style="color:red;" ${attr_key}>
+                               ${errorMsg}</p>`
+        if(error_pwd_tag == null){
+            pwd_containerBox.insertAdjacentHTML("beforeend",pwd_regErrorMsg);
+        }else{
+            error_pwd_tag.innerText = errorMsg;
+        }
+    }
+
     // pwd
     $(document).on("focusout","input[data-edit-pwd]",function(e){
         const pwdTag_attr = e.target.getAttribute("data-edit-pwd");
         const pwd_tag_vale = e.target.value;
         const pwd_reg = editUserInfo_obj.editPwd.reg;
-        const pwd_containerBox = document.querySelector(`div.myPageEditContentBox[data-edit-pwd="${pwdTag_attr}"]`)
-        const error_pwd_tag = document.querySelector(`p[data-edit-pwd="${pwdTag_attr}"]`)
-        let pwd_regErrorMsg = `<p style="color:red;" data-edit-pwd="${pwdTag_attr}">
-                               비밀번호를 입력해주세요.</p>`
-        editUserInfo_obj.editPwd = '';
+        const pwd_errorMsg1 = "비밀번호를 입력해주세요";
+        const pwd_errorMsg2 = "비밀번호: 8~16자의 영문 대/소문자, 숫자, 특수문자를 사용해 주세요";
+        const attr_key = `data-edit-pwd="${pwdTag_attr}"`
+        const error_pwd_tag = document.querySelector(`p[${attr_key}]`);
+
+        // 초기화
+        editUserInfo_obj.editPwd.value[pwdTag_attr] = '';
         if(pwd_tag_vale == ''){
-            if(error_pwd_tag == null){
-                pwd_containerBox.insertAdjacentHTML("beforeend",pwd_regErrorMsg);
-            }else{
-                error_pwd_tag.innerText="비밀번호를 입력해주세요";
-            }
+            create_ErrorMsg(attr_key, pwd_errorMsg1);
             return;
         }
-
-        if(! pwd_reg.test(pwd_tag_vale)){
-            if(error_pwd_tag == null){
-                pwd_regErrorMsg = `<p style="color:red;" data-edit-pwd="${pwdTag_attr}">
-                    비밀번호: 8~16자의 영문 대/소문자, 숫자, 특수문자를 사용해 주세요.</p>`;
-                pwd_containerBox.insertAdjacentHTML("beforeend",pwd_regErrorMsg);
-            }else{
-                error_pwd_tag.innerText ="비밀번호: 8~16자의 영문 대/소문자, 숫자, 특수문자를 사용해 주세요";
-            }
+        if(pwd_tag_vale.search(pwd_reg) == -1){
+            create_ErrorMsg(attr_key, pwd_errorMsg2);
             return;
         }
 
@@ -219,35 +256,61 @@ $(function(){
             error_pwd_tag.remove();
         }
 
-        editUserInfo_obj.editPwd = pwd_tag_vale
-        console.log(editUserInfo_obj.editPwd);
+        // 검증 구간 다 통과하면 값 넣기
+        editUserInfo_obj.editPwd.value[pwdTag_attr] = pwd_tag_vale;
+    });
+
+
+    // final pwd 확인
+    $(document).on("click","button#myPageEdit_pwdBtn",function(){
+        const editPwd_key =Object.keys(editUserInfo_obj.editPwd.value);
+        const pwd_errorMsg1 = "비밀번호를 입력해주세요.";
+        const pwd_errorMsg2 = "현재 비밀번호와 다른 비밀번호를 입력해주세요.";
+        const pwd_errorMsg3 = "새로운 비밀번호와 일치하지 않습니다.";
+        editPwd_key.forEach(key=>{
+            const val = editUserInfo_obj.editPwd.value[key];
+            const attr_key = `data-edit-pwd="${key}"`
+            if(val == ""){
+                create_ErrorMsg(attr_key,pwd_errorMsg1);
+            }
+        });
+
+        const arr_pwd = editPwd_key.map(val=>editUserInfo_obj.editPwd.value[val])
+        .filter(val=> val != "");
+
+        if(arr_pwd.length != editPwd_key.length){
+            return;
+        }
+        const current_pwdVal = arr_pwd[0]
+        const new_pwdVal = arr_pwd[1]
+        const newCheck_pwdVal = arr_pwd[2]
+        if(current_pwdVal == new_pwdVal){
+            attr_key = "new_pwd"
+            return;
+        }
+        if(new_pwdVal != newCheck_pwdVal){
+            attr_key = "new_check"
+            return;
+        }
     });
 
     // email
     $(document).on("focusout",'input[data-edit-email="new"]',function(e){
         const email_tag_vale = e.target.value;
         const emailReg = editUserInfo_obj.editEmail.reg;
-        const email_containerBox = document.querySelector(`div[data-edit-email="new"]`);
-        const error_email_tag = document.querySelector(`p[data-edit-email="new"]`);
+        const attr_key = `data-edit-email="new"`;
+        const error_email_tag = document.querySelector(`p[${attr_key}]`);
+        const email_errorMsg1 ="Email 입력해주세요.";
+        const email_errorMsg2 ="Email 양식에 맞게 입력해주세요.";
 
         editUserInfo_obj.editEmail.value ="";
         if(email_tag_vale == ""){
-           if(error_email_tag == null){
-               email_containerBox.insertAdjacentHTML("beforeend",email_regErrorMsg);
-           }else{
-               error_email_tag.innerText = "Email 입력해주세요.";
-           }
+           create_ErrorMsg(attr_key, email_errorMsg1);
            return;
         }
 
-        if(! emailReg.test(email_tag_vale)){
-           if(error_email_tag == null){
-               email_regErrorMsg=`<p style="color:red;" data-edit-email="new">
-                                        Email 양식에 맞게 입력해주세요.</p>`;
-               email_containerBox.insertAdjacentHTML("beforeend",email_regErrorMsg);
-           }else{
-               error_email_tag.innerText = "Email 양식에 맞게 입력해주세요.";
-           }
+        if(email_tag_vale.search(emailReg) == -1){
+           create_ErrorMsg(attr_key, email_errorMsg2);
            return;
         }
 
@@ -258,30 +321,45 @@ $(function(){
         editUserInfo_obj.editEmail.value = email_tag_vale;
     });
 
-    const five_time = (Hour, minute)=>{
+    // 인증번호 시간
+    const five_time = (Hour, minute, auth_parentId)=>{
+        const hour_tag = document.querySelector(`${auth_parentId}>p>span:first-child`);
+        const minute_tab = document.querySelector(`${auth_parentId}>p>span:last-child`);
+
+        hour_tag.innerText = Hour;
+        minute_tab.innerText =minute;
+        const is_finish_time = Number(Hour) + Number(minute);
+        const auth_parentId_tag = document.querySelector(`${auth_parentId}`);
+
+        if(is_finish_time == 0){
+            auth_parentId_tag.remove();
+            return;
+        }
+
         setTimeout(()=>{
-            let Hour_set = Number(Hour);
-            let minute_set = Number(minute);
-            if((Hour_set+minute_set) == 0){
+            let set_hour = Number(Hour);
+            let set_minute = Number(minute);
+            if((set_hour+set_minute) == 0){
                 return;
             }
-            if(minute_set == 0){
-                Hour_set = Hour_set -1;
-                minute_set = 59;
-                Hour_set = "0"+Hour_set;
-                return five_time(Hour_set,minute_set);
+            if(set_minute == 0){
+                set_hour = set_hour -1;
+                set_minute = 59;
+                set_hour = "0"+set_hour;
+                return five_time(set_hour,set_minute, auth_parentId);
             }
 
-            minute_set = minute_set -1;
-            console.log(String(minute_set).length)
-            minute_set = String(minute_set).length == 1? "0"+minute_set:minute_set;
-            Hour_set = "0"+Hour_set;
-            return five_time(Hour_set,minute_set);
+            set_minute = set_minute -1;
+            set_minute = String(set_minute).length == 1? "0"+set_minute:set_minute;
+            set_hour = "0"+set_hour;
+            return five_time(set_hour,set_minute, auth_parentId);
         },1000);
     };
-    five_time(1,5)
-    $(document).on("click","button#editEmailCheck",function(){
+
+    // 인증번호 확인 btn
+    $(document).on("click","button#editEmailCheck",async function(){
         const editEmailCheck_v = editUserInfo_obj.editEmail.value;
+        console.log("editEmailCheck_v",editEmailCheck_v);
         const email_containerBox = document.querySelector(`div[data-edit-email="new"]`);
         const error_email_tag = document.querySelector(`p[data-edit-email="new"]`);
         const emailReg = editUserInfo_obj.editEmail.reg;
@@ -310,7 +388,19 @@ $(function(){
         if(error_email_tag != null){
             error_email_tag.remove();
         }
+        const get_CodeFormData = new FormData();
+        const resolve_getCodeMapping = "/mail/get-code";
+        get_CodeFormData.append("userEmail",editEmailCheck_v);
+        get_CodeFormData.append("type","email");
+        // axios
+        const get_codeRes = await mail_server(resolve_getCodeMapping, get_CodeFormData);
+        if(get_codeRes != "ok"){
+            alert("존재하지 않는 Email 주소 입니다.");
+            return "";
+        }
 
+        alert("인증번호를 보냈습니다.");
+        // 인증번호 입력 태그 진입 부분
         if(authEmail == null){
             email_containerBox.insertAdjacentHTML("beforeend",authNumber_tag);
         }else{
@@ -318,5 +408,44 @@ $(function(){
             email_containerBox.insertAdjacentHTML("beforeend",authNumber_tag);
         }
 
+        const set_hour = "05";
+        const set_minute = "00";
+        const auth_parentId = "#authEmail";
+        five_time(set_hour,set_minute,auth_parentId);
     });
+
+    // final email 변경 확인
+    $(document).on("click","button#myPageEdit_emailBtn", async function(){
+        const authEmailNum = document.querySelector("#authEmailNum");
+        const authEmailNum_v = authEmailNum.value;
+        const authCode_resolveMapping = "/mail/auth-code";
+        const path_resolveMapping = "/myPage/1/edit_email";
+
+        const autCode_formData = new FormData();
+        autCode_formData.append("userCode",authEmailNum_v)
+        autCode_formData.append("type","email")
+
+        const authCode_res = await mail_server(authCode_resolveMapping,autCode_formData);
+        if(authCode_res != "match"){
+            alert("인증번호가 일치하지 않습니다.");
+            return;
+        }
+
+        clearTimeout(five_time);
+        const changed_emailVal = editUserInfo_obj.editEmail.value;
+        const patch_formData = new FormData();
+        patch_formData.append("edit_email",changed_emailVal);
+        const email_res = await patch_userInfo(path_resolveMapping,patch_formData);
+        if(email_res != "ok"){
+            alert("처린ㄴㄴㄴㄴ");
+            return;
+        }
+        edit_pageBox_remove();
+
+        const myPageEmail = document.querySelector("p#myPageEmail");
+        myPageEmail.innerText=changed_emailVal;
+        block_main();
+    });
+
+    //addr
 });

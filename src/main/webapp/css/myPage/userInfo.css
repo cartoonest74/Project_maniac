@@ -86,7 +86,7 @@
 .subInfoContent{
     display:flex;
     width:100%;
-    background:rgb(232, 229, 229);
+    background:rgb(207 205 205);
     border:0px;
     color:rgb(161, 150, 150);
     justify-content:center;
@@ -254,13 +254,17 @@
     border:0px;
     color:white;
     font-weight:600;
-    font-size:1em;
+    font-size:1.5em;
     margin-top:2vh;
     padding:10px 15px;
     border-radius:5px;
     background:rgb(236, 84, 84);
     text-transform:uppercase;
     cursor:pointer;
+}
+.errorMsg{
+    font-size:1.4em;
+    color:#f56a6a;
 }
 /* 주소 변경 */
 .editAddr_icon{

@@ -11,7 +11,7 @@
 
 <title>Document</title>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/shopinfo.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/shop/shopinfo.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/errorPage/basic_err.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/pageCount/pageCount.css">
 <link rel="stylesheet" href="${contextPath}/css/search_artist.css">

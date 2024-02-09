@@ -79,12 +79,13 @@ public class MyPageController {
                                  @RequestParam("current_pwd") String current_pwd,
                                  HttpServletRequest request) {
         int user_id = loginSessionManager.sessionUUIDcheck(request);
-        myPageService.edit_memberPwd(edit_pwd, user_id);
         Member member = memberService.memberSelect(user_id);
         String pwd = member.getPwd();
         if(! current_pwd.equals(pwd)){
             return "no";
         }
+
+        myPageService.edit_memberPwd(edit_pwd, user_id);
         return "ok";
     }
 

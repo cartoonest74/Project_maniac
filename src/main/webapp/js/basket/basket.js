@@ -10,7 +10,7 @@ $(function(){
     // basket tag
     const arr_main_basketTag = new Array;
     // 구매수량
-    const obj_overOptionLength = {overOptionLength:0, quantityObj:[], stockQuantity_obj:[]}
+    const obj_overOptionLength = {overOptionLength:0, quantityObj:{}, stockQuantity_obj:{}}
 
   function get_today(){
      let today = new Date();
@@ -181,7 +181,7 @@ $(function(){
 
         const optionList = basket_editOptionList.split(",");
         optionList_obj.length=0;
-        const stockQuantity_obj = [];
+        const stockQuantity_obj = {};
         optionList.forEach((val,i)=>{
             val = val.trim();
             /*single*/
@@ -273,7 +273,7 @@ $(function(){
 
     function option_dictionary(){
         /* option menu 수량 */
-        const option_quantity_obj = [];
+        const option_quantity_obj = {};
         optionList_obj.forEach((val,i)=>{
             let option_name = val.trim();
             const option_quantity = option_name.includes("single") ? 1:0
@@ -546,7 +546,6 @@ $(function(){
     // TODO add to cart
     $(document).on("click","button[data-productNo]",async function(){
         const resolve_add_cart = "/cart/add-cart";
-        console.log("obj_overOptionLength.stockQuantity_obj",obj_overOptionLength.stockQuantity_obj);
         const price_total_tag = document.querySelector('[data-option_priceTotal="total"]')
         const _productNo = $("button[data-productNo]").attr('data-productNo')
         if(! price_total_tag){

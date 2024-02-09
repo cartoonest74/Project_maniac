@@ -3,7 +3,7 @@ $(function(){
     const editDeliveryPage = document.getElementById("editDeliveryPage")
     const editPwdPage = document.getElementById("editPwdPage")
     const editEmailPage = document.getElementById("editEmailPage")
-    const authNum
+    const authTime_obj = {auth_obj:new Object()};
     const editUserInfo_obj={
         editPwd:{header_title:"비밀번호 변경",
                 edit_content:`<div data-edit-pwd="current_pwd" class="myPageEditContentBox">
@@ -35,26 +35,25 @@ $(function(){
         },
         editDelivery:{
             header_title:"주소 변경",
-            edit_content:`<div class="myPageEditContentBox">
+            edit_content:`<div data-edit-addr="mainAddr" class="myPageEditContentBox">
                              <h2 class="myPageEditContent_header">주소</h2>
                              <div style="position:relative;" class="myPageEditContent relative">
-                                 <input style="padding-left:20px;" data-registry-name="mainAddr" type="text" value="" id="mainAddr" placeholder="주소" readonly>
+                                 <input style="padding-left:20px;" data-edit-addr="mainAddr" type="text"     id="mainAddr" placeholder="주소" readonly>
                                  <button onclick="addr_execDaumPostcode()" type="button" class="editAddr_icon">
                                      <i class="fa-solid fa-magnifying-glass"></i>
                                  </button>
                              </div>
                              <div class="myPageEditContent">
-                                <input type="text" data-registry-name="detailAddr" value="" id="detailAddr" placeholder="상세주소">
+                                <input type="text" data-edit-addr="detailAddr" id="detailAddr" placeholder="상세주소">
                              </div>
-                             <span data-registry-val="detailAddr" class="none orInfo_errMsg"></span>
                          </div>
-                         <div class="myPageEditContentBox">
+                         <div data-edit-addr="postNum" class="myPageEditContentBox">
                             <h2 class="myPageEditContent_header">우편번호</h2>
                             <div class="myPageEditContent">
-                                <input style="cursor:not-allowed" type="text" data-registry-name="postNum" value="" id="postNum" placeholder="우편번호" readonly>
+                                <input style="cursor:not-allowed" type="text" data-edit-addr="postNum" id="postNum" placeholder="우편번호" readonly>
                             </div>
                         </div>
-                        <button id="myPageEdit_pwdBtn" class="myPageEdit_btn" type="button">ok</button>
+                        <button id="myPageEdit_addrBtn" class="myPageEdit_btn" type="button">ok</button>
                          `,
             value:"",
             reg:/^[가-힣a-zA-Z0-9\s]+$/g
@@ -97,9 +96,10 @@ $(function(){
                             if(index == 0){
                                 return val;
                             }
-                            let trans_text = val[0]
+                            let trans_text = "";
                             for(let i=0; i<val.length; i++){
-                                if(i == 0){
+                                if(i == 0 || i == val.length -1){
+                                    trans_text += val[i];
                                     continue;
                                 }
                                     trans_text += "*"
@@ -217,27 +217,125 @@ $(function(){
     }
 
     // TODO edit page input
-
-    // edit pwd errorMsg_tag
+    // edit alert create tag
+    const create_alertTag = (errorAlertMsg)=>{
+        const edit_alertTag =`<div id="editAlertBox" class="overErrorMsgBox">
+                                    <div class="overErrorMsg">
+                                        <section class="overErrorMsg_content">
+                                            <h2><i class="fa-solid fa-bell fa-lg"></i>알림</h2>
+                                            <p style="color:rgb(243, 103, 103);">${errorAlertMsg}</p>
+                                        </section>
+                                        <button id="exitEditAlertBox" class="exitErrorMsgBtn" type="button">ok</button>
+                                    </div>
+                                </div>`;
+        body_append("afterbegin",edit_alertTag);
+    }
+    const create_completeAlertTag = (completeAlertMsg)=>{
+            const edit_completeAlertTag =`<div id="editAlertBox" class="overErrorMsgBox">
+                                        <div class="overErrorMsg">
+                                            <section class="overErrorMsg_content">
+                                                <h2><i class="fa-solid fa-bell fa-lg"></i>알림</h2>
+                                                <p>${completeAlertMsg}</p>
+                                            </section>
+                                            <button id="exitEditAlertBox" class="exitErrorMsgBtn" type="button">ok</button>
+                                        </div>
+                                    </div>`;
+            body_append("afterbegin",edit_completeAlertTag);
+    }
+    $(document).on("click","button#exitEditAlertBox",function(){
+        const editAlertBox = document.querySelector("div#editAlertBox");
+        editAlertBox.remove();
+    });
+    // edit errorMsg_tag
     const create_ErrorMsg = (attr_key,errorMsg)=>{
-        const pwd_containerBox = document.querySelector(`div.myPageEditContentBox[${attr_key}]`)
-        const error_pwd_tag = document.querySelector(`p[${attr_key}]`)
-        let pwd_regErrorMsg = `<p style="color:red;" ${attr_key}>
+        const containerBox = document.querySelector(`div.myPageEditContentBox[${attr_key}]`)
+        const error_tag = document.querySelector(`p[${attr_key}]`)
+        const regErrorMsg = `<p style="color:red;" ${attr_key}>
                                ${errorMsg}</p>`
-        if(error_pwd_tag == null){
-            pwd_containerBox.insertAdjacentHTML("beforeend",pwd_regErrorMsg);
+        if(error_tag == null){
+            containerBox.insertAdjacentHTML("beforeend",regErrorMsg);
         }else{
-            error_pwd_tag.innerText = errorMsg;
+            error_tag.innerText = errorMsg;
         }
     }
+    //TODO tel
+    $(document).on("focusout",'input[data-edit-tel="new"]',function(e){
 
-    // pwd
+    });
+
+    //TODO addr
+    // detail addr
+    $(document).on("focusout",'input[data-edit-addr="detailAddr"]',function(e){
+        const detailAddr_value = e.target.value
+        const detailAddr_reg = editUserInfo_obj.editDelivery.reg;
+        const attr_key = `data-edit-addr="mainAddr"`;
+        const detailAddr_errorMsg1 = "상세주소를 입력해주세요.";
+        const detailAddr_errorMsg2 = "상세주소: 한글, 영문 대/소문자, 숫자를 사용해 주세요.";
+
+        editUserInfo_obj.editDelivery.value ="";
+        if(detailAddr_value==""){
+            create_ErrorMsg(attr_key, detailAddr_errorMsg1);
+            return;
+        }
+
+        if(detailAddr_value.search(detailAddr_reg) == -1){
+            create_ErrorMsg(attr_key, detailAddr_errorMsg2);
+            return;
+        }
+
+        editUserInfo_obj.editDelivery.value =detailAddr_value;
+    });
+    // final addr btn
+    $(document).on("click","button#myPageEdit_addrBtn",async function(){
+        const arr_nodeAddr = document.querySelectorAll("input[data-edit-addr]");
+        const obj_noneValue = new Object();
+        const path_resolveMapping = "/myPage/1/edit_addr";
+        const errorMsg1 = "주소를 기입해주세요."
+        const errorMsg2 = "상세주소를 제대로 작성해주세요."
+        const arr_completeAddr = new Array();
+        const detailAddr_value = editUserInfo_obj.editDelivery.value;
+        const completeMsg = "주소가 변경되었습니다."
+        if(detailAddr_value == ""){
+            const attr_key=`data-edit-addr="mainAddr"`;
+            create_ErrorMsg(attr_key,errorMsg2);
+            return;
+        }
+
+        for(let i=0; i<arr_nodeAddr.length; i++){
+            const addr_value = arr_nodeAddr[i].value;
+            const attr_key = arr_nodeAddr[i].getAttribute("data-edit-addr");
+            if(addr_value == ""){
+                create_alertTag(errorMsg1);
+                return;
+            }
+            if(attr_key == "postNum"){
+                arr_completeAddr.push("("+addr_value+")");
+                continue;
+            }
+            arr_completeAddr.push(addr_value);
+        }
+
+        const str_completeAddr = arr_completeAddr.join(" ");
+        const formData = new FormData();
+        formData.append("edit_addr",str_completeAddr);
+        const res = await patch_userInfo(path_resolveMapping,formData);
+
+        edit_pageBox_remove();
+        create_completeAlertTag(completeMsg);
+
+        // 바뀐 이메일 적용
+        const myPageAddr = document.querySelector("p#myPageAddr");
+        myPageAddr.innerText=str_completeAddr;
+        block_main();
+     });
+
+    //TODO pwd
     $(document).on("focusout","input[data-edit-pwd]",function(e){
         const pwdTag_attr = e.target.getAttribute("data-edit-pwd");
         const pwd_tag_vale = e.target.value;
         const pwd_reg = editUserInfo_obj.editPwd.reg;
-        const pwd_errorMsg1 = "비밀번호를 입력해주세요";
-        const pwd_errorMsg2 = "비밀번호: 8~16자의 영문 대/소문자, 숫자, 특수문자를 사용해 주세요";
+        const pwd_errorMsg1 = "비밀번호를 입력해주세요.";
+        const pwd_errorMsg2 = "비밀번호: 8~16자의 영문 대/소문자, 숫자, 특수문자를 사용해 주세요.";
         const attr_key = `data-edit-pwd="${pwdTag_attr}"`
         const error_pwd_tag = document.querySelector(`p[${attr_key}]`);
 
@@ -262,11 +360,15 @@ $(function(){
 
 
     // final pwd 확인
-    $(document).on("click","button#myPageEdit_pwdBtn",function(){
+    $(document).on("click","button#myPageEdit_pwdBtn",async function(){
         const editPwd_key =Object.keys(editUserInfo_obj.editPwd.value);
         const pwd_errorMsg1 = "비밀번호를 입력해주세요.";
         const pwd_errorMsg2 = "현재 비밀번호와 다른 비밀번호를 입력해주세요.";
         const pwd_errorMsg3 = "새로운 비밀번호와 일치하지 않습니다.";
+        const pwd_errorMsg4 = `현재 비밀번호가 맞지 않습니다.<br>다시 입력해주세요.`;
+        const completeMsg = "비밀번호가 변경되었습니다.";
+        const path_resolveMapping = "/myPage/1/edit_pwd";
+
         editPwd_key.forEach(key=>{
             const val = editUserInfo_obj.editPwd.value[key];
             const attr_key = `data-edit-pwd="${key}"`
@@ -275,23 +377,36 @@ $(function(){
             }
         });
 
-        const arr_pwd = editPwd_key.map(val=>editUserInfo_obj.editPwd.value[val])
+        const arr_isOkayPwd = editPwd_key.map(val=>editUserInfo_obj.editPwd.value[val])
         .filter(val=> val != "");
 
-        if(arr_pwd.length != editPwd_key.length){
+        if(arr_isOkayPwd.length != editPwd_key.length){
             return;
         }
-        const current_pwdVal = arr_pwd[0]
-        const new_pwdVal = arr_pwd[1]
-        const newCheck_pwdVal = arr_pwd[2]
+        const current_pwdVal = arr_isOkayPwd[0]
+        const new_pwdVal = arr_isOkayPwd[1]
+        const newCheck_pwdVal = arr_isOkayPwd[2]
         if(current_pwdVal == new_pwdVal){
-            attr_key = "new_pwd"
+            create_alertTag(pwd_errorMsg2);
             return;
         }
         if(new_pwdVal != newCheck_pwdVal){
-            attr_key = "new_check"
+            create_alertTag(pwd_errorMsg3);
             return;
         }
+        const formData = new FormData();
+        formData.append("edit_pwd",newCheck_pwdVal);
+        formData.append("current_pwd",current_pwdVal);
+
+        const res = await patch_userInfo(path_resolveMapping,formData);
+        if(res != "ok"){
+            create_alertTag(pwd_errorMsg4);
+            return;
+        }
+
+        edit_pageBox_remove();
+
+        create_completeAlertTag(completeMsg);
     });
 
     // email
@@ -323,20 +438,25 @@ $(function(){
 
     // 인증번호 시간
     const five_time = (Hour, minute, auth_parentId)=>{
-        const hour_tag = document.querySelector(`${auth_parentId}>p>span:first-child`);
-        const minute_tab = document.querySelector(`${auth_parentId}>p>span:last-child`);
+        const time_tag = document.querySelector(`${auth_parentId}`);
+        const hour_tag = document.querySelector(`${auth_parentId}>span:first-child`);
+        const minute_tab = document.querySelector(`${auth_parentId}>span:last-child`);
 
-        hour_tag.innerText = Hour;
-        minute_tab.innerText =minute;
-        const is_finish_time = Number(Hour) + Number(minute);
-        const auth_parentId_tag = document.querySelector(`${auth_parentId}`);
+        if(time_tag != null){
+            hour_tag.innerText = Hour;
+            minute_tab.innerText =minute;
+            const is_finish_time = Number(Hour) + Number(minute);
+            const auth_parentId_tag = document.querySelector(`${auth_parentId}`);
 
-        if(is_finish_time == 0){
-            auth_parentId_tag.remove();
+            if(is_finish_time == 0){
+                auth_parentId_tag.remove();
+                return;
+            }
+        }else{
             return;
         }
 
-        setTimeout(()=>{
+        let ticTok = setTimeout(()=>{
             let set_hour = Number(Hour);
             let set_minute = Number(minute);
             if((set_hour+set_minute) == 0){
@@ -358,11 +478,12 @@ $(function(){
 
     // 인증번호 확인 btn
     $(document).on("click","button#editEmailCheck",async function(){
+        const editEmail_tag = document.querySelector("input#editEmail");
         const editEmailCheck_v = editUserInfo_obj.editEmail.value;
-        console.log("editEmailCheck_v",editEmailCheck_v);
         const email_containerBox = document.querySelector(`div[data-edit-email="new"]`);
         const error_email_tag = document.querySelector(`p[data-edit-email="new"]`);
         const emailReg = editUserInfo_obj.editEmail.reg;
+        const error_emailMsg1 ="존재하지 않는 Email 주소 입니다.";
         let email_regErrorMsg = `<p style="color:red;" data-edit-email="new">
                                           Email 확인해주세요.</p>`;
 
@@ -395,11 +516,14 @@ $(function(){
         // axios
         const get_codeRes = await mail_server(resolve_getCodeMapping, get_CodeFormData);
         if(get_codeRes != "ok"){
-            alert("존재하지 않는 Email 주소 입니다.");
+            create_alertTag(error_emailMsg1);
             return "";
         }
 
         alert("인증번호를 보냈습니다.");
+        editEmail_tag.readOnly = true;
+        editEmail_tag.style.background="rgb(157, 156, 156,0.8)";
+        editEmail_tag.style.color="rgb(109 104 104)";
         // 인증번호 입력 태그 진입 부분
         if(authEmail == null){
             email_containerBox.insertAdjacentHTML("beforeend",authNumber_tag);
@@ -410,7 +534,7 @@ $(function(){
 
         const set_hour = "05";
         const set_minute = "00";
-        const auth_parentId = "#authEmail";
+        const auth_parentId = "#authEmailTime";
         five_time(set_hour,set_minute,auth_parentId);
     });
 
@@ -420,32 +544,36 @@ $(function(){
         const authEmailNum_v = authEmailNum.value;
         const authCode_resolveMapping = "/mail/auth-code";
         const path_resolveMapping = "/myPage/1/edit_email";
-
+        const email_errMsg1 = "인증번호가 일치하지 않습니다.";
+        const email_errMsg2 = "다시 시도해 주시기 바랍니다.";
+        const completeMsg = "Email 변경되었습니다."
+        if(authEmailNum == null){
+            return;
+        }
         const autCode_formData = new FormData();
         autCode_formData.append("userCode",authEmailNum_v)
         autCode_formData.append("type","email")
 
         const authCode_res = await mail_server(authCode_resolveMapping,autCode_formData);
         if(authCode_res != "match"){
-            alert("인증번호가 일치하지 않습니다.");
+            create_alertTag(email_errMsg1);
             return;
         }
 
-        clearTimeout(five_time);
         const changed_emailVal = editUserInfo_obj.editEmail.value;
         const patch_formData = new FormData();
         patch_formData.append("edit_email",changed_emailVal);
         const email_res = await patch_userInfo(path_resolveMapping,patch_formData);
         if(email_res != "ok"){
-            alert("처린ㄴㄴㄴㄴ");
+            create_alertTag(email_errMsg2);
             return;
         }
         edit_pageBox_remove();
+        create_completeAlertTag(completeMsg);
 
+        // 바뀐 이메일 적용
         const myPageEmail = document.querySelector("p#myPageEmail");
         myPageEmail.innerText=changed_emailVal;
         block_main();
     });
-
-    //addr
 });

@@ -12,6 +12,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/basic.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/errorPage/basic_err.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/myPage/userInfo.css">
 <link rel="stylesheet" href="${contextPath}/css/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">

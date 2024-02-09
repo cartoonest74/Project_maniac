@@ -120,6 +120,16 @@
     .shopEtc_contentImg{
         height:150px;
     }
+    /*shopInfo*/
+    .shopInfo_optionBox{
+        width:100%;
+    }
+    .stickyItemBox{
+        width:100%;
+    }
+    .stickyHeader{
+        width:100%;
+    }
     /*header*/
     .current_artist{
         font-size:3vw;

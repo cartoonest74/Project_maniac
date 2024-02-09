@@ -68,6 +68,8 @@
 /* sticky header */
 .stickyHeader{
     display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
 }
 .stickyImgBox{
     display:inline-block;

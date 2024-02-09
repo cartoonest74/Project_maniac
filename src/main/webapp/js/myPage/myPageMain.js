@@ -260,8 +260,53 @@ $(function(){
     }
     //TODO tel
     $(document).on("focusout",'input[data-edit-tel="new"]',function(e){
+        const tel_reg = editUserInfo_obj.editTel.reg;
+        const input_tel = e.target.value;
+        const attr_key = `data-edit-tel="new"`;
+        const tel_errorMsg1 = "전화번호를 입력해주세요.";
+        const tel_errorMsg2 = "전화번호: 숫자, - 형식으로 작성해주세요.";
+        const tel_errorMsg3 = "전화번호 형식에 맞게 다시 입력해주세요";
+        const error_tag = document.querySelector(`p[${attr_key}]`);
 
+        editUserInfo_obj.editTel.value = "";
+        if(input_tel == ""){
+            create_ErrorMsg(attr_key, tel_errorMsg1);
+            return;
+        }
+
+        if(input_tel.search(tel_reg) == -1){
+            create_ErrorMsg(attr_key, tel_errorMsg2);
+            return;
+        }
+
+        if(error_tag != null){
+            error_tag.remove();
+        }
+
+        editUserInfo_obj.editTel.value = input_tel;
     });
+
+    $(document).on("click","button#myPageEdit_telBtn",async function(){
+        const tel_val = editUserInfo_obj.editTel.value;
+        const path_resolveMapping = "/myPage/1/edit_tel";
+        const completeMsg = "전화번호가 변경되었습니다."
+        if(tel_val == ""){
+            create_alertTag(tel_errorMsg1);
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("edit_tel",tel_val);
+        const res = await patch_userInfo(path_resolveMapping,formData);
+
+        edit_pageBox_remove();
+        create_completeAlertTag(completeMsg);
+
+        // 바뀐 이메일 적용
+        const myPageTel = document.querySelector("p#myPageTel");
+        myPageTel.innerText=tel_val;
+        block_main();
+    })
 
     //TODO addr
     // detail addr
@@ -269,6 +314,7 @@ $(function(){
         const detailAddr_value = e.target.value
         const detailAddr_reg = editUserInfo_obj.editDelivery.reg;
         const attr_key = `data-edit-addr="mainAddr"`;
+        const error_tag = document.querySelector(`p[${attr_key}]`);
         const detailAddr_errorMsg1 = "상세주소를 입력해주세요.";
         const detailAddr_errorMsg2 = "상세주소: 한글, 영문 대/소문자, 숫자를 사용해 주세요.";
 
@@ -281,6 +327,10 @@ $(function(){
         if(detailAddr_value.search(detailAddr_reg) == -1){
             create_ErrorMsg(attr_key, detailAddr_errorMsg2);
             return;
+        }
+
+        if(error_tag != null){
+            error_tag.remove();
         }
 
         editUserInfo_obj.editDelivery.value =detailAddr_value;
@@ -323,7 +373,7 @@ $(function(){
         edit_pageBox_remove();
         create_completeAlertTag(completeMsg);
 
-        // 바뀐 이메일 적용
+        // 바뀐 주소 적용
         const myPageAddr = document.querySelector("p#myPageAddr");
         myPageAddr.innerText=str_completeAddr;
         block_main();

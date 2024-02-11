@@ -49,62 +49,96 @@
 	<c:import url="../basic/header.jsp" >
 		<c:param name="cartCount" value="${cartCount}"/>
 	</c:import>
-        <div class="myPageBox">
-            <h2 class="myPageSubTitle">mypage</h2>
-            <header class="myPageHeader">
-                <h2>gdragon</h2>
-                <div class="myPage_basicSubBox">
-                    <a href="${userEdit}">
-                        <i class="fa-solid fa-user-pen fa-lg"></i>
+        <div class="orderListBox">
+            <header class="orderListHeader">
+                <div class="go_myPage">
+                    <a href="#">
+                        <i class="fa-solid fa-angle-left fa-lg"></i>
+                        <span>주문/배송조회</span>
                     </a>
-                    <form action="${logoutUrl}" method="post">
-                        <button id="logOutBtn" type="button">
-                            <i class="fa-solid fa-power-off fa-lg"></i>
-                        </button>
-                    </form>
+                </div>
+                <div class="orderList_search">
+                    <button id="orderListSearch" type="button"><span>1개월&#183;전체</span>&nbsp;<i class="fa-solid fa-bars-staggered fa-lg"></i></button>
                 </div>
             </header>
-            <section class="myPageContent">
-                <dl class="myPage_orderStatusBox">
-                    <span class="myPage_orderStstusInfo">*최근 3개월 기준</span>
-                    <div class="myPage_orderStatus">
-                        <dt>미입금</dt>
-                        <dd><a href="">0</a></dd>
-                    </div>
-                    <div class="myPage_orderStatus">
-                        <dt>출고대기</dt>
-                        <dd><a href="">0</a></dd>
-                    </div>
-                    <div class="myPage_orderStatus">
-                        <dt>배송중</dt>
-                        <dd><a href="">0</a></dd>
-                    </div>
-                    <div class="myPage_orderStatus">
-                        <dt>배송완료</dt>
-                        <dd><a href="">0</a></dd>
-                    </div>
-                    <div class="myPage_orderStatus">
-                        <dt>취소/교환/반품</dt>
-                        <dd><a href="">0</a></dd>
-                    </div>
-                </dl>
-                <dl class="myPageMenuBox">
-                    <a href="${orderList}" class="myPageMenu">
-                        <dt><i class="fa-solid fa-basket-shopping fa-lg"></i></dt>
-                        <dd>주문 내역</dd>
-                    </a>
-                    <a href="${productQuestion}" class="myPageMenu">
-                        <dt><i class="fa-solid fa-circle-question fa-lg"></i></dt>
-                        <dd>상품문의</dd>
-                    </a>
-                    <a href="${productReview}" class="myPageMenu">
-                        <dt><i class="fa-solid fa-pen-to-square fa-lg"></i></dt>
-                        <dd>상품후기</dd>
-                    </a>
-                </dl>
-            </section>
+            <dl class="orderListContainer">
+                <div class="orderListCotentBox">
+                    <dt class="olc_dateTitle">
+                        <div>
+                            <h2>2024.2.4</h2>&nbsp;
+                            <span>주문번호 3123123123</span>
+                        </div>
+                        <div>
+                            <a href="">주문상세&nbsp;<i class="fa-solid fa-chevron-right fa-sm"></i></a>
+                        </div>
+                    </dt>
+                    <dd class="orderListCotent">
+                        <div class="olc_header">
+                            <p>배송완료</p>
+                            <p>2.7(수) 도착</p>
+                        </div>
+                        <div class="olc_info">
+                            <p>
+                                <span>Jung Kook (BTS) 'GOLDEN' (Set) + 'GOLDEN' (Weverse Albums ver.) Set</span> <span>(2)</span>
+                            </p>
+                        </div>
+                        <p class="olc_price">
+                            ₩71,400
+                        </p>
+                    </dd>
+                </div>
+                <div class="orderListCotentBox">
+                    <dt class="olc_dateTitle">
+                        <div>
+                            <h2>2024.2.4</h2>&nbsp;
+                            <span>주문번호 3123123123</span>
+                        </div>
+                        <div>
+                            <a href="">주문상세&nbsp;<i class="fa-solid fa-chevron-right fa-sm"></i></a>
+                        </div>
+                    </dt>
+                    <dd class="orderListCotent">
+                        <div class="olc_header">
+                            <p>배송완료</p>
+                            <p>2.7(수) 도착</p>
+                        </div>
+                        <div class="olc_info">
+                            <p>
+                                <span>Jung Kook (BTS) 'GOLDEN' (Set) + 'GOLDEN' (Weverse Albums ver.) Set</span> <span>(2)</span>
+                            </p>
+                        </div>
+                        <p class="olc_price">
+                            ₩71,400
+                        </p>
+                    </dd>
+                </div>
+                <div class="orderListCotentBox">
+                    <dt class="olc_dateTitle">
+                        <div>
+                            <h2>2024.2.4</h2>&nbsp;
+                            <span>주문번호 3123123123</span>
+                        </div>
+                        <div>
+                            <a href="">주문상세&nbsp;<i class="fa-solid fa-chevron-right fa-sm"></i></a>
+                        </div>
+                    </dt>
+                    <dd class="orderListCotent">
+                        <div class="olc_header">
+                            <p>배송완료</p>
+                            <p>2.7(수) 도착</p>
+                        </div>
+                        <div class="olc_info">
+                            <p>
+                                <span>Jung Kook (BTS) 'GOLDEN' (Set) + 'GOLDEN' (Weverse Albums ver.) Set</span> <span>(2)</span>
+                            </p>
+                        </div>
+                        <p class="olc_price">
+                            ₩71,400
+                        </p>
+                    </dd>
+                </div>
+            </dl>
         </div>
-
 	<jsp:include page="../basic/footer.jsp" flush="true" />
 </body>
 </html>

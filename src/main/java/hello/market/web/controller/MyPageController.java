@@ -1,6 +1,7 @@
 package hello.market.web.controller;
 
 import hello.market.dto.Member;
+import hello.market.dto.Purchase_list;
 import hello.market.service.member.MemberService;
 import hello.market.service.myPage.MyPageService;
 import hello.market.web.session.LoginSessionManager;
@@ -11,6 +12,10 @@ import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -42,11 +47,19 @@ public class MyPageController {
     @GetMapping("/order_list")
     private String get_orderList(@PathVariable int artistId,
                                  @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-                                 @RequestParam(value = "category", required = false, defaultValue = "0") int statusId,
+                                 @RequestParam(value = "date", required = false, defaultValue = "1") int purchaseDate,
+                                 @RequestParam(value = "status", required = false, defaultValue = "all") String purchaseStatus,
                                  HttpServletRequest request,
                                  Model model) {
+        page = page < 1 ? 1 : page;
+        int page_limit = (page-1) *10;
         int user_id = loginSessionManager.sessionUUIDcheck(request);
-        memberService.memberSelect(user_id);
+        // date
+        LocalDateTime localDateTime = LocalDateTime.now();
+        LocalDateTime before_3month = localDateTime.minusMonths(purchaseDate);
+        long current_timeMills = Timestamp.valueOf(before_3month).getTime();
+        List<Purchase_list> purchaseLists = myPageService.get_purchaseLists(user_id, current_timeMills, purchaseStatus, page_limit);
+        model.addAttribute("purchaseLists", purchaseLists);
         return "/myPage/userOrderList";
     }
 
@@ -72,6 +85,7 @@ public class MyPageController {
         return "/myPage/userProductReview";
     }
 
+    //TODO userInfo edit
     @ResponseBody
     @PatchMapping("/edit_pwd")
     private String patch_editPwd(@PathVariable int artistId,

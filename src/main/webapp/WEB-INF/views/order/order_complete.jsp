@@ -58,13 +58,13 @@ request.setCharacterEncoding("UTF-8");
 <c:set var="deliveryMethod" value="${Complete_deliveryInfo.deliveryMethod}"/>
 <c:set var="deliveryMsg" value="${Complete_deliveryInfo.deliveryMsg}"/>
 <c:set var="deliveryStatus" value="${Complete_deliveryInfo.deliveryStatus}"/>
-
+<c:url var="mypage" value="/myPage/${artistId}"/>
 </head>
 <body>
 	<c:import url="../basic/header.jsp">
 	</c:import>
         <div class="orderCompleteBox">
-                <a href="#" class="orderComplete_category">
+                <a href="${mypage}" class="orderComplete_category">
                     주문&nbsp;내역
                 </a>
                 <header class="orderCompleateHeader">
@@ -78,7 +78,6 @@ request.setCharacterEncoding("UTF-8");
                     </div>
                 </header>
                 <dl class="orderCompleteCotent">
-
                     <div>
                         <dt>주문내역</dt>
                         <dd>

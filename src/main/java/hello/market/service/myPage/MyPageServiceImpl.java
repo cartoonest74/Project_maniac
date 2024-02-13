@@ -3,6 +3,7 @@ package hello.market.service.myPage;
 import hello.market.dto.Cart;
 import hello.market.dto.Complete_deliveryInfo;
 import hello.market.dto.Product;
+import hello.market.dto.Purchase_list;
 import hello.market.repository.mybatis.myPage.MyPageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,12 @@ public class MyPageServiceImpl implements MyPageService {
     @Override
     public void edit_memberEmail(String edit_email, int user_id) {
         myPageRepository.update_email(edit_email, user_id);
+    }
+
+    @Override
+    public List<Purchase_list> get_purchaseLists(int user_id, long purchase_date, String purchase_status, int page_limit) {
+        List<Purchase_list> purchaseLists = myPageRepository.select_purchaseLists(user_id, purchase_date, purchase_status, page_limit);
+        return purchaseLists;
     }
 
     @Override

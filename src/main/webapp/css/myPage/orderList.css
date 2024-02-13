@@ -1,4 +1,4 @@
-@charset "EUC-KR";
+@charset "UTF-8";
 .orderListBox{
     display:inline-block;
     width:60%;
@@ -63,6 +63,7 @@
     width:100%;
     justify-content:space-between;
     align-items:center;
+    padding-bottom:1vh;
 }
 .olc_dateTitle div{
     display:inline-flex;

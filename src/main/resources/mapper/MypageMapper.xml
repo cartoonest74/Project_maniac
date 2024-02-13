@@ -14,6 +14,48 @@
     <update id="update_tel">
         update member set phone =#{edit_tel} where id =#{user_id};
     </update>
+    <select id="select_purchaseLists" resultType="Purchase_list">
+        select 	ol.num,
+            pa.title,
+            ol.goods_quantity quantity,
+            ol.purchase_date purchaseDate,
+            json_unquote(json_extract(option_size,concat("$.option[",ol.option_no,"][0]"))) optionTitle,
+            purchase_status purchaseStatus,
+            total_price totalPrice
+        from(
+            select
+                DENSE_RANK() over(order by purchase_date asc) num,
+                purchase_date,
+                SUBSTRING_INDEX(goods_key,"x",1) as single_multiple,
+                SUBSTRING_INDEX(SUBSTRING_INDEX(goods_key,"x",2),"x",-1) as product_no,
+                SUBSTRING_INDEX(goods_key,"x",-1) as option_no,
+                json_unquote(json_extract(goods_list, concat("$.",goods_key,"[1]"))) goods_date,
+                json_unquote(json_extract(goods_list, concat("$.",goods_key,"[0]"))) goods_quantity,
+                purchase_status,
+                total_price
+            from (select
+                    substring_index(json_key,"_",-1) purchase_date,
+                    json_unquote(json_extract(amount, concat("$.",json_key))) total_price,
+                    json_unquote(json_extract(delivery_status,concat("$.",json_key,"[2]"))) purchase_status,
+                    json_extract(purchase_list,CONCAT("$.",json_key)) goods_list,
+                    purchase_list,
+                    json_key
+                from purchase,
+                    json_table(json_keys(purchase_list),"$[*]" columns(
+                        json_key varchar(30) path "$"
+                    ))t
+                where user_id =#{user_id}) tmp,
+            json_table(json_keys(goods_list),"$[*]" columns(
+                goods_key varchar(20) path "$"
+            ))tmp2
+        where purchase_date > #{purchase_date}
+        <if test='!purchase_status.equals("all")'>
+            and purchase_status = #{purchase_status}
+        </if>)ol
+        inner join product_artist pa on ol.product_no = pa.id
+        where num > #{page_limit}
+        order by purchase_date asc;
+    </select>
     <select id="select_deliveryAddr" resultType="Complete_deliveryInfo">
         select amount ->> #{purchase_id} purchaseAmount,
         json_unquote(json_extract(delivery_status,CONCAT(#{purchase_id},"[0]"))) deliveryMethod,

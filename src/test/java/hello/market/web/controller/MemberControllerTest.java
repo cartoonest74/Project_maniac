@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +27,13 @@ class MemberControllerTest {
     void memberTest(){
         Member member = memberService.memberSelect(1);
         assertThat(member.getUserId()).isEqualTo("gdragon");
+    }
+
+    @Test
+    void dateTest(){
+        LocalDateTime localDateTime = LocalDateTime.now();
+        LocalDateTime before_3month = localDateTime.minusMonths(3);
+        long current_timeMills = Timestamp.valueOf(before_3month).getTime();
     }
     @Test
     void arrayTest(){

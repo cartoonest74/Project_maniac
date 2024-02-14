@@ -48,7 +48,6 @@
     width:100%;
     justify-content:center;
     flex-wrap:wrap;
-    background:rgb(216, 212, 212);
     padding:0 5px;
     padding-bottom:5vh;
 }
@@ -64,6 +63,7 @@
     justify-content:space-between;
     align-items:center;
     padding-bottom:1vh;
+    border-bottom:1px solid #cec7c7;
 }
 .olc_dateTitle div{
     display:inline-flex;
@@ -72,7 +72,6 @@
 .olc_dateTitle div:first-child >h2{
     font-size:2em;
     font-weight:600;
-
 }
 .olc_dateTitle div:first-child > span{
     font-size:1.4em;
@@ -87,9 +86,9 @@
 .orderListCotent{
     display:inline-block;
     width:100%;
-    background:white;
     border-radius:10px;
     padding:10px 1vw;
+    box-shadow: 0px 8px 6px -6px #666;
 }
 .olc_header{
     display:flex;
@@ -113,9 +112,6 @@
     display:inline-block;
     width:100%;
     padding:1vh 0;
-}
-.olc_info *{
-    font-size:1.3em;
 }
 .olc_price{
     font-weight:600;

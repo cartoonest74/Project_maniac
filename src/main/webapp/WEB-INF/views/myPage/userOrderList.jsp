@@ -33,19 +33,19 @@
 <script src="https://kit.fontawesome.com/7938f26122.js" crossorigin="anonymous"></script>
 
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
+<script type="text/javascript" src="${contextPath}/js/myPage/orderList.js"></script>
 
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
+
+<!-- ajax -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <!-- request -->
 <c:set var="purchase_list" value="${purchaseLists}"/>
 
 <!-- url -->
-<c:url var="logoutUrl" value="/login-action/logout" />
-<c:url var="userEdit" value="/${artistId}/myPage/user_edit" />
-<c:url var="orderList" value="/${artistId}/myPage/order_list" />
-<c:url var="productQuestion" value="/${artistId}/myPage/product_question" />
-<c:url var="productReview" value="/${artistId}/myPage/product_review" />
+<c:url var="myPage" value="/myPage/${artistId}" />
 
 </head>
 <body>
@@ -55,7 +55,7 @@
         <div class="orderListBox">
             <header class="orderListHeader">
                 <div class="go_myPage">
-                    <a href="#">
+                    <a href="${myPage}">
                         <i class="fa-solid fa-angle-left fa-lg"></i>
                         <span>주문/배송조회</span>
                     </a>
@@ -64,7 +64,7 @@
                     <button id="orderListSearch" type="button"><span>1개월&#183;전체</span>&nbsp;<i class="fa-solid fa-bars-staggered fa-lg"></i></button>
                 </div>
             </header>
-            <dl class="orderListContainer">
+            <dl id="olContainer" class="orderListContainer">
             <c:forEach var="purchase" items="${purchase_list}">
                 <c:set var="num" value="${purchase.num}"/>
                 <c:set var="title" value="${purchase.title}"/>

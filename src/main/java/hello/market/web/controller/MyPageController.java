@@ -1,5 +1,7 @@
 package hello.market.web.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hello.market.dto.Member;
 import hello.market.dto.Purchase_list;
 import hello.market.service.member.MemberService;
@@ -8,6 +10,7 @@ import hello.market.web.session.LoginSessionManager;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,22 +48,34 @@ public class MyPageController {
     }
 
     @GetMapping("/order_list")
-    private String get_orderList(@PathVariable int artistId,
-                                 @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-                                 @RequestParam(value = "date", required = false, defaultValue = "1") int purchaseDate,
-                                 @RequestParam(value = "status", required = false, defaultValue = "all") String purchaseStatus,
-                                 HttpServletRequest request,
-                                 Model model) {
+    private String get_orderList(@PathVariable int artistId) {
+        return "/myPage/userOrderList";
+    }
+
+    @ResponseBody
+    @PostMapping("/order_list")
+    private String post_orderList(@PathVariable int artistId,
+                                  @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                                  @RequestParam(value = "date", required = false, defaultValue = "1") int purchaseDate,
+                                  @RequestParam(value = "status", required = false, defaultValue = "all") String purchaseStatus,
+                                  HttpServletRequest request) throws JsonProcessingException {
+        int user_id = loginSessionManager.sessionUUIDcheck(request);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
         page = page < 1 ? 1 : page;
         int page_limit = (page-1) *10;
-        int user_id = loginSessionManager.sessionUUIDcheck(request);
         // date
         LocalDateTime localDateTime = LocalDateTime.now();
         LocalDateTime before_3month = localDateTime.minusMonths(purchaseDate);
         long current_timeMills = Timestamp.valueOf(before_3month).getTime();
         List<Purchase_list> purchaseLists = myPageService.get_purchaseLists(user_id, current_timeMills, purchaseStatus, page_limit);
-        model.addAttribute("purchaseLists", purchaseLists);
-        return "/myPage/userOrderList";
+        for (Purchase_list purchaseList : purchaseLists) {
+            String writeValueAsString = objectMapper.writeValueAsString(purchaseList);
+            jsonArray.put(writeValueAsString);
+        }
+        jsonObject.put("orderList_array", jsonArray);
+        return jsonObject.toString();
     }
 
     @GetMapping("/product_question")

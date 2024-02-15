@@ -2,6 +2,7 @@ package hello.market.web.controller;
 
 import hello.market.dto.Member;
 import hello.market.service.member.MemberService;
+import hello.market.web.session.LoginSessionManager;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,21 +19,39 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
+    private final LoginSessionManager loginSessionManager;
 
     @GetMapping("/forgot-account")
-    public String forgotAccount(@PathVariable int artistId,Model model) {
+    public String forgotAccount(@PathVariable int artistId,
+                                Model model,
+                                HttpServletRequest request) {
+        int user_id = loginSessionManager.sessionUUIDcheck(request);
         model.addAttribute("artistId", artistId);
+        if(user_id != 0){
+            return "redirect:"+"/main/"+artistId;
+        }
         return "/account/forgotInfo";
     }
 
     @GetMapping("/create-account")
-    public String createAccount(@PathVariable int artistId,Model model){
+    public String createAccount(@PathVariable int artistId,HttpServletRequest request,Model model){
         model.addAttribute("artistId", artistId);
+        int user_id = loginSessionManager.sessionUUIDcheck(request);
+        if(user_id != 0){
+            return "redirect:"+"/main/"+artistId;
+        }
         return "/account/createAccount";
     }
 
     @PostMapping("/complete-account")
-    public String completeAccount(@PathVariable int artistId,@ModelAttribute Member member,Model model) {
+    public String completeAccount(@PathVariable int artistId,
+                                  @ModelAttribute Member member,
+                                  HttpServletRequest request,
+                                  Model model) {
+        int user_id = loginSessionManager.sessionUUIDcheck(request);
+        if(user_id != 0){
+            return "redirect:"+"/main/"+artistId;
+        }
         if(member == null){
             return "/account/createAccount";
         }

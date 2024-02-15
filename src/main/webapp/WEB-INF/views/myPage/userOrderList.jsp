@@ -11,8 +11,9 @@
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/basic.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/myPage/orderList.css">
+<link rel="stylesheet" href="${contextPath}/css/basic.css">
+<link rel="stylesheet" href="${contextPath}/css/myPage/orderList.css">
+<link rel="stylesheet" href="${contextPath}/css/pageCount/pageCount.css">
 <link rel="stylesheet" href="${contextPath}/css/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
 <link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
@@ -41,9 +42,6 @@
 <!-- ajax -->
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-<!-- request -->
-<c:set var="purchase_list" value="${purchaseLists}"/>
-
 <!-- url -->
 <c:url var="myPage" value="/myPage/${artistId}" />
 
@@ -61,46 +59,18 @@
                     </a>
                 </div>
                 <div class="orderList_search">
-                    <button id="orderListSearch" type="button"><span>1개월&#183;전체</span>&nbsp;<i class="fa-solid fa-bars-staggered fa-lg"></i></button>
+                    <button id="orderListSearch" type="button">
+                        <span id="ols_title">1개월&#183;전체</span>&nbsp;
+                        <i class="fa-solid fa-bars-staggered fa-lg"></i>
+                    </button>
                 </div>
             </header>
             <dl id="olContainer" class="orderListContainer">
-            <c:forEach var="purchase" items="${purchase_list}">
-                <c:set var="num" value="${purchase.num}"/>
-                <c:set var="title" value="${purchase.title}"/>
-                <c:set var="purchaseDate" value="${purchase.purchaseDate}"/>
-                <c:set var="quantity" value="${purchase.quantity}"/>
-                <c:set var="optionTitle" value="${purchase.optionTitle}"/>
-                <c:set var="purchaseStatus" value="${purchase.purchaseStatus}"/>
-                <c:set var="totalPrice" value="${purchase.totalPrice}"/>
-                <c:url var="completeOrder" value="/order/${artistId}/complete?orderKey=${purchaseDate}"/>
-                <div class="orderListCotentBox">
-                    <dt class="olc_dateTitle">
-                        <div>
-                            <h2 id="purchaseDate">${purchaseDate}</h2>&nbsp;
-                            <span>주문번호 ${purchaseDate}</span>
-                        </div>
-                        <div>
-                            <a href="${completeOrder}">주문상세&nbsp;<i class="fa-solid fa-chevron-right fa-sm"></i></a>
-                        </div>
-                    </dt>
-                    <dd class="orderListCotent">
-                        <div class="olc_header">
-                            <p>${purchaseStatus}</p>
-                            <p></p>
-                        </div>
-                        <div class="olc_info">
-                            <p>
-                                <span>Jung Kook (BTS) 'GOLDEN' (Set) + 'GOLDEN' (Weverse Albums ver.) Set</span> <span>(2)</span>
-                            </p>
-                        </div>
-                        <p class="olc_price">
-                            ${totalPrice}
-                        </p>
-                    </dd>
-                </div>
-            </c:forEach>
+
             </dl>
+            <div id="like_pageCount_num" class="pageCount">
+
+            </div>
         </div>
 	<jsp:include page="../basic/footer.jsp" flush="true" />
 </body>

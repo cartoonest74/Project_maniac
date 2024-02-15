@@ -31,8 +31,8 @@ request.setCharacterEncoding("UTF-8");
 	  integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
 	  crossorigin="anonymous"></script>
 <!-- axios -->
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
+<script type="text/javascript" src="${contextPath}/js/order/orderComplete.js"></script>
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
@@ -58,7 +58,7 @@ request.setCharacterEncoding("UTF-8");
 <c:set var="deliveryMethod" value="${Complete_deliveryInfo.deliveryMethod}"/>
 <c:set var="deliveryMsg" value="${Complete_deliveryInfo.deliveryMsg}"/>
 <c:set var="deliveryStatus" value="${Complete_deliveryInfo.deliveryStatus}"/>
-<c:url var="mypage" value="/myPage/${artistId}"/>
+<c:url var="mypage" value="/myPage/${artistId}/order_list"/>
 </head>
 <body>
 	<c:import url="../basic/header.jsp">
@@ -103,13 +103,13 @@ request.setCharacterEncoding("UTF-8");
                     <div>
                         <dt>결제금액</dt>
                         <dd>
-                            <p><span>${purchaseAmount}</span></p>
+                            <p><span id="purchaseAmount">${purchaseAmount}</span></p>
                         </dd>
                     </div>
                     <div>
                         <dt>배송상태</dt>
                         <dd>
-                            <p><span>${deliveryStatus}</span></p>
+                            <p><span id="purchaseStatus">${deliveryStatus}</span></p>
                         </dd>
                     </div>
                     <div>

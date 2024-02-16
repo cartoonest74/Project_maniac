@@ -206,7 +206,7 @@
     font-size:1.5em;
     padding:10px 15px;
     border-radius:15px;
-    background:#eae1e1;
+    background:#cdc7c7;
 }
 .radio_item input[type=radio]:checked + label{
     color:white;

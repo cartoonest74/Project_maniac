@@ -13,7 +13,7 @@ $(function(){
             return
         }
     }
-    // page number
+    // TODO page number
     const like_menu_page = (data, review_limit)=>{
         let string_to_json = JSON.parse(data);
         let all_reviewCount = string_to_json.allCount;
@@ -142,7 +142,7 @@ $(function(){
     });
     first_view();
 
-    // like category
+    //TODO like category
     $(document).on("click","button[data-like-category]",function(e){
         const categoryId = $(e.target).attr("data-like-category");
         $("button[data-like-category]").removeClass("select_categoryColor");

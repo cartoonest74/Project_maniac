@@ -8,7 +8,7 @@ $(function(){
         // review & qna tag data
         let tag_data = string_to_json.content;
         NoticeMenu_Content.html(tag_data);
-        // page 번호 처리
+        //TODO page 번호 처리
         const countNum = document.getElementById("notice_pageCount_num")
         if(all_reviewCount < 10){
             countNum.style.display="none";

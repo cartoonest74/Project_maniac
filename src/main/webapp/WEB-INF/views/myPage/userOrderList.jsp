@@ -68,7 +68,7 @@
             <dl id="olContainer" class="orderListContainer">
 
             </dl>
-            <div id="like_pageCount_num" class="pageCount">
+            <div id="ol_pageCount_num" class="pageCount">
 
             </div>
         </div>

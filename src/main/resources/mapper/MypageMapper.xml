@@ -54,7 +54,7 @@
         </if>)ol
         inner join product_artist pa on ol.product_no = pa.id
         where num > #{page_limit}
-        order by purchase_date asc;
+        order by purchase_date asc limit 10;
     </select>
     <select id="select_deliveryAddr" resultType="Complete_deliveryInfo">
         select amount ->> #{purchase_id} purchaseAmount,

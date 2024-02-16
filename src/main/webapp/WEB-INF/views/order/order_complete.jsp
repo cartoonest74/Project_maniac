@@ -65,6 +65,7 @@ request.setCharacterEncoding("UTF-8");
 	</c:import>
         <div class="orderCompleteBox">
                 <a href="${mypage}" class="orderComplete_category">
+                    <i class="fa-solid fa-angle-left fa-lg"></i>
                     주문&nbsp;내역
                 </a>
                 <header class="orderCompleateHeader">

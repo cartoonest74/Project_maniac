@@ -104,7 +104,7 @@
             </header>
             <section class="myPageContent">
                 <dl class="myPage_orderStatusBox">
-                    <span class="myPage_orderStstusInfo">*최근 3개월 기준</span>
+                    <span class="myPage_orderStstusInfo">&#42;최근 6개월 기준</span>
                     <div class="myPage_orderStatus">
                         <dt>미입금</dt>
                         <dd><a href="">0</a></dd>

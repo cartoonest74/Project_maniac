@@ -1,16 +1,16 @@
 $(function(){
-    const orderStatus_obj = {
-        all:"전체",
-        non_deposit:"미입금",
-        waiting:"상품대기",
-        shipping:"배송중",
-        complete:"배송완료",
-        cancel:"취소/교환/반품",
-    }
+    const orderStatus_obj = [
+        {name:"전체"},
+        {name:"미입금"},
+        {name:"상품대기"},
+        {name:"배송중"},
+        {name:"배송완료"},
+        {name:"취소/교환/반품"}
+    ]
     const trans_purchaseStatus=()=>{
         const purchaseStatus = document.getElementById("purchaseStatus");
         const purchaseStatus_val = purchaseStatus.innerText;
-        const trans_purchaseStatusVal = orderStatus_obj[purchaseStatus_val];
+        const trans_purchaseStatusVal = orderStatus_obj[purchaseStatus_val].name;
         purchaseStatus.innerText = trans_purchaseStatusVal;
     }
 

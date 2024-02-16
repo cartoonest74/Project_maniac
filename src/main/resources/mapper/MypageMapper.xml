@@ -14,6 +14,17 @@
     <update id="update_tel">
         update member set phone =#{edit_tel} where id =#{user_id};
     </update>
+    <select id="select_deliveryStatus" resultType="DeliveryStatus_manual">
+        select max(dsm_id) dsmId, max(deliveryStatus) dsmName, count(ds_num) dsmCount
+        from(select dsm.id dsm_id, dsm.name deliveryStatus, ds_num
+            from (select json_unquote(json_extract(delivery_status,concat("$.",json_key,"[2]"))) ds_num
+                from purchase,json_table(json_keys(delivery_status), "$[*]" columns(
+                json_key varchar(30) path "$"
+            ))t
+        where user_id = #{user_id})tmp
+        right outer join DeliveryStatus_manual dsm on tmp.ds_num = dsm.id)tmp2
+        group by dsm_id;
+    </select>
     <select id="select_purchaseLists" resultType="Purchase_list">
         select 	ol.num,
             pa.title,
@@ -49,11 +60,10 @@
                 goods_key varchar(20) path "$"
             ))tmp2
         where purchase_date > #{purchase_date}
-        <if test='!purchase_status.equals("all")'>
+        <if test='!purchase_status.equals(0)'>
             and purchase_status = #{purchase_status}
         </if>)ol
         inner join product_artist pa on ol.product_no = pa.id
-        where num > #{page_limit}
         order by purchase_date desc;
     </select>
     <select id="select_deliveryAddr" resultType="Complete_deliveryInfo">

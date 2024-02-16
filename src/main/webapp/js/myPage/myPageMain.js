@@ -4,6 +4,22 @@ $(function(){
     const editPwdPage = document.getElementById("editPwdPage")
     const editEmailPage = document.getElementById("editEmailPage")
     const authTime_obj = {auth_obj:new Object()};
+    const orderStatus_obj = [
+            {name:"전체"},
+            {name:"미입금"},
+            {name:"상품대기"},
+            {name:"배송중"},
+            {name:"배송완료"},
+            {name:"취소/교환/반품"}
+        ]
+    const create_statusTitle_tag =()=>{
+        const statusAll_arr = document.querySelectorAll("dt[data-deliveryStatus-num]");
+        statusAll_arr.forEach(val=>{
+            const status_num= val.getAttribute("data-deliveryStatus-num");
+            val.innerText = orderStatus_obj[status_num].name;
+        })
+    }
+    create_statusTitle_tag();
     const editUserInfo_obj={
         editPwd:{header_title:"비밀번호 변경",
                 edit_content:`<div data-edit-pwd="current_pwd" class="myPageEditContentBox">

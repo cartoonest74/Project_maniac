@@ -1,9 +1,6 @@
 package hello.market.service.myPage;
 
-import hello.market.dto.Cart;
-import hello.market.dto.Complete_deliveryInfo;
-import hello.market.dto.Product;
-import hello.market.dto.Purchase_list;
+import hello.market.dto.*;
 import hello.market.repository.mybatis.myPage.MyPageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,8 +33,14 @@ public class MyPageServiceImpl implements MyPageService {
     }
 
     @Override
-    public List<Purchase_list> get_purchaseLists(int user_id, long purchase_date, String purchase_status, int page_limit) {
-        List<Purchase_list> purchaseLists = myPageRepository.select_purchaseLists(user_id, purchase_date, purchase_status, page_limit);
+    public List<DeliveryStatus_manual> get_deliveryStatus(int user_id) {
+        List<DeliveryStatus_manual> deliveryStatusManuals = myPageRepository.select_deliveryStatus(user_id);
+        return deliveryStatusManuals;
+    }
+
+    @Override
+    public List<Purchase_list> get_purchaseLists(int user_id, long purchase_date, int purchase_status) {
+        List<Purchase_list> purchaseLists = myPageRepository.select_purchaseLists(user_id, purchase_date, purchase_status);
         return purchaseLists;
     }
 

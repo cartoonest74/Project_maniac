@@ -13,7 +13,6 @@
 
 <link rel="stylesheet" href="${contextPath}/css/basic.css">
 <link rel="stylesheet" href="${contextPath}/css/myPage/orderList.css">
-<link rel="stylesheet" href="${contextPath}/css/pageCount/pageCount.css">
 <link rel="stylesheet" href="${contextPath}/css/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
 <link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
@@ -44,7 +43,8 @@
 
 <!-- url -->
 <c:url var="myPage" value="/myPage/${artistId}" />
-
+<c:set var="ol_month" value="${month}"/>
+<c:set var="ol_status" value="${status}"/>
 </head>
 <body>
 	<c:import url="../basic/header.jsp" >
@@ -60,7 +60,7 @@
                 </div>
                 <div class="orderList_search">
                     <button id="orderListSearch" type="button">
-                        <span id="ols_title">1개월&#183;전체</span>&nbsp;
+                        <span data-olOption-month="${ol_month}">1개월</span>&#183;<span data-olOption-status="${ol_status}">전체</span>&nbsp;
                         <i class="fa-solid fa-bars-staggered fa-lg"></i>
                     </button>
                 </div>
@@ -68,9 +68,6 @@
             <dl id="olContainer" class="orderListContainer">
 
             </dl>
-            <div id="ol_pageCount_num" class="pageCount">
-
-            </div>
         </div>
 	<jsp:include page="../basic/footer.jsp" flush="true" />
 </body>

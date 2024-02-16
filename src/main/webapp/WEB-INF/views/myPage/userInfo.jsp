@@ -49,10 +49,10 @@
 <c:set var="userTel" value="${member.phone}"/>
 <c:set var="userAddr" value="${member.addr}"/>
 <c:set var="logoutUrl" value="/login-action/logout" />
-
+<c:set var="deliveryStatus_list" value="${deliveryStatus}"/>
 <!-- url -->
 <c:url var="userEdit" value="/myPage/${artistId}/user_edit" />
-<c:url var="orderList" value="/myPage/${artistId}/order_list" />
+<c:url var="orderList" value="/myPage/${artistId}/order_list?month=1&status=0" />
 <c:url var="productQuestion" value="/myPage/${artistId}/product_question" />
 <c:url var="productReview" value="/myPage/${artistId}/product_review" />
 
@@ -104,27 +104,17 @@
             </header>
             <section class="myPageContent">
                 <dl class="myPage_orderStatusBox">
-                    <span class="myPage_orderStstusInfo">&#42;최근 6개월 기준</span>
+                    <span class="myPage_orderStatusInfo">&#42;최근 6개월 기준</span>
+                <c:forEach var="ds" items="${deliveryStatus_list}">
+                    <c:set var="dsmId" value="${ds.dsmId}"/>
+                    <c:set var="dsmName" value="${ds.dsmName}"/>
+                    <c:set var="dsmCount" value="${ds.dsmCount}"/>
+                    <c:url var="orderList_url" value="/myPage/${artistId}/order_list?month=6&status=${dsmId}"/>
                     <div class="myPage_orderStatus">
-                        <dt>미입금</dt>
-                        <dd><a href="">0</a></dd>
+                        <dt data-deliveryStatus-num="${dsmId}"></dt>
+                        <dd><a href="${orderList_url}">${dsmCount}</a></dd>
                     </div>
-                    <div class="myPage_orderStatus">
-                        <dt>출고대기</dt>
-                        <dd><a href="">0</a></dd>
-                    </div>
-                    <div class="myPage_orderStatus">
-                        <dt>배송중</dt>
-                        <dd><a href="">0</a></dd>
-                    </div>
-                    <div class="myPage_orderStatus">
-                        <dt>배송완료</dt>
-                        <dd><a href="">0</a></dd>
-                    </div>
-                    <div class="myPage_orderStatus">
-                        <dt>취소/교환/반품</dt>
-                        <dd><a href="">0</a></dd>
-                    </div>
+                </c:forEach>
                 </dl>
                 <dl class="myPageMenuBox">
                     <a href="${orderList}" class="myPageMenu">

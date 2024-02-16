@@ -2,6 +2,7 @@ package hello.market.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hello.market.dto.DeliveryStatus_manual;
 import hello.market.dto.Member;
 import hello.market.dto.Purchase_list;
 import hello.market.service.member.MemberService;
@@ -33,43 +34,38 @@ public class MyPageController {
     public String loginInfo(@PathVariable int artistId, Model model, HttpServletRequest request) {
         int user_id = loginSessionManager.sessionUUIDcheck(request);
         Member member = memberService.memberSelect(user_id);
+        List<DeliveryStatus_manual> deliveryStatus = myPageService.get_deliveryStatus(user_id);
         model.addAttribute("memberInfo", member);
         model.addAttribute("artistId", artistId);
+        model.addAttribute("deliveryStatus", deliveryStatus);
         return "/myPage/userInfo";
     }
 
-    @GetMapping("/user_edit")
-    private String get_userEdit(@PathVariable int artistId,
-                                HttpServletRequest request,
-                                Model model) {
-        int user_id = loginSessionManager.sessionUUIDcheck(request);
-        memberService.memberSelect(user_id);
-        return "/myPage/userEdit";
-    }
-
     @GetMapping("/order_list")
-    private String get_orderList(@PathVariable int artistId) {
+    private String get_orderList(@PathVariable int artistId,
+                                 @RequestParam(value = "month", required = false, defaultValue = "1") int month,
+                                 @RequestParam(value = "status", required = false, defaultValue = "0") int status,
+                                 Model model) {
+        model.addAttribute("month", month);
+        model.addAttribute("status", status);
         return "/myPage/userOrderList";
     }
 
     @ResponseBody
     @PostMapping("/order_list")
     private String post_orderList(@PathVariable int artistId,
-                                  @RequestParam(value = "page", required = false, defaultValue = "1") int page,
                                   @RequestParam(value = "date", required = false, defaultValue = "1") int purchaseDate,
-                                  @RequestParam(value = "status", required = false, defaultValue = "all") String purchaseStatus,
+                                  @RequestParam(value = "status", required = false, defaultValue = "0") int purchaseStatus,
                                   HttpServletRequest request) throws JsonProcessingException {
         int user_id = loginSessionManager.sessionUUIDcheck(request);
         ObjectMapper objectMapper = new ObjectMapper();
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
-        page = page < 1 ? 1 : page;
-        int page_limit = (page-1) *10;
         // date
         LocalDateTime localDateTime = LocalDateTime.now();
         LocalDateTime before_3month = localDateTime.minusMonths(purchaseDate);
         long current_timeMills = Timestamp.valueOf(before_3month).getTime();
-        List<Purchase_list> purchaseLists = myPageService.get_purchaseLists(user_id, current_timeMills, purchaseStatus, page_limit);
+        List<Purchase_list> purchaseLists = myPageService.get_purchaseLists(user_id, current_timeMills, purchaseStatus);
         for (Purchase_list purchaseList : purchaseLists) {
             String writeValueAsString = objectMapper.writeValueAsString(purchaseList);
             jsonArray.put(writeValueAsString);

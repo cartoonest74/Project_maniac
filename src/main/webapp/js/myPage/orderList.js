@@ -1,18 +1,20 @@
 $(function(){
     const artistId = document.getElementById("artistId").value;
     const orderListSearch = document.getElementById("orderListSearch");
-    const orderStatus_obj = {
-        all:"전체",
-        non_deposit:"미입금",
-        waiting:"상품대기",
-        shipping:"배송중",
-        complete:"배송완료",
-        cancel:"취소/교환/반품",
-    }
+    const option_month_tag = document.querySelector("span[data-olOption-month]");
+    const option_status_tag = document.querySelector("span[data-olOption-status]");
+
+    const orderStatus_obj = [
+            {name:"전체"},
+            {name:"미입금"},
+            {name:"상품대기"},
+            {name:"배송중"},
+            {name:"배송완료"},
+            {name:"취소/교환/반품"}
+    ]
     const olOption_obj = {
-        page:0,
         month:1,
-        status:"waiting"
+        status:0
     }
 
     // 조건 검색 tag
@@ -42,28 +44,28 @@ $(function(){
                                       <div class="ol_optionContent">
                                           <h2>주문상태</h2>
                                           <nav class="radio_item">
-                                              <input id="basicStatus" type="radio" name="status" value="all" checked>
-                                              <label for="all">전체</label>
+                                              <input id="basicStatus" type="radio" name="status" value="0" checked>
+                                              <label for="0">전체</label>
                                           </nav>
                                           <nav class="radio_item">
-                                              <input type="radio" name="status" value="non_deposit">
-                                              <label for="non_deposit">미입금</label>
+                                              <input type="radio" name="status" value="1">
+                                              <label for="1">미입금</label>
                                           </nav>
                                           <nav class="radio_item">
-                                              <input type="radio" name="status" value="waiting">
-                                              <label for="waiting">상품대기</label>
+                                              <input type="radio" name="status" value="2">
+                                              <label for="2">상품대기</label>
                                           </nav>
                                           <nav class="radio_item">
-                                              <input type="radio" name="status" value="shipping">
-                                              <label for="shipping">배송중</label>
+                                              <input type="radio" name="status" value="3">
+                                              <label for="3">배송중</label>
                                           </nav>
                                           <nav class="radio_item">
-                                              <input type="radio" name="status" value="complete">
-                                              <label for="complete">배송완료</label>
+                                              <input type="radio" name="status" value="4">
+                                              <label for="4">배송완료</label>
                                           </nav>
                                           <nav class="radio_item">
-                                              <input type="radio" name="status" value="cancel">
-                                              <label for="cancel">취소/교환/반품</label>
+                                              <input type="radio" name="status" value="5">
+                                              <label for="5">취소/교환/반품</label>
                                           </nav>
                                       </div>
                                       <div class="ol_optionContent">
@@ -78,26 +80,21 @@ $(function(){
         body.insertAdjacentHTML("afterbegin",olOption_tag);
     }
     // POST ORDERLIST
-    const post_orderList = async (page=1,date=1,status="all")=>{
+    const post_orderList = async (date=1,status=0,onOff="on")=>{
         // click category id
-        page = olOption_obj.page
         date = olOption_obj.month
         status = olOption_obj.status
-        console.log(page,date,status)
-//        let current_url = location.href;
-//        if(typeof(history.pushState)=='function' && onOff == "on"){
-//            current_url = current_url.replace(/\?page=([0-9]+)&/ig,'')
-//            current_url += "?page="+(Number(page)+1)
-//            history.pushState({page:page},null,current_url)
-//        }
-//        const REVIEW_CONTROLLER_URL = current_url;
-        // 한 페이지에 보여질 목록 n개
-        // review_limit * n
-        const formData = new FormData();
-        formData.append("page",page)
-        formData.append("date",date)
-        formData.append("status",status)
 
+        const formData = new FormData();
+        formData.append("date",date);
+        formData.append("status",status);
+
+        let current_url = location.href;
+        if(typeof(history.pushState)=='function' && onOff == "on"){
+            current_url = current_url.replace(/\?month=([0-9])&status=([0-9])/ig,'')
+            current_url += "?month="+(Number(date))+"&status="+(Number(status))
+            history.pushState({month:date,status:status},null,current_url)
+        }
         const resolve_postOrderList =`/myPage/${artistId}/order_list`
         const res = await axios.post(resolve_postOrderList,formData)
                         .then((response)=>response.data)
@@ -117,10 +114,9 @@ $(function(){
         const arriveDate = "";
 
         const purchaseStatus_val = obj_contents[val]["status"];
-        const purchaseStatus = orderStatus_obj[purchaseStatus_val];
+        const purchaseStatus = orderStatus_obj[purchaseStatus_val].name;
 
         const date_tag =`<h2 data-orderList-date="${purchaseDate}">${purchaseDate}</h2>&nbsp;`;
-        // h2 날짜 태그 한번만 만듬
 
         const orderList_tag=`<div class="orderListCotentBox">
                                <dt class="olc_dateTitle">
@@ -149,12 +145,18 @@ $(function(){
     };
 
     // ORDER LIST START
-    const start_main = async (page=1,date=1,status="all") =>{
+    const start_main = async (date=1,status=0) =>{
         const olContainer = document.getElementById("olContainer");
-        const res = await post_orderList(page,date,status);
+        const res = await post_orderList(date,status);
+
+        const option_month = option_month_tag.getAttribute("data-olOption-month");
+        const option_status = option_status_tag.getAttribute("data-olOption-status");
         const obj_contents = new Object();
         let copy_num = 0;
         let list_tag = "";
+
+        option_month_tag.innerText = `${option_month}개월`;
+        option_status_tag.innerText = orderStatus_obj[option_status].name;
         // 주문내역이 없을 경우
         if(res.length == 0){
             olContainer.innerHTML=`<div style="padding:10vh; font-size:1.5em;">주문 내역이 없습니다.</div>`;
@@ -243,25 +245,37 @@ $(function(){
     });
     // 조건 검색 btn
     $(document).on("click","button#olOption_search",async function(){
-        const page = 1;
         const date = document.querySelector('input[name="month"]:checked').value;
         const status = document.querySelector('input[name="status"]:checked').value;
 
-        const trans_status = orderStatus_obj[status];
-        const trans_month = date+"개월"
+        option_month_tag.setAttribute('data-olOption-month',date);
+        option_status_tag.setAttribute('data-olOption-status',status);
+//
+//        const ols_title = document.getElementById("ols_title");
+//        ols_title.innerHTML = `${trans_month}&#183;${trans_status}`;
 
-        const ols_title = document.getElementById("ols_title");
-        ols_title.innerHTML = `${trans_month}&#183;${trans_status}`;
-
-        olOption_obj.page = page;
         olOption_obj.month = date;
         olOption_obj.status = status;
 
-        const trans_main =  await start_main(page, date,status);
+        const trans_main =  await start_main(date,status);
         remove_olOptionBox();
     });
     // 조건 검색상자 열기 btn
     orderListSearch.addEventListener("click",function(){
         create_olOption_tag();
+        const month_val = option_month_tag.getAttribute("data-olOption-month");
+        const status_val = option_status_tag.getAttribute("data-olOption-status");
+        document.querySelector(`input[name="month"][value="${month_val}"]`).checked =true;
+        document.querySelector(`input[name="status"][value="${status_val}"]`).checked =true;
     });
+
+    //    뒤로가기, 앞으로 클릭시 이벤트
+    window.onpopstate=function(event){
+        let current_url = document.location;
+        let review_limit = event.state.page;
+        const onOff = "off";
+        let date = olOption_obj.month
+        let status = olOption_obj.status
+        post_orderList(date, status, onOff);
+    }
 })

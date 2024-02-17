@@ -117,7 +117,7 @@ $(function() {
 		const REVIEW_CONTROLLER_URL = CONTEXTPATH.concat(resolve_view_review);
         let _pageData_limit = review_limit * 10;
 		$.ajax({
-			type: "get",
+			type: "post",
 			async: true,
 			url: REVIEW_CONTROLLER_URL,
 			dataType: "text",
@@ -144,7 +144,7 @@ $(function() {
 		let _pageData_limit = _qna_limit * 10;
 		const QNA_CONTROLLER_URL = CONTEXTPATH.concat(resolve_view_qna);
 		$.ajax({
-			type: "get",
+			type: "post",
 			async: true,
 			url: QNA_CONTROLLER_URL,
 			dataType: "text",

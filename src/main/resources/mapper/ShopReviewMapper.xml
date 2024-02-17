@@ -4,7 +4,7 @@
 <mapper namespace="hello.market.repository.mybatis.shopReview.ShopReviewMapper">
 
     <insert id="insert">
-        INSERT INTO Shop_review(product_no, user_id, url, content)
+        INSERT INTO Shop_review(product_no, user_id, url, content, artist_id)
         VALUES(#{productNo}, #{userNo}, #{url}, #{content})
     </insert>
 

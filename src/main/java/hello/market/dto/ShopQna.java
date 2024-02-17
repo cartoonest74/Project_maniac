@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class ShopQna {
 	private int id;
+	private int artist_id;
 	private int productNo;
 	private int writer_num;
 	private String title;

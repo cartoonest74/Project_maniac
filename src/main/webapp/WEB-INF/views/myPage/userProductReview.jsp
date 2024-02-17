@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="EUC-KR" isELIgnored="false"%>
+	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ page import="model.*, java.util.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -12,7 +12,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/basic.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/account/userInfo.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/myPage/myReview.css">
 <link rel="stylesheet" href="${contextPath}/css/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
 <link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
@@ -33,7 +33,7 @@
 <script src="https://kit.fontawesome.com/7938f26122.js" crossorigin="anonymous"></script>
 
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
-
+<script type="text/javascript" src="${contextPath}/js/myPage/myReview.js"></script>
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
 
@@ -49,62 +49,49 @@
 	<c:import url="../basic/header.jsp" >
 		<c:param name="cartCount" value="${cartCount}"/>
 	</c:import>
-        <div class="myPageBox">
-            <h2 class="myPageSubTitle">mypage</h2>
-            <header class="myPageHeader">
-                <h2>gdragon</h2>
-                <div class="myPage_basicSubBox">
-                    <a href="${userEdit}">
-                        <i class="fa-solid fa-user-pen fa-lg"></i>
-                    </a>
-                    <form action="${logoutUrl}" method="post">
-                        <button id="logOutBtn" type="button">
-                            <i class="fa-solid fa-power-off fa-lg"></i>
-                        </button>
-                    </form>
-                </div>
-            </header>
-            <section class="myPageContent">
-                <dl class="myPage_orderStatusBox">
-                    <span class="myPage_orderStstusInfo">*최근 3개월 기준</span>
-                    <div class="myPage_orderStatus">
-                        <dt>미입금</dt>
-                        <dd><a href="">0</a></dd>
+    <div class="myReviewBox">
+        <header class="myReviewHeader">
+            <div class="go_myPage">
+                <a href="">
+                    <i class="fa-solid fa-angle-left fa-lg"></i>
+                    <span>
+                        상품문의
+                    </span>
+                </a>
+            </div>
+            <div class="myReview_search">
+                <button id="myReviewSearch" type="button">
+                    <span data-reviewOption-artist="1">전체</span>
+                    <i class="fa-solid fa-bars-staggered fa-lg"></i>
+                </button>
+            </div>
+        </header>
+        <dl id="reviewContainer" class="myReviewContainerBox">
+            <div class="myReviewContainer">
+                <dt class="myReviewDate">
+                    <h2>2014-02-17</h2>
+                </dt>
+                <dd class="myReviewInfo">
+                    <div class="reviewTitle">
+                        <h3>Official Light Stick Special Edition
+                        </h3>
                     </div>
-                    <div class="myPage_orderStatus">
-                        <dt>출고대기</dt>
-                        <dd><a href="">0</a></dd>
+                    <div class="myReviewContent">
+                        <div class="reviewImg">
+                            <img src="./1b9dfe60-6965-11ee-803b-c82158287895.png" alt="">
+                        </div>
+                        <div class="reviewText">
+                            <p>good</p>
+                        </div>
                     </div>
-                    <div class="myPage_orderStatus">
-                        <dt>배송중</dt>
-                        <dd><a href="">0</a></dd>
+                    <div class="myReviewOptionBtn">
+                        <button data-myReview-edit="" type="button">Edit</button>
+                        <button data-myReview-del="" type="button">Delete</button>
                     </div>
-                    <div class="myPage_orderStatus">
-                        <dt>배송완료</dt>
-                        <dd><a href="">0</a></dd>
-                    </div>
-                    <div class="myPage_orderStatus">
-                        <dt>취소/교환/반품</dt>
-                        <dd><a href="">0</a></dd>
-                    </div>
-                </dl>
-                <dl class="myPageMenuBox">
-                    <a href="${orderList}" class="myPageMenu">
-                        <dt><i class="fa-solid fa-basket-shopping fa-lg"></i></dt>
-                        <dd>주문 내역</dd>
-                    </a>
-                    <a href="${productQuestion}" class="myPageMenu">
-                        <dt><i class="fa-solid fa-circle-question fa-lg"></i></dt>
-                        <dd>상품문의</dd>
-                    </a>
-                    <a href="${productReview}" class="myPageMenu">
-                        <dt><i class="fa-solid fa-pen-to-square fa-lg"></i></dt>
-                        <dd>상품후기</dd>
-                    </a>
-                </dl>
-            </section>
-        </div>
-
+                </dd>
+            </div>
+        </dl>
+    </div>
 	<jsp:include page="../basic/footer.jsp" flush="true" />
 </body>
 </html>

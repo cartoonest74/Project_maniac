@@ -43,12 +43,12 @@ request.setCharacterEncoding("UTF-8");
 <script type="text/javascript" src="${contextPath}/js/cart.js"></script>
 
 <c:set var="productNo" value="${productinfo.id}" />
-<c:set var="artistId" value="${productinfo.artistId}" />
+<c:set var="product_artistId" value="${productinfo.artistId}" />
 <c:set var="name" value="${productinfo.title}" />
 
 <c:set var="memberId" value="${memberId}" />
 
-<c:url var="addReviewUrl" value="/product-review/${artistId}/add-review" />
+<c:url var="addReviewUrl" value="/product-review/${product_artistId}/add-review" />
 
 </head>
 <body>
@@ -57,6 +57,7 @@ request.setCharacterEncoding("UTF-8");
 	</c:import>
 	<form action="${addReviewUrl}" id="WriterQnaForm" class="Writer_qna_Form" method="post" enctype="multipart/form-data">
 		<input type="text" name="productNo" value="${productNo}" hidden="hidden">
+		<input type="text" name="artist_id" value="${product_artistId}" hidden="hidden">
 		<nav class="writere_tag">Review</nav>
 		<nav class="writer_qna_header">
 			<h1>

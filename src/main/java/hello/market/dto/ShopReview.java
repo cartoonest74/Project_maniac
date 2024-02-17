@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class ShopReview {
 	private int id;
+	private int artist_id;
 	private int productNo;
 	private int userNo;
 	private String title;

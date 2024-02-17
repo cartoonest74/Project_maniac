@@ -1,0 +1,149 @@
+@charset "UTF-8";
+.myQnaBox{
+    display:inline-block;
+    width:60%;
+    margin:5vh 0;
+}
+.myQnaHeader{
+    display:flex;
+    width:100%;
+    flex-wrap:wrap;
+}
+.go_myPage{
+    display:inline-block;
+    width:100%;
+    padding-bottom:1vh;
+    border-bottom:1px solid rgb(221, 220, 220);
+}
+.go_myPage i{
+    font-weight:600;
+    font-size:2em;
+}
+.go_myPage span{
+    font-weight:600;
+    font-size:1.8em;
+}
+.myQna_search{
+    display:inline-block;
+    width:100%;
+    text-align:right;
+}
+.myQna_search{
+    display:inline-block;
+}
+.myQna_search button{
+    padding:5px 10px;
+    background:transparent;
+    border:0px;
+    cursor:pointer;
+}
+.myQna_search button>span{
+    font-size:1.5em;
+}
+.myQna_search button>i{
+    font-size:1.8em;
+}
+
+/* container */
+.myQnaContainerBox{
+    display:inline-block;
+    width:100%;
+    background:#f0eaea;
+    padding:1vh 0;
+}
+.myQnaContainer{
+    display:inline-block;
+    width:100%;
+    padding:0 5px;
+}
+.myQnaDate{
+    display:flex;
+    width:100%;
+    justify-content:space-between;
+    align-items:center;
+}
+.myQnaDate button{
+    font-size:2em;
+    border:0px;
+    background-color:transparent;
+    padding:10px 10px;
+    cursor:pointer;
+}
+.myQnaDate button>i{
+    font-size:inherit;
+}
+.myQnaDate h2{
+    font-size:2em;
+    font-weight:600;
+}
+.myQnaInfo{
+    display:inline-block;
+    width:100%;
+    background-color:white;
+    padding:5px 5px;
+}
+.QnaTitle{
+    display:flex;
+    width:100%;
+    justify-content:space-between;
+    align-items:first baseline;
+    flex-wrap:wrap;
+    padding-bottom:1vh;
+    border-bottom:1px dotted rgb(225, 221, 221);
+}
+.QnaTitle h3{
+    font-size:1.8em;
+    font-weight:400;
+}
+/* content */
+.myQnaContent{
+    display:flex;
+    width:100%;
+    padding-top:5px;
+}
+.QnaImg{
+    display:inline-block;
+    width:200px;
+}
+.QnaImg img{
+    width:100%;
+    object-fit:contain;
+}
+.QnaText{
+    display:flex;
+    width:100%;
+    padding-left:10px;
+    font-size:1.5em;
+}
+.QnaText p{
+    font-size:inherit;
+}
+/*answer*/
+.reMyQnaInfo{
+    display:inline-block;
+    width:100%;
+    padding:5px 10px;
+    background:white;
+}
+.reQnaTitle{
+    display:flex;
+    width:100%;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:first baseline;
+    border-bottom:1px dotted rgba(0,0,0,0.1);
+}
+.reQnaTitle h3{
+    font-size:1.5em;
+    font-weight:600;
+    color:#2b5378;
+}
+.reMyQnaContent{
+    padding:1vh 0;
+}
+.reQnaText{
+    font-size:1.5em;
+}
+.reQnaText p{
+    font-size:inherit;
+}

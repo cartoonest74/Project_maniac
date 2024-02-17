@@ -34,7 +34,7 @@ public class ShopQnaController {
     private StringBuilder qna_tag = new StringBuilder();
 
     @GetMapping("/view-addQna")
-    private String viewAddQna(@RequestParam int productNo, HttpServletRequest request, Model model) {
+    private String viewAddQna(@PathVariable Integer artistId, @RequestParam int productNo, HttpServletRequest request, Model model) {
         Product product = productService.findProduct(productNo);
 
         Integer userNo = sessionLoginCheck.sessionUUIDcheck(request);
@@ -43,12 +43,13 @@ public class ShopQnaController {
 
         model.addAttribute("productinfo", product);
         model.addAttribute("memberId", memberId);
+        model.addAttribute("artistId", artistId);
         log.info("userNo = {}, memberId = {}", userNo, memberId);
         return "/qna/writer_qna";
     }
 
     @ResponseBody
-    @GetMapping("/view-qna")
+    @PostMapping("/view-qna")
     private String viewQna(@RequestParam("productNo") int productNo, @RequestParam("limit") int limit) {
         Integer qnaLength = shopQnaService.allQnaLength(productNo,0);
 

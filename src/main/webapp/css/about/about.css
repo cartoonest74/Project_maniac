@@ -24,7 +24,7 @@
 .about_MainImg img{
     display:inline-block;
     width:100%;
-    over-fit:contain;
+    object-fit:contain;
 }
 .about_title{
     position: absolute;

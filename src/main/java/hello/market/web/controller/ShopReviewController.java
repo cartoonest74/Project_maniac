@@ -58,7 +58,7 @@ public class ShopReviewController {
     }
 
     @ResponseBody
-    @GetMapping("/view-review")
+    @PostMapping("/view-review")
     private String viewReview(@RequestParam Integer productNo, @RequestParam Integer limit){
         Integer reviewLength = shopReviewService.allReviewLength(productNo,0);
 
@@ -78,7 +78,7 @@ public class ShopReviewController {
     }
 
     @GetMapping("/view-addReview")
-    private String viewAdddReview(@RequestParam Integer productNo, HttpServletRequest request, Model model){
+    private String viewAdddReview(@PathVariable Integer artistId,@RequestParam Integer productNo, HttpServletRequest request, Model model){
         int id = sessionLoginCheck.sessionUUIDcheck(request);
 
         Product product = productService.findProduct(productNo);
@@ -87,6 +87,7 @@ public class ShopReviewController {
 
         model.addAttribute("productinfo", product);
         model.addAttribute("memberId", memberId);
+        model.addAttribute("artistId", artistId);
         return "/review/writer_review";
     }
 

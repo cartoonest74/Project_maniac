@@ -4,8 +4,8 @@
 <mapper namespace="hello.market.repository.mybatis.shopQna.ShopQnaMapper">
 
     <insert id="insert">
-        insert into Shop_qna(product_no, user_id, content)
-        values(#{productNo}, #{writer_num}, #{content})
+        insert into Shop_qna(product_no, user_id, content, artist_id)
+        values(#{productNo}, #{writer_num}, #{content}, #{artist_id})
     </insert>
 
     <delete id="delete">

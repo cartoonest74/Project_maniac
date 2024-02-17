@@ -82,14 +82,14 @@ $(function(){
     // POST ORDERLIST
     const post_orderList = async (date=1,status=0,onOff="on")=>{
         // click category id
-        date = olOption_obj.month
-        status = olOption_obj.status
 
         const formData = new FormData();
         formData.append("date",date);
         formData.append("status",status);
 
         let current_url = location.href;
+        console.log("date",date)
+        console.log("status",status)
         if(typeof(history.pushState)=='function' && onOff == "on"){
             current_url = current_url.replace(/\?month=([0-9])&status=([0-9])/ig,'')
             current_url += "?month="+(Number(date))+"&status="+(Number(status))
@@ -145,12 +145,12 @@ $(function(){
     };
 
     // ORDER LIST START
-    const start_main = async (date=1,status=0) =>{
+    const start_main = async () =>{
         const olContainer = document.getElementById("olContainer");
-        const res = await post_orderList(date,status);
-
         const option_month = option_month_tag.getAttribute("data-olOption-month");
         const option_status = option_status_tag.getAttribute("data-olOption-status");
+        const res = await post_orderList(option_month,option_status);
+
         const obj_contents = new Object();
         let copy_num = 0;
         let list_tag = "";
@@ -257,7 +257,7 @@ $(function(){
         olOption_obj.month = date;
         olOption_obj.status = status;
 
-        const trans_main =  await start_main(date,status);
+        const trans_main =  await start_main();
         remove_olOptionBox();
     });
     // 조건 검색상자 열기 btn
@@ -276,6 +276,8 @@ $(function(){
         const onOff = "off";
         let date = olOption_obj.month
         let status = olOption_obj.status
+        console.log("date",date)
+        console.log("status",status)
         post_orderList(date, status, onOff);
     }
 })

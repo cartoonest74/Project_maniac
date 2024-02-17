@@ -50,7 +50,7 @@ request.setCharacterEncoding("UTF-8");
 
 <c:set var="productNo" value="${productinfo.id}" />
 <c:set var="title" value="${productinfo.title}" />
-<c:set var="artistId" value="${productinfo.artistId}" />
+<c:set var="product_artistId" value="${productinfo.artistId}" />
 
 <!-- request -->
 <c:set var="memberId" value="${memberId}" />
@@ -64,6 +64,8 @@ request.setCharacterEncoding("UTF-8");
 	</c:import>
 	<form action="${addQnaUrl}" id="WriterQnaForm" class="Writer_qna_Form" method="post">
 		<input type="text" name="product_no" value="${productNo}" hidden="hidden">
+		<input type="text" name="artist_id" value="${product_artistId}" hidden="hidden">
+
 		<nav class="writer_tag">Q&A</nav>
 		<nav class="writer_qna_header">
 			<h1>

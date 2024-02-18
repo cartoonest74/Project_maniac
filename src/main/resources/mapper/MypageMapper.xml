@@ -14,6 +14,62 @@
     <update id="update_tel">
         update member set phone =#{edit_tel} where id =#{user_id};
     </update>
+    <select id="select_shopQna" resultType="ShopQna">
+        select num id,
+            tmp2.id writer_num,
+            pa.title title,
+            tmp2.date date,
+            tmp2.content content,
+            pa.artist_id artist_id,
+            answer_check answerCheck,
+            aq.qna_id rootId,
+            aq.content rootContent,
+            aq.date rootDate
+        from(select *
+            from(select row_number() over(order by date asc) num,
+                    id,
+                    artist_id,
+                    date,
+                    content,
+                    product_no,
+                    answer_check
+                from shop_qna
+                where user_id=#{user_id}
+                <if test="!artist_id.equals(0)">
+                    and artist_id = ${artist_id}
+                </if>
+                )tmp
+        where num > #{page_limit})tmp2
+        inner join product_artist pa on pa.id = tmp2.product_no
+        left join answer_qna aq on aq.qna_id = tmp2.id
+        order by num asc limit 10;
+    </select>
+    <select id="select_shopReview" resultType="ShopReview">
+        select num,
+            tmp2.id,
+            pa.title,
+            tmp2.url,
+            tmp2.date,
+            tmp2.content,
+            pa.artist_id
+        from(select *
+            from(select row_number() over(order by date asc) num,
+                    id,
+                    artist_id,
+                    url,
+                    date,
+                    content,
+                    product_no
+                from shop_review
+                where user_id=#{user_id}
+                <if test="!artist_id.equals(0)">
+                    and artist_id = ${artist_id}
+                </if>
+            )tmp
+        where num > #{page_limit})tmp2
+        inner join product_artist pa on pa.id = tmp2.product_no
+        order by num asc limit 10;
+    </select>
     <select id="select_deliveryStatus" resultType="DeliveryStatus_manual">
         select max(dsm_id) dsmId, max(deliveryStatus) dsmName, count(ds_num) dsmCount
         from(select dsm.id dsm_id, dsm.name deliveryStatus, ds_num

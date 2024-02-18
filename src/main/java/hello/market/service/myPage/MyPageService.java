@@ -10,6 +10,9 @@ public interface MyPageService {
     void edit_memberPhone(String edit_phone, int user_id);
     void edit_memberEmail(String edit_email, int user_id);
 
+    List<ShopReview> get_userShopReview(int user_id, int artist_id, int page_limit);
+
+    List<ShopQna> get_userShopQna(int user_id, int artist_id, int page_limit);
     List<DeliveryStatus_manual> get_deliveryStatus(int user_id);
     List<Purchase_list> get_purchaseLists(int user_id, long purchase_date,int purchase_status);
     Complete_deliveryInfo view_purchase_deliveryInfo(int user_id, String purchase_id);

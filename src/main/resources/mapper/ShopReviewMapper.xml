@@ -5,7 +5,7 @@
 
     <insert id="insert">
         INSERT INTO Shop_review(product_no, user_id, url, content, artist_id)
-        VALUES(#{productNo}, #{userNo}, #{url}, #{content})
+        VALUES(#{productNo}, #{userNo}, #{url}, #{content}, #{artist_id})
     </insert>
 
     <delete id="delete">

@@ -37,24 +37,28 @@ public class ShopReviewController {
     private StringBuilder review_tag = new StringBuilder();
 
     @PostMapping("/add-review")
-    private String addReview(@PathVariable Integer artistId, @ModelAttribute ReviewUploadForm reviewUploadForm,HttpServletRequest request) throws IOException {
-
+    private String post_addReview(@PathVariable Integer artistId,
+                                  @ModelAttribute ReviewUploadForm reviewUploadForm,
+                                  HttpServletRequest request) throws IOException {
         UploadFile uploadFile = fileStore.storeFile(REVIEW_SHOP_IMG_DIR,reviewUploadForm.getReviewImgFile());
         String saveFileName = uploadFile.getSaveFileName();
         String saveFilePath = uploadFile.getSavePath();
 
         // 업로드할 파일 경로를 설정
         String userContent = reviewUploadForm.getContent();
-        int proudctNum = reviewUploadForm.getProductNo();
+        int productNum = reviewUploadForm.getProductNo();
+        int review_artistId = reviewUploadForm.getArtistId();
         int userId = sessionLoginCheck.sessionUUIDcheck(request);
 
         ShopReview shopReview = new ShopReview();
-        shopReview.setProductNo(proudctNum);
+        shopReview.setProductNo(productNum);
+        shopReview.setArtist_id(review_artistId);
         shopReview.setUserNo(userId);
         shopReview.setUrl(saveFilePath);
         shopReview.setContent(userContent);
+
         shopReviewService.addReview(shopReview);
-        return String.format("redirect:/product/%d/find-product/%d",artistId,proudctNum);
+        return String.format("redirect:/product/%d/find-product/%d",artistId,productNum);
     }
 
     @ResponseBody

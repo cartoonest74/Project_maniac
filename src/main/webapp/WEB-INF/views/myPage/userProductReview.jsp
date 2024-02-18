@@ -44,6 +44,7 @@
 <c:url var="productQuestion" value="/${artistId}/myPage/product_question" />
 <c:url var="productReview" value="/${artistId}/myPage/product_review" />
 
+<c:set var="userShopReviews" value="${userShopReview}"/>
 </head>
 <body>
 	<c:import url="../basic/header.jsp" >
@@ -55,7 +56,7 @@
                 <a href="">
                     <i class="fa-solid fa-angle-left fa-lg"></i>
                     <span>
-                        상품문의
+                        상품후기
                     </span>
                 </a>
             </div>
@@ -67,29 +68,37 @@
             </div>
         </header>
         <dl id="reviewContainer" class="myReviewContainerBox">
+        <c:forEach var="shopReview" items="${userShopReviews}">
+            <c:set var="reviewArtistId" value="${shopReview.artist_id}"/>
+            <c:set var="reviewTitle" value="${shopReview.title}"/>
+            <c:set var="reviewContent" value="${shopReview.content}"/>
+            <c:set var="reviewDate" value="${shopReview.date}"/>
+            <c:set var="reviewId" value="${shopReview.id}"/>
+            <c:url var="reviewUrl" value="/img/shopimg/review/${shopReview.url}"/>
             <div class="myReviewContainer">
                 <dt class="myReviewDate">
-                    <h2>2014-02-17</h2>
+                    <h2>${reviewDate}</h2>
                 </dt>
                 <dd class="myReviewInfo">
                     <div class="reviewTitle">
-                        <h3>Official Light Stick Special Edition
+                        <h3>${reviewTitle}
                         </h3>
                     </div>
                     <div class="myReviewContent">
                         <div class="reviewImg">
-                            <img src="./1b9dfe60-6965-11ee-803b-c82158287895.png" alt="">
+                            <img src="${reviewUrl}" alt="reviewImg">
                         </div>
                         <div class="reviewText">
-                            <p>good</p>
+                            <p>${reviewContent}</p>
                         </div>
                     </div>
                     <div class="myReviewOptionBtn">
-                        <button data-myReview-edit="" type="button">Edit</button>
-                        <button data-myReview-del="" type="button">Delete</button>
+                        <button data-myReview-edit="${reviewId}" type="button">Edit</button>
+                        <button data-myReview-del="${reviewId}" type="button">Delete</button>
                     </div>
                 </dd>
             </div>
+        </c:forEach>
         </dl>
     </div>
 	<jsp:include page="../basic/footer.jsp" flush="true" />

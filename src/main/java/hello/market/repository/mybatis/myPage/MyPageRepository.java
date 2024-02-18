@@ -1,9 +1,6 @@
 package hello.market.repository.mybatis.myPage;
 
-import hello.market.dto.Cart;
-import hello.market.dto.Complete_deliveryInfo;
-import hello.market.dto.DeliveryStatus_manual;
-import hello.market.dto.Purchase_list;
+import hello.market.dto.*;
 
 import java.util.List;
 
@@ -13,6 +10,8 @@ public interface MyPageRepository {
     void update_email(String edit_email, int user_id);
     void update_phone(String edit_phone, int user_id);
 
+    List<ShopReview> select_shopReview(int user_id, int artist_id, int page_limit);
+    List<ShopQna> select_shopQna(int user_id, int artist_id, int page_limit);
     List<DeliveryStatus_manual> select_deliveryStatus(int user_id);
     List<Purchase_list> select_purchaseLists(int user_id, long purchase_date, int purchase_status);
     Complete_deliveryInfo select_deliveryAddr(int user_id, String purchase_id);

@@ -15,5 +15,5 @@ public class ReviewUploadForm {
     private String uuid;
     private String content;
     private MultipartFile reviewImgFile;
-
+    private int artistId;
 }

@@ -14,4 +14,5 @@ public class QnaUploadForm {
     private int product_no;
     private String uuid;
     private String content;
+    private int artistId;
 }

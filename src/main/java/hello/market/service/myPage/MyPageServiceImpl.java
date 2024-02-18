@@ -33,6 +33,18 @@ public class MyPageServiceImpl implements MyPageService {
     }
 
     @Override
+    public List<ShopReview> get_userShopReview(int user_id, int artist_id, int page_limit) {
+        List<ShopReview> shopReviews = myPageRepository.select_shopReview(user_id, artist_id, page_limit);
+        return shopReviews;
+    }
+
+    @Override
+    public List<ShopQna> get_userShopQna(int user_id, int artist_id, int page_limit) {
+        List<ShopQna> shopQnas = myPageRepository.select_shopQna(user_id, artist_id, page_limit);
+        return shopQnas;
+    }
+
+    @Override
     public List<DeliveryStatus_manual> get_deliveryStatus(int user_id) {
         List<DeliveryStatus_manual> deliveryStatusManuals = myPageRepository.select_deliveryStatus(user_id);
         return deliveryStatusManuals;

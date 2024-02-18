@@ -22,7 +22,7 @@ request.setCharacterEncoding("UTF-8");
 <link rel="stylesheet"
 	href="${contextPath}/css/shopinfo.css">
 <link rel="stylesheet"
-	href="${contextPath}/css/writer_qna.css">
+	href="${contextPath}/css/writeQna_Review/writer_qna.css">
 <link rel="stylesheet" href="${contextPath}/css/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
 <link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
@@ -62,7 +62,7 @@ request.setCharacterEncoding("UTF-8");
 	<c:import url="../basic/header.jsp">
 		<c:param name="cartCount" value="${cartCount}" />
 	</c:import>
-	<form action="${addQnaUrl}" id="WriterQnaForm" class="Writer_qna_Form" method="post">
+	<form action="${addQnaUrl}" id="WriterQnaForm" class="writer_Form" method="post">
 		<input type="text" name="product_no" value="${productNo}" hidden="hidden">
 		<input type="text" name="artist_id" value="${product_artistId}" hidden="hidden">
 

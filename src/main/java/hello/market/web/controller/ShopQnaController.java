@@ -77,9 +77,11 @@ public class ShopQnaController {
         int userId = sessionLoginCheck.sessionUUIDcheck(request);
 
         String content = qnaUploadForm.getContent();
+        int qnaArtistId = qnaUploadForm.getArtistId();
         log.info("productNo = {}, userId = {}, content = {}", productNo, userId, content);
         ShopQna shopQna = new ShopQna();
         shopQna.setProductNo(productNo);
+        shopQna.setArtist_id(qnaArtistId);
         shopQna.setWriter_num(userId);
         shopQna.setContent(content);
 
@@ -116,10 +118,6 @@ public class ShopQnaController {
                 .append("<div class=\"shopInfo_bc_content\">")
                 .append("<p class=\"shopInfo_bc_text\">" + content + "</p>");
 
-        if (answerCheck != 1) {
-            qna_tag.append("<button data-answer-qna=\"" + id + "\" " + "class=\"shopInfo_qna_re_btn\" "
-                    + "type=\"button\">Answer</button>");
-        }
         qna_tag.append("</div>");
 
         String rootDate = sq.getRootDate();

@@ -55,6 +55,7 @@
         width:100%;
     }
 }
+
 @media screen and (max-width:420px){
     /* myPage*/
     .myPageBox{
@@ -128,6 +129,11 @@
         width:100%;
     }
     .stickyHeader{
+        width:100%;
+    }
+
+    /*review & qna*/
+    .writer_Form{
         width:100%;
     }
     /*header*/

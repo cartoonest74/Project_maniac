@@ -19,10 +19,7 @@ request.setCharacterEncoding("UTF-8");
 
 <link rel="stylesheet"
 	href="${contextPath}/css/basic.css">
-<link rel="stylesheet"
-	href="${contextPath}/css/shopinfo.css">
-<link rel="stylesheet"
-	href="${contextPath}/css/writer_review.css">
+<link rel="stylesheet" href="${contextPath}/css/writeQna_Review/writer_review.css">
 <link rel="stylesheet" href="${contextPath}/css/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
 <link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
@@ -36,6 +33,9 @@ request.setCharacterEncoding("UTF-8");
 	  integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
 	  crossorigin="anonymous"></script>
 
+<!-- ajax -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 <script type="text/javascript" src="${contextPath}/js/addReview.js"></script>
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
@@ -47,17 +47,15 @@ request.setCharacterEncoding("UTF-8");
 <c:set var="name" value="${productinfo.title}" />
 
 <c:set var="memberId" value="${memberId}" />
-
-<c:url var="addReviewUrl" value="/product-review/${product_artistId}/add-review" />
+<c:url var="addReviewUrl" value="/product-review/${artistId}/add-review"/>
 
 </head>
 <body>
 	<c:import url="../basic/header.jsp">
-		<c:param name="cartCount" value="${cartCount}" />
 	</c:import>
-	<form action="${addReviewUrl}" id="WriterQnaForm" class="Writer_qna_Form" method="post" enctype="multipart/form-data">
+	<form action="${addReviewUrl}" id="WriterQnaForm" class="writer_Form" method="post" enctype="multipart/form-data">
 		<input type="text" name="productNo" value="${productNo}" hidden="hidden">
-		<input type="text" name="artist_id" value="${product_artistId}" hidden="hidden">
+		<input type="text" name="artistId" value="${product_artistId}" hidden="hidden">
 		<nav class="writere_tag">Review</nav>
 		<nav class="writer_qna_header">
 			<h1>
@@ -68,8 +66,8 @@ request.setCharacterEncoding("UTF-8");
 			</div>
 		</nav>
 		<div class="fileUploadPart">
-			<label class="boardFileUploadName"> UPLOAD <input
-				class="blind" type="file" id="reviewImgFile" name="reviewImgFile">
+			<label class="boardFileUploadName"> UPLOAD
+			    <input class="blind" type="file" id="reviewImgFile" name="reviewImgFile">
 			</label>
 			<nav class="preview_upload">
 				<img id="previewImg" class="boardPreview none" />
@@ -80,7 +78,7 @@ request.setCharacterEncoding("UTF-8");
 			</nav>
 		</div>
 		<nav class="qnaTextBox">
-            <textarea name="content" id="qnaText" cols="0" rows="3" wrap="hard" autofocus="autofocus" maxlength="200" placeholder="write...." required>
+            <textarea name="content" id="qnaText" cols="0" rows="3" wrap="hard" autofocus="autofocus" maxlength="200" required>
             </textarea>
 		</nav>
 		<button id="sendBtn_qna" type="button" class="qnaSendbtn">SEND</button>

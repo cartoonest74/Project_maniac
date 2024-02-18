@@ -1,9 +1,6 @@
 package hello.market.repository.mybatis.myPage;
 
-import hello.market.dto.Cart;
-import hello.market.dto.Complete_deliveryInfo;
-import hello.market.dto.DeliveryStatus_manual;
-import hello.market.dto.Purchase_list;
+import hello.market.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -33,6 +30,18 @@ public class MybatisRepository implements MyPageRepository {
     @Override
     public void update_phone(String edit_phone, int user_id) {
         myPageMapper.update_tel(edit_phone, user_id);
+    }
+
+    @Override
+    public List<ShopReview> select_shopReview(int user_id, int artist_id, int page_limit) {
+        List<ShopReview> shopReviews = myPageMapper.select_shopReview(user_id, artist_id, page_limit);
+        return shopReviews;
+    }
+
+    @Override
+    public List<ShopQna> select_shopQna(int user_id, int artist_id, int page_limit) {
+        List<ShopQna> shopQnas = myPageMapper.select_shopQna(user_id, artist_id, page_limit);
+        return shopQnas;
     }
 
     @Override

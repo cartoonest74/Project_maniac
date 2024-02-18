@@ -2,9 +2,7 @@ package hello.market.web.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hello.market.dto.DeliveryStatus_manual;
-import hello.market.dto.Member;
-import hello.market.dto.Purchase_list;
+import hello.market.dto.*;
 import hello.market.service.member.MemberService;
 import hello.market.service.myPage.MyPageService;
 import hello.market.web.session.LoginSessionManager;
@@ -82,6 +80,8 @@ public class MyPageController {
                                        Model model) {
         int user_id = loginSessionManager.sessionUUIDcheck(request);
         memberService.memberSelect(user_id);
+        List<ShopQna> userShopQna = myPageService.get_userShopQna(user_id, categoryId, page);
+        model.addAttribute("userShopQna", userShopQna);
         return "/myPage/userProductQuestion";
     }
 
@@ -93,6 +93,8 @@ public class MyPageController {
                                      Model model) {
         int user_id = loginSessionManager.sessionUUIDcheck(request);
         memberService.memberSelect(user_id);
+        List<ShopReview> userShopReview = myPageService.get_userShopReview(user_id, categoryId, page);
+        model.addAttribute("userShopReview", userShopReview);
         return "/myPage/userProductReview";
     }
 

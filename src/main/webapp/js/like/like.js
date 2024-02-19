@@ -180,7 +180,7 @@ $(function(){
         like_json.like = arr_check
         const _strLike_json = JSON.stringify(like_json);
 //        console.log(_strLike_json)
-        $.ajax({
+    $.ajax({
             type:"DELETE",
             async:true,
             url:DelLikeMapping,

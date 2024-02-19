@@ -19,11 +19,6 @@ public class ShopReviewServiceImpl implements ShopReviewService {
 	}
 
 	@Override
-	public void delReview(int id) {
-		mybatisShopReviewRepository.delete(id);
-	}
-
-	@Override
 	public List<ShopReview> allViewReview(int productNo, int limit) {
 		List<ShopReview> shopReviewList = mybatisShopReviewRepository.selectAll(productNo, limit);
 		return shopReviewList;
@@ -39,11 +34,6 @@ public class ShopReviewServiceImpl implements ShopReviewService {
 	public Integer allReviewLength(int product_id, int user_id) {
 		Integer reviewLength = mybatisShopReviewRepository.selectLength(product_id, user_id);
 		return reviewLength;
-	}
-
-	@Override
-	public void editReview(ShopReview shopReview) {
-		mybatisShopReviewRepository.update(shopReview);
 	}
 
 }

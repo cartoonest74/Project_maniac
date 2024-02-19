@@ -13,6 +13,11 @@ public interface MyPageMapper {
     void update_email(@Param("edit_email") String edit_email, @Param("user_id") int user_id);
     void update_tel(@Param("edit_tel") String edit_tel, @Param("user_id") int user_id);
 
+    void del_qna(int qna_id);
+    void del_review(int review_id);
+
+    Integer select_lengthShopReview(int user_id);
+    Integer select_lengthShopQna(int user_id);
     List<ShopReview> select_shopReview(@Param("user_id") int user_id, @Param("artist_id") int artist_id, @Param("page_limit") int page_limit);
     List<ShopQna> select_shopQna(@Param("user_id") int user_id, @Param("artist_id") int artist_id, @Param("page_limit") int page_limit);
     List<DeliveryStatus_manual> select_deliveryStatus(@Param("user_id") int user_id);

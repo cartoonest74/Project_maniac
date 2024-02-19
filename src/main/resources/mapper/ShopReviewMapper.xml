@@ -8,11 +8,6 @@
         VALUES(#{productNo}, #{userNo}, #{url}, #{content}, #{artist_id})
     </insert>
 
-    <delete id="delete">
-        delete from Shop_review
-        where id = #{id}
-    </delete>
-
     <select id="selectAll" resultType="ShopReview">
         select 	id,
             title,
@@ -85,7 +80,4 @@
         where sr.user_id = #{arg0} and product_no = #{arg1}) as review
         order by date desc limit 10
     </select>
-    <update id="update">
-
-    </update>
 </mapper>

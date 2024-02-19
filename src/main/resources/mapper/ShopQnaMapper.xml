@@ -8,11 +8,6 @@
         values(#{productNo}, #{writer_num}, #{content}, #{artist_id})
     </insert>
 
-    <delete id="delete">
-        delete from Shop_qna
-        where id = #{id}
-    </delete>
-
     <select id="selectLength" resultType="Integer">
         select
         <if test="arg0 != 0">
@@ -109,8 +104,4 @@
         where qna.no > #{arg2}
         order by date desc limit 10
     </select>
-
-    <update id="update">
-
-    </update>
 </mapper>

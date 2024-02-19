@@ -13,6 +13,7 @@
 
 <link rel="stylesheet" href="${contextPath}/css/basic.css">
 <link rel="stylesheet" href="${contextPath}/css/myPage/myQna.css">
+<link rel="stylesheet" href="${contextPath}/css/pageCount/pageCount.css">
 <link rel="stylesheet" href="${contextPath}/css/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
 <link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
@@ -36,6 +37,9 @@
 <script type="text/javascript" src="${contextPath}/js/myPage/myQna.js"></script>
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
+
+<!-- axios -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <!-- url -->
 <c:url var="logoutUrl" value="/login-action/logout" />
@@ -98,6 +102,8 @@
                 </dd>
             </div>
         </dl>
+        <div id="qna_pageCount_num" class="pageCount">
+        </div>
     </div>
 	<jsp:include page="../basic/footer.jsp" flush="true" />
 </body>

@@ -33,6 +33,28 @@ public class MybatisRepository implements MyPageRepository {
     }
 
     @Override
+    public void del_qna(int qna_id) {
+        myPageMapper.del_qna(qna_id);
+    }
+
+    @Override
+    public void del_review(int review_id) {
+        myPageMapper.del_review(review_id);
+    }
+
+    @Override
+    public Integer select_lengthShopQna(int user_id) {
+        Integer lengthShopQna = myPageMapper.select_lengthShopQna(user_id);
+        return lengthShopQna;
+    }
+
+    @Override
+    public Integer select_lengthShopReview(int user_id) {
+        Integer lengthShopReview = myPageMapper.select_lengthShopReview(user_id);
+        return lengthShopReview;
+    }
+
+    @Override
     public List<ShopReview> select_shopReview(int user_id, int artist_id, int page_limit) {
         List<ShopReview> shopReviews = myPageMapper.select_shopReview(user_id, artist_id, page_limit);
         return shopReviews;

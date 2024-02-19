@@ -1,7 +1,9 @@
 @charset "UTF-8";
 .myReviewBox{
-    display:inline-block;
+    display:flex;
     width:60%;
+    flex-wrap:wrap;
+    justify-content:center;
     margin:5vh 0;
 }
 .myReviewHeader{

@@ -33,6 +33,28 @@ public class MyPageServiceImpl implements MyPageService {
     }
 
     @Override
+    public void del_userShopReview(int review_id) {
+        myPageRepository.del_review(review_id);
+    }
+
+    @Override
+    public void del_userShopQna(int qna_id) {
+        myPageRepository.del_qna(qna_id);
+    }
+
+    @Override
+    public Integer get_lengthSopReview(int user_id) {
+        Integer lengthShopReview = myPageRepository.select_lengthShopReview(user_id);
+        return lengthShopReview;
+    }
+
+    @Override
+    public Integer get_lengthShopQna(int user_id) {
+        Integer lengthShopQna = myPageRepository.select_lengthShopQna(user_id);
+        return lengthShopQna;
+    }
+
+    @Override
     public List<ShopReview> get_userShopReview(int user_id, int artist_id, int page_limit) {
         List<ShopReview> shopReviews = myPageRepository.select_shopReview(user_id, artist_id, page_limit);
         return shopReviews;

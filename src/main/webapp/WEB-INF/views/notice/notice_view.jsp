@@ -20,7 +20,7 @@
 <link rel="stylesheet" href="${contextPath}/css/basic.css">
 <link rel="stylesheet" href="${contextPath}/css/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
-<link rel="stylesheet" href="${contextPath}/css/notice_view.css">
+<link rel="stylesheet" href="${contextPath}/css/notice/notice_view.css">
 <link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
@@ -39,6 +39,7 @@
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
 <script type="text/javascript" src="${contextPath}/js/cart.js"></script>
+<script type="text/javascript" src="${contextPath}/js/notice/notice_view.js"></script>
 
 </head>
 <body>
@@ -65,6 +66,5 @@
         </div>
 	</div>
 	<jsp:include page="../basic/footer.jsp" flush="true" />
-<script type="text/javascript" src="${contextPath}/js/notice_view.js"></script>
 </body>
 </html>

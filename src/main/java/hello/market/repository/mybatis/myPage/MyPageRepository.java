@@ -9,7 +9,11 @@ public interface MyPageRepository {
     void update_addr(String edit_addr, int user_id);
     void update_email(String edit_email, int user_id);
     void update_phone(String edit_phone, int user_id);
+    void del_qna(int qna_id);
+    void del_review(int review_id);
 
+    Integer select_lengthShopQna(int user_id);
+    Integer select_lengthShopReview(int user_id);
     List<ShopReview> select_shopReview(int user_id, int artist_id, int page_limit);
     List<ShopQna> select_shopQna(int user_id, int artist_id, int page_limit);
     List<DeliveryStatus_manual> select_deliveryStatus(int user_id);

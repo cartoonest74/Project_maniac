@@ -19,11 +19,6 @@ public class ShopQnaServiceImpl implements ShopQnaService {
 	}
 
 	@Override
-	public void delQna(int id) {
-		mybatisShopQnaRepository.delete(id);
-	}
-
-	@Override
 	public Integer allQnaLength(int product_id, int user_id) {
 		Integer allQnaLength = mybatisShopQnaRepository.allQnaLength(product_id,user_id);
 		return allQnaLength;
@@ -39,11 +34,6 @@ public class ShopQnaServiceImpl implements ShopQnaService {
 	public ShopQna findQna(int user_id, int product_id, int limit) {
 		ShopQna shopQna = mybatisShopQnaRepository.select(user_id, product_id, limit);
 		return shopQna;
-	}
-
-	@Override
-	public void editQna(ShopQna shopQna) {
-		mybatisShopQnaRepository.update(shopQna);
 	}
 
 }

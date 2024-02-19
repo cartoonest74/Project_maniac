@@ -18,10 +18,6 @@ public class MybatisShopQnaRepository implements ShopQnaRepository{
         shopQnaMapper.insert(shopQna);
     }
 
-    @Override
-    public void delete(int id) {
-        shopQnaMapper.delete(id);
-    }
 
     @Override
     public Integer allQnaLength(int product_id, int user_id) {
@@ -39,10 +35,5 @@ public class MybatisShopQnaRepository implements ShopQnaRepository{
     public ShopQna select(int user_id, int product_id, int limit) {
         ShopQna shopQna = shopQnaMapper.select(user_id, product_id, limit);
         return shopQna;
-    }
-
-    @Override
-    public void update(ShopQna shopQna) {
-        shopQnaMapper.update(shopQna);
     }
 }

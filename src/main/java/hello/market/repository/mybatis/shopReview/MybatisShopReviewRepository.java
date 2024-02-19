@@ -17,11 +17,6 @@ public class MybatisShopReviewRepository implements ShopReviewRepository {
     }
 
     @Override
-    public void delete(int id) {
-        shopReviewMapper.delete(id);
-    }
-
-    @Override
     public List<ShopReview> selectAll(int productNo, int limit) {
         List<ShopReview> shopReviews = shopReviewMapper.selectAll(productNo, limit);
         return shopReviews;
@@ -39,8 +34,4 @@ public class MybatisShopReviewRepository implements ShopReviewRepository {
         return reviewLength;
     }
 
-    @Override
-    public void update(ShopReview shopReview) {
-        shopReviewMapper.update(shopReview);
-    }
 }

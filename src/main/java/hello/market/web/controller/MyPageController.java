@@ -117,15 +117,16 @@ public class MyPageController {
     @ResponseBody
     @DeleteMapping("/del_review")
     private String del_productReview(@PathVariable int artistId,
-                                     @RequestParam int reviewId) {
+                                     @RequestParam String imgUrl,
+                                     @RequestParam("reviewId") int reviewId) {
         myPageService.del_userShopReview(reviewId);
         return "ok";
     }
     @ResponseBody
     @PostMapping("/product_review")
     private String post_productReview(@PathVariable int artistId,
-                                      @RequestParam int page,
-                                      @RequestParam int category,
+                                      @RequestParam("page") int page,
+                                      @RequestParam("category") int category,
                                       HttpServletRequest request) throws JsonProcessingException {
         int user_id = loginSessionManager.sessionUUIDcheck(request);
 

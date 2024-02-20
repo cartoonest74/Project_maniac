@@ -13,6 +13,7 @@
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/basic.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/myPage/myReview.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/myPage/review_qnaSearch.css">
 <link rel="stylesheet" href="${contextPath}/css/pageCount/pageCount.css">
 <link rel="stylesheet" href="${contextPath}/css/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
@@ -84,15 +85,15 @@
                     <h2>${reviewDate}</h2>
                 </dt>
                 <dd class="myReviewInfo">
-                    <div class="reviewTitle">
+                    <div data-myReview-title="${reviewId}" class="reviewTitle">
                         <h3>${reviewTitle}
                         </h3>
                     </div>
                     <div class="myReviewContent">
                         <div class="reviewImg">
-                            <img src="${reviewUrl}" alt="reviewImg">
+                            <img src="${reviewUrl}" alt="${reviewId}">
                         </div>
-                        <div class="reviewText">
+                        <div data-myReview-text="${reviewId}" class="reviewText">
                             <p>${reviewContent}</p>
                         </div>
                     </div>

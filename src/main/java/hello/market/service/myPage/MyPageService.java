@@ -13,9 +13,11 @@ public interface MyPageService {
     void del_userShopReview(int review_id);
     void del_userShopQna(int qna_id);
 
-    Integer get_lengthSopReview(int user_id);
+    List<Artist> get_searchReviewType(int user_id);
+    List<Artist> get_searchQnaType(int user_id);
+    Integer get_lengthSopReview(int user_id,int artistId);
 
-    Integer get_lengthShopQna(int user_id);
+    Integer get_lengthShopQna(int user_id,int artistId);
     List<ShopReview> get_userShopReview(int user_id, int artist_id, int page_limit);
 
     List<ShopQna> get_userShopQna(int user_id, int artist_id, int page_limit);

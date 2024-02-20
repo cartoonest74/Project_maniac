@@ -23,10 +23,39 @@
         delete from shop_qna where id = #{qna_id};
     </delete>
     <select id="select_lengthShopQna" resultType="Integer">
-        select count(*) from shop_qna where user_id=${user_id};
+        select count(*)
+        from shop_qna
+        where user_id=${user_id}
+        <if test="!artist_id.equals(0)">
+            and artist_id = #{artist_id}
+        </if>
+        ;
     </select>
     <select id="select_lengthShopReview" resultType="Integer">
-        select count(*) from shop_review where user_id=${user_id};
+        select count(*)
+        from shop_review
+        where user_id=${user_id}
+        <if test="!artist_id.equals(0)">
+            and artist_id = #{artist_id}
+        </if>;
+    </select>
+    <select id="select_searchReview" resultType="Artist">
+        select  art.id, art.name
+        from(
+            select artist_id
+            from shop_review
+            where user_id = #{user_id}) sr
+        inner join artist art on sr.artist_id = art.id
+        group by artist_id;
+    </select>
+    <select id="select_searchQna" resultType="Artist">
+        select  art.id, art.name
+        from(
+            select artist_id
+            from shop_qna
+            where user_id = 1) sq
+        inner join artist art on sq.artist_id = art.id
+        group by artist_id;
     </select>
     <select id="select_shopQna" resultType="ShopQna">
         select num id,

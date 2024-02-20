@@ -13,6 +13,7 @@
 
 <link rel="stylesheet" href="${contextPath}/css/basic.css">
 <link rel="stylesheet" href="${contextPath}/css/myPage/myQna.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/myPage/review_qnaSearch.css">
 <link rel="stylesheet" href="${contextPath}/css/pageCount/pageCount.css">
 <link rel="stylesheet" href="${contextPath}/css/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">

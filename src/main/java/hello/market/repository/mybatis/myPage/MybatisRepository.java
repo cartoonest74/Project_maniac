@@ -43,14 +43,26 @@ public class MybatisRepository implements MyPageRepository {
     }
 
     @Override
-    public Integer select_lengthShopQna(int user_id) {
-        Integer lengthShopQna = myPageMapper.select_lengthShopQna(user_id);
+    public List<Artist> select_searchReview(int user_id) {
+        List<Artist> artists = myPageMapper.select_searchReview(user_id);
+        return artists;
+    }
+
+    @Override
+    public List<Artist> select_searchQna(int user_id) {
+        List<Artist> artists = myPageMapper.select_searchQna(user_id);
+        return artists;
+    }
+
+    @Override
+    public Integer select_lengthShopQna(int user_id,int artistId) {
+        Integer lengthShopQna = myPageMapper.select_lengthShopQna(user_id,artistId);
         return lengthShopQna;
     }
 
     @Override
-    public Integer select_lengthShopReview(int user_id) {
-        Integer lengthShopReview = myPageMapper.select_lengthShopReview(user_id);
+    public Integer select_lengthShopReview(int user_id, int artistId) {
+        Integer lengthShopReview = myPageMapper.select_lengthShopReview(user_id,artistId);
         return lengthShopReview;
     }
 

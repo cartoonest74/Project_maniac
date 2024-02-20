@@ -43,14 +43,26 @@ public class MyPageServiceImpl implements MyPageService {
     }
 
     @Override
-    public Integer get_lengthSopReview(int user_id) {
-        Integer lengthShopReview = myPageRepository.select_lengthShopReview(user_id);
+    public List<Artist> get_searchReviewType(int user_id) {
+        List<Artist> artists = myPageRepository.select_searchReview(user_id);
+        return artists;
+    }
+
+    @Override
+    public List<Artist> get_searchQnaType(int user_id) {
+        List<Artist> artists = myPageRepository.select_searchQna(user_id);
+        return artists;
+    }
+
+    @Override
+    public Integer get_lengthSopReview(int user_id,int artistId) {
+        Integer lengthShopReview = myPageRepository.select_lengthShopReview(user_id,artistId);
         return lengthShopReview;
     }
 
     @Override
-    public Integer get_lengthShopQna(int user_id) {
-        Integer lengthShopQna = myPageRepository.select_lengthShopQna(user_id);
+    public Integer get_lengthShopQna(int user_id,int artistId) {
+        Integer lengthShopQna = myPageRepository.select_lengthShopQna(user_id,artistId);
         return lengthShopQna;
     }
 

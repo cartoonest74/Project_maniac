@@ -64,6 +64,10 @@
     .myPage_orderStatus dt{
         font-size:1em;
     }
+    /* myPage review & qna */
+    .myReviewBox{
+        width:100%;
+    }
     /*회원가입*/
     .createAccount{
         width:100%;
@@ -138,7 +142,7 @@
     }
     /*header*/
     .current_artist{
-        font-size:3vw;
+        font-size:4vw;
     }
     .orBox{
            width:100%;

@@ -12,8 +12,11 @@ public interface MyPageRepository {
     void del_qna(int qna_id);
     void del_review(int review_id);
 
-    Integer select_lengthShopQna(int user_id);
-    Integer select_lengthShopReview(int user_id);
+    List<Artist> select_searchReview(int user_id);
+    List<Artist> select_searchQna(int user_id);
+
+    Integer select_lengthShopQna(int user_id, int artist_id);
+    Integer select_lengthShopReview(int user_id, int artist_id);
     List<ShopReview> select_shopReview(int user_id, int artist_id, int page_limit);
     List<ShopQna> select_shopQna(int user_id, int artist_id, int page_limit);
     List<DeliveryStatus_manual> select_deliveryStatus(int user_id);

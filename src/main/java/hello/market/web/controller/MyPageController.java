@@ -11,10 +11,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,6 +32,9 @@ public class MyPageController {
     private final MyPageService myPageService;
     private final LoginSessionManager loginSessionManager;
     private final MemberService memberService;
+
+    @Value("${file.dir}")
+    private String uploadPath;
 
     @GetMapping("")
     public String loginInfo(@PathVariable int artistId, Model model, HttpServletRequest request) {
@@ -82,23 +90,29 @@ public class MyPageController {
     @ResponseBody
     @PostMapping("/product_question")
     private String post_productQuestion(@PathVariable int artistId,
-                                        @RequestParam int categoryId,
-                                        @RequestParam int page,
+                                        @RequestParam("category") int category,
+                                        @RequestParam("page") int page,
                                         HttpServletRequest request) throws JsonProcessingException {
         int user_id = loginSessionManager.sessionUUIDcheck(request);
         ObjectMapper objectMapper = new ObjectMapper();
         JSONObject jsonObject = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
+        JSONArray arr_shopQna = new JSONArray();
+        JSONArray arr_artist = new JSONArray();
 
-        Integer lengthShopQna = myPageService.get_lengthShopQna(user_id);
-        List<ShopQna> userShopQna = myPageService.get_userShopQna(user_id, categoryId, page);
+        Integer lengthShopQna = myPageService.get_lengthShopQna(user_id,category);
+        List<ShopQna> userShopQna = myPageService.get_userShopQna(user_id, category, page);
         for (ShopQna shopQna : userShopQna) {
             String writeValueAsString = objectMapper.writeValueAsString(userShopQna);
-            jsonArray.put(writeValueAsString);
+            arr_shopQna.put(writeValueAsString);
         }
-
-        jsonObject.put("qnaList", jsonArray);
+        List<Artist> searchQnaType = myPageService.get_searchQnaType(user_id);
+        for (Artist artist : searchQnaType) {
+            String writeValueAsString = objectMapper.writeValueAsString(artist);
+            arr_artist.put(writeValueAsString);
+        }
+        jsonObject.put("qnaList", arr_shopQna);
         jsonObject.put("allCount", lengthShopQna);
+        jsonObject.put("searchList", arr_artist);
         return jsonObject.toString();
     }
 
@@ -117,9 +131,16 @@ public class MyPageController {
     @ResponseBody
     @DeleteMapping("/del_review")
     private String del_productReview(@PathVariable int artistId,
-                                     @RequestParam String imgUrl,
-                                     @RequestParam("reviewId") int reviewId) {
+                                     @RequestParam("imgUrl") String imgUrl,
+                                     @RequestParam("reviewId") int reviewId) throws IOException {
+        log.info("delete!!!!!!!!!!!");
         myPageService.del_userShopReview(reviewId);
+        String del_imgPath = new StringBuilder()
+                .append(uploadPath)
+                .append(imgUrl)
+                .toString();
+        Path filePath = Paths.get(del_imgPath);
+        Files.delete(filePath);
         return "ok";
     }
     @ResponseBody
@@ -132,17 +153,24 @@ public class MyPageController {
 
         ObjectMapper objectMapper = new ObjectMapper();
         JSONObject jsonObject = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
+        JSONArray arr_shopReview = new JSONArray();
+        JSONArray arr_artist = new JSONArray();
 
-        Integer lengthSopReview = myPageService.get_lengthSopReview(user_id);
+        Integer lengthSopReview = myPageService.get_lengthSopReview(user_id,category);
         List<ShopReview> userShopReview = myPageService.get_userShopReview(user_id, category, page);
         for (ShopReview shopReview : userShopReview) {
             String writeValueAsString = objectMapper.writeValueAsString(shopReview);
-            jsonArray.put(writeValueAsString);
+            arr_shopReview.put(writeValueAsString);
+        }
+        List<Artist> searchReviewType = myPageService.get_searchReviewType(user_id);
+        for (Artist artist : searchReviewType) {
+            String writeValueAsString = objectMapper.writeValueAsString(artist);
+            arr_artist.put(writeValueAsString);
         }
 
-        jsonObject.put("reviewList", jsonArray);
+        jsonObject.put("reviewList", arr_shopReview);
         jsonObject.put("allCount", lengthSopReview);
+        jsonObject.put("searchList", arr_artist);
         return jsonObject.toString();
     }
 

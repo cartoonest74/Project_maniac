@@ -10,6 +10,7 @@
     display:flex;
     width:100%;
     flex-wrap:wrap;
+    margin-bottom:1vh;
 }
 .go_myPage{
     display:inline-block;
@@ -40,7 +41,7 @@
     cursor:pointer;
 }
 .myReview_search button>span{
-    font-size:1.5em;
+    font-size:1.6em;
 }
 .myReview_search button>i{
     font-size:1.8em;
@@ -125,4 +126,36 @@
 }
 .myReviewOptionBtn button:last-child{
     margin-right:0px;
+}
+/*edit box*/
+.myReviewEditContainer{
+    display:inline-block;
+    width:60%;
+    padding:0 5px;
+}
+.reviewText textarea{
+    width:100%;
+    font-size:1em;
+    resize:none;
+}
+.reviewEditImg{
+    position:relative;
+    display:inline-block;
+    width:200px;
+}
+.reviewEditImg img{
+    width:100%;
+    object-fit:contain;
+}
+#delReviewImg{
+    position:absolute;
+    right:0;
+    top:0;
+    padding:6px 8px;
+    border:0px;
+    border-radius:15px;
+    font-size:1.5em;
+    background:black;
+    color:white;
+    cursor:pointer;
 }

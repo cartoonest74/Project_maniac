@@ -9,9 +9,9 @@ public interface MyPageRepository {
     void update_addr(String edit_addr, int user_id);
     void update_email(String edit_email, int user_id);
     void update_phone(String edit_phone, int user_id);
+    void update_editReview(int user_id, int review_id, String editText, String editImg_url);
     void del_qna(int qna_id);
     void del_review(int review_id);
-
     List<Artist> select_searchReview(int user_id);
     List<Artist> select_searchQna(int user_id);
 

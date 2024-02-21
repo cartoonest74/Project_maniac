@@ -16,12 +16,21 @@
         update member set phone =#{edit_tel} where id =#{user_id};
     </update>
 
+    <update id="update_editReview">
+        update shop_review
+        set url = #{editImg_url},
+            content="#{editText},
+            date= (current_timestamp())
+            where id=#{reviewId} and user_id =#{user_id};
+    </update>
+
     <delete id="del_review">
         delete from shop_review where id = #{review_id};
     </delete>
     <delete id="del_qna">
         delete from shop_qna where id = #{qna_id};
     </delete>
+
     <select id="select_lengthShopQna" resultType="Integer">
         select count(*)
         from shop_qna

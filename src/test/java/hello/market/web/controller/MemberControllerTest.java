@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.file.Files;
@@ -45,8 +44,12 @@ class MemberControllerTest {
         LocalDateTime before_3month = localDateTime.minusMonths(3);
         long current_timeMills = Timestamp.valueOf(before_3month).getTime();
         String decode = URLDecoder.decode("e64792f5-3cb6-43f1-9e0d-763579bd1a88.jpg", "UTF-8");
-        File file = new File(fileDir + "/shopimg/review/adsadsad.jpg");
-        file.delete();
+        Path path = Paths.get(fileDir + "/shopimg/review/adsadsad.jpg");
+        log.info("path={}", path);
+        boolean exists = Files.exists(path);
+        if(exists){
+            Files.delete(path);
+        }
     }
 
 }

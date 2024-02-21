@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hello.market.dto.*;
 import hello.market.service.member.MemberService;
 import hello.market.service.myPage.MyPageService;
+import hello.market.web.file.FileStore;
+import hello.market.web.file.UploadFile;
 import hello.market.web.session.LoginSessionManager;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,6 +27,8 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static hello.market.dto.UploadDirName.REVIEW_SHOP_IMG_DIR;
+
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -32,6 +37,7 @@ public class MyPageController {
     private final MyPageService myPageService;
     private final LoginSessionManager loginSessionManager;
     private final MemberService memberService;
+    private final FileStore fileStore;
 
     @Value("${file.dir}")
     private String uploadPath;
@@ -143,6 +149,28 @@ public class MyPageController {
         Files.delete(filePath);
         return "ok";
     }
+
+    @ResponseBody
+    @PutMapping("/edit_review")
+    private String put_editReview(@PathVariable int artistId,
+                                  @RequestParam("reviewId") int reviewId,
+                                  @RequestParam("preImgUrl") String preImgUrl,
+                                  @RequestParam("editImgUrl") MultipartFile editImgUrl,
+                                  @RequestParam("editText") String editText,
+                                  HttpServletRequest request) throws IOException {
+        int user_id = loginSessionManager.sessionUUIDcheck(request);
+        UploadFile uploadFile = fileStore.storeFile(REVIEW_SHOP_IMG_DIR,editImgUrl);
+        String saveFileName = uploadFile.getSaveFileName();
+        String saveFilePath = uploadFile.getSavePath();
+        Path path = Paths.get(preImgUrl);
+        boolean exists = Files.exists(path);
+        if(exists){
+            Files.delete(path);
+        }
+        myPageService.edit_userReview(user_id,reviewId,editText,saveFilePath);
+        return "ok";
+    }
+
     @ResponseBody
     @PostMapping("/product_review")
     private String post_productReview(@PathVariable int artistId,

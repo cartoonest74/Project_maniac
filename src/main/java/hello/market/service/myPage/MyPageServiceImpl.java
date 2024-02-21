@@ -33,6 +33,11 @@ public class MyPageServiceImpl implements MyPageService {
     }
 
     @Override
+    public void edit_userReview(int user_id, int review_id, String editText, String editImg_url) {
+        myPageRepository.update_editReview(user_id,review_id,editText,editImg_url);
+    }
+
+    @Override
     public void del_userShopReview(int review_id) {
         myPageRepository.del_review(review_id);
     }

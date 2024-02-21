@@ -9,6 +9,7 @@ public interface MyPageService {
     void edit_memberAddr(String edit_addr, int user_id);
     void edit_memberPhone(String edit_phone, int user_id);
     void edit_memberEmail(String edit_email, int user_id);
+    void edit_userReview(int user_id, int review_id, String editText, String editImg_url);
 
     void del_userShopReview(int review_id);
     void del_userShopQna(int qna_id);

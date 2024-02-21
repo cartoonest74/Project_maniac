@@ -33,6 +33,11 @@ public class MybatisRepository implements MyPageRepository {
     }
 
     @Override
+    public void update_editReview(int user_id, int review_id, String editText, String editImg_url) {
+        myPageMapper.update_editReview(user_id, review_id, editText, editImg_url);
+    }
+
+    @Override
     public void del_qna(int qna_id) {
         myPageMapper.del_qna(qna_id);
     }

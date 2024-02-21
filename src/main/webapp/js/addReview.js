@@ -10,8 +10,9 @@ $(function() {
 	const ON = "on";
 	const OFF = "off";
 
-	$("#previewRemove").click(function() {
-		$("#reviewImgFile").val('');
+    const previewRemove = document.getElementById("previewRemove");
+	previewRemove.addEventListener("click",function() {
+		document.getElementById("reviewImgFile").value='';
 		tag_visible(PREVIEW_IMG, OFF);
 		tag_visible(PREVIEW_NAME, OFF);
 		tag_visible(PREVIEW_REMOVE, OFF);
@@ -20,8 +21,8 @@ $(function() {
 	$("#reviewImgFile").change(function(e) {
 		const FILE = e.target.files[0];
 		const READER = new FileReader();
-		const REVIEWIMGFILE_VAL = $("#reviewImgFile").val();
-		const REVIEWIMGFILE_VALS = $("#reviewImgFile").val().split('\\');
+		const REVIEWIMGFILE_VAL = document.getElementById("reviewImgFile").value;
+		const REVIEWIMGFILE_VALS = REVIEWIMGFILE_VAL.split('\\');
 		const REVIEWIMGFILE_NAME = REVIEWIMGFILE_VALS[REVIEWIMGFILE_VALS.length - 1].trim();
 		const IMAGE_REG = /(.*?)\.(jpg|jpeg|png|gif|bmp)$/;
 		const IMG_SIZE = Math.floor(FILE.size/1024);

@@ -1,22 +1,46 @@
 $(function(){
     const artistId = document.getElementById("artistId").value;
+
     const obj_reviewParam = {
         page:0,
         categoryId:0,
-        searchList:new Array(),
-        reviewId:0
+        searchList:new Array()
+    }
+
+    const obj_editReviewParam = {
+        reviewId:0,
+        preImgUrl:"",
+        editImgUrl:"",
+        editText:""
     }
 
     const body_append =(position,tag)=>{
         const body = document.querySelector("body");
         body.insertAdjacentHTML(position,tag);
     }
+    /* error msg */
+    const create_errorMsg=(overOption_tag)=>{
+        let quantity_errorMsg = `<div id="confirmBox" class="overErrorMsgBox">
+                                    <div class="overErrorMsg">
+                                        <section class="overErrorMsg_content">
+                                            <h2><i class="fa-solid fa-bell fa-lg"></i>&nbsp;알림</h2>`;
+        quantity_errorMsg += overOption_tag;
+        quantity_errorMsg += `
+                                        </section>
+                                        <button id="editReviewNo" type="button" class="exitErrorMsgBtn">ok</button>
+                                    </div>
+                                </div>`;
+        return quantity_errorMsg;
+    }
+
     //TODO edit
     // reviewEdit box
     const create_reviewEdit_tag = (reviewId)=>{
         const reviewUrl = document.querySelector(`img[alt="${reviewId}"]`).src
         const reviewTitle = document.querySelector(`div[data-myReview-title="${reviewId}"]`).innerText;
         const reviewContent = document.querySelector(`div[data-myReview-text="${reviewId}"]`).innerText;
+
+        obj_editReviewParam.editImgUrl = reviewUrl;
 
         const reviewEdit_tag=`<div id="searchType" class="searchTypeBox">
                                 <div class="myReviewEditContainer">
@@ -37,7 +61,7 @@ $(function(){
                                             </div>
                                         </div>
                                         <div class="myReviewOptionBtn">
-                                            <button data-myReview-save="${reviewId}" type="button">Ok</button>
+                                            <button id="editReviewSave" type="button">Ok</button>
                                             <button id="exitSearchType" type="button">Cancel</button>
                                         </div>
                                     </dd>
@@ -49,27 +73,108 @@ $(function(){
 
     $(document).on("click","button[data-myReview-edit]",function(e){
         const reviewId = e.target.getAttribute("data-myReview-edit");
-        obj_reviewParam.reviewId = reviewId;
+        obj_editReviewParam.reviewId = reviewId;
         create_reviewEdit_tag(reviewId);
     });
     // edit del img
     $(document).on("click","button#delReviewImg",function(){
         const editReviewImg_tag = document.querySelector("div#editReviewImg");
-        editReviewImg_tag.innerHTML =`<label class="boardFileUploadName"> UPLOAD
-                                        <input class="blind" type="file" id="reviewImgFile" name="reviewImgFile">
-                                    </label>`
+        editReviewImg_tag.innerHTML =`<div class="editUploadBox">
+                                        <input class="editFileUploadName" type="file" id="reviewImgFile" name="reviewImgFile">
+                                        <label for="reviewImgFile">
+                                            UPLOAD
+                                        </label>
+                                        <p style="width:100%; text-align:center; color:red;">&#42;IMG 파일 100MB 이하</p>
+                                    </div>`
     });
+
+    // upload
+    const put_editReview = async()=>{
+        const resolve_editReview = `/myPage/${artistId}/edit_review`;
+
+        await axios.put(resolve_editReview,{
+            header:{"Content-Type": "multipart/form-data",},
+            params:formData
+        }).then(response=>response.data)
+        .then(data=>console.log(data))
+        .catch(error=>console.log(error));
+    }
 
     $(document).on("change","input#reviewImgFile",function(e){
         const FILE = e.target.files[0];
         const upload_img = URL.createObjectURL(FILE);
+        const REVIEWIMGFILE_VAL = e.target.value;
+        const REVIEWIMGFILE_VALS = REVIEWIMGFILE_VAL.split('\\');
+        const REVIEWIMGFILE_NAME = REVIEWIMGFILE_VALS[REVIEWIMGFILE_VALS.length - 1].trim();
+        const IMAGE_REG = /(.*?)\.(jpg|jpeg|png|gif|bmp)$/;
+        const IMG_SIZE = Math.floor(FILE.size/1024);
+
         const editReviewImg = document.querySelector("div#editReviewImg");
-        editReviewImg.innerHTML=`<img src="${upload_img}" alt="${obj_reviewParam.reviewId}">
+
+        // img url 초기화
+        obj_editReviewParam.editImgUrl = "";
+
+        if (!IMAGE_REG.test(REVIEWIMGFILE_VALS)) {
+            alert("use only img Format!!");
+            return;
+        }
+
+        if(IMG_SIZE > 100){
+            alert("Over Size 100MB!!");
+            return;
+        }
+        obj_editReviewParam.editImgUrl = upload_img;
+        editReviewImg.innerHTML=`<img src="${upload_img}" alt="${obj_editReviewParam.reviewId}">
                                  <button id="delReviewImg" type="button">
                                     <i class="fa-solid fa-xmark fa-lg"></i>
                                  </button>`
-    })
-    $(document).on
+    });
+
+    // edit ok
+    $(document).on("click","button#editReviewSave",function(e){
+        const editImgUrl = obj_editReviewParam.editImgUrl;
+        const editText = document.querySelector('textarea[name="editReview"]').value
+        const REG_TEXT = /[a-zA-Z가-힣ㄱ-ㅎ!\\.~]+/g;
+
+        obj_editReviewParam.editText = editText;
+        const editText = obj_editReviewParam.editText.trim();
+        const arr_overOptionTags = new Array();
+        if(editImgUrl == ""){
+            arr_overOptionTags.push(`<p style="color:rgb(243, 103, 103);">이미지를 업로드해주세요.</p>`)
+        }
+        if(editText == ""){
+            arr_overOptionTags.push(`<p style="color:rgb(243, 103, 103);">후기를 작성해주세요.</p>`)
+        }
+        if(arr_overOptionTags.length > 0){
+            const overOption_tag = arr_overOptionTags.join('');
+            const errorMsg = create_errorMsg(overOption_tag);
+            body_append("afterbegin",errorMsg);
+            return;
+        }
+        const edit_okTag = `<div id="confirmBox" class="confirm_box">
+                                <div class="confirmContainer">
+                                    <h2>
+                                        <i class="fa-solid fa-circle-question fa-lg"></i>&nbsp;confirm
+                                    </h2>
+                                    <p>변경사항을 저장하시겠습니까?</p>
+                                    <div class="confirmBtn">
+                                        <button id="editReviewYes" type="button">Yes</button>
+                                        <button id="editReviewNo" type="button">No</button>
+                                    </div>
+                                </div>
+                            </div>`;
+        body_append("afterbegin",edit_okTag);
+    });
+    // confirm btn
+    $(document).on("click","button#editReviewYes",async function(e){
+        const res = await put_editReview();
+    });
+
+    $(document).on("click","button#editReviewNo",function(e){
+        const confirmBox = document.querySelector("div#confirmBox");
+        confirmBox.remove();
+    });
+
     // TODO search
     // Search type box
     const myReviewSearch = document.getElementById("myReviewSearch");

@@ -12,6 +12,7 @@ public interface MyPageMapper {
     void update_addr(@Param("edit_addr") String edit_addr, @Param("user_id") int user_id);
     void update_email(@Param("edit_email") String edit_email, @Param("user_id") int user_id);
     void update_tel(@Param("edit_tel") String edit_tel, @Param("user_id") int user_id);
+    void update_editReview(@Param("user_id") int user_id,@Param("review_id") int review_id,@Param("editText") String editText,@Param("editImg_url") String editImg_url);
 
     void del_qna(int qna_id);
     void del_review(int review_id);

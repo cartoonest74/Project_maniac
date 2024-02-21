@@ -88,7 +88,7 @@ $(function(){
     const create_option_priceTotal = ()=>{
         const option_priceTotal_Tag=`<h3 data-option_priceTotal="total"></h3>`;
         // main
-        document.getElementById("optionTotalPrice").innerHTML= option_priceTotal_Tag
+        document.getElementById("optionTotalPrice").innerHTML= option_priceTotal_Tag;
         // sticky
         const stickyTotalPrice = document.querySelector("nav#stickyTotalPrice");
         if(stickyTotalPrice != null){

@@ -15,7 +15,7 @@ $(function(){
         }
         shopQnas.forEach(str_json=>{
             const shopQna = JSON.parse(str_json);
-            const reviewId = shopQna.id;
+            const qnaId = shopQna.writer_num;
             const content = shopQna.content;
             const date = shopQna.date;
             const title = shopQna.title;
@@ -45,7 +45,7 @@ $(function(){
                                                    </div>
                                                    <div class="reMyQnaContent">
                                                        <div class="reQnaText">
-                                                           <p>good</p>
+                                                           <p>Zood</p>
                                                        </div>
                                                    </div>
                                                </dd>
@@ -144,26 +144,25 @@ $(function(){
 
     // TODO post review
     const post_review= async (onOff="on")=>{
-        const resolve_postReview = `/myPage/${artistId}/product_question`;
+        const resolve_postQna = `/myPage/${artistId}/product_question`;
         const categoryId=obj_reviewParam.categoryId
         const review_limit= obj_reviewParam.page;
         const page_limit=Number(review_limit) * 10;
 
         const formData = new FormData();
-
         formData.append("category",categoryId);
         formData.append("page",page_limit);
+
         let current_url = location.href;
         if(typeof(history.pushState)=='function' && onOff == "on"){
             current_url = current_url.replace(/\?page=([0-9]+)&category=([0-9]+)/ig,'')
             current_url += "?page="+(Number(review_limit)+1)+"&category="+(Number(categoryId))
             history.pushState({page:review_limit,category:categoryId},null,current_url)
         }
-
-        await axios.post(resolve_postReview,formData)
+        await axios.post(resolve_postQna,formData)
                     .then(response=>response.data)
                     .then(data=>{
-                        const json_array = data.reviewList;
+                        const json_array = data.qnaList;
                         const all_reviewCount = data.allCount;
                         const userReview_tag = create_userReview_tag(json_array);
 

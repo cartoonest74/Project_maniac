@@ -139,35 +139,31 @@ public class MyPageController {
     private String del_productReview(@PathVariable int artistId,
                                      @RequestParam("imgUrl") String imgUrl,
                                      @RequestParam("reviewId") int reviewId) throws IOException {
-        log.info("delete!!!!!!!!!!!");
         myPageService.del_userShopReview(reviewId);
-        String del_imgPath = new StringBuilder()
-                .append(uploadPath)
-                .append(imgUrl)
-                .toString();
-        Path filePath = Paths.get(del_imgPath);
-        Files.delete(filePath);
+        delete_file(imgUrl);
         return "ok";
     }
 
     @ResponseBody
-    @PutMapping("/edit_review")
+    @PostMapping("/edit_review")
     private String put_editReview(@PathVariable int artistId,
                                   @RequestParam("reviewId") int reviewId,
-                                  @RequestParam("preImgUrl") String preImgUrl,
+                                  @RequestParam("del_imgPath") String del_imgPath,
+                                  @RequestParam("is_changeImg") boolean is_changeImg,
                                   @RequestParam("editImgUrl") MultipartFile editImgUrl,
                                   @RequestParam("editText") String editText,
                                   HttpServletRequest request) throws IOException {
         int user_id = loginSessionManager.sessionUUIDcheck(request);
-        UploadFile uploadFile = fileStore.storeFile(REVIEW_SHOP_IMG_DIR,editImgUrl);
-        String saveFileName = uploadFile.getSaveFileName();
-        String saveFilePath = uploadFile.getSavePath();
-        Path path = Paths.get(preImgUrl);
-        boolean exists = Files.exists(path);
-        if(exists){
-            Files.delete(path);
+        if(is_changeImg) {
+            UploadFile uploadFile = fileStore.storeFile(REVIEW_SHOP_IMG_DIR,editImgUrl);
+            String saveFileName = uploadFile.getSaveFileName();
+            String saveFilePath = uploadFile.getSavePath();
+            delete_file(del_imgPath);
+            myPageService.edit_userReview(user_id,reviewId,editText,saveFilePath);
+            return "ok";
         }
-        myPageService.edit_userReview(user_id,reviewId,editText,saveFilePath);
+        del_imgPath = "/img"+del_imgPath;
+        myPageService.edit_userReview(user_id,reviewId,editText,del_imgPath);
         return "ok";
     }
 
@@ -260,5 +256,17 @@ public class MyPageController {
         int user_id = loginSessionManager.sessionUUIDcheck(request);
         myPageService.edit_memberEmail(edit_email, user_id);
         return "ok";
+    }
+
+    private void delete_file(String imgUrl) throws IOException {
+        String del_imgPath = new StringBuilder()
+                .append(uploadPath)
+                .append(imgUrl)
+                .toString();
+        Path filePath = Paths.get(del_imgPath);
+        boolean exists = Files.exists(filePath);
+        if(exists){
+            Files.delete(filePath);
+        }
     }
 }

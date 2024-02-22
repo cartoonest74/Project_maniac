@@ -9,7 +9,8 @@ $(function(){
 
     const obj_editReviewParam = {
         reviewId:0,
-        preImgUrl:"",
+        del_imgPath:"",
+        is_changeImg:false,
         editImgUrl:"",
         editText:""
     }
@@ -40,8 +41,6 @@ $(function(){
         const reviewTitle = document.querySelector(`div[data-myReview-title="${reviewId}"]`).innerText;
         const reviewContent = document.querySelector(`div[data-myReview-text="${reviewId}"]`).innerText;
 
-        obj_editReviewParam.editImgUrl = reviewUrl;
-
         const reviewEdit_tag=`<div id="searchType" class="searchTypeBox">
                                 <div class="myReviewEditContainer">
                                     <dt class="myReviewDate">
@@ -70,12 +69,48 @@ $(function(){
         body_append("afterbegin",reviewEdit_tag);
         document.querySelector('textarea[name="editReview"]').focus();
     }
+    // TODO 팝업 박스 REMOVE
+        // searchType remove
+    const remove_searchType =()=>{
+        const searchType = document.querySelector("div#searchType");
+        searchType.remove();
+    }
+        // confirmBox remove
+    const remove_confirmBox = ()=>{
+        const confirmBox = document.querySelector("div#confirmBox");
+        confirmBox.remove();
+    }
+    const bas64_to_File = (curImg_src)=>{
+        const canvas = document.createElement("canvas");
+        const bas64_img = canvas.toDataURL(curImg_src,1.0);
+        const bstr = atob(bas64_img.split(",")[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
 
+        while(n--) {
+        	u8arr[n] = bstr.charCodeAt(n);
+        }
+
+        const file = new File([u8arr], "not_upload", {type:"mime"});
+        return file;
+    }
+    // edit box 열기
     $(document).on("click","button[data-myReview-edit]",function(e){
         const reviewId = e.target.getAttribute("data-myReview-edit");
+        const curImg = document.querySelector(`img[alt="${reviewId}"]`).src;
+        const del_imgPath = curImg.split("/img")[1];
         obj_editReviewParam.reviewId = reviewId;
         create_reviewEdit_tag(reviewId);
+        const canvas = document.createElement("canvas");
+        const bas64_img = canvas.toDataURL(curImg,1.0);
+        const curFile = bas64_to_File(curImg);
+
+        // 변경되기전 이미지
+        obj_editReviewParam.editImgUrl = curFile;
+        obj_editReviewParam.del_imgPath = del_imgPath;
+        obj_editReviewParam.is_changeImg = false;
     });
+
     // edit del img
     $(document).on("click","button#delReviewImg",function(){
         const editReviewImg_tag = document.querySelector("div#editReviewImg");
@@ -86,16 +121,31 @@ $(function(){
                                         </label>
                                         <p style="width:100%; text-align:center; color:red;">&#42;IMG 파일 100MB 이하</p>
                                     </div>`
+        // img url 초기화
+        obj_editReviewParam.editImgUrl = "";
+        obj_editReviewParam.is_changeImg = true;
     });
 
-    // upload
+    // edit put
     const put_editReview = async()=>{
         const resolve_editReview = `/myPage/${artistId}/edit_review`;
+        const reviewId = obj_editReviewParam.reviewId;
+        const del_imgPath = obj_editReviewParam.del_imgPath;
+        const is_changeImg = obj_editReviewParam.is_changeImg;
+        const editImgUrl = obj_editReviewParam.editImgUrl;
+        const editText = obj_editReviewParam.editText;
+        const formData = new FormData();
+        formData.append("reviewId",reviewId)
+        formData.append("del_imgPath",del_imgPath)
+        formData.append("is_changeImg",is_changeImg)
+        formData.append("editImgUrl",editImgUrl)
+        formData.append("editText",editText);
+        console.log(editImgUrl);
 
-        await axios.put(resolve_editReview,{
-            header:{"Content-Type": "multipart/form-data",},
-            params:formData
-        }).then(response=>response.data)
+        await axios.post(resolve_editReview,formData,{
+        headers: {"Content-Type": 'multipart/form-data'}
+        })
+        .then(response=>response.data)
         .then(data=>console.log(data))
         .catch(error=>console.log(error));
     }
@@ -111,9 +161,6 @@ $(function(){
 
         const editReviewImg = document.querySelector("div#editReviewImg");
 
-        // img url 초기화
-        obj_editReviewParam.editImgUrl = "";
-
         if (!IMAGE_REG.test(REVIEWIMGFILE_VALS)) {
             alert("use only img Format!!");
             return;
@@ -123,7 +170,7 @@ $(function(){
             alert("Over Size 100MB!!");
             return;
         }
-        obj_editReviewParam.editImgUrl = upload_img;
+        obj_editReviewParam.editImgUrl = FILE;
         editReviewImg.innerHTML=`<img src="${upload_img}" alt="${obj_editReviewParam.reviewId}">
                                  <button id="delReviewImg" type="button">
                                     <i class="fa-solid fa-xmark fa-lg"></i>
@@ -133,10 +180,9 @@ $(function(){
     // edit ok
     $(document).on("click","button#editReviewSave",function(e){
         const editImgUrl = obj_editReviewParam.editImgUrl;
-        const editText = document.querySelector('textarea[name="editReview"]').value
-        const REG_TEXT = /[a-zA-Z가-힣ㄱ-ㅎ!\\.~]+/g;
+        const editReview_tag = document.querySelector('textarea[name="editReview"]').value
 
-        obj_editReviewParam.editText = editText;
+        obj_editReviewParam.editText = editReview_tag;
         const editText = obj_editReviewParam.editText.trim();
         const arr_overOptionTags = new Array();
         if(editImgUrl == ""){
@@ -145,6 +191,7 @@ $(function(){
         if(editText == ""){
             arr_overOptionTags.push(`<p style="color:rgb(243, 103, 103);">후기를 작성해주세요.</p>`)
         }
+
         if(arr_overOptionTags.length > 0){
             const overOption_tag = arr_overOptionTags.join('');
             const errorMsg = create_errorMsg(overOption_tag);
@@ -165,14 +212,17 @@ $(function(){
                             </div>`;
         body_append("afterbegin",edit_okTag);
     });
+
     // confirm btn
     $(document).on("click","button#editReviewYes",async function(e){
-        const res = await put_editReview();
+        const put_res = await put_editReview();
+        remove_confirmBox();
+        remove_searchType();
+        const post_res = await post_review();
     });
 
     $(document).on("click","button#editReviewNo",function(e){
-        const confirmBox = document.querySelector("div#confirmBox");
-        confirmBox.remove();
+        remove_confirmBox();
     });
 
     // TODO search
@@ -217,14 +267,11 @@ $(function(){
         document.querySelector(`input[type="radio"][value="${categoryId}"]`).checked = true;
     });
 
-    const remove_searchType =()=>{
-        const searchType = document.querySelector("div#searchType");
-        searchType.remove();
-    }
     // exit Search type box
     $(document).on("click","button#exitSearchType",function(){
         remove_searchType();
     });
+
     // search
     $(document).on("click","button#searchType",async function(){
         const check_radio = document.querySelector('input[name="searchType"]:checked');

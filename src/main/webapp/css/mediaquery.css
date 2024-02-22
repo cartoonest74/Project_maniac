@@ -68,6 +68,10 @@
     .myReviewBox{
         width:100%;
     }
+    .myReviewEditContainer{
+        width:100%;
+    }
+
     /*회원가입*/
     .createAccount{
         width:100%;

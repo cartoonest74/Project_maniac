@@ -43,11 +43,7 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <!-- url -->
-<c:url var="logoutUrl" value="/login-action/logout" />
-<c:url var="userEdit" value="/${artistId}/myPage/user_edit" />
-<c:url var="orderList" value="/${artistId}/myPage/order_list" />
-<c:url var="productQuestion" value="/${artistId}/myPage/product_question" />
-<c:url var="productReview" value="/${artistId}/myPage/product_review" />
+<c:url var="myPage" value="myPage/${artistId}" />
 
 </head>
 <body>
@@ -57,7 +53,7 @@
 	<div class="myQnaBox">
         <header class="myQnaHeader">
             <div class="go_myPage">
-                <a href="">
+                <a href="${myPage}">
                     <i class="fa-solid fa-angle-left fa-lg"></i>
                     <span>
                         상품문의

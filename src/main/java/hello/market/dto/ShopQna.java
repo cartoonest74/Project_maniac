@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ShopQna {
 	private int id;
-	private int artist_id;
+	private int artistId;
 	private int productNo;
-	private int writer_num;
+	private int writerId;
 	private String title;
 	private String userId;
 	private String content;

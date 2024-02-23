@@ -19,6 +19,7 @@ $(function(){
         const body = document.querySelector("body");
         body.insertAdjacentHTML(position,tag);
     }
+
     /* error msg */
     const create_errorMsg=(overOption_tag)=>{
         let quantity_errorMsg = `<div id="confirmBox" class="overErrorMsgBox">
@@ -69,6 +70,7 @@ $(function(){
         body_append("afterbegin",reviewEdit_tag);
         document.querySelector('textarea[name="editReview"]').focus();
     }
+
     // TODO 팝업 박스 REMOVE
         // searchType remove
     const remove_searchType =()=>{
@@ -256,7 +258,7 @@ $(function(){
                             ${create_searchContentTag}
                         </div>
                         <div class="searchTypeBtn">
-                            <button id="searchType" type="button">검색</button>
+                            <button id="searchType_btn" type="button">검색</button>
                         </div>
                     </div>
                 </div>
@@ -273,9 +275,14 @@ $(function(){
     });
 
     // search
-    $(document).on("click","button#searchType",async function(){
+    $(document).on("click","button#searchType_btn",async function(){
         const check_radio = document.querySelector('input[name="searchType"]:checked');
-        obj_reviewParam.categoryId = check_radio.value;
+        const searchTypeName = document.getElementById("searchTypeName");
+        const cr_value = check_radio.value;
+        const cr_text = document.querySelector(`label[for="${cr_value}"]`).innerText;
+
+        obj_reviewParam.categoryId = cr_value;
+        searchTypeName.innerText = cr_text;
         const res = await post_review();
         remove_searchType();
     });

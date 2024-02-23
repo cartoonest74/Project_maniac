@@ -43,7 +43,7 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <!-- url -->
-<c:url var="myPage" value="myPage/${artistId}" />
+<c:url var="myPage" value="/myPage/${artistId}" />
 
 </head>
 <body>
@@ -62,12 +62,13 @@
             </div>
             <div class="myQna_search">
                 <button id="myQnaSearch" type="button">
-                    <span data-QnaOption-artist="1">전체</span>
+                    <span id="searchTypeName">전체</span>
                     <i class="fa-solid fa-bars-staggered fa-lg"></i>
                 </button>
             </div>
         </header>
         <dl id="QnaContainer" class="myQnaContainerBox">
+        <!--
             <div class="myQnaContainer">
                 <dt class="myQnaDate">
                     <h2>2014-02-17</h2>
@@ -98,6 +99,7 @@
                     </div>
                 </dd>
             </div>
+        -->
         </dl>
         <div id="qna_pageCount_num" class="pageCount">
         </div>

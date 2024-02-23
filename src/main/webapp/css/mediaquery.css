@@ -71,7 +71,12 @@
     .myReviewEditContainer{
         width:100%;
     }
-
+    .myQnaBox{
+        width:100%;
+    }
+    .QnaTitle h3{
+        font-size:1.3em;
+    }
     /*회원가입*/
     .createAccount{
         width:100%;

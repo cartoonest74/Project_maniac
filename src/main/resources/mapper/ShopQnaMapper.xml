@@ -5,7 +5,7 @@
 
     <insert id="insert">
         insert into Shop_qna(product_no, user_id, content, artist_id)
-        values(#{productNo}, #{writer_num}, #{content}, #{artist_id})
+        values(#{productNo}, #{writerId}, #{content}, #{artistId})
     </insert>
 
     <select id="selectLength" resultType="Integer">
@@ -31,7 +31,7 @@
         select
             id,
             productNo,
-        writer_num,
+        writerId,
             userId,
             content,
             title,
@@ -46,7 +46,7 @@
                     sq.id as id,
                     pa.title,
                     product_no as productNo,
-                    m.id writer_num,
+                    m.id writerId,
                     m.user_id userId,
                     sq.content content,
                     sq.date date,
@@ -60,7 +60,7 @@
                 inner join Product_artist pa
                     on sq.product_no = pa.id
                 left join answer_qna as aq
-                    on sq.id = aq.shop_qna_id
+                    on sq.id = aq.qna_id
                 where product_no = #{arg0}) as qna
         where qna.no > #{arg1}
         order by date desc limit 10
@@ -71,7 +71,7 @@
             id,
             productNo,
             title,
-        writer_num,
+        writerId,
             userId,
             content,
             date,
@@ -85,7 +85,7 @@
                     sq.id as id,
                     pa.title,
                     product_no as productNo,
-                    m.id writer_num,
+                    m.id writerId,
                     m.user_id userId,
                     sq.content content,
                     sq.date date,
@@ -99,7 +99,7 @@
                 inner join Product_artist pa
                     on sq.product_no = pa.id
                 left join answer_qna aq
-                    on sq.id = aq.shop_qna_id
+                    on sq.id = aq.qna_id
                 where product_no = #{arg0} and sq.user_id = #{arg1}) as qna
         where qna.no > #{arg2}
         order by date desc limit 10

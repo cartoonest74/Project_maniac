@@ -45,7 +45,7 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <!-- url -->
-<c:url var="myPage" value="myPage/${artistId}" />
+<c:url var="myPage" value="/myPage/${artistId}" />
 
 <c:set var="userShopReviews" value="${userShopReview}"/>
 </head>
@@ -65,7 +65,7 @@
             </div>
             <div class="myReview_search">
                 <button id="myReviewSearch" type="button">
-                    <span data-reviewOption-artist="1">전체</span>
+                    <span id="searchTypeName">전체</span>
                     <i class="fa-solid fa-bars-staggered fa-lg"></i>
                 </button>
             </div>

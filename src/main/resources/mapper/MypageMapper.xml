@@ -68,16 +68,16 @@
     </select>
     <select id="select_shopQna" resultType="ShopQna">
         select num id,
-            tmp2.id writer_num,
+            sq.id writerId,
             pa.title title,
-            tmp2.date date,
-            tmp2.content content,
-            pa.artist_id artist_id,
+            sq.date date,
+            sq.content content,
+            pa.artist_id artistId,
             answer_check answerCheck,
             aq.qna_id rootId,
             aq.content rootContent,
             aq.date rootDate
-        from(select *
+        from(select num,id,date,content,answer_check,product_no
             from(select row_number() over(order by date desc) num,
                     id,
                     artist_id,
@@ -91,9 +91,9 @@
                     and artist_id = #{artist_id}
                 </if>
                 )tmp
-        where num > #{page_limit})tmp2
-        inner join product_artist pa on pa.id = tmp2.product_no
-        left join answer_qna aq on aq.qna_id = tmp2.id
+        where num > #{page_limit})sq
+        inner join product_artist pa on pa.id = sq.product_no
+        left join answer_qna aq on aq.qna_id = sq.id
         order by num asc limit 10;
     </select>
     <select id="select_shopReview" resultType="ShopReview">

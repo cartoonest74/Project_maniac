@@ -81,8 +81,8 @@ public class ShopQnaController {
         log.info("productNo = {}, userId = {}, content = {}", productNo, userId, content);
         ShopQna shopQna = new ShopQna();
         shopQna.setProductNo(productNo);
-        shopQna.setArtist_id(qnaArtistId);
-        shopQna.setWriter_num(userId);
+        shopQna.setArtistId(qnaArtistId);
+        shopQna.setWriterId(userId);
         shopQna.setContent(content);
 
         shopQnaService.addQna(shopQna);

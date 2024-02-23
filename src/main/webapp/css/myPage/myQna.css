@@ -1,8 +1,11 @@
 @charset "UTF-8";
 .myQnaBox{
-    display:inline-block;
+    display:flex;
     width:60%;
     margin:5vh 0;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
 }
 .myQnaHeader{
     display:flex;
@@ -87,11 +90,11 @@
     width:100%;
     justify-content:space-between;
     align-items:first baseline;
-    flex-wrap:wrap;
     padding-bottom:1vh;
     border-bottom:1px dotted rgb(225, 221, 221);
 }
 .QnaTitle h3{
+    width:90%;
     font-size:1.8em;
     font-weight:400;
 }

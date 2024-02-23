@@ -89,10 +89,11 @@ public class MyPageController {
 
     @ResponseBody
     @DeleteMapping("/del_qna")
-    private String del_productQna(@PathVariable int artistId, @RequestParam int qnaId) {
+    private String del_productQna(@PathVariable int artistId, @RequestParam("qnaId") int qnaId) {
         myPageService.del_userShopQna(qnaId);
         return "ok";
     }
+
     @ResponseBody
     @PostMapping("/product_question")
     private String post_productQuestion(@PathVariable int artistId,
@@ -108,7 +109,7 @@ public class MyPageController {
         Integer lengthShopQna = myPageService.get_lengthShopQna(user_id,category);
         List<ShopQna> userShopQna = myPageService.get_userShopQna(user_id, category, page);
         for (ShopQna shopQna : userShopQna) {
-            String writeValueAsString = objectMapper.writeValueAsString(userShopQna);
+            String writeValueAsString = objectMapper.writeValueAsString(shopQna);
             arr_shopQna.put(writeValueAsString);
         }
         List<Artist> searchQnaType = myPageService.get_searchQnaType(user_id);

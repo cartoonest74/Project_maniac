@@ -64,7 +64,7 @@ request.setCharacterEncoding("UTF-8");
 	</c:import>
 	<form action="${addQnaUrl}" id="WriterQnaForm" class="writer_Form" method="post">
 		<input type="text" name="product_no" value="${productNo}" hidden="hidden">
-		<input type="text" name="artist_id" value="${product_artistId}" hidden="hidden">
+		<input type="text" name="artistId" value="${product_artistId}" hidden="hidden">
 
 		<nav class="writer_tag">Q&A</nav>
 		<nav class="writer_qna_header">

@@ -9,17 +9,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<link rel="stylesheet" href="${contextPath}/css/complete_account.css">
-<link rel="stylesheet" href="${contextPath}/css/search_artist.css">
-<link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
-<link rel="stylesheet" href="${contextPath}/css/basic.css">
-<link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
+<link rel="stylesheet" href="${contextPath}/css/account/complete_account.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/search_artist.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/resizeMenu.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/basic.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/mediaquery.css">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;900&display=swap" rel="stylesheet">
 
 <script src="https://kit.fontawesome.com/7938f26122.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.js"
+	  integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+	  crossorigin="anonymous"></script>
 
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>

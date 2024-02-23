@@ -11,15 +11,15 @@
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/basic.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/basic/confirm.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/myPage/myReview.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/myPage/review_qnaSearch.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/basic.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/confirm.css">
+<link rel="stylesheet" href="${contextPath}/css/myPage/myReview.css">
+<link rel="stylesheet" href="${contextPath}/css/myPage/review_qnaSearch.css">
 <link rel="stylesheet" href="${contextPath}/css/errorPage/basic_err.css">
 <link rel="stylesheet" href="${contextPath}/css/pageCount/pageCount.css">
-<link rel="stylesheet" href="${contextPath}/css/search_artist.css">
-<link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
-<link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/search_artist.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/resizeMenu.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/mediaquery.css">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -17,12 +17,12 @@
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
-<link rel="stylesheet" href="${contextPath}/css/basic.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/basic.css">
 <link rel="stylesheet" href="${contextPath}/css/pageCount/pageCount.css">
-<link rel="stylesheet" href="${contextPath}/css/search_artist.css">
-<link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/search_artist.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/resizeMenu.css">
 <link rel="stylesheet" href="${contextPath}/css/notice/notice_menu.css">
-<link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/mediaquery.css">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>

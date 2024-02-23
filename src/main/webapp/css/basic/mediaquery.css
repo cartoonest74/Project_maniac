@@ -57,6 +57,10 @@
 }
 
 @media screen and (max-width:420px){
+    /*basket*/
+    .basketForm{
+        width:100%;
+    }
     /* myPage*/
     .myPageBox{
         width:100%;
@@ -76,6 +80,10 @@
     }
     .QnaTitle h3{
         font-size:1.3em;
+    }
+    /* order complete */
+    .orderCompleteBox{
+        width:100%;
     }
     /*회원가입*/
     .createAccount{

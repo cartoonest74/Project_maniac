@@ -11,12 +11,12 @@
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/basic.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/errorPage/basic_err.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/myPage/userInfo.css">
-<link rel="stylesheet" href="${contextPath}/css/search_artist.css">
-<link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
-<link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/basic.css">
+<link rel="stylesheet" href="${contextPath}/css/errorPage/basic_err.css">
+<link rel="stylesheet" href="${contextPath}/css/myPage/userInfo.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/search_artist.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/resizeMenu.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/mediaquery.css">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

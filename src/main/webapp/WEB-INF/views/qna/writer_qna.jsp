@@ -18,23 +18,17 @@ request.setCharacterEncoding("UTF-8");
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <link rel="stylesheet"
-	href="${contextPath}/css/basic.css">
-<link rel="stylesheet"
-	href="${contextPath}/css/shopinfo.css">
+	href="${contextPath}/css/basic/basic.css">
 <link rel="stylesheet"
 	href="${contextPath}/css/writeQna_Review/writer_qna.css">
-<link rel="stylesheet" href="${contextPath}/css/search_artist.css">
-<link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
-<link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/search_artist.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/resizeMenu.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/mediaquery.css">
 
 
-<script src="https://kit.fontawesome.com/7938f26122.js"
-	crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-2.2.4.js"
-	integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
-	crossorigin="anonymous">
-
-</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;900&display=swap" rel="stylesheet">
 
 <script src="https://kit.fontawesome.com/7938f26122.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-2.2.4.js"

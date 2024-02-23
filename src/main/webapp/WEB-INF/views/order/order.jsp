@@ -18,11 +18,11 @@ request.setCharacterEncoding("UTF-8");
 
 <link rel="stylesheet" href="${contextPath}/css/order/order.css">
 <link rel="stylesheet" href="${contextPath}/css/order/orderRegistry.css">
-<link rel="stylesheet" href="${contextPath}/css/search_artist.css">
-<link rel="stylesheet" href="${contextPath}/css/resizeMenu.css">
-<link rel="stylesheet" href="${contextPath}/css/basic.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/search_artist.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/resizeMenu.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/basic.css">
 <link rel="stylesheet" href="${contextPath}/css/order/orderTerms.css">
-<link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/mediaquery.css">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

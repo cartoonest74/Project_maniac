@@ -20,7 +20,7 @@ $(function(){
         body.insertAdjacentHTML(position,tag);
     }
 
-    /* error msg */
+    /* alert msg */
     const create_errorMsg=(overOption_tag)=>{
         let quantity_errorMsg = `<div id="confirmBox" class="overErrorMsgBox">
                                     <div class="overErrorMsg">

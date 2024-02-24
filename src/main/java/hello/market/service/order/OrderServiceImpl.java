@@ -49,11 +49,6 @@ public class OrderServiceImpl implements  OrderService {
     }
 
     @Override
-    public void calc_singleQuantity(int productNo, int optionQuantity) {
-        orderRepository.update_singleQuantity(productNo, optionQuantity);
-    }
-
-    @Override
     public void calc_multiQuantity(int productNo, int optionNo, int optionQuantity) {
         orderRepository.update_multiQuantity(productNo,optionNo, optionQuantity);
     }

@@ -18,7 +18,6 @@ public interface OrderMapper {
     void update_deleteAddr(@Param("user_id") int user_id, @Param("OrderDelivery_info") OrderDelivery_info orderDeliveryInfo);
     void update_deliveryAddr(@Param("user_id") int user_id,@Param("OrderDelivery_info") OrderDelivery_info orderDeliveryInfo);
     void update_orderInfo(@Param("user_id") int user_id, @Param("orderInfo") String orderInfo);
-    void update_singleQuantity(@Param("productNo") int productNo, @Param("optionQuantity") int optionQuantity);
     void update_multiQuantity(@Param("productNo") int productNo,@Param("optionNo") int optionNo,@Param("optionQuantity") int optionQuantity);
     List<Order> select_orderList(@Param("user_id") int user_id,@Param("limit") int limit);
 

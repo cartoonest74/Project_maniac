@@ -14,7 +14,8 @@ $(function() {
     }
     resize_login_btn.addEventListener("click",function(e){
         e.preventDefault();
-    })
+    });
+
     subMenu_none();
     const CONTEXTPATH = $("#contextPath").val();
 	const LOGINACTION_URL = "/login-action/login-inspect";

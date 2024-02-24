@@ -70,7 +70,7 @@
         select title,
             json_key cartKey,
             JSON_EXTRACT(option_size, CONCAT("$.option[",option_no,"][0]")) optionTitle,
-            (JSON_EXTRACT(option_size, CONCAT("$.option[",option_no,"][1]"))-quantity) restQuantity,
+            JSON_EXTRACT(option_size, CONCAT("$.option[",option_no,"][1]")) restQuantity,
             quantity
         from
             (select

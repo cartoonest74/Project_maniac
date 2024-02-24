@@ -17,7 +17,6 @@ public interface OrderService {
     void delete_deliveryAddr(int user_id, OrderDelivery_info orderDeliveryInfo);
     void add_deliveryAddr(int user_id, OrderDelivery_info orderDeliveryInfo);
     void add_orderInfo(int user_id, String orderInfo);
-    void calc_singleQuantity(int productNo, int optionQuantity);
     void calc_multiQuantity(int productNo, int optionNo, int optionQuantity);
 
     List<Order> show_orderList(int user_id, int limit);

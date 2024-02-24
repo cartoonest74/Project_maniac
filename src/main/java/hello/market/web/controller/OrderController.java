@@ -71,7 +71,15 @@ public class OrderController {
         ObjectMapper objectMapper = new ObjectMapper();
         JSONArray jsonArray = new JSONArray();
         List<Cart> reCall_cart = carts.stream()
-                .filter(val -> val.getRestQuantity() < 0)
+                .filter(val -> {
+                    int restQuantity = val.getRestQuantity();
+                    int quantity = val.getQuantity();
+                    int calc_quantity = restQuantity - quantity;
+                    if(calc_quantity < 0){
+                        return true;
+                    }
+                    return false;
+                })
                 .collect(Collectors.toList());
         for (Cart cart : reCall_cart) {
             String cartString = objectMapper.writeValueAsString(cart);

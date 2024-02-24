@@ -238,11 +238,10 @@
     background-color:rgba(0,0,0,0.5);
     z-index:2;
 }
-.recall_cotent{
+.recall_content{
     position: relative;
     display:inline-flex;
     width:300px;
-    height:50vh;
     flex-wrap:wrap;
     justify-content:center;
     align-items:center;
@@ -251,17 +250,24 @@
     background-color:white;
     border-radius:15px;
 }
-.recall_cotent h2{
+.recall_content h2{
     display:inline-block;
     width:100%;
     color:rgb(236, 49, 49);
-    font-size:2.4em;
+    font-size:2em;
     text-align:left;
     padding-left:5px;
     padding-bottom:5px;
     border-bottom:1px solid black;
 }
-.recall_cotent p{
+.recall_content h3{
+    display:inline-block;
+    width:100%;
+    font-size:1.5em;
+    padding:5px 0;
+    text-align:center;
+}
+.recall_content p{
     display:inline-block;
     width:100%;
     height:70%;
@@ -269,12 +275,12 @@
     overflow:auto;
     padding:5px 0;
 }
-.recall_cotent p span{
+.recall_content p span{
     display:inline-block;
     width:100%;
     text-align:center;
 }
-.recall_cotent button{
+.recall_content button{
     display:inline-block;
     width:80%;
     font-size:2em;

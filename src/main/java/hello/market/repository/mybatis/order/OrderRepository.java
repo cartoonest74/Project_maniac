@@ -16,7 +16,6 @@ public interface OrderRepository {
     void update_deleteAddr(int user_id, OrderDelivery_info orderDeliveryInfo);
     void update_deliveryAddr(int user_id, OrderDelivery_info orderDeliveryInfo);
     void update_orderInfo(int user_id,String orderInfo);
-    void update_singleQuantity(int productNo, int optionQuantity);
     void update_multiQuantity(int productNo, int optionNo, int optionQuantity);
 
     List<Order> select_orderList(int user_id, int limit);

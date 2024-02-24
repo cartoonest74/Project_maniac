@@ -50,11 +50,6 @@ public class MybatisOrderRepository implements OrderRepository {
     }
 
     @Override
-    public void update_singleQuantity(int productNo, int optionQuantity) {
-        orderMapper.update_singleQuantity(productNo,optionQuantity);
-    }
-
-    @Override
     public void update_multiQuantity(int productNo, int optionNo, int optionQuantity) {
         orderMapper.update_multiQuantity(productNo, optionNo, optionQuantity);
     }

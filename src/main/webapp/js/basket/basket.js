@@ -12,12 +12,52 @@ $(function(){
     // 구매수량
     const obj_overOptionLength = {overOptionLength:0, quantityObj:{}, stockQuantity_obj:{}}
 
-  function get_today(){
-     let today = new Date();
-     let date_indexOf = today.toISOString().indexOf('.');
-     today = today.toISOString().replace("T"," ").substring(0,date_indexOf);
-     return today;
-  }
+    /* alert msg */
+    const create_errorMsg=(overOption_tag)=>{
+        let quantity_errorMsg = `<div id="confirmBox" class="overErrorMsgBox">
+                                    <div class="overErrorMsg">
+                                        <section class="overErrorMsg_content">
+                                            <h2><i class="fa-solid fa-bell fa-lg"></i>&nbsp;알림</h2>`;
+        quantity_errorMsg += overOption_tag;
+        quantity_errorMsg += `
+                                        </section>
+                                        <button id="editReviewNo" type="button" class="exitErrorMsgBtn">ok</button>
+                                    </div>
+                                </div>`;
+        return quantity_errorMsg;
+    }
+
+    // 품절상품 삭제
+    const soldDel = document.getElementById("soldDel");
+    soldDel.addEventListener("click",async function(){
+        const resolve_delCart = "/cart/sold-delete";
+        const del_res = await axios.delete(resolve_delCart)
+        .then(response=>response.data)
+        .then(data=>{
+          console.log(data);
+          if(data!="ok"){
+            const errorMsg = create_errorMsg(`<p>품절 상품이 없습니다.</p>`);
+            body_append("afterbegin",errorMsg);
+            return 0;
+          }
+        }).catch(error=>console.log(error));
+        if(del_res==0){
+            return;
+        }
+        const res = await post_viewCart();
+    });
+
+    $(document).on("click","button#editReviewNo",function(){
+        const confirmBox = document.querySelector("div#confirmBox");
+        confirmBox.remove();
+    });
+
+//    function get_today(){
+//     let today = new Date();
+//     let date_indexOf = today.toISOString().indexOf('.');
+//     today = today.toISOString().replace("T"," ").substring(0,date_indexOf);
+//     return today;
+//    }
 
 //TODO Basket main part
     const total_tag = (currency_unit,quantity_total,$totalTag)=>{
@@ -477,7 +517,7 @@ $(function(){
         let quantity_errorMsg = `<div id="overQuantity_ErrorMsg" class="overErrorMsgBox">
                                     <div class="overErrorMsg">
                                         <section class="overErrorMsg_content">
-                                            <h2><i class="fa-solid fa-bell fa-lg"></i>수량 초과 알림</h2>`;
+                                            <h2><i class="fa-solid fa-bell fa-lg"></i>&nbsp;수량 초과 알림</h2>`;
         quantity_errorMsg += overOption_tag;
         quantity_errorMsg += `
                                         </section>
@@ -643,7 +683,7 @@ $(function(){
                               <span style="font-size:1.5em;">${optionTitle}</span>
                               <span style="font-size:2.3em; color:rgb(197, 43, 69); margin-bottom:10px;">${restQuantity}</span>`
 
-               if(title == "single"){
+               if(optionTitle == "single"){
                 span_tag =`<span style="font-size:2em;">${title}</span>
                             <span style="font-size:2.3em; color:rgb(197, 43, 69); margin-bottom:10px;">${restQuantity}</span>`
                }
@@ -652,8 +692,9 @@ $(function(){
         });
        let recall_info = arr_recall_tag.join("\n");
        const recall_tag = `<div id="recallBox" class="recall_Box">
-                               <div class="recall_cotent">
-                                   <h2>Excess of merchandise&#33;</h2>
+                               <div class="recall_content">
+                                   <h2><i class="fa-solid fa-bell fa-lg"></i>상품 수량 초과</h2>
+                                   <h3>남은 재고 수량</h3>
                                    <p>
                                         ${recall_info}
                                    </p>

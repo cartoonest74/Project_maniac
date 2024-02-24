@@ -28,12 +28,6 @@
         update order_list
         set order_info =#{orderInfo} where user_id =#{user_id}
     </update>
-    <update id="update_singleQuantity">
-        update Product_artist
-        set option_size=JSON_REPLACE(option_size,"$.option[1]",
-        (select calc_quantity from(select json_extract(option_size,"$.option[1]")+#{optionQuantity} as calc_quantity from Product_artist pa where id =#{productNo}) tmp))
-        where id =#{productNo};
-    </update>
     <!-- 1:productNo, 2:optionNo, 3:optionQuantity-->
     <update id="update_multiQuantity">
         update Product_artist

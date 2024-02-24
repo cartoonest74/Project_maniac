@@ -34,8 +34,35 @@ public class CartController {
 
     //TODO CART
     @ResponseBody
+    @DeleteMapping("/sold-delete")
+    private String delete_soldDelete(HttpServletRequest request) {
+        int user_id = loginSessionManager.sessionUUIDcheck(request);
+        List<Cart> carts = cartService.quantity_check(user_id);
+        List<String> cartKeys = new ArrayList<>();
+        for (Cart cart : carts) {
+            String cartKey = cart.getCartKey();
+            int restQuantity = cart.getRestQuantity();
+            if(restQuantity == 0){
+                cartKeys.add(cartKey);
+            }
+        }
+        // 삭제할 데이터 없을 시 반환
+        if(cartKeys.size() == 0){
+            return "no data";
+        }
+        for(String key:cartKeys){
+            String json_key = new StringBuilder()
+                    .append("$.")
+                    .append(key)
+                    .toString();
+            cartService.delete_cart(user_id,json_key);
+        }
+        return "ok";
+    }
+
+    @ResponseBody
     @PutMapping("/add-cart")
-    private String addCart(@RequestParam String option_part, @RequestParam Integer productNo, @RequestParam JSONObject option, HttpServletResponse response, HttpServletRequest request) {
+    private String put_addCart(@RequestParam String option_part, @RequestParam Integer productNo, @RequestParam JSONObject option, HttpServletResponse response, HttpServletRequest request) {
 
         Integer user_id = loginSessionManager.sessionUUIDcheck(request);
         if(user_id == 0){
@@ -72,7 +99,8 @@ public class CartController {
                     .append("x")
                     .append(optionId)
                     .toString();
-
+            
+            // 구매이력 검사
             Integer purchaseQuantity = cartService.purchaseQuantity_check(user_id, purchase_productKey);
             purchaseQuantity = purchaseQuantity == null? 0:purchaseQuantity;
 
@@ -87,13 +115,6 @@ public class CartController {
         jsonObject.put("overOptionId", indexArray);
         jsonObject.put("overOptionQuantity", quantityArray);
         Integer cartCount = cartService.cart_length(user_id);
-//        if (productNo != 0) {
-//            cartRepository.save(productNo, 1);
-//        }
-//        cartSessionManager.cartCreateSession(response, cartRepository);
-//
-//        cartCount = cartRepository.show_length();
-//        cartMaps = cartRepository.all();
 
         String jsonObjectString = jsonObject.toString();
         return jsonObjectString;

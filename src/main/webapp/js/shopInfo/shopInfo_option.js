@@ -432,10 +432,6 @@ $(function(){
         return stickyHead_tag;
     }
 
-    let currentScene = 0;
-    let yOffset =0;
-    let prevScrollHeight = 0;
-
     const create_sideOptionBtn = () =>{
         const topBtn_tag = `<div id="sideOption" class="sideOptionBox">
                                 <button id="topBtn" type="button" class="cls_topBtn">
@@ -482,7 +478,8 @@ $(function(){
     }
 
     window.addEventListener("scroll",()=>{
-        yOffset = window.scrollY
+        const yOffset = window.scrollY
+        const xOffset = window.innerWidth
         const hiddenMenu_noneLine = document.querySelector("#hiddenMenu_noneLine");
         const hiddenMenu_line = document.querySelector("#hiddenMenu_line");
         const appear_hiddenMenu_val = hiddenMenu_line.offsetHeight + hiddenMenu_noneLine.offsetHeight + 140
@@ -501,8 +498,22 @@ $(function(){
                 iterations: 1,
                 fill: "forwards"
             };
+        if(xOffset < 320){
+            if(stickyInfo == null){
+                return;
+            }
+            stickyInfo.remove();
+            return;
+        }
 
         if(yOffset > appear_hiddenMenu_val){
+            if(sideOption == null){
+                // side option
+                let sideOption_tag = create_sideOptionBtn()
+                body_append("afterbegin",sideOption_tag);
+                sideOption = document.querySelector("#sideOption")
+                sideOption.animate(keyframes, options);
+            }
             if(stickyInfo == null){
                 // scroll menu
                 let stickyHead_tag = create_stickyHead_tag()
@@ -510,11 +521,6 @@ $(function(){
                 stickyInfo = document.querySelector("#stickyInfo")
                 stickyInfo.animate(keyframes, options);
 
-                // side option
-                let sideOption_tag = create_sideOptionBtn()
-                body_append("afterbegin",sideOption_tag);
-                sideOption = document.querySelector("#sideOption")
-                sideOption.animate(keyframes, options);
 
                 /* single */
                 const quantity_name = document.querySelector(`#quantityBox>input[data-quantity-name="single"]`)
@@ -527,9 +533,11 @@ $(function(){
                 multi_sticky_onLoad();
             }
         }else{
+            if(sideOption != null){
+                sideOption.remove();
+            }
             if(stickyInfo != null){
                 stickyInfo.remove();
-                sideOption.remove();
             }
         }
     });

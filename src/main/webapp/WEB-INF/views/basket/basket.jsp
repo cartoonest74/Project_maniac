@@ -33,6 +33,9 @@ request.setCharacterEncoding("UTF-8");
 	  integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
 	  crossorigin="anonymous"></script>
 
+<!-- axios -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>

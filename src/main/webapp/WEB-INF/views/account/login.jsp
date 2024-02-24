@@ -36,8 +36,8 @@
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
 
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
-<script type="text/javascript" src="${contextPath}/js/login/login.js"></script>
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
+<script type="text/javascript" src="${contextPath}/js/login/login.js"></script>
 
 <c:set var="referUrl" value="${referUrl}" />
 <c:url var="forgotAccount" value="/${artistId}/member/forgot-account"/>

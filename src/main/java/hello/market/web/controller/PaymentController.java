@@ -31,31 +31,21 @@ public class PaymentController {
         JSONObject jsonObject = (JSONObject) parse;
         Set<String> keySet = jsonObject.keySet();
         int deliveryIndex = portone.getDeliveryIndex();
-        log.info("deliveryIndex ={}",deliveryIndex);
+        log.info("deliveryIndex ={}", deliveryIndex);
+
         for (String key : keySet) {
             String[] arr_cartKey = key.split("x");
-            String option_part = arr_cartKey[0];
             Integer productNo = Integer.parseInt(arr_cartKey[1]);
             Integer optionNo = Integer.parseInt(arr_cartKey[2]);
             log.info("optionNo = {}", optionNo);
             int optionQuantity =  Integer.parseInt(String.valueOf(jsonObject.get(key)));
             optionQuantity = optionQuantity * -1;
             log.info("optionQuantity = {}", optionQuantity);
-            calc_productArtist(option_part, productNo, optionQuantity, optionNo);
+            orderService.calc_multiQuantity(productNo,optionNo,optionQuantity);
         }
         
         orderService.add_purchaseList(user_id,portone);
         return "ok";
-    }
-
-    // 상품 수량 정리하기
-    private String calc_productArtist(String option_part,int productNo,int optionQuantity,int optionNo){
-        if(option_part.contains("s")){
-            orderService.calc_singleQuantity(productNo,optionQuantity);
-            return "";
-        }
-        orderService.calc_multiQuantity(productNo,optionNo,optionQuantity);
-        return "";
     }
 }
 

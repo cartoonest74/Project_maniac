@@ -14,7 +14,7 @@
     <select id="select" resultType="Product">
         select id, artist_id as artistId, title, category, price,
             option_ment as optionMent,
-            JSON_UNQUOTE(main_img -&gt; '$.img[0][0]') as mainImg,
+            JSON_UNQUOTE(main_img -> '$.img[0][0]') as mainImg,
             REPLACE(
                 REPLACE(
                     REPLACE(JSON_UNQUOTE(sub_img -> '$.img'),'[','')

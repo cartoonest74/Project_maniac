@@ -124,6 +124,7 @@
     overflow: hidden;
 }
 .main_RankContent{
+    position:absolute;
     display:flex;
     width:100%;
     padding:0px 5px;

@@ -16,6 +16,11 @@ public class ArtistServiceImpl implements ArtistService{
     private final ArtistRepository mybatisArtistRepository;
 
     @Override
+    public void put_searchCount(int artist_id) {
+        mybatisArtistRepository.update_searchCount(artist_id);
+    }
+
+    @Override
     public Artist artistSelect(int id) {
         Artist artist = mybatisArtistRepository.select(id);
         return artist;

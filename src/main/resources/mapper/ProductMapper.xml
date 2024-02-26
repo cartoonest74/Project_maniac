@@ -35,14 +35,14 @@
     </select>
     <select id="select_all" resultType="Product">
         select no, id, artist_id as artistId, title, category, price,
-            JSON_UNQUOTE(main_img -> '$.img[0][0]') as mainImg
+            JSON_UNQUOTE(main_img -> '$.img[0][0]') as mainImg, option_size->>"$.option"
         from (select row_number() over(order by id)as no,
-                id, artist_id, title, category, price,main_img,date
+                id, artist_id, title, category, price,main_img,date, option_size
             from Product_artist
             where artist_id = #{arg0} and category = #{arg1}
             )as pa
         where pa.no > #{arg2}
-        order by date desc limit 20
+        order by date desc limit 20;
     </select>
     <select id="selectLength" resultType="Integer">
         select count(*)

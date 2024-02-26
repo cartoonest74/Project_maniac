@@ -2,21 +2,21 @@
  * navLeft
  */
 $(function(){
-	const contextPath = $("#contextPath").val();
-	const artistId = $("#artistId").val();
-    $.ajax({
-        type: "post",
-        async: true,
-        url: `/artist/${artistId}`,
-        dataType: "text",
-        success: function(data, textStatus) {
-            $("#currentArtist").html(data);
-        }
-    });
-
-    const cartCount = ()=>{
-        const cartLength = $("input[data-cart]").attr("data-cart").trim();
-        console.log("cartLength= ",cartLength)
-    }
-    cartCount();
+	const artistId = document.getElementById("artistId").value;
+	const currentArtist = document.getElementById("currentArtist");
+    const get_artistName = async ()=>{
+        const resolve_getArtistName = `/artist/${artistId}`;
+        await fetch(resolve_getArtistName,{
+                method: "post",
+            }).then(response=>response.text())
+            .then(result=>{
+                currentArtist.innerText=result;
+            });
+    };
+    get_artistName();
+//    const cartCount = ()=>{
+//        const cartLength = $("input[data-cart]").attr("data-cart").trim();
+//        console.log("cartLength= ",cartLength)
+//    }
+//    cartCount();
 });

@@ -52,13 +52,6 @@ $(function(){
         confirmBox.remove();
     });
 
-//    function get_today(){
-//     let today = new Date();
-//     let date_indexOf = today.toISOString().indexOf('.');
-//     today = today.toISOString().replace("T"," ").substring(0,date_indexOf);
-//     return today;
-//    }
-
 //TODO Basket main part
     const total_tag = (currency_unit,quantity_total,$totalTag)=>{
         const arr_complete_calc_price = currency_format(currency_unit, quantity_total)

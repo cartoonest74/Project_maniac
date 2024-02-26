@@ -2,9 +2,6 @@ $(function(){
     const option_quantity_obj = new Array();
     const selectOption_tag_obj = new Array();
     const obj_overOptionLength = {overOptionLength:0}
-//    const param_date1 = new Date("1977-01-01").getTime();
-//    const param_date2 = new Date("1978-01-01").getTime();
-//    const test_date = new Date(1675154944694);
 
     const order_add_btn_allowed_bg =(allow)=>{
         const $order_add_btn = $('button[data-productNo]')

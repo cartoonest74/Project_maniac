@@ -1,10 +1,11 @@
 
 $(function(){
     const search_boxTurnOff = (turnOff)=>{
-        $("#search_box").css("display",turnOff);
+        const search_box = document.getElementById("search_box");
+        search_box.style.display =turnOff;
     }
-
-    $("#close_searchBox").click(()=>{
+    const close_searchBox = document.getElementById("close_searchBox");
+    close_searchBox.addEventListener("click",function(){
         search_boxTurnOff("none");
     });
 
@@ -12,7 +13,7 @@ $(function(){
         search_boxTurnOff("inline-flex");
     });
 
-    const CONTEXTPATH = $("#contextPath").val();
+    const CONTEXTPATH = document.getElementById("contextPath").value;
     const object_foreach=(jsonObject, appendTagId) => {
          const temp_arr = [];
          Object.keys(jsonObject).forEach(value =>{

@@ -38,7 +38,7 @@ request.setCharacterEncoding("UTF-8");
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="${contextPath}/js/postDaum/postDaum.js"></script>
-<script type="text/javascript" src="${contextPath}/js/createAccount.js"></script>
+<script type="text/javascript" src="${contextPath}/js/account/createAccount.js"></script>
 
 <c:url var="accountUrl" value="/${artistId}/member/complete-account"/>
 </head>

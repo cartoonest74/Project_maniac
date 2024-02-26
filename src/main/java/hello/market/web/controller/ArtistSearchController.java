@@ -68,9 +68,10 @@ public class ArtistSearchController {
 
     @ResponseBody
     @PostMapping("/artist/{artistId}")
-    private String artistName_mapping(@PathVariable int artistId){
+    private String artistName_mapping(@PathVariable int artistId) {
+
         Artist artist = artistService.artistSelect(artistId);
-        log.info("artist.getName() {}",artist.getName());
+        log.info("artist.getName() {}", artist.getName());
         return artist.getName();
     }
 }

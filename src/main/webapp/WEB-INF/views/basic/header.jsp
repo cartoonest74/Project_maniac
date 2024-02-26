@@ -186,7 +186,6 @@ request.setCharacterEncoding("UTF-8");
             </c:choose>
             <a href="${viewCart}" id="header_cart_btn" class="header_btn" type="button">
                 <i class="fa-solid fa-cart-shopping fa-lg"></i>
-                <input data-cart="${cartLength}" hidden="hidden" />
             </a>
             <a href="${viewLike}" id="header_heart_btn" class="header_btn" type="button">
                 <i class="fa-solid fa-heart fa-lg"></i>

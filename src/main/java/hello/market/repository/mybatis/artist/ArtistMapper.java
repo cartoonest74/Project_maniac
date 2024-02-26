@@ -8,6 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface ArtistMapper {
+    void update_searchCount(int artist_id);
     Artist select(@Param("id") int id);
     List<Artist> search_select(@Param("artistName") String artistName);
     List<Artist> selectAll();

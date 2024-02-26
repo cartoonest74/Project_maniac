@@ -2,6 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hello.market.repository.mybatis.artist.ArtistMapper">
+    <update id="update_searchCount">
+        update artist_record
+        set search_count = (select search_count+1
+                            from(select search_count
+                                from artist_record
+                                where artist_id=#{artist_id}) ar)
+        where artist_id=#{artist_id};
+    </update>
     <select id="selectAll" resultType="Artist">
         select id, name, artist_img ->> "$.main_img" main_img
         from Artist

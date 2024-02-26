@@ -49,9 +49,12 @@ public class MainController {
 
     @GetMapping("/main/{artist_id}")
     private String movePageMain(@PathVariable int artist_id, Model model) {
+        // 해당 아티스트 검색 count
+        artistService.put_searchCount(artist_id);
+
         List<Artist_sns> artistSns = artistSnsService.snsSelect(artist_id);
         Artist artist = artistService.artistSelect(artist_id);
-        log.info("artist.getMain_img()= {}",artist.getMainImg());
+        log.info("artist.getMain_img()= {}", artist.getMainImg());
         List<Artist_member> artistMembers = artistMemberService.memberSelect(artist_id);
         List<Product> products = productService.findProducts(artist_id, "album", 0);
         List<Product> goodsList = productService.findProducts(artist_id, "goods", 0);
@@ -60,17 +63,17 @@ public class MainController {
         int index = 1;
         int index_limit = 4;
         for (Product product : products) {
-            if(product == null) break;
+            if (product == null) break;
 
             product_limit3.add(product);
 
-            if(index == index_limit) break;
+            if (index == index_limit) break;
             index++;
         }
         index = 1;
         for (Product goods : goodsList) {
             goods_limit3.add(goods);
-            if(index == index_limit) break;
+            if (index == index_limit) break;
             index++;
         }
 

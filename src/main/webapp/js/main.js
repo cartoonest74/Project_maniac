@@ -3,7 +3,15 @@ $(function(){
     let typewriter = new Typewriter(text, {
         loop: false,
     });
-
+//    function get_today(){
+//     let today = new Date();
+//     const hour = today.getHours();
+//     const minute = today.getMinutes();
+//     console.log(hour)
+//     console.log(minute)
+//     return today;
+//    }
+//    get_today();
     typewriter.typeString('Search for your favorite artist')
         .pauseFor(2000)
         .start()
@@ -17,6 +25,7 @@ $(function(){
 
         rankContent_top = rankContent_top >= rankContent_top_finish ? 0 :rankContent_top + 40
         rankContent.style.top = `-${rankContent_top}px`;
+        console.log(111);
     }
 
     const rank_interval_time = 5000

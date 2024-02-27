@@ -12,7 +12,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <link rel="stylesheet" href="${contextPath}/css/basic/basic.css">
-<link rel="stylesheet" href="${contextPath}/css/basic/confirm.css">
+<link rel="stylesheet" href="${contextPath}/css/errorPage/confirm.css">
 <link rel="stylesheet" href="${contextPath}/css/myPage/myReview.css">
 <link rel="stylesheet" href="${contextPath}/css/myPage/review_qnaSearch.css">
 <link rel="stylesheet" href="${contextPath}/css/errorPage/basic_err.css">

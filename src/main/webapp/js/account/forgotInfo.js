@@ -44,9 +44,30 @@ $(function(){
             msg2:"이메일: 이메일 형식에 맞게 입력해주세요."
         }
     };
+    // alert Msg
+    const create_alertMsg_tag=(msgTag)=>{
+        const body = document.querySelector("body");
+        const alertMsg_tag =`<div id="confirmBox" class="confirm_box">
+                                <div class="confirmContainer">
+                                    <h2>
+                                        <i class="fa-solid fa-circle-question fa-lg"></i>&nbsp;알림
+                                    </h2>
+                                    ${msgTag}
+                                    <p style="color:#ef6969;">가입정보가 정확하지 않습니다.</p>
+                                    <div class="confirmBtn">
+                                        <button id="confirmOk" type="button">ok</button>
+                                    </div>
+                                </div>
+                            </div>`;
+        body.insertAdjacentHTML("afterbegin",alertMsg_tag);
+    }
+
+    $(document).on("click","button#confirmOk",function(){
+        const confirmBox = document.querySelector("confirmBox");
+        confirmBox.remove();
+    });
 
     // TODO forgotId
-
     $(document).on("focusout",'input[data-forgotId-name]',function(e){
         const input_name = e.target.getAttribute("data-forgotId-name");
         const input_val = e.target.value.trim();
@@ -89,6 +110,7 @@ $(function(){
             const input_msg = forgotId_obj[input_name].msg;
             const msg_tag = `<p data-forgotId-msg="${input_name}" style="color:red;">${input_msg}</p>`
             const forgotId_msg = document.querySelector(`p[data-forgotId-msg="${input_name}"]`)
+            const errorMsgTag = `<p style="color:#ef6969;">가입정보가 정확하지 않습니다.</p>`;
 
             if(input_val==""){
                 if(forgotId_msg == null){
@@ -111,9 +133,12 @@ $(function(){
                         .then(response=>response.text())
                         .then(data=>{
                             if(data==""){
+                                create_alertMsg_tag(errorMsgTag);
                                 return;
                             }
-                            console.log(data);
+                            const msgTag = `<p>아이디는</p>
+                                            <p style="font-weight:600;">${data}</p>`;
+                            create_alertMsg_tag(msgTag);
                         });
     });
 
@@ -149,7 +174,7 @@ $(function(){
         forgotPwd_obj[input_name].val =input_val;
     });
 
-    const forgotPwdBtn = document.getElementById("forgotPwdBtn")
+    const forgotPwdBtn = document.getElementById("forgotPwdBtn");
     forgotPwdBtn.addEventListener("click",async function(){
         const resolve_forgotPwd = "/login-action/forgot_pwd"
         const data_forgotPwds = document.querySelectorAll("input[data-forgotPwd-name]");
@@ -188,9 +213,13 @@ $(function(){
                         .then(response=>response.text())
                         .then(data=>{
                             if(data==""){
+                            const errorMsgTag = `<p style="color:#ef6969;">가입정보가 정확하지 않습니다.</p>`;
+                            create_alertMsg_tag(msgTag);
                                 return;
                             }
-                            console.log(data);
+                            const msgTag = `<p>해당 이메일로 임시 비밀번호 발송했습니다.</p>
+                                            <p>확인 후 로그인 해주세요.</p>`;
+                            create_alertMsg_tag(msgTag);
                         });
     });
 })

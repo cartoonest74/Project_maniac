@@ -34,16 +34,22 @@ public class LoginController {
     @PostMapping("/forgot_id")
     private String post_forgotId(@ModelAttribute Member member) {
         Member member1 = loginService.inspect_forgotId(member);
-        String userId = member1.getUserId();
-        String res_data = userId == null? "":userId;
+        String userId ="";
+        if(member1!=null){
+            userId = member1.getUserId();
+        }
+        String res_data = userId;
         return res_data;
     }
     @ResponseBody
     @PostMapping("/forgot_pwd")
     private String post_forgotPwd(@ModelAttribute Member member) {
         Member member1 = loginService.inspect_forgotPwd(member);
-        String userId = member1.getUserId();
-        String res_data = userId == null? "":userId;
+        String userId ="";
+        if(member1!=null){
+            userId = member1.getUserId();
+        }
+        String res_data = userId;
         return res_data;
     }
 

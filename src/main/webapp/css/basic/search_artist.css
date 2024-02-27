@@ -106,18 +106,28 @@ image-rendering: crisp-edges;
     padding:0 10px;
     font-size:2rem;
 }
-.serach_artistImg{
+.search_artistImg{
     display:inline-block;
     width:100%;
     height:170px;
-    border-radius:100vw;
     overflow:hidden;
     cursor:pointer;
+    border-radius:100vw;
 }
-.serach_artistImg img{
+.search_artistImg button{
+    display:inline-block;
     width:100%;
     height:100%;
-    transition:0.3s all;
+    border:0px;
+    background:transparent;
+    padding:0px;
+    cursor:pointer;
+}
+.search_artistImg button>img{
+    display:inline-block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
 }
 /*
 .artistImg img:hover{

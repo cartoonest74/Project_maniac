@@ -121,6 +121,12 @@
     }
 
     /* main */
+    .mainBox{
+        width:100%;
+    }
+    .main_contentBox{
+        width:100%;
+    }
     .chapter_mainBox{
         width:100%;
     }

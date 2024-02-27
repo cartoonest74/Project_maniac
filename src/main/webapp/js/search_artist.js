@@ -24,10 +24,10 @@ $(function(){
                 let artist_name = artist_array[2];
                 let create_tag = `
                     <dl class="search_artistInfo" data-artist-no="${artist_id}">
-                        <dd class="serach_artistImg">
-                            <a href="${CONTEXTPATH}/main/${artist_id}">
-                                <img src="${CONTEXTPATH}${artist_image}" alt="${artist_name}">
-                            </a>
+                        <dd class="search_artistImg">
+                            <button data-search-artist="${artist_id}">
+                                <img data-search-artist="${artist_id}" src="${CONTEXTPATH}${artist_image}" alt="${artist_name}">
+                            </button>
                         </dd>
                         <dt class="search_artistName">
                             <h2>${artist_name}</h2>
@@ -39,6 +39,14 @@ $(function(){
          let create_tags = temp_arr.join(",")
          $(appendTagId).html(create_tags);
     };
+
+    $(document).on("click","button[data-search-artist]",async function(e){
+        const artist_id = e.target.getAttribute("data-search-artist");
+        const resolve_countUp =`/search-count?artist_id=${artist_id}`;
+        await fetch(resolve_countUp,{method:"put"})
+        .then(response=>response.text())
+        .then(data=>location.href=data);
+    });
 
     $("#artist_search").keyup(function(){
         const _search_text = $(this).val();

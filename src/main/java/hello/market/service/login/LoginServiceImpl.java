@@ -15,6 +15,18 @@ public class LoginServiceImpl implements LoginService {
 	private final LoginRepository mybatisLoginRepository;
 
 	@Override
+	public Member inspect_forgotPwd(Member member) {
+		Member member1 = mybatisLoginRepository.select_forgotPwd(member);
+		return member1;
+	}
+
+	@Override
+	public Member inspect_forgotId(Member member) {
+		Member member1 = mybatisLoginRepository.select_forgotId(member);
+		return member1;
+	}
+
+	@Override
 	public Member loginAction(String userId, String pwd) {
 		Member member = mybatisLoginRepository.inspect(userId, pwd);
 		return member;

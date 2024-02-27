@@ -10,6 +10,10 @@
                                 where artist_id=#{artist_id}) ar)
         where artist_id=#{artist_id};
     </update>
+    <update id="update_resetSearchCount">
+        update artist_record
+        set search_count = 0;
+    </update>
     <select id="selectAll" resultType="Artist">
         select id, name, artist_img ->> "$.main_img" main_img
         from Artist

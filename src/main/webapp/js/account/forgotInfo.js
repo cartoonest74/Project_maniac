@@ -63,7 +63,7 @@ $(function(){
             return;
         }
 
-        if(! reg.test(input_val)){
+        if(input_val.search(reg) == -1){
             if(forgotId_msg !=null){
                 forgotId_msg.remove();
             }
@@ -75,11 +75,11 @@ $(function(){
             forgotId_msg.remove();
         }
         forgotId_obj[input_name].val =input_val;
-        console.log(forgotId_obj[input_name].val)
     });
 
     const forgotIdBtn = document.getElementById("forgotIdBtn");
-    forgotIdBtn.addEventListener("click",function(){
+    forgotIdBtn.addEventListener("click",async function(){
+        const resolve_forgotId = "/login-action/forgot_id";
         const data_forgotIds = document.querySelectorAll("input[data-forgotId-name]");
         const arr_values = new Array();
         for(let i=0; i<data_forgotIds.length; i++){
@@ -101,6 +101,20 @@ $(function(){
         if(arr_values.length != data_forgotIds.length){
             return;
         }
+        console.log(forgotId_obj.name.val);
+        const formData = new FormData();
+        formData.append("name",forgotId_obj.name.val);
+        formData.append("phone",forgotId_obj.tel.val);
+        formData.append("email",forgotId_obj.email.val);
+
+        const res = await axios.post(resolve_forgotId,formData)
+                        .then(response=>response.text())
+                        .then(data=>{
+                            if(data==""){
+                                return;
+                            }
+                            console.log(data);
+                        });
     });
 
     // TODO forgotPwd
@@ -121,7 +135,7 @@ $(function(){
             return;
         }
 
-        if(! reg.test(input_val)){
+        if(input_val.search(reg) == -1){
             if(forgotPwd_msg !=null){
                 forgotPwd_msg.remove();
             }
@@ -133,10 +147,11 @@ $(function(){
             forgotPwd_msg.remove();
         }
         forgotPwd_obj[input_name].val =input_val;
-    })
+    });
 
-        const forgotPwdBtn = document.getElementById("forgotPwdBtn")
-    forgotPwdBtn.addEventListener("click",function(){
+    const forgotPwdBtn = document.getElementById("forgotPwdBtn")
+    forgotPwdBtn.addEventListener("click",async function(){
+        const resolve_forgotPwd = "/login-action/forgot_pwd"
         const data_forgotPwds = document.querySelectorAll("input[data-forgotPwd-name]");
         const arr_values = new Array();
         for(let i=0;i<data_forgotPwds.length;i++){
@@ -155,9 +170,27 @@ $(function(){
             }
             arr_values.push(input_val);
         }
+
         if(arr_values.length != data_forgotPwds.length){
             return;
         }
 
+        const formData = new FormData();
+        formData.append("userId",forgotPwd_obj.id.val);
+        formData.append("phone",forgotPwd_obj.tel.val);
+        formData.append("email",forgotPwd_obj.email.val);
+
+        const res = await fetch(resolve_forgotPwd,{
+                            method:"post",
+                            headers:{"Content-Type":"application/json",},
+                            body:JSON.stringify(formData),
+                        })
+                        .then(response=>response.text())
+                        .then(data=>{
+                            if(data==""){
+                                return;
+                            }
+                            console.log(data);
+                        });
     });
 })

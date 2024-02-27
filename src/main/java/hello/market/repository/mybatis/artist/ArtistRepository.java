@@ -5,6 +5,7 @@ import hello.market.dto.Artist;
 import java.util.List;
 
 public interface ArtistRepository {
+    void update_resetSearchCount();
     void update_searchCount(int artist_id);
     Artist select(int id);
 

@@ -1,7 +1,9 @@
 package hello.market.web.controller;
 
 import hello.market.dto.Member;
+import hello.market.repository.mybatis.artist.ArtistSearchResetRepositoryImpl;
 import hello.market.service.member.MemberService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,17 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 
 import java.io.IOException;
-import java.net.URLDecoder;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
 @SpringBootTest
@@ -28,6 +21,8 @@ class MemberControllerTest {
 
     @Autowired
     MemberService memberService;
+    @Autowired
+    ArtistSearchResetRepositoryImpl artistSearchResetRepository;
 
     @Value("${file.dir}")
     private String fileDir;
@@ -40,16 +35,8 @@ class MemberControllerTest {
 
     @Test
     void dateTest() throws IOException {
-        LocalDateTime localDateTime = LocalDateTime.now();
-        LocalDateTime before_3month = localDateTime.minusMonths(3);
-        long current_timeMills = Timestamp.valueOf(before_3month).getTime();
-        String decode = URLDecoder.decode("e64792f5-3cb6-43f1-9e0d-763579bd1a88.jpg", "UTF-8");
-        Path path = Paths.get(fileDir + "/shopimg/review/adsadsad.jpg");
-        log.info("path={}", path);
-        boolean exists = Files.exists(path);
-        if(exists){
-            Files.delete(path);
-        }
+        Integer size = artistSearchResetRepository.get_size();
+        log.info("size={}", size);
     }
 
 }

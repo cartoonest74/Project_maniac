@@ -1,31 +1,53 @@
 $(function(){
-    let text = document.getElementById("main_typingText")
-    let typewriter = new Typewriter(text, {
+    const text = document.getElementById("main_typingText")
+    const typewriter = new Typewriter(text, {
         loop: false,
     });
-//    function get_today(){
-//     let today = new Date();
-//     const hour = today.getHours();
-//     const minute = today.getMinutes();
-//     console.log(hour)
-//     console.log(minute)
-//     return today;
-//    }
-//    get_today();
+    const reset_obj = {resetDate:""}
+
     typewriter.typeString('Search for your favorite artist')
         .pauseFor(2000)
-        .start()
+        .start();
 
     // 실시간 검색 순위
     let rankContent_top = 0;
-    function rank_callBack (){
+    async function rank_callBack (){
         const rankContent = document.getElementById("RankContent");
         const rankContent_top_intervalNum = 40;
         const rankContent_top_finish = rankContent_top_intervalNum * 9
+        const rankDate_tag = document.getElementById("rankDate");
+
+        const today = new Date();
+        const year = today.getFullYear();
+
+        let month = (today.getMonth()+1).toString();
+        month = month.length==1? "0"+month:month;
+
+        let date = today.getDate().toString();
+        date = date.length==1? "0"+date:date;
+
+        const hours = today.getHours();
+
+        const today_date = `${year}/${month}/${date}`
+        const resolve_rankReset = `/search-reset?today_date="${today_date}"`;
 
         rankContent_top = rankContent_top >= rankContent_top_finish ? 0 :rankContent_top + 40
         rankContent.style.top = `-${rankContent_top}px`;
-        console.log(111);
+        // return already reset;
+        if(reset_obj.resetDate == today_date){
+            return;
+        }
+
+        if(hours == 18){
+            await fetch(resolve_rankReset,{method:"put"})
+            .then(response=>response.text())
+            .then(data=>{
+                const res_date = data.replace(/[\'"']/g,"");
+                reset_obj.resetDate=res_date;
+                rankDate_tag.innerText=res_date+" 18:00"
+            })
+            .catch(error=>console.log(error));
+        }
     }
 
     const rank_interval_time = 5000

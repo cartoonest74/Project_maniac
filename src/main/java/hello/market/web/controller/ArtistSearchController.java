@@ -1,6 +1,7 @@
 package hello.market.web.controller;
 
 import hello.market.dto.Artist;
+import hello.market.repository.mybatis.artist.ArtistSearchResetRepositoryImpl;
 import hello.market.service.artist.ArtistService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,10 +18,34 @@ import java.util.Map;
 @Controller
 @RequiredArgsConstructor
 public class ArtistSearchController {
-    private Map<Integer, List<Artist>> artistPack = new HashMap<>();
-    private List<Artist> artists = new ArrayList<>();
 
     private final ArtistService artistService;
+    private final ArtistSearchResetRepositoryImpl artistSearchResetRepository;
+
+    @ResponseBody
+    @PutMapping("/search-reset")
+    private String put_searchCount(@RequestParam("today_date") String today_date) {
+        Integer size = artistSearchResetRepository.get_size();
+        if(size > 1){
+            artistSearchResetRepository.clear_dateKey();
+        }
+
+        boolean containDateKey = artistSearchResetRepository.contain_dateKey(today_date);
+        if (containDateKey) {
+            return today_date;
+        }
+        artistSearchResetRepository.save_dateKey(today_date);
+        artistService.put_resetSearchCount();
+        return today_date;
+    }
+    @ResponseBody
+    @PutMapping("/search-count")
+    private String post_searchCount(@RequestParam("artist_id") int artist_id) {
+
+        // 해당 아티스트 검색 count
+        artistService.put_searchCount(artist_id);
+        return "/main/" + artist_id;
+    }
 
     @ResponseBody
     @PostMapping("/artist-search")

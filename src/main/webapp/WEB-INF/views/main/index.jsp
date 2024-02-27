@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="EUC-KR" isELIgnored="false"%>
+	pageEncoding="utf-8" isELIgnored="false"%>
 <%@ page import="hello.market.dto.*, java.util.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -42,6 +42,8 @@
 <c:url var="mainBg" value="/img/main_bg/mainBg.png" />
 <c:url var="maniac_simple_log_c" value="/img/web_logo/Simple_logoC.png" />
 
+<c:set var="reset_date" value="${resetDate}"/>
+
 </head>
 <body>
 	<c:import url="../main/index_header.jsp" >
@@ -68,7 +70,7 @@
                     <span>RANK</span>
                     <nav>
                         <i class="fa-regular fa-clock"></i>
-                        <span>2023/11/01 23:01</span>
+                        <span id="rankDate">${reset_date} 18:00</span>
                     </nav>
                     <button data-rank-btn="rank" type="button">
                         <i data-rank-btn="open" class="fa-solid fa-angle-down fa-lg"></i>
@@ -77,7 +79,10 @@
                 <dd id="RankContentBox" class="main_rankContentBox rankContentClose">
                     <nav id="RankContent" class="main_RankContent transition3s">
                         <c:forEach var="artist" varStatus="status" items="${artistsList}">
-                            <a href="/main/${artist.id}"><span>${status.count}</span><span>${artist.name}</span></a>
+                            <button data-search-artist="${artist.id}" type="button">
+                                <span data-search-artist="${artist.id}">${status.count}</span>
+                                <span data-search-artist="${artist.id}">${artist.name}</span>
+                            </button>
                         </c:forEach>
                     </nav>
                 </dd>

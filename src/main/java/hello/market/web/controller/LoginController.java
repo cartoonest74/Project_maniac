@@ -30,10 +30,28 @@ public class LoginController {
     private final LoginSessionManager loginSessionManager;
     private final CartService cartService;
 
+    @ResponseBody
+    @PostMapping("/forgot_id")
+    private String post_forgotId(@ModelAttribute Member member) {
+        Member member1 = loginService.inspect_forgotId(member);
+        String userId = member1.getUserId();
+        String res_data = userId == null? "":userId;
+        return res_data;
+    }
+    @ResponseBody
+    @PostMapping("/forgot_pwd")
+    private String post_forgotPwd(@ModelAttribute Member member) {
+        Member member1 = loginService.inspect_forgotPwd(member);
+        String userId = member1.getUserId();
+        String res_data = userId == null? "":userId;
+        return res_data;
+    }
+
     @PostMapping("/login")
     private String login(@RequestParam(defaultValue = "/") String referUrl) {
         return "redirect:"+referUrl;
     }
+
 
     @ResponseBody
     @PostMapping("/login-inspect")

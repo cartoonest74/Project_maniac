@@ -6,6 +6,8 @@ import hello.market.dto.Member;
 import java.util.Optional;
 
 public interface LoginRepository {
+    Member select_forgotPwd(Member member);
+    Member select_forgotId(Member member);
     Member inspect(String userId, String pwd);
 
     Optional<LoginCheck> select(String uuid);

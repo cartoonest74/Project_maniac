@@ -2,6 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hello.market.repository.mybatis.login.LoginMapper">
+    <select id="select_forgotPwd" resultType="Member">
+        select user_id userId
+        from member
+        where user_id = #{userId}
+            and phone = #{phone}
+            and email = #{email}
+    </select>
+    <select id="select_forgotId" resultType="Member">
+        select user_id userId
+        from member
+        where name = #{name}
+            and phone = #{phone}
+            and email = #{email}
+    </select>
     <select id="inspect" resultType="Member">
         select id, user_id as userId, grade
         from Member

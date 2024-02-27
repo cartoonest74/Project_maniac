@@ -1,6 +1,7 @@
 package hello.market.web.controller;
 
 import hello.market.dto.*;
+import hello.market.repository.mybatis.artist.ArtistSearchResetRepositoryImpl;
 import hello.market.service.artist.ArtistService;
 import hello.market.service.artist.artistAlbum.ArtistAlbumService;
 import hello.market.service.artist.artistImg.ArtistImgService;
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,23 +38,27 @@ public class MainController {
     private final ProductService productService;
     private final ArtistService artistService;
     private final ArtistSnsService artistSnsService;
-    private final ArtistMvService artistMvService;
     private final ArtistMemberService artistMemberService;
-    private final ArtistImgService artistImgService;
-    private final ArtistAlbumService artistAlbumService;
+    private final ArtistSearchResetRepositoryImpl artistSearchResetRepository;
 
     @GetMapping("/")
     private String home(Model model){
         int limit = 10;
         List<Artist> artistsList = artistService.artistSearchMaxShow(limit);
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+        String today = now.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        boolean containDateKey = artistSearchResetRepository.contain_dateKey(today);
+        log.info("containDateKey={}", containDateKey);
+        if(! containDateKey){
+            today = now.minusDays(1).format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        }
         model.addAttribute("artistsList",artistsList);
+        model.addAttribute("resetDate",today);
         return "/main/index";
     }
 
     @GetMapping("/main/{artist_id}")
     private String movePageMain(@PathVariable int artist_id, Model model) {
-        // 해당 아티스트 검색 count
-        artistService.put_searchCount(artist_id);
 
         List<Artist_sns> artistSns = artistSnsService.snsSelect(artist_id);
         Artist artist = artistService.artistSelect(artist_id);

@@ -15,6 +15,11 @@ public class MybatisArtistRepository implements ArtistRepository {
     private final ArtistMapper artistMapper;
 
     @Override
+    public void update_resetSearchCount() {
+        artistMapper.update_resetSearchCount();
+    }
+
+    @Override
     public void update_searchCount(int artist_id) {
         artistMapper.update_searchCount(artist_id);
     }

@@ -5,6 +5,7 @@ import hello.market.dto.Artist;
 import java.util.List;
 
 public interface ArtistService {
+    void put_resetSearchCount();
     void put_searchCount(int artist_id);
     Artist artistSelect(int id);
 

@@ -1,8 +1,7 @@
 
 .mainBox{
     display:inline-flex;
-    min-width:370px;
-    width:100%;
+    width:80%;
     height:100%;
     justify-content:center;
     align-items:flex-start;
@@ -10,7 +9,7 @@
 }
 .main_contain{
     display:flex;
-    width:70%;
+    width:100%;
     justify-content:center;
     flex-wrap:wrap;
 }
@@ -118,6 +117,7 @@
 .main_rankContentBox{
     position: relative;
     width:100%;
+    height:400px;
 }
 .rankContentClose{
     height:40px;
@@ -127,7 +127,6 @@
     position:absolute;
     display:flex;
     width:100%;
-    padding:0px 5px;
     padding-bottom:10px;
     white-space:nowrap;
     text-overflow: ellipsis;
@@ -137,20 +136,24 @@
 .transition3s{
     transition:all 0.3s;
 }
-.main_RankContent>a{
-    display:inline-block;
+.main_RankContent>button{
+    display:flex;
     width:100%;
     height:30px;
+    justify-content:flex-start;
     margin-top:10px;
-    font-size:2rem;
+    font-size:1.5em;
+    border:0px;
+    background:transparent;
+    cursor:pointer;
 }
-.main_RankContent>a>span{
+.main_RankContent>button>span{
     font-size: inherit;
 }
-.main_RankContent>a:first-child{
+.main_RankContent>button:first-child{
     margin-top:0px;
 }
-.main_RankContent>a>span:first-child{
+.main_RankContent>button>span:first-child{
     display:inline-block;
     padding:2px 0px;
     width:30px;
@@ -161,7 +164,8 @@
     background-color:#f7df07;
     color:rgb(13, 87, 13);
 }
-.main_RankContent>a>span:last-child{
+
+.main_RankContent>button>span:last-child{
     display:inline-block;
     cursor: pointer;
 }

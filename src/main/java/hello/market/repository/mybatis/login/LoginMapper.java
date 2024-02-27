@@ -9,6 +9,8 @@ import java.util.Optional;
 
 @Mapper
 public interface LoginMapper {
+    Member select_forgotId(@Param("Member") Member member);
+    Member select_forgotPwd(@Param("Member") Member member);
     Member inspect(@Param("userId") String userId, @Param("pwd") String pwd);
 
     Optional<LoginCheck> select(@Param("uuid") String uuid);

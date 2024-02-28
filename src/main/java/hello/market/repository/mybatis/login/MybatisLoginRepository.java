@@ -14,6 +14,11 @@ public class MybatisLoginRepository implements LoginRepository {
     private final LoginMapper loginMapper;
 
     @Override
+    public void update_tempPwd(int userNo, String tempPwd) {
+        loginMapper.update_tempPwd(userNo,tempPwd);
+    }
+
+    @Override
     public Member select_forgotPwd(Member member) {
         Member member1 = loginMapper.select_forgotPwd(member);
         return member1;

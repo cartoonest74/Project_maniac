@@ -15,6 +15,11 @@ public class LoginServiceImpl implements LoginService {
 	private final LoginRepository mybatisLoginRepository;
 
 	@Override
+	public void put_tempPwd(int userNo, String tempPwd) {
+		mybatisLoginRepository.update_tempPwd(userNo, tempPwd);
+	}
+
+	@Override
 	public Member inspect_forgotPwd(Member member) {
 		Member member1 = mybatisLoginRepository.select_forgotPwd(member);
 		return member1;

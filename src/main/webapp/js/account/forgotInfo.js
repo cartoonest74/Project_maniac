@@ -1,7 +1,7 @@
 $(function(){
     const name_reg = /^[가-힣A-Za-z]{0,40}$/g;
     const id_reg = /^[a-z]+[a-z0-9_-]{5,19}$/g;
-    const tel_reg = /^01(?:0|1|[6-9])-(?:[1-9]{1})(?:\d{2}|\d{3})-\d{4}$/g;
+    const tel_reg = /^01(?:0|1|[6-9])-(?:[0-9]{1})(?:\d{2}|\d{3})-\d{4}$/g;
     const email_reg = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/g;
     const forgotPwd_obj={
         id:{
@@ -44,27 +44,31 @@ $(function(){
             msg2:"이메일: 이메일 형식에 맞게 입력해주세요."
         }
     };
+    const body_append = (position, tag)=>{
+        const body = document.querySelector("body");
+        body.insertAdjacentHTML(position,tag);
+    }
+
     // alert Msg
     const create_alertMsg_tag=(msgTag)=>{
-        const body = document.querySelector("body");
         const alertMsg_tag =`<div id="confirmBox" class="confirm_box">
                                 <div class="confirmContainer">
                                     <h2>
                                         <i class="fa-solid fa-circle-question fa-lg"></i>&nbsp;알림
                                     </h2>
                                     ${msgTag}
-                                    <p style="color:#ef6969;">가입정보가 정확하지 않습니다.</p>
                                     <div class="confirmBtn">
                                         <button id="confirmOk" type="button">ok</button>
                                     </div>
                                 </div>
                             </div>`;
-        body.insertAdjacentHTML("afterbegin",alertMsg_tag);
+        body_append("afterbegin",alertMsg_tag);
     }
 
     $(document).on("click","button#confirmOk",function(){
-        const confirmBox = document.querySelector("confirmBox");
+        const confirmBox = document.querySelector("div#confirmBox");
         confirmBox.remove();
+        location.reload;
     });
 
     // TODO forgotId
@@ -130,7 +134,7 @@ $(function(){
         formData.append("email",forgotId_obj.email.val);
 
         const res = await axios.post(resolve_forgotId,formData)
-                        .then(response=>response.text())
+                        .then(response=>response.data)
                         .then(data=>{
                             if(data==""){
                                 create_alertMsg_tag(errorMsgTag);
@@ -205,21 +209,24 @@ $(function(){
         formData.append("phone",forgotPwd_obj.tel.val);
         formData.append("email",forgotPwd_obj.email.val);
 
-        const res = await fetch(resolve_forgotPwd,{
-                            method:"post",
-                            headers:{"Content-Type":"application/json",},
-                            body:JSON.stringify(formData),
-                        })
-                        .then(response=>response.text())
+        // loading
+        const loading_tag='<div id="loadingTag" style="position:fixed; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:10;"></div>'
+        body_append("afterbegin",loading_tag);
+        const loadingTag =  document.querySelector("div#loadingTag");
+
+        const res = await axios.post(resolve_forgotPwd,formData)
+                        .then(response=>response.data)
                         .then(data=>{
                             if(data==""){
-                            const errorMsgTag = `<p style="color:#ef6969;">가입정보가 정확하지 않습니다.</p>`;
-                            create_alertMsg_tag(msgTag);
+                                const errorMsgTag = `<p style="color:#ef6969;">가입정보가 정확하지 않습니다.</p>`;
+                                create_alertMsg_tag(errorMsgTag);
                                 return;
                             }
                             const msgTag = `<p>해당 이메일로 임시 비밀번호 발송했습니다.</p>
                                             <p>확인 후 로그인 해주세요.</p>`;
                             create_alertMsg_tag(msgTag);
                         });
+
+        loadingTag.remove();
     });
 })

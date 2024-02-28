@@ -23,13 +23,8 @@ public class MemberController {
 
     @GetMapping("/forgot-account")
     public String forgotAccount(@PathVariable int artistId,
-                                Model model,
-                                HttpServletRequest request) {
-        int user_id = loginSessionManager.sessionUUIDcheck(request);
+                                Model model) {
         model.addAttribute("artistId", artistId);
-        if(user_id != 0){
-            return "redirect:"+"/main/"+artistId;
-        }
         return "/account/forgotInfo";
     }
 

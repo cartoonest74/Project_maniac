@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @Mapper
 public interface LoginMapper {
+    void update_tempPwd(@Param("userNo") int userNo, @Param("tempPwd") String tempPwd);
     Member select_forgotId(@Param("Member") Member member);
     Member select_forgotPwd(@Param("Member") Member member);
     Member inspect(@Param("userId") String userId, @Param("pwd") String pwd);

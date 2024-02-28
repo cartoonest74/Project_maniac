@@ -1,7 +1,10 @@
 package hello.market.web.controller;
 
 import hello.market.dto.Member;
+import hello.market.repository.mybatis.auth.AuthRepository;
 import hello.market.service.Cart.CartService;
+import hello.market.service.Mail.MailService;
+import hello.market.service.Mail.MailServiceImpl;
 import hello.market.service.login.LoginService;
 import hello.market.service.member.MemberService;
 import hello.market.web.session.LoginSessionManager;
@@ -26,31 +29,40 @@ public class LoginController {
     private Map<String, String> sessionStore = new ConcurrentHashMap<>();
 
     private final MemberService memberService;
+    private final AuthRepository authRepository;
     private final LoginService loginService;
     private final LoginSessionManager loginSessionManager;
     private final CartService cartService;
+    private final MailService mailService;
 
     @ResponseBody
     @PostMapping("/forgot_id")
     private String post_forgotId(@ModelAttribute Member member) {
         Member member1 = loginService.inspect_forgotId(member);
-        String userId ="";
-        if(member1!=null){
-            userId = member1.getUserId();
+        if (member1 == null) {
+            return "";
         }
-        String res_data = userId;
-        return res_data;
+        String userId = member1.getUserId();
+        return userId;
     }
     @ResponseBody
     @PostMapping("/forgot_pwd")
     private String post_forgotPwd(@ModelAttribute Member member) {
         Member member1 = loginService.inspect_forgotPwd(member);
-        String userId ="";
-        if(member1!=null){
-            userId = member1.getUserId();
+        String userEmail = member.getEmail();
+        String type = "pwd";
+        if (member1 == null) {
+            return "";
         }
-        String res_data = userId;
-        return res_data;
+        boolean is_mailSend = mailService.mailSend(userEmail, type);
+        if(! is_mailSend){
+            return "";
+        }
+        int userNo = member1.getId();
+
+        String tempPwd = authRepository.getAuthCode(type);
+        loginService.put_tempPwd(userNo, tempPwd);
+        return "ok";
     }
 
     @PostMapping("/login")

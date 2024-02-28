@@ -30,7 +30,7 @@
 <script type="text/javascript" src="${contextPath}/js/cart.js"></script>
 
 <c:set var="createdId" value="${createdId}" />
-<c:url var="loginAccount" value="${artistId}/member/login-account"/>
+<c:url var="loginAccount" value="/${artistId}/member/login-account"/>
 </head>
 <body>
 	<c:import url="../basic/header.jsp" >

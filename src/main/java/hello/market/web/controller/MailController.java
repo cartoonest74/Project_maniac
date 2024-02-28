@@ -1,6 +1,7 @@
 package hello.market.web.controller;
 
 import hello.market.repository.mybatis.auth.AuthRepository;
+import hello.market.service.Mail.MailService;
 import hello.market.service.Mail.MailServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequiredArgsConstructor
 @RequestMapping("/mail")
 public class MailController {
-    private final MailServiceImpl mailService;
+    private final MailService mailService;
     private final AuthRepository authRepository;
 
     @ResponseBody

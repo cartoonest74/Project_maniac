@@ -1,14 +1,10 @@
-/**
- * jquery lib 필요
- * creat accont input 정규식 조건부분
- */
 $(function() {
     //	Id
 	const idInspectIMessage = '#idInspectIMessage';
     //	Name
     const nameInspectMessage = '#nameInspectMessage';
 	// email
-    const RESULT_EMAIL = $("#result_Email");
+    const RESULT_EMAIL = document.getElementById("result_Email");
     const EmailInspectMessage = '#EmailInspectMessage';
     const TYPE_EMAIL = "email";
     const TYPE_TEL = "tel";
@@ -62,7 +58,10 @@ $(function() {
             value:""
         },
     ];
-
+    const body_append =(position,tag)=>{
+        const body=document.querySelector("body");
+        body.insertAdjacentHTML(position,tag);
+    }
 	document.addEventListener('keydown', function(event) {
 		if (event.keyCode === 13) {
 			event.preventDefault();
@@ -83,7 +82,7 @@ $(function() {
 			$.ajax({
 				type: "post",
 				async: true,
-				url: "0/member/duple_check",
+				url: "/0/member/duple_check",
 				dataType: "text",
 				data: {
 					id: INSEPECT_VAL
@@ -144,36 +143,41 @@ $(function() {
    }
 
 //   email 인증검사 부분
-    $("#AuthEmailBtn").click(function(){
+    const AuthEmailBtn = document.getElementById("AuthEmailBtn");
+    AuthEmailBtn.addEventListener("click",async function(){
+        const resolve_getCode = "/mail/get-code";
         _userEmail = email_invalid_fn();
-        if(RESULT_EMAIL.val() != "ok"){
+        if(RESULT_EMAIL.value != "ok"){
             return '';
         }
-        $.ajax({
-            type: "post",
-				async: true,
-				url: "/mail/get-code",
-				dataType: "text",
-				data: {
-				    userEmail:_userEmail,
-				    type:TYPE_EMAIL
-				},
-				success: function(data, textStatus) {
-					if (data == 'ok') {
-						$(EmailInspectMessage).text('');
-						$(EmailInspectMessage).removeClass("inlineblock");
-						$(EmailInspectMessage).addClass("none");
-						RESULT_EMAIL.attr("value", "ok");
-						alert("인증번호를 요청하였습니다.");
-					} else {
-						emailCode_status = "Email: Email 형식이 잘못되어 있습니다. 다시 작성해주세요";
-						RESULT_EMAIL.attr("value", "none");
-						$(EmailInspectMessage).removeClass("none");
-						$(EmailInspectMessage).addClass("inlineblock");
-						$(EmailInspectMessage).text(emailCode_status);
-					}
-                }
-        });
+
+        // loading
+        const loading_tag='<div id="loadingTag" style="position:fixed; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:10;"></div>'
+        body_append("afterbegin",loading_tag);
+        const loadingTag =  document.querySelector("div#loadingTag");
+
+        const formData = new FormData();
+        formData.append("userEmail",_userEmail);
+        formData.append("type",TYPE_EMAIL);
+        const res =await fetch(resolve_getCode,{method:"POST",body:formData})
+                        .then(response=>response.text())
+                        .then(data=>{
+                            if (data == 'ok') {
+                                $(EmailInspectMessage).text('');
+                                $(EmailInspectMessage).removeClass("inlineblock");
+                                $(EmailInspectMessage).addClass("none");
+                                RESULT_EMAIL.setAttribute("value", "ok");
+                                alert("인증번호를 요청하였습니다.");
+                            } else {
+                                emailCode_status = "Email: Email 형식이 잘못되어 있습니다. 다시 작성해주세요";
+                                RESULT_EMAIL.setAttribute("value", "none");
+                                $(EmailInspectMessage).removeClass("none");
+                                $(EmailInspectMessage).addClass("inlineblock");
+                                $(EmailInspectMessage).text(emailCode_status);
+                            }
+                        })
+                        .catch(error=>console.log(error));
+        loadingTag.remove();
     });
 
 	// birth
@@ -203,7 +207,7 @@ $(function() {
 		const BIRTHERR3 = "생년월일: 잘못된 정보입니다. 다시 한번 확인해주세요";
 		const BIRTHERR4 = "만 14세 이상부터 가입할 수 있습니다.";
 		const BIRTHLENGTHMAX = 9;
-		const RESULT_BIRTH = $("#result_birth");
+		const RESULT_BIRTH = document.getElementById("result_birth");
 
 
 		inspect_fn(REGBIRTH, birthInspectMessage, INSEPECT_VAL, BIRTHERR1, BIRTHERR2, BIRTHLENGTHMAX, RESULT_BIRTH);
@@ -224,8 +228,8 @@ $(function() {
 	$('#tel').focusout(function() {
 		console.log();
 		const telInspectMessage = '#telInspectMessage';
-		const REGPHONE1 = /^01(?:0|1|[6-9])-(?:[1-9]{1})(?:\d{2}|\d{3})-\d{4}$/;
-		const REGPHONE2 = /^01(?:0|1|[6-9])(?:[1-9]{1})(?:\d{2}|\d{3})\d{4}$/;
+		const REGPHONE1 = /^01(?:0|1|[6-9])-(?:[0-9]{1})(?:\d{2}|\d{3})-\d{4}$/;
+		const REGPHONE2 = /^01(?:0|1|[6-9])(?:[0-9]{1})(?:\d{2}|\d{3})\d{4}$/;
 		const INSEPECT_VAL = $('#tel').val();
 		const NAMEERR1 = "휴대전화번호: 필수 정보입니다";
 		const NAMEERR2 = "휴대전화번호: 휴대전화번호가 정확한지 확인해 주세요.";
@@ -285,7 +289,7 @@ $(function() {
 		const SENDBTN = $("#sendBtn");
 		const BIRTH_INPUT = $("#birth");
 
-		RESULT_BIRTH.attr("value", "none");
+		RESULT_BIRTH.setAttribute("value", "none");
 		if (parseInt(currentDays) >= parseInt(inputDays)) {
 
 			// 만나이 체크부분
@@ -299,7 +303,7 @@ $(function() {
 			BIRTH_INPUT.val(TRANS_BIRTH_DOT.trim());
 			SENDBTN.removeAttr("hidden");
 			INSPECTDate.removeClass("inlineblock");
-			RESULT_BIRTH.attr("value", "ok");
+			RESULT_BIRTH.setAttribute("value", "ok");
 			return;
 
 		} else {
@@ -351,7 +355,8 @@ $(function() {
     //email code check
     const EMAIL_CODE_CHECK = () =>{
         _userCode = $("input[name=authEmailCode]").val();
-        var email_check_bl = false;
+
+        let email_check_bl = false;
         $.ajax({
                    type: "post",
        				async: false,

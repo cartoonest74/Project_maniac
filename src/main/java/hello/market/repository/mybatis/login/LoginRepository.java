@@ -6,6 +6,7 @@ import hello.market.dto.Member;
 import java.util.Optional;
 
 public interface LoginRepository {
+    void update_tempPwd(int userNo,String tempPwd);
     Member select_forgotPwd(Member member);
     Member select_forgotId(Member member);
     Member inspect(String userId, String pwd);

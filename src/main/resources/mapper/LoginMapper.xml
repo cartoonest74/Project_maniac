@@ -2,8 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hello.market.repository.mybatis.login.LoginMapper">
+    <update id="update_tempPwd">
+        update member
+        set pwd = #{arg1}
+        where id = #{arg0}
+    </update>
+    <insert id="insert">
+        insert into login_check values(#{arg0}, #{arg1})
+    </insert>
+    <delete id="delete">
+        delete from login_check where userNo = #{userNo}
+    </delete>
     <select id="select_forgotPwd" resultType="Member">
-        select user_id userId
+        select user_id userId, id
         from member
         where user_id = #{userId}
             and phone = #{phone}
@@ -29,10 +40,4 @@
         where
             uuid = #{uuid}
     </select>
-    <insert id="insert">
-        insert into login_check values(#{arg0}, #{arg1})
-    </insert>
-    <delete id="delete">
-        delete from login_check where userNo = #{userNo}
-    </delete>
 </mapper>

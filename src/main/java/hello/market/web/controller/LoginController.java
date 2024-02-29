@@ -90,8 +90,7 @@ public class LoginController {
         int userNo = member.getId();
         int grade = member.getGrade();
 
-        Integer cartLength = cartService.cart_length(userNo);
-        loginSessionManager.createSessionLogin(response, request, userId, userNo, grade, cartLength);
+        loginSessionManager.createSessionLogin(response, request, userId, userNo, grade);
         return "";
     }
 

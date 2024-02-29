@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hello.market.repository.mybatis.admin.AdminMapper">
+    <insert id="insert_qna">
+        insert into answer_qna(qna_id,content,respondent)
+        values(#{qnaId},#{content},#{adminId});
+    </insert>
+
+    <update id="update_startLogin">
+        update admin_login_check
+        set uuid=#{uuid},
+            start_date=(current_timestamp())
+        where admin_id =#{adminId};
+    </update>
+    <update id="update_endLogin">
+        update admin_login_check
+        set uuid="",
+        end_date=(current_timestamp())
+        where admin_id =#{adminId};
+    </update>
+    <select id="select_adminLoginCheck" resultType="LoginCheck">
+        select admin_id userNo,uuid
+        from admin_login_check
+        where
+            uuid = #{uuid};
+    </select>
+    <select id="select_adminInfo" resultType="Admin">
+        select id, admin_id adminId, name
+        from market_admin
+        where id=#{adminId};
+    </select>
+    <select id="select_inspectAdminInfo" resultType="Admin">
+        select id, admin_id adminId, name
+        from market_admin
+        where admin_id = #{Admin.adminId} and pwd = #{Admin.pwd};
+    </select>
+</mapper>

@@ -1,9 +1,8 @@
 package hello.market.web.session;
 
+import hello.market.dto.Admin;
 import hello.market.dto.LoginCheck;
-import hello.market.dto.Member;
-import hello.market.service.login.LoginService;
-import hello.market.service.member.MemberService;
+import hello.market.service.admin.AdminService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,30 +20,27 @@ import static hello.market.web.SessionConst.*;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class LoginSessionManager {
+public class AdminSessionManager {
 
     private Cookie loginCookie;
-    private final LoginService loginService;
-    private final MemberService memberService;
+    private final AdminService adminService;
 
     public void createSessionLogin(HttpServletResponse response, HttpServletRequest request,
                                    String userId,
-                                   int userNo,
-                                   int grade) {
+                                   int userNo) {
         String uuid = UUID.randomUUID().toString();
 
         HttpSession session = request.getSession();
-        session.setAttribute(LOGIN_USERID, userId);
+        session.setAttribute(LOGIN_ADMINID, userId);
         session.setAttribute(LOGIN_UUID, uuid);
-        session.setAttribute(LOGIN_GRADE, grade);
         session.setMaxInactiveInterval(60 * 30);
 
-        loginService.insert(userNo, uuid);
+        adminService.put_startLogin(userNo, uuid);
         createSession(response, uuid);
     }
 
     public void createSession(HttpServletResponse response,String uuid) {
-        loginCookie = new Cookie(SESSION_LOGIN, uuid);
+        loginCookie = new Cookie(SESSION_ADMIN, uuid);
         loginCookie.setMaxAge(60 * 30);
         loginCookie.setPath("/");
         response.addCookie(loginCookie);
@@ -56,15 +52,13 @@ public class LoginSessionManager {
         for (Cookie cookie : cookies) {
             String name = cookie.getName();
             String value = cookie.getValue();
-            if (name.equals(SESSION_LOGIN)) {
+            if (name.equals(SESSION_ADMIN)) {
                 if(session == null){
                     session.setAttribute(LOGIN_UUID,value);
                     int userNo = sessionUUIDcheck(request);
-                    Member member = memberService.memberSelect(userNo);
-                    String userId = member.getUserId();
-                    int grade = member.getGrade();
-                    session.setAttribute(LOGIN_USERID,userId);
-                    session.setAttribute(LOGIN_GRADE,grade);
+                    Admin admin = adminService.get_adminInfo(userNo);
+                    String adminId = admin.getAdminId();
+                    session.setAttribute(LOGIN_ADMINID,adminId);
                 }
             }
         }
@@ -73,14 +67,14 @@ public class LoginSessionManager {
 
     public int sessionUUIDcheck(HttpServletRequest request) {
         String uuid = String.valueOf(request.getSession(false).getAttribute(LOGIN_UUID));
-        Optional<LoginCheck> loginCheck = loginService.loginInCheck(uuid);
-        Integer userNo = Integer.valueOf(loginCheck.map(hello.market.dto.LoginCheck::getUserNo).orElse("0"));
+        Optional<LoginCheck> loginCheck = adminService.adminLoginCheck(uuid);
+        Integer userNo = Integer.valueOf(loginCheck.map(LoginCheck::getUserNo).orElse("0"));
         log.info("userNo = {}", userNo);
         return userNo;
     }
 
     public void expire(HttpServletResponse response) {
-        loginCookie = new Cookie(SESSION_LOGIN, null);
+        loginCookie = new Cookie(SESSION_ADMIN, null);
         loginCookie.setMaxAge(0);
         response.addCookie(loginCookie);
     }

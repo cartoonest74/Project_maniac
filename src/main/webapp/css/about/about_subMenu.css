@@ -23,7 +23,7 @@
 /* content */
 .discography_Box{
     display:flex;
-    width:60vw;
+    width:70%;
     justify-content:center;
     align-items:center;
     flex-wrap:wrap;
@@ -50,7 +50,7 @@
 .discography_content{
     display:inline-block;
     width:180px;
-    margin-left:2vw;
+    margin-left:20px;
     margin-top:2vh;
 }
 /* mv */

@@ -78,7 +78,6 @@
                 -->
             </div>
             <div class="main_artistBox">
-            <!-- ${artist_mainImg} -->
                 <img src="${artist_mainImg}" alt="${name}"/>
             </div>
         </div>
@@ -93,6 +92,7 @@
                     <c:set var="title" value="${product.title}" />
                     <c:set var="price" value="${product.price}" />
                     <c:set var="mainImg" value="${product.mainImg}" />
+                    <c:set var="quantity" value="${product.totalQuantity}" />
                     <c:url var="shopInfo" value="/product/${artistId}/find-product/${productId}" />
                     <div class="shopEtc_content">
                         <button data-btn-artistId="${artistId}" data-btn-like="${productId}" class="btnLike" type="button">
@@ -103,7 +103,14 @@
                         </a>
                         <nav class="shopEtc_contentInfo">
                             <h1>${title}</h1>
-                            <p>${price}</p>
+                        <c:choose>
+                            <c:when test="${quantity eq 0}">
+                                <p style="text-transform:uppercase; font-size:1.4em;">sold out</p>
+                            </c:when>
+                            <c:otherwise>
+                                <p>${price}</p>
+                            </c:otherwise>
+                        </c:choose>
                         </nav>
                     </div>
                 </c:forEach>
@@ -118,6 +125,7 @@
                     <c:set var="goodsId" value="${goods.id}" />
                     <c:set var="goods_title" value="${goods.title}" />
                     <c:set var="goods_price" value="${goods.price}"/>
+                    <c:set var="quantity" value="${product.totalQuantity}" />
                     <c:set var="goods_mainImg" value="${goods.mainImg}" />
                     <c:url var="goods_shopInfo" value="/product/${artistId}/find-product/${goodsId}" />
                     <div class="shopEtc_content">
@@ -129,7 +137,14 @@
                         </a>
                         <nav class="shopEtc_contentInfo">
                             <h1>${goods_title}</h1>
-                            <p>${goods_price}</p>
+                        <c:choose>
+                            <c:when test="${quantity eq 0}">
+                                <p style="text-transform:uppercase; font-size:1.4em;">sold out</p>
+                            </c:when>
+                            <c:otherwise>
+                                <p>${price}</p>
+                            </c:otherwise>
+                        </c:choose>
                         </nav>
                     </div>
                 </c:forEach>

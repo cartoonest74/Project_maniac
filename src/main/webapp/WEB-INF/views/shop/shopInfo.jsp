@@ -49,6 +49,7 @@
 <c:set var="price" value="${productinfo.price}" />
 <c:set var="optionList" value="${fn:split(productinfo.optionList,',')}"/>
 <c:set var="productArtistId" value="${productinfo.artistId}"/>
+<c:set var="quantity" value="${productinfo.totalQuantity}"/>
 <c:choose>
     <c:when test="${optionList[0] ne 'single'}">
         <c:set var="optionListLength" value="${fn:length(optionList)}"/>
@@ -143,7 +144,14 @@ request.setCharacterEncoding("UTF-8");
                         <c:set var="order_class" value="order_box_not_allowed"/>
                     </c:otherwise>
                  </c:choose>
-                <button id="addToCart" class="${order_class}" data-productNo="${productNo}" type="button">Add To Cart</button>
+                 <c:choose>
+                    <c:when test="${quantity eq 0}">
+                        <p style="text-transform:uppercase; font-size:2em; padding:20px 20px; border:0px; border-radius:5px; font-weight:600; background:rgb(228, 223, 223); color:rgb(104, 93, 93);">sold out</p>
+                    </c:when>
+                    <c:otherwise>
+                        <button id="addToCart" class="${order_class}" data-productNo="${productNo}" type="button">Add To Cart</button>
+                    </c:otherwise>
+                 </c:choose>
             </div>
 		</div>
 		<nav class="shopInfo_ContentBox">

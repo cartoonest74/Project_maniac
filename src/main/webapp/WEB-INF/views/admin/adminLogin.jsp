@@ -28,6 +28,7 @@
 <body>
     <div class="rootBox">
         <div class="rootLogin">
+            <h2>admin</h2>
             <input type="text" id="rootId">
             <input type="password" id="rootPwd">
             <button id="rootLoginBtn" type="button">login</button>

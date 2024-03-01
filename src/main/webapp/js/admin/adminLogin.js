@@ -16,6 +16,6 @@ $(function(){
         const res = await fetch(resolve_inspect,{method:"POST", body:formData}).then(response=>response.text())
         .then(data=>console.log(data)).catch(error=>console.log(error))
 
-        location.href ="/admin/manager";
+        location.href ="/admin/main";
     });
 });

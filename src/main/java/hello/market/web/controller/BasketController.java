@@ -26,7 +26,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/cart")
-public class CartController {
+public class BasketController {
 
     private final ProductService productService;
     private final LoginSessionManager loginSessionManager;

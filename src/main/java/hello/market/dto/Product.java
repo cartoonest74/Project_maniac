@@ -16,7 +16,7 @@ public class Product {
 	private String title;
 	private String category;
 	private String price;
-
+	private int totalQuantity;
 	private String optionList;
 	private String optionMent;
 

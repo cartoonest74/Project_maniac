@@ -19,6 +19,100 @@
         end_date=(current_timestamp())
         where admin_id =#{adminId};
     </update>
+    <select id="select_adminSearchReview" resultType="Artist">
+        select  art.id, art.name
+        from(
+            select artist_id
+            from shop_review
+            where user_id = #{user_id}) sr
+        inner join artist art on sr.artist_id = art.id
+        group by artist_id;
+    </select>
+    <select id="select_adminSearchQna" resultType="Artist">
+        select  art.id, art.name
+        from(
+            select artist_id
+            from shop_qna
+            where user_id = #{user_id}) sq
+        inner join artist art on sq.artist_id = art.id
+        group by artist_id;
+    </select>
+    <select id="select_reviewLength" resultType="Integer">
+        select count(*)
+        from shop_review
+        <if test="artist_id.equals(0)">
+            where artist_id =#{artistId};
+        </if>
+    </select>
+    <select id="select_qnaLength" resultType="Integer">
+        select count(*)
+        from shop_qna
+        where  answer_check between #{answerCheck_start} and #{answerCheck_end}
+        <if test="artistId.equals(0)">
+            and artist_id =#{artistId}
+        </if>
+    </select>
+    <select id="select_adminReview" resultType="ShopReview">
+        select num,
+            sr.id,
+            pa.title,
+            sr.url,
+            sr.date,
+            sr.content,
+            pa.artist_id,
+            m.user_id userId
+            from(select *
+                from(select row_number() over(order by date desc) num,
+                    id,
+                    artist_id,
+                    url,
+                    date,
+                    content,
+                    product_no,
+                    user_id
+                    from shop_review
+                    <if test="!artist_id.equals(0)">
+                        where artist_id = #{artist_id}
+                    </if>
+                    )tmp
+            where num > #{page_limit})sr
+        inner join product_artist pa on pa.id = sr.product_no
+        inner join member m on m.id = sr.user_id
+        order by num asc limit 10;
+    </select>
+    <select id="select_adminQna" resultType="ShopQna">
+        select num id,
+            sq.id writerId,
+            m.user_id userId,
+            pa.title title,
+            sq.date date,
+            sq.content content,
+            pa.artist_id artistId,
+            answer_check answerCheck,
+            aq.qna_id rootId,
+            aq.content rootContent,
+            aq.date rootDate
+        from(select num,id,date,content,answer_check,product_no,user_id
+            from(select row_number() over(order by date desc) num,
+                    id,
+                    artist_id,
+                    user_id,
+                    date,
+                    content,
+                    product_no,
+                    answer_check,
+                    user_id
+                from shop_qna
+                <if test="!artist_id.equals(0)">
+                    where artist_id = #{artist_id}
+                </if>
+                )tmp
+            where num > #{page_limit})sq
+        inner join product_artist pa on pa.id = sq.product_no
+        inner join member m on m.id = sq.user_id
+        left join answer_qna aq on aq.qna_id = sq.id
+        order by num asc limit 10;
+    </select>
     <select id="select_adminLoginCheck" resultType="LoginCheck">
         select admin_id userNo,uuid
         from admin_login_check

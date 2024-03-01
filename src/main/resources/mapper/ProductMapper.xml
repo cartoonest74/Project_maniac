@@ -15,6 +15,7 @@
         select id, artist_id as artistId, title, category, price,
             option_ment as optionMent,
             JSON_UNQUOTE(main_img -> '$.img[0][0]') as mainImg,
+            total_quantity totalQuantity,
             REPLACE(
                 REPLACE(
                     REPLACE(JSON_UNQUOTE(sub_img -> '$.img'),'[','')
@@ -35,9 +36,10 @@
     </select>
     <select id="select_all" resultType="Product">
         select no, id, artist_id as artistId, title, category, price,
-            JSON_UNQUOTE(main_img -> '$.img[0][0]') as mainImg, option_size->>"$.option"
+            JSON_UNQUOTE(main_img -> '$.img[0][0]') as mainImg, option_size->>"$.option",
+            total_quantity totalQuantity
         from (select row_number() over(order by id)as no,
-                id, artist_id, title, category, price,main_img,date, option_size
+                id, artist_id, title, category, price,main_img,date, option_size,total_quantity
             from Product_artist
             where artist_id = #{arg0} and category = #{arg1}
             )as pa

@@ -27,7 +27,7 @@ public class AdminController {
         return "/admin/adminLogin";
     }
 
-    @GetMapping("/manager")
+    @GetMapping("/main")
     private String get_managerPage(Model model,HttpServletRequest request) {
         int admin_id = adminSessionManager.sessionUUIDcheck(request);
         if(admin_id == 0){
@@ -35,7 +35,23 @@ public class AdminController {
         }
         Admin adminInfo = adminService.get_adminInfo(admin_id);
         model.addAttribute("admin", adminInfo);
-        return "/admin/adminManager";
+        return "/admin/admin_main";
+    }
+
+    @GetMapping("/main/qna")
+    private String get_adminQna(Model model,HttpServletRequest request){
+        int admin_id = adminSessionManager.sessionUUIDcheck(request);
+        Admin adminInfo = adminService.get_adminInfo(admin_id);
+        model.addAttribute("admin",adminInfo);
+        return "/admin/admin_qna";
+    }
+
+    @GetMapping("/main/review")
+    private String get_adminReview(Model model,HttpServletRequest request){
+        int admin_id = adminSessionManager.sessionUUIDcheck(request);
+        Admin adminInfo = adminService.get_adminInfo(admin_id);
+        model.addAttribute("admin",adminInfo);
+        return "/admin/admin_review";
     }
 
     @ResponseBody
@@ -53,6 +69,7 @@ public class AdminController {
         return "ok";
     }
 
+    @ResponseBody
     @PostMapping("/logout")
     private String adminLogout(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);
@@ -66,6 +83,6 @@ public class AdminController {
             session.invalidate();
         }
         adminSessionManager.expire(response);
-        return "redirect:/admin";
+        return "ok";
     }
 }

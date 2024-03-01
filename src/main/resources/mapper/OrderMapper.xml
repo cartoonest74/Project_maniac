@@ -32,9 +32,12 @@
     <update id="update_multiQuantity">
         update Product_artist
         set option_size=JSON_REPLACE(option_size,CONCAT("$.option[",#{optionNo},"][1]"),
-        (select calc_quantity
-        from(select json_extract(option_size,CONCAT("$.option[",#{optionNo},"][1]"))+#{optionQuantity} as calc_quantity
-            from Product_artist pa where id =#{productNo}) tmp))
+            (select calc_quantity
+            from(select json_extract(option_size,CONCAT("$.option[",#{optionNo},"][1]"))+#{optionQuantity} as calc_quantity
+                from Product_artist pa where id =#{productNo}) tmp)),
+            total_quantity = (select (total_quantity + #{optionQuantity}) calc_totalQuantity
+                                from product_artist
+                                where id = #{productNo});
         where id =#{productNo};
     </update>
     <update id="update_purchaseList">

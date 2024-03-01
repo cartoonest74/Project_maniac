@@ -62,6 +62,7 @@
             <c:set var="category" value="${product.category}" />
             <c:set var="price" value="${product.price}" />
             <c:set var="main_img" value="${product.mainImg}" />
+            <c:set var="quantity" value="${product.totalQuantity}" />
             <c:url var="shopInfo" value="/product/${artistId}/find-product/${productId}" />
             <div class="shopEtc_content">
                 <button data-btn-artistId="${artistId}" data-btn-like="${productId}" class="btnLike" type="button">
@@ -72,7 +73,14 @@
                 </a>
                 <nav class="shopEtc_contentInfo">
                     <h1>${product_title}</h1>
-                    <p>${price}</p>
+                <c:choose>
+                    <c:when test="${quantity eq 0}">
+                        <p style="text-transform:uppercase; font-size:1.4em;">sold out</p>
+                    </c:when>
+                    <c:otherwise>
+                        <p>${price}</p>
+                    </c:otherwise>
+                </c:choose>
                 </nav>
             </div>
         </c:forEach>

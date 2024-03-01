@@ -323,7 +323,7 @@ $(function(){
         // max quantity
         const regex = /[^0-9]/g;
         const option_max = parseInt(document.getElementById("option_max").innerText.replace(regex,''))
-//        option_quantity_json.id =_productNo
+        // option_quantity_json.id =_productNo
         option_quantity_json.option = option_quantity_arr
         option_quantity_json.max =option_max
         const option_json = JSON.stringify(option_quantity_json)
@@ -361,6 +361,7 @@ $(function(){
         const checkMsg_res =  await void_addCheckMsg_ani();
         const checkMsg_remove = await remove_basket();
     });
+
     /* sticky tag */
      const create_stickyHead_tag = ()=>{
           const shopInfoMain_img_src = $("#shopInfoMain_img").attr("src");
@@ -480,6 +481,7 @@ $(function(){
         const hiddenMenu_noneLine = document.querySelector("#hiddenMenu_noneLine");
         const hiddenMenu_line = document.querySelector("#hiddenMenu_line");
         const appear_hiddenMenu_val = hiddenMenu_line.offsetHeight + hiddenMenu_noneLine.offsetHeight + 140
+        const addToCart = document.querySelector("button#addToCart");
 
         let stickyInfo = document.querySelector("#stickyInfo");
         let sideOption = document.querySelector("#sideOption");
@@ -495,6 +497,7 @@ $(function(){
                 iterations: 1,
                 fill: "forwards"
             };
+
         if(xOffset < 320){
             if(stickyInfo == null){
                 return;
@@ -510,6 +513,10 @@ $(function(){
                 body_append("afterbegin",sideOption_tag);
                 sideOption = document.querySelector("#sideOption")
                 sideOption.animate(keyframes, options);
+            }
+            // sold out 일경우 stick 창 생성 안함
+            if(addToCart == null){
+                return;
             }
             if(stickyInfo == null){
                 // scroll menu
@@ -538,6 +545,7 @@ $(function(){
             }
         }
     });
+
     $(document).on("click","button#topBtn",function(){
         window.scrollTo({top:0, left:0, behavior:"smooth"})
     });

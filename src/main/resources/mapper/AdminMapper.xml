@@ -23,8 +23,7 @@
         select  art.id, art.name
         from(
             select artist_id
-            from shop_review
-            where user_id = #{user_id}) sr
+            from shop_review) sr
         inner join artist art on sr.artist_id = art.id
         group by artist_id;
     </select>
@@ -32,8 +31,7 @@
         select  art.id, art.name
         from(
             select artist_id
-            from shop_qna
-            where user_id = #{user_id}) sq
+            from shop_qna) sq
         inner join artist art on sq.artist_id = art.id
         group by artist_id;
     </select>
@@ -41,7 +39,7 @@
         select count(*)
         from shop_review
         <if test="artist_id.equals(0)">
-            where artist_id =#{artistId};
+            where artist_id =#{artist_id};
         </if>
     </select>
     <select id="select_qnaLength" resultType="Integer">
@@ -49,7 +47,7 @@
         from shop_qna
         where  answer_check between #{answerCheck_start} and #{answerCheck_end}
         <if test="artistId.equals(0)">
-            and artist_id =#{artistId}
+            and artist_id =#{artist_id}
         </if>
     </select>
     <select id="select_adminReview" resultType="ShopReview">
@@ -60,7 +58,8 @@
             sr.date,
             sr.content,
             pa.artist_id,
-            m.user_id userId
+            m.user_id userId,
+            m.id userNo
             from(select *
                 from(select row_number() over(order by date desc) num,
                     id,
@@ -103,8 +102,9 @@
                     answer_check,
                     user_id
                 from shop_qna
+                where answer_check between #{answerCheck_start} and #{answerCheck_end}
                 <if test="!artist_id.equals(0)">
-                    where artist_id = #{artist_id}
+                    and artist_id = #{artist_id}
                 </if>
                 )tmp
             where num > #{page_limit})sq

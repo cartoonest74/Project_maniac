@@ -57,6 +57,20 @@
 }
 
 @media screen and (max-width:420px){
+    /*notice*/
+    .noticeMainContent{
+        width:99%;
+    }
+    .notice_menu a>nav:nth-child(2){
+        font-size:1.4em;
+    }
+    .notice_menu >nav:nth-child(2){
+        font-size:1.4em;
+    }
+    .notice_MenuSection li:last-child{
+        font-size:1.4em;
+    }
+
     /*basket*/
     .basketForm{
         width:100%;

@@ -1,6 +1,7 @@
 package hello.market.web.controller;
 
 import hello.market.dto.Admin;
+import hello.market.dto.ShopReview;
 import hello.market.service.admin.AdminService;
 import hello.market.service.myPage.MyPageService;
 import hello.market.web.session.AdminSessionManager;
@@ -12,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -47,10 +50,16 @@ public class AdminController {
     }
 
     @GetMapping("/main/review")
-    private String get_adminReview(Model model,HttpServletRequest request){
+    private String get_adminReview(@RequestParam(value = "artist_id", required = false, defaultValue = "0") int artist_id,
+                                   @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+                                   Model model,
+                                   HttpServletRequest request){
+        int page_limit = page * 10;
         int admin_id = adminSessionManager.sessionUUIDcheck(request);
         Admin adminInfo = adminService.get_adminInfo(admin_id);
+        List<ShopReview> adminReview = adminService.get_adminReview(artist_id, page_limit);
         model.addAttribute("admin",adminInfo);
+        model.addAttribute("adminReviews",adminReview);
         return "/admin/admin_review";
     }
 

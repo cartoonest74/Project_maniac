@@ -14,7 +14,7 @@
 
 <link rel="stylesheet" href="${contextPath}/css/basic/basic.css">
 <link rel="stylesheet" href="${contextPath}/css/admin/admin_basic.css">
-<link rel="stylesheet" href="${contextPath}/css/admin/admin_main.css">
+<link rel="stylesheet" href="${contextPath}/css/myPage/myReview.css">
 
 <link rel="preconnect" href="https://fonts.googleapias.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,7 +26,10 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://kit.fontawesome.com/7938f26122.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="${contextPath}/js/admin/admin_header.js"></script>
+<script type="text/javascript" src="${contextPath}/js/admin/admin_review.js"></script>
 
+<c:set var="shopReviews" value="${adminReviews}"/>
+<c:url var="adminMain" value="/admin/main"/>
 </head>
 <body>
     <c:import url="../admin/admin_header.jsp">
@@ -34,7 +37,7 @@
             <div class="myReviewBox">
                 <header class="myReviewHeader">
                     <div class="go_myPage">
-                        <a href="${myPage}">
+                        <a href="${adminMain}">
                             <i class="fa-solid fa-angle-left fa-lg"></i>
                             <span>
                                 상품후기
@@ -49,13 +52,15 @@
                     </div>
                 </header>
                 <dl id="reviewContainer" class="myReviewContainerBox">
-                <c:forEach var="shopReview" items="${userShopReviews}">
+                <c:forEach var="shopReview" items="${shopReviews}">
                     <c:set var="reviewArtistId" value="${shopReview.artist_id}"/>
                     <c:set var="reviewTitle" value="${shopReview.title}"/>
                     <c:set var="reviewContent" value="${shopReview.content}"/>
                     <c:set var="reviewDate" value="${shopReview.date}"/>
                     <c:set var="reviewId" value="${shopReview.id}"/>
                     <c:url var="reviewUrl" value="${shopReview.url}"/>
+                    <c:url var="reviewUserNo" value="${shopReview.userNo}"/>
+                    <!-- ${reviewUserNo} -->
                     <div class="myReviewContainer">
                         <dt class="myReviewDate">
                             <h2>${reviewDate}</h2>

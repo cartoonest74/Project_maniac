@@ -14,7 +14,10 @@
 
 <link rel="stylesheet" href="${contextPath}/css/basic/basic.css">
 <link rel="stylesheet" href="${contextPath}/css/admin/admin_basic.css">
+<link rel="stylesheet" href="${contextPath}/css/myPage/review_qnaSearch.css">
 <link rel="stylesheet" href="${contextPath}/css/myPage/myReview.css">
+<link rel="stylesheet" href="${contextPath}/css/pageCount/pageCount.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/mediaquery.css">
 
 <link rel="preconnect" href="https://fonts.googleapias.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -79,7 +82,6 @@
                                 </div>
                             </div>
                             <div class="myReviewOptionBtn">
-                                <button data-myReview-edit="${reviewId}" type="button">Edit</button>
                                 <button data-myReview-del="${reviewId}" type="button">Delete</button>
                             </div>
                         </dd>

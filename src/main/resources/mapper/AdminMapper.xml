@@ -38,7 +38,7 @@
     <select id="select_reviewLength" resultType="Integer">
         select count(*)
         from shop_review
-        <if test="artist_id.equals(0)">
+        <if test="!artist_id.equals(0)">
             where artist_id =#{artist_id};
         </if>
     </select>
@@ -46,7 +46,7 @@
         select count(*)
         from shop_qna
         where  answer_check between #{answerCheck_start} and #{answerCheck_end}
-        <if test="artistId.equals(0)">
+        <if test="!artistId.equals(0)">
             and artist_id =#{artist_id}
         </if>
     </select>

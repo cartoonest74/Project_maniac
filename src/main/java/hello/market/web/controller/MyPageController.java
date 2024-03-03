@@ -99,6 +99,7 @@ public class MyPageController {
     private String post_productQuestion(@PathVariable int artistId,
                                         @RequestParam("category") int category,
                                         @RequestParam("page") int page,
+                                        @RequestParam int answerCheck_start, @RequestParam int answerCheck_end,
                                         HttpServletRequest request) throws JsonProcessingException {
         int user_id = loginSessionManager.sessionUUIDcheck(request);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -106,8 +107,8 @@ public class MyPageController {
         JSONArray arr_shopQna = new JSONArray();
         JSONArray arr_artist = new JSONArray();
 
-        Integer lengthShopQna = myPageService.get_lengthShopQna(user_id,category);
-        List<ShopQna> userShopQna = myPageService.get_userShopQna(user_id, category, page);
+        Integer lengthShopQna = myPageService.get_lengthShopQna(user_id,category,answerCheck_start,answerCheck_end);
+        List<ShopQna> userShopQna = myPageService.get_userShopQna(user_id, category, page,answerCheck_start,answerCheck_end);
         for (ShopQna shopQna : userShopQna) {
             String writeValueAsString = objectMapper.writeValueAsString(shopQna);
             arr_shopQna.put(writeValueAsString);
@@ -127,11 +128,9 @@ public class MyPageController {
     private String get_productQuestion(@PathVariable int artistId,
                                        @RequestParam(value = "page", required = false, defaultValue = "1") int page,
                                        @RequestParam(value = "category", required = false, defaultValue = "0") int category,
-                                       HttpServletRequest request,
-                                       Model model) {
+                                       @RequestParam(value = "answerCheck", required = false, defaultValue = "all") String answerCheck,
+                                       HttpServletRequest request) {
         int user_id = loginSessionManager.sessionUUIDcheck(request);
-        List<ShopQna> userShopQna = myPageService.get_userShopQna(user_id, category, page);
-        model.addAttribute("userShopQna", userShopQna);
         return "/myPage/userProductQuestion";
     }
 

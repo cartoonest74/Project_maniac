@@ -1,10 +1,31 @@
 $(function(){
     const artistId = document.getElementById("artistId").value;
     const obj_qnaParam = {
-        page:0,
-        categoryId:0,
-        searchList:new Array()
+            page:0,
+            answer_check:"all",
+            categoryId:0,
+            searchList:new Array()
     }
+
+    const answerCheck_option={
+        all:{
+            start:0,
+            end:1
+        },
+        wait:{
+            start:0,
+            end:0
+        },
+        complete:{
+            start:1,
+            end:1
+        }
+    }
+
+    const obj_edit ={
+        qna_id:0,
+        content:""
+        }
 
     // create userReview tag
     const create_userReview_tag=(shopQnas)=>{
@@ -119,6 +140,20 @@ $(function(){
                             </nav>
                             ${create_searchContentTag}
                         </div>
+                        <div class="searchQnaAnswerCheck">
+                            <nav class="radio_item">
+                               <input type="radio" name="answerCheckType" value="all">
+                               <label for="all">전체</label>
+                            </nav>
+                            <nav class="radio_item">
+                               <input type="radio" name="answerCheckType" value="wait">
+                               <label for="wait">대기중</label>
+                            </nav>
+                            <nav class="radio_item">
+                               <input type="radio" name="answerCheckType" value="complete">
+                               <label for="complete">답변완료</label>
+                            </nav>
+                        </div>
                         <div class="searchTypeBtn">
                             <button id="searchType_btn" type="button">검색</button>
                         </div>
@@ -128,7 +163,9 @@ $(function(){
 
         body_append("afterbegin",create_searchTag);
         const categoryId = obj_qnaParam.categoryId;
+        const answerCheck = obj_qnaParam.answer_check;
         document.querySelector(`input[type="radio"][value="${categoryId}"]`).checked = true;
+        document.querySelector(`input[type="radio"][value="${answerCheck}"]`).checked = true;
     });
 
     const remove_searchType=()=>{
@@ -138,17 +175,23 @@ $(function(){
 
     // search
     $(document).on("click","button#searchType_btn",async function(){
-        const check_radio = document.querySelector('input[name="searchType"]:checked');
+        const check_searchType = document.querySelector('input[name="searchType"]:checked');
+        const check_answerCheck = document.querySelector('input[name="answerCheckType"]:checked');
         const searchTypeName = document.getElementById("searchTypeName");
-        const cr_value = check_radio.value;
-        const cr_text = document.querySelector(`label[for="${cr_value}"]`).innerText;
 
-        obj_qnaParam.categoryId = cr_value;
-        searchTypeName.innerText = cr_text;
+        const cs_value = check_searchType.value;
+        const ca_value = check_answerCheck.value;
+        const cr_text = document.querySelector(`label[for="${cs_value}"]`).innerText;
+        const ca_text = document.querySelector(`label[for="${ca_value}"]`).innerText;
+
+        obj_qnaParam.categoryId = cs_value;
+        obj_qnaParam.answer_check = ca_value;
+        searchTypeName.innerHTML = `${cr_text}&#183;${ca_text}`;
 
         const res = await post_review();
         remove_searchType();
     });
+
     // exit Search type box
     $(document).on("click","button#exitSearchType",function(){
         remove_searchType();
@@ -223,6 +266,7 @@ $(function(){
         let current_url = document.location;
         obj_qnaParam.page = Number(event.state.page)-1;
         obj_qnaParam.categoryId = event.state.category;
+        obj_qnaParam.answer_check = event.state.answerCheck;
 
         const onOff = "off";
         const res = await post_review(onOff);
@@ -246,17 +290,23 @@ $(function(){
         const resolve_postQna = `/myPage/${artistId}/product_question`;
         const categoryId=obj_qnaParam.categoryId
         const review_limit= obj_qnaParam.page;
+
+        const answerCheck_name= obj_qnaParam.answer_check;
+        const answerCheck_start = answerCheck_option[answerCheck_name].start;
+        const answerCheck_end = answerCheck_option[answerCheck_name].end;
         const page_limit=Number(review_limit) * 10;
 
         const formData = new FormData();
         formData.append("category",categoryId);
         formData.append("page",page_limit);
+        formData.append("answerCheck_start",answerCheck_start);
+        formData.append("answerCheck_end",answerCheck_end);
 
         let current_url = location.href;
         if(typeof(history.pushState)=='function' && onOff == "on"){
-            current_url = current_url.replace(/\?page=([0-9]+)&category=([0-9]+)/ig,'')
-            current_url += "?page="+(Number(review_limit)+1)+"&category="+(Number(categoryId))
-            history.pushState({page:review_limit,category:categoryId},null,current_url)
+            current_url = current_url.replace(/\?page=([0-9]+)&category=([0-9]+)&answerCheck=([a-zA-Z]+)/ig,'');
+            current_url += "?page="+(Number(review_limit)+1)+"&category="+(Number(categoryId))+"&answerCheck="+answerCheck_name;
+            history.pushState({page:review_limit,category:categoryId,answerCheck:answerCheck_name},null,current_url);
         }
         await axios.post(resolve_postQna,formData)
                     .then(response=>response.data)

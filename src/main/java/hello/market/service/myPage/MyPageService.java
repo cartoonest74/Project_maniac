@@ -18,10 +18,10 @@ public interface MyPageService {
     List<Artist> get_searchQnaType(int user_id);
     Integer get_lengthSopReview(int user_id,int artistId);
 
-    Integer get_lengthShopQna(int user_id,int artistId);
+    Integer get_lengthShopQna(int user_id,int artistId, int answerCheck_start, int answerCheck_end);
     List<ShopReview> get_userShopReview(int user_id, int artist_id, int page_limit);
 
-    List<ShopQna> get_userShopQna(int user_id, int artist_id, int page_limit);
+    List<ShopQna> get_userShopQna(int user_id, int artist_id, int page_limit, int answerCheck_start, int answerCheck_end);
     List<DeliveryStatus_manual> get_deliveryStatus(int user_id);
     List<Purchase_list> get_purchaseLists(int user_id, long purchase_date,int purchase_status);
     Complete_deliveryInfo view_purchase_deliveryInfo(int user_id, String purchase_id);

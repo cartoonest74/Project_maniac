@@ -66,8 +66,8 @@ public class MyPageServiceImpl implements MyPageService {
     }
 
     @Override
-    public Integer get_lengthShopQna(int user_id,int artistId) {
-        Integer lengthShopQna = myPageRepository.select_lengthShopQna(user_id,artistId);
+    public Integer get_lengthShopQna(int user_id,int artistId, int answerCheck_start, int answerCheck_end) {
+        Integer lengthShopQna = myPageRepository.select_lengthShopQna(user_id,artistId,answerCheck_start,answerCheck_end);
         return lengthShopQna;
     }
 
@@ -78,8 +78,8 @@ public class MyPageServiceImpl implements MyPageService {
     }
 
     @Override
-    public List<ShopQna> get_userShopQna(int user_id, int artist_id, int page_limit) {
-        List<ShopQna> shopQnas = myPageRepository.select_shopQna(user_id, artist_id, page_limit);
+    public List<ShopQna> get_userShopQna(int user_id, int artist_id, int page_limit, int answerCheck_start, int answerCheck_end) {
+        List<ShopQna> shopQnas = myPageRepository.select_shopQna(user_id, artist_id, page_limit, answerCheck_start, answerCheck_end);
         return shopQnas;
     }
 

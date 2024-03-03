@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hello.market.repository.mybatis.admin.AdminMapper">
     <insert id="insert_qna">
-        insert into answer_qna(qna_id,content,respondent)
+        insert into answer_qna(qna_id,content,root_id)
         values(#{qnaId},#{content},#{adminId});
     </insert>
 
@@ -45,8 +45,8 @@
     <select id="select_qnaLength" resultType="Integer">
         select count(*)
         from shop_qna
-        where  answer_check between #{answerCheck_start} and #{answerCheck_end}
-        <if test="!artistId.equals(0)">
+        where answer_check between #{answerCheck_start} and #{answerCheck_end}
+        <if test="!artist_id.equals(0)">
             and artist_id =#{artist_id}
         </if>
     </select>
@@ -95,7 +95,6 @@
             from(select row_number() over(order by date desc) num,
                     id,
                     artist_id,
-                    user_id,
                     date,
                     content,
                     product_no,

@@ -62,7 +62,7 @@
             </div>
             <div class="myQna_search">
                 <button id="myQnaSearch" type="button">
-                    <span id="searchTypeName">전체</span>
+                    <span id="searchTypeName">전체&#183;전체</span>
                     <i class="fa-solid fa-bars-staggered fa-lg"></i>
                 </button>
             </div>

@@ -19,9 +19,9 @@ public interface MyPageMapper {
     List<Artist> select_searchReview(int user_id);
     List<Artist> select_searchQna(int user_id);
     Integer select_lengthShopReview(@Param("user_id") int user_id,@Param("artist_id") int artist_id);
-    Integer select_lengthShopQna(@Param("user_id") int user_id, @Param("artist_id") int artist_id);
+    Integer select_lengthShopQna(@Param("user_id") int user_id, @Param("artist_id") int artist_id,@Param("answerCheck_start") int answerCheck_start,@Param("answerCheck_end") int answerCheck_end);
     List<ShopReview> select_shopReview(@Param("user_id") int user_id, @Param("artist_id") int artist_id, @Param("page_limit") int page_limit);
-    List<ShopQna> select_shopQna(@Param("user_id") int user_id, @Param("artist_id") int artist_id, @Param("page_limit") int page_limit);
+    List<ShopQna> select_shopQna(@Param("user_id") int user_id, @Param("artist_id") int artist_id, @Param("page_limit") int page_limit,@Param("answerCheck_start") int answerCheck_start,@Param("answerCheck_end") int answerCheck_end);
     List<DeliveryStatus_manual> select_deliveryStatus(@Param("user_id") int user_id);
     List<Purchase_list> select_purchaseLists(@Param("user_id") int user_id, @Param("purchase_date") long purchase_date, @Param("purchase_status") int purchase_status);
     Complete_deliveryInfo select_deliveryAddr(@Param("user_id") int user_id, @Param("purchase_id") String purchase_id);

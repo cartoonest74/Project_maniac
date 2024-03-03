@@ -105,17 +105,17 @@ $(function(){
     });
 
     // search
-        $(document).on("click","button#searchType_btn",async function(){
-            const check_radio = document.querySelector('input[name="searchType"]:checked');
-            const searchTypeName = document.getElementById("searchTypeName");
-            const cr_value = check_radio.value;
-            const cr_text = document.querySelector(`label[for="${cr_value}"]`).innerText;
+    $(document).on("click","button#searchType_btn",async function(){
+        const check_radio = document.querySelector('input[name="searchType"]:checked');
+        const searchTypeName = document.getElementById("searchTypeName");
+        const cr_value = check_radio.value;
+        const cr_text = document.querySelector(`label[for="${cr_value}"]`).innerText;
 
-            obj_reviewParam.categoryId = cr_value;
-            searchTypeName.innerText = cr_text;
-            const res = await post_review();
-            remove_searchType();
-        });
+        obj_reviewParam.categoryId = cr_value;
+        searchTypeName.innerText = cr_text;
+        const res = await post_review();
+        remove_searchType();
+    });
 
     // TODO page number
     const menu_page = (all_reviewCount, review_limit)=>{

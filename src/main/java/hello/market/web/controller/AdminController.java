@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hello.market.dto.Admin;
 import hello.market.dto.Artist;
+import hello.market.dto.ShopQna;
 import hello.market.dto.ShopReview;
 import hello.market.service.admin.AdminService;
 import hello.market.service.myPage.MyPageService;
@@ -55,11 +56,62 @@ public class AdminController {
     }
 
     @GetMapping("/main/qna")
-    private String get_adminQna(Model model,HttpServletRequest request){
+    private String get_adminQna(@RequestParam(value = "category", required = false, defaultValue = "0") int categoryId,
+                                @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+                                @RequestParam(value = "answerCheck", required = false, defaultValue = "all") String answerCheck,
+                                Model model,HttpServletRequest request){
         int admin_id = adminSessionManager.sessionUUIDcheck(request);
         Admin adminInfo = adminService.get_adminInfo(admin_id);
         model.addAttribute("admin",adminInfo);
         return "/admin/admin_qna";
+    }
+
+    @ResponseBody
+    @PostMapping("/main/qna")
+    private String post_adminQna(@RequestParam(value = "categoryId", required = false, defaultValue = "0") int categoryId,
+                                 @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+                                 @RequestParam int answerCheck_start, @RequestParam int answerCheck_end) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JSONObject jsonObject = new JSONObject();
+        JSONArray arr_adminQna = new JSONArray();
+        JSONArray arr_artist = new JSONArray();
+
+        List<ShopQna> adminQna = adminService.get_adminQna(categoryId, page, answerCheck_start, answerCheck_end);
+        for (ShopQna shopQna : adminQna) {
+            String writeValueAsString = objectMapper.writeValueAsString(shopQna);
+            arr_adminQna.put(writeValueAsString);
+        }
+
+        List<Artist> adminSearchQna = adminService.get_adminSearchQna();
+        for (Artist artist : adminSearchQna) {
+            String writeValueAsString = objectMapper.writeValueAsString(artist);
+            arr_artist.put(writeValueAsString);
+        }
+
+        Integer qnaLength = adminService.get_qnaLength(categoryId, answerCheck_start, answerCheck_end);
+
+        jsonObject.put("qnaList",arr_adminQna);
+        jsonObject.put("allCount",qnaLength);
+        jsonObject.put("searchList",arr_artist);
+
+        return jsonObject.toString();
+    }
+
+    @ResponseBody
+    @DeleteMapping("/del_qna")
+    private String del_productQna(@RequestParam("qnaId") int qnaId) {
+        myPageService.del_userShopQna(qnaId);
+        return "ok";
+    }
+
+    @ResponseBody
+    @PutMapping("/reply_qna")
+    private String put_replyQna(@RequestParam("qnaId") int qnaId,
+                                @RequestParam("content") String content,
+                                HttpServletRequest request){
+        int adminId = adminSessionManager.sessionUUIDcheck(request);
+        adminService.put_answerQna(qnaId, content, adminId);
+        return "ok";
     }
 
     @GetMapping("/main/review")

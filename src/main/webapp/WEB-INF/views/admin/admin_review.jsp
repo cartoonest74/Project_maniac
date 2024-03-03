@@ -55,6 +55,7 @@
                     </div>
                 </header>
                 <dl id="reviewContainer" class="myReviewContainerBox">
+                <!--
                 <c:forEach var="shopReview" items="${shopReviews}">
                     <c:set var="reviewArtistId" value="${shopReview.artist_id}"/>
                     <c:set var="reviewTitle" value="${shopReview.title}"/>
@@ -87,6 +88,7 @@
                         </dd>
                     </div>
                 </c:forEach>
+                -->
                 </dl>
                 <div id="review_pageCount_num" class="pageCount">
                 </div>

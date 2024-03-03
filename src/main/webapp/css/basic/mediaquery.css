@@ -92,6 +92,9 @@
     .myQnaBox{
         width:100%;
     }
+    .myQnaDate h2{
+        font-size:1.5em;
+    }
     .QnaTitle h3{
         font-size:1.3em;
     }

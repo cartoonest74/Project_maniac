@@ -35,6 +35,7 @@
         select count(*)
         from shop_qna
         where user_id=${user_id}
+            and answer_check between #{answerCheck_start} and #{answerCheck_end}
         <if test="!artist_id.equals(0)">
             and artist_id = #{artist_id}
         </if>
@@ -87,6 +88,7 @@
                     answer_check
                 from shop_qna
                 where user_id=#{user_id}
+                    and answer_check between #{answerCheck_start} and #{answerCheck_end}
                 <if test="!artist_id.equals(0)">
                     and artist_id = #{artist_id}
                 </if>

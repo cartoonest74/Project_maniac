@@ -91,7 +91,7 @@
     justify-content:space-between;
     align-items:first baseline;
     padding-bottom:1vh;
-    border-bottom:1px dotted rgb(225, 221, 221);
+    border-bottom:1px solid rgb(225, 221, 221);
 }
 .QnaTitle h3{
     width:90%;
@@ -103,6 +103,7 @@
     display:flex;
     width:100%;
     padding-top:5px;
+    flex-wrap:wrap;
 }
 .QnaImg{
     display:inline-block;

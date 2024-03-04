@@ -38,6 +38,12 @@ public class CartServiceImpl implements  CartService{
     }
 
     @Override
+    public List<Cart> get_overdueCart(int user_id, String overdue_date) {
+        List<Cart> carts = cartRepository.select_overdueCart(user_id, overdue_date);
+        return carts;
+    }
+
+    @Override
     public Integer cart_length(int user_id) {
         Integer cart_length = cartRepository.cart_length(user_id);
         return cart_length;

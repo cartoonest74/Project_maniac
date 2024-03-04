@@ -19,6 +19,12 @@ public class CartRepositoryImpl implements CartRepository {
 	private final CartMapper cartMapper;
 
 	@Override
+	public List<Cart> select_overdueCart(int user_id, String overdue_date) {
+		List<Cart> carts = cartMapper.select_overdueCart(user_id, overdue_date);
+		return carts;
+	}
+
+	@Override
 	public Integer select_purchaseQuantity(int user_id, String productNo) {
 		Integer purchase_quantity = cartMapper.select_purchaseQuantity(user_id, productNo);
 		return purchase_quantity;

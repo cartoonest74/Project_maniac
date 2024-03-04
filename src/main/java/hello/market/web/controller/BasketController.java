@@ -163,21 +163,23 @@ public class BasketController {
             return "/basket/basket";
         }
 
+        // 90 overdue data delete
+        LocalDateTime localDateTime = LocalDateTime.now();
+        LocalDateTime before3month = localDateTime.minusMonths(3);
+        String str_before3month = before3month.toString().split("T")[0];
+        List<Cart> overdueCart = cartService.get_overdueCart(user_id, str_before3month);
+        if(overdueCart != null){
+            for(Cart cart:overdueCart){
+                String cartKey = cart.getCartKey();
+                cartService.delete_cart(user_id,cartKey);
+            }
+        }
+
         List<Cart> cartList = cartService.select_cart(user_id, 0);
         for (Cart cart : cartList) {
             String mainImg = cart.getMainImg();
             log.info("mainImg={}", mainImg);
         }
-//        List<Product> products = new ArrayList<>();
-//
-//        cartSessionManager.getCartSession(request);
-//        cartMaps = cartRepository.all();
-//        for (Entry<Integer, Integer> entry : cartMaps.entrySet()) {
-//            productNo = entry.getKey();
-//            log.info("productNo = {}",productNo);
-//            Product product = productService.findProduct(productNo);
-//            products.add(product);
-//        }
 
         model.addAttribute("cartList", cartList);
         model.addAttribute("artistId", artistId);

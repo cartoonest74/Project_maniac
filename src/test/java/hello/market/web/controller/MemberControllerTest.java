@@ -2,6 +2,7 @@ package hello.market.web.controller;
 
 import hello.market.dto.Member;
 import hello.market.repository.mybatis.artist.ArtistSearchResetRepositoryImpl;
+import hello.market.service.Cart.CartService;
 import hello.market.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,6 +25,8 @@ class MemberControllerTest {
     MemberService memberService;
     @Autowired
     ArtistSearchResetRepositoryImpl artistSearchResetRepository;
+    @Autowired
+    CartService cartService;
 
     @Value("${file.dir}")
     private String fileDir;
@@ -35,8 +39,6 @@ class MemberControllerTest {
 
     @Test
     void dateTest() throws IOException {
-        Integer size = artistSearchResetRepository.get_size();
-        log.info("size={}", size);
     }
 
 }

@@ -5,6 +5,7 @@ import hello.market.dto.Cart;
 import java.util.List;
 
 public interface CartRepository {
+	List<Cart> select_overdueCart(int user_id, String overdue_date);
 	Integer select_purchaseQuantity(int user_id, String productNo);
 	List<Cart> quantity_check(int user_id);
 	List<Cart> db_select(int user_id, int limit);

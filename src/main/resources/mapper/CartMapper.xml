@@ -19,6 +19,15 @@
         set option_json = JSON_REMOVE(option_json,#{arg1})
         where id = #{arg0};
     </update>
+    <select id="select_overdueCart" resultType="Cart">
+        select CONCAT("$.",ca.json_key) cartKey
+        from (select json_key, json_unquote(json_extract(option_json,CONCAT("$.",json_key,"[1]"))) registry_date
+            from cart,json_table(json_keys(option_json), "$[*]" columns(
+                json_key varchar(30) path "$"
+            ))tmp
+        where user_id = #{param1})ca
+        where ca.registry_date = #{param2}
+    </select>
     <select id="select_purchaseQuantity" resultType="Integer">
         select sum(quantity)
         from(

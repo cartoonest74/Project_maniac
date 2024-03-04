@@ -10,7 +10,7 @@ public interface CartService {
     void create_cart(int user_id);
     void delete_cart(int user_id,String productNo);
     void add_cart(int user_id,String productNo, int quantity);
-
+    List<Cart> get_overdueCart(int user_id,String overdue_date);
     Integer cart_length(int user_id);
     List<Cart> select_cart(int user_id, int limit);
 }

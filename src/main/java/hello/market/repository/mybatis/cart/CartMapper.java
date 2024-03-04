@@ -9,6 +9,7 @@ import java.util.List;
 
 @Mapper
 public interface CartMapper {
+	List<Cart> select_overdueCart(@Param("user_id") int user_id, @Param("overdue_date") String overdue_date);
 	Integer select_purchaseQuantity(@Param("user_id") int user_id, @Param("productNo") String productNo);
 	List<Cart> quantity_check(@Param("user_id") int user_id);
 	void create_cart(@Param("user_id") int user_id);

@@ -25,8 +25,6 @@ class MemberControllerTest {
     MemberService memberService;
     @Autowired
     ArtistSearchResetRepositoryImpl artistSearchResetRepository;
-    @Autowired
-    CartService cartService;
 
     @Value("${file.dir}")
     private String fileDir;

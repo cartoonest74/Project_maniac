@@ -26,7 +26,7 @@
                 json_key varchar(30) path "$"
             ))tmp
         where user_id = #{param1})ca
-        where ca.registry_date = #{param2}
+        where ca.registry_date <![CDATA[<=]]> #{param2}
     </select>
     <select id="select_purchaseQuantity" resultType="Integer">
         select sum(quantity)

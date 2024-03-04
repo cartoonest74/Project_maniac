@@ -79,11 +79,13 @@ request.setCharacterEncoding("UTF-8");
                         <i class="fa-solid fa-rotate-left fa-lg"></i>
                     </span>
                     <nav class="resizeMenuPart">
+                        <!--
                         <button data-btn-hmtype="sub_category" class="resizeMenuInfo" type="button">
                             <nav>
                                 <span>CONCERT</span>
                             </nav>
                         </button>
+                        -->
                         <button data-btn-hmtype="sub_category" class="resizeMenuInfo" type="button">
                             <a href="${album}">
                                 <span>ALBUM</span>
@@ -138,10 +140,11 @@ request.setCharacterEncoding("UTF-8");
                             </a>
                         </c:otherwise>
                     </c:choose>
+                        <!--
                         <button class="resizeMenuInfo" type="button">
                             <span><i class="fa-solid fa-sun fa-lg"></i></span>
-                            <!-- <span>LIGHT</span> -->
                         </button>
+                        -->
                     </nav>
                 </div>
             </div>

@@ -10,8 +10,7 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class MybatisAdminRepository implements AdminRepository{
-    private final AdminMapper
-            adminMapper;
+    private final AdminMapper adminMapper;
 
     @Override
     public List<Artist> select_adminSearchQna() {

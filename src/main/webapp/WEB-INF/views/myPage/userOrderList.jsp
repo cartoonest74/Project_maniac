@@ -9,7 +9,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>MANIAC</title>
+
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
+
+<link rel="icon" href="${contextPath}/img/web_logo/favicon.png">
 
 <link rel="stylesheet" href="${contextPath}/css/basic/basic.css">
 <link rel="stylesheet" href="${contextPath}/css/myPage/orderList.css">
@@ -20,11 +24,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;900&display=swap" rel="stylesheet">
-
-<title>Maniac</title>
-<%
-	request.setCharacterEncoding("UTF-8");
-%>
 
 <script src="https://code.jquery.com/jquery-2.2.4.js"
 	  integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="

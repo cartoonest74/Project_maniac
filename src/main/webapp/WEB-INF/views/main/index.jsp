@@ -10,17 +10,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MANIAC</title>
 
-<link rel="icon" href="${contextPath}/img/web_logo/favicon.png">
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
+
+<link rel="icon" href="${contextPath}/img/web_logo/favicon.png">
 <link rel="stylesheet" href="${contextPath}/css/main/index_header.css">
 <link rel="stylesheet" href="${contextPath}/css/main/index_main.css">
 <link rel="stylesheet" href="${contextPath}/css/basic/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/basic/mediaquery.css">
-
-<%
-	request.setCharacterEncoding("UTF-8");
-%>
-
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -7,20 +7,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
-
-<%
-request.setCharacterEncoding("UTF-8");
-%>
+<title>MANIAC</title>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
+<link rel="icon" href="${contextPath}/img/web_logo/favicon.png">
 <link rel="stylesheet" href="${contextPath}/css/basic/basic.css">
 <link rel="stylesheet" href="${contextPath}/css/about/about.css">
 <link rel="stylesheet" href="${contextPath}/css/about/about_slide.css">
 <link rel="stylesheet" href="${contextPath}/css/basic/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/basic/resizeMenu.css">
-<link rel="stylesheet" href="${contextPath}/css/mediaquery.css">
+<link rel="stylesheet" href="${contextPath}/css/basic/mediaquery.css">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 

@@ -3,7 +3,7 @@
 	width: 1200px;
 	justify-content:center;
 	flex-wrap: wrap;
-	padding: 20px 0;
+	padding:2vh 0 8vh 0;
 }
 /* category 부분 */
 .shopEtc_header{

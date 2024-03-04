@@ -1,13 +1,18 @@
 // TODO page number create
 $(function(){
-    const ShopMenu_Content = $("#shopMenuContent");
 
     const shop_menu_page = (data, review_limit)=>{
+        const ShopMenu_Content = document.getElementById("shopMenuContent");
+
         let string_to_json = JSON.parse(data);
         let all_reviewCount = string_to_json.allCount;
         // review & qna tag data
         let tag_data = string_to_json.content;
-        ShopMenu_Content.html(tag_data);
+        if(tag_data == ""){
+            ShopMenu_Content.innerHTML =`<div style="width:100%; text-align:center; color:#807c7c; padding:2vh 0; font-size:1.8em;">상품을 준비중 입니다.</div>`;
+            return;
+        }
+        ShopMenu_Content.innerHTML=tag_data;
         // page 번호 처리
         const countNum = document.getElementById("shop_pageCount_num")
         if(all_reviewCount < 20){
@@ -16,7 +21,6 @@ $(function(){
         }
         countNum.style.display="inline-block";
 
-        const pageCount_num = $("#shop_pageCount_num")
         const arr_page = [];
 
         // page 5개씩
@@ -67,12 +71,12 @@ $(function(){
             arr_page.push(page_tag);
         }
         let create_tags = arr_page.join(" ");
-        pageCount_num.html(create_tags)
+        countNum.innerHTML=create_tags;
 
         $('button[data-page-id='+review_limit+']').addClass("fontWeight_bold")
     }
 
-    const first_view = (review_limit=0, onOff="on", category) => {
+    const first_view = async (review_limit=0, onOff="on", category) => {
             let current_url = location.href;
             if(category != null){
                 let findCategory_start = current_url.lastIndexOf("/")+1;
@@ -90,45 +94,42 @@ $(function(){
     		// 한페이지에 보여질 개수 n개
     		// review_limit * n;
             let _pageData_limit = review_limit * 20;
-    		$.ajax({
-    			type: "post",
-    			async: true,
-    			url: SHOP_CONTROLLER_URL,
-    			dataType: "text",
-    			data: {
-    				limit: _pageData_limit
-    			},
-    			success: function(data, textStatus) {
-                    shop_menu_page(data,review_limit)
-    			}
-    		});
-    		return;
-    	}
+
+            const formData = new FormData();
+            formData.append("limit",_pageData_limit);
+
+    		await fetch(SHOP_CONTROLLER_URL,{
+    		        method:"post",
+    		        body:formData
+    		        })
+    		        .then(response=>response.text())
+    		        .then(data=>{shop_menu_page(data,review_limit)});
+    }
 //    뒤로가기, 앞으로 클릭시 이벤트
-    window.onpopstate=function(event){
+    window.onpopstate=async function(event){
         let current_url = document.location;
         let review_limit = event.state.page;
         const onOff = "off";
-        first_view(review_limit, onOff);
+        await first_view(review_limit, onOff);
     }
 
 // page number 클릭
-    $(document).on("click","button[data-page-id]",function(e){
+    $(document).on("click","button[data-page-id]",async function(e){
     	    let review_limit = $(e.target).attr("data-page-id")
-            first_view(review_limit)
+            await first_view(review_limit)
         });
 
-    $(document).on("click","button[data-last-page-id]",function(e){
+    $(document).on("click","button[data-last-page-id]",async function(e){
         let last_pageNum = $(e.target).attr("data-last-page-id")
-        first_view(last_pageNum)
+        await first_view(last_pageNum)
     });
 
 // category click
-    $(document).on("click","button[data-btn-category]",function(e){
+    $(document).on("click","button[data-btn-category]",async function(e){
         let category_title = $(e.target).attr("data-btn-category");
         category_title = category_title.toUpperCase();
         $(".shopEtc_headerTitle").html(category_title)
-        first_view(0,"on",category_title)
+        await first_view(0,"on",category_title)
     });
 
     first_view();

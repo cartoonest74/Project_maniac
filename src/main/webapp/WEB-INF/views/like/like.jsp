@@ -8,11 +8,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
-<%
-	request.setCharacterEncoding("UTF-8");
-%>
+<title>MANIAC</title>
+
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
+
+<link rel="icon" href="${contextPath}/img/web_logo/favicon.png">
 
 <link rel="stylesheet" href="${contextPath}/css/like/like.css">
 <link rel="stylesheet" href="${contextPath}/css/pageCount/pageCount.css">

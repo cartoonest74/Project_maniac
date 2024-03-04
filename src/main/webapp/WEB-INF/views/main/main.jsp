@@ -9,13 +9,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Document</title>
-
-<%
-	request.setCharacterEncoding("UTF-8");
-%>
+<title>MANIAC</title>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
+
+<link rel="icon" href="${contextPath}/img/web_logo/favicon.png">
 
 <link rel="stylesheet" href="${contextPath}/css/main/main.css">
 <link rel="stylesheet" href="${contextPath}/css/basic/basic.css">
@@ -86,34 +84,41 @@
                 <h2>Album</h2><a href="${resolve_album}"><i class="fa-solid fa-plus fa-lg"></i></a>
             </div>
             <section class="mainShopContent">
-                <c:forEach var="product" items="${product_list}">
-                    <c:set var="productId" value="${product.id}" />
-                    <c:set var="artistId" value="${product.artistId}" />
-                    <c:set var="title" value="${product.title}" />
-                    <c:set var="price" value="${product.price}" />
-                    <c:set var="mainImg" value="${product.mainImg}" />
-                    <c:set var="quantity" value="${product.totalQuantity}" />
-                    <c:url var="shopInfo" value="/product/${artistId}/find-product/${productId}" />
-                    <div class="shopEtc_content">
-                        <button data-btn-artistId="${artistId}" data-btn-like="${productId}" class="btnLike" type="button">
-                            <i data-btn-artistId="${artistId}" data-btn-like="${productId}" class="fa-regular  fa-heart fa-lg"></i>
-                        </button>
-                        <a href="${shopInfo}" class="shopEtc_contentImg">
-                            <img src="${mainImg}" alt="${title}">
-                        </a>
-                        <nav class="shopEtc_contentInfo">
-                            <h1>${title}</h1>
-                        <c:choose>
-                            <c:when test="${quantity eq 0}">
-                                <p style="text-transform:uppercase; font-size:1.4em;">sold out</p>
-                            </c:when>
-                            <c:otherwise>
-                                <p>${price}</p>
-                            </c:otherwise>
-                        </c:choose>
-                        </nav>
-                    </div>
-                </c:forEach>
+            <c:choose>
+                <c:when test="${empty product_list}">
+                    <div style="width:100%; text-align:center; color:#807c7c; background:#d3d0d0; padding:2vh 0; font-size:1.8em;">상품을 준비중 입니다.</div>
+                </c:when>
+                <c:otherwise>
+                    <c:forEach var="product" items="${product_list}">
+                        <c:set var="productId" value="${product.id}" />
+                        <c:set var="artistId" value="${product.artistId}" />
+                        <c:set var="title" value="${product.title}" />
+                        <c:set var="price" value="${product.price}" />
+                        <c:set var="mainImg" value="${product.mainImg}" />
+                        <c:set var="quantity" value="${product.totalQuantity}" />
+                        <c:url var="shopInfo" value="/product/${artistId}/find-product/${productId}" />
+                        <div class="shopEtc_content">
+                            <button data-btn-artistId="${artistId}" data-btn-like="${productId}" class="btnLike" type="button">
+                                <i data-btn-artistId="${artistId}" data-btn-like="${productId}" class="fa-regular  fa-heart fa-lg"></i>
+                            </button>
+                            <a href="${shopInfo}" class="shopEtc_contentImg">
+                                <img src="${mainImg}" alt="${title}">
+                            </a>
+                            <nav class="shopEtc_contentInfo">
+                                <h1>${title}</h1>
+                            <c:choose>
+                                <c:when test="${quantity eq 0}">
+                                    <p style="text-transform:uppercase; font-size:1.4em;">sold out</p>
+                                </c:when>
+                                <c:otherwise>
+                                    <p>${price}</p>
+                                </c:otherwise>
+                            </c:choose>
+                            </nav>
+                        </div>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
             </section>
         </div>
         <div class="chpater_mainGoods">
@@ -121,33 +126,40 @@
                 <h2>Goods</h2><a href="${resolve_goods}"><i class="fa-solid fa-plus fa-lg"></i></a>
             </div>
             <section class="mainShopContent">
-                <c:forEach var="goods" items="${goods_list}">
-                    <c:set var="goodsId" value="${goods.id}" />
-                    <c:set var="goods_title" value="${goods.title}" />
-                    <c:set var="goods_price" value="${goods.price}"/>
-                    <c:set var="quantity" value="${product.totalQuantity}" />
-                    <c:set var="goods_mainImg" value="${goods.mainImg}" />
-                    <c:url var="goods_shopInfo" value="/product/${artistId}/find-product/${goodsId}" />
-                    <div class="shopEtc_content">
-                        <button data-btn-artistId="${artistId}" data-btn-like="${goodsId}" class="btnLike" type="button">
-                            <i data-btn-artistId="${artistId}" data-btn-like="${goodsId}" class="fa-regular  fa-heart fa-lg"></i>
-                        </button>
-                        <a href="${goods_shopInfo}" class="shopEtc_contentImg">
-                            <img src="${goods_mainImg}" alt="${goods_title}">
-                        </a>
-                        <nav class="shopEtc_contentInfo">
-                            <h1>${goods_title}</h1>
-                        <c:choose>
-                            <c:when test="${quantity eq 0}">
-                                <p style="text-transform:uppercase; font-size:1.4em;">sold out</p>
-                            </c:when>
-                            <c:otherwise>
-                                <p>${price}</p>
-                            </c:otherwise>
-                        </c:choose>
-                        </nav>
-                    </div>
-                </c:forEach>
+            <c:choose>
+                <c:when test="${empty goods_list}">
+                    <div style="width:100%; text-align:center; color:#807c7c; padding:2vh 0; background:#d3d0d0; font-size:1.8em;">상품을 준비중 입니다.</div>
+                </c:when>
+                <c:otherwise>
+                    <c:forEach var="goods" items="${goods_list}">
+                        <c:set var="goodsId" value="${goods.id}" />
+                        <c:set var="goods_title" value="${goods.title}" />
+                        <c:set var="goods_price" value="${goods.price}"/>
+                        <c:set var="quantity" value="${product.totalQuantity}" />
+                        <c:set var="goods_mainImg" value="${goods.mainImg}" />
+                        <c:url var="goods_shopInfo" value="/product/${artistId}/find-product/${goodsId}" />
+                        <div class="shopEtc_content">
+                            <button data-btn-artistId="${artistId}" data-btn-like="${goodsId}" class="btnLike" type="button">
+                                <i data-btn-artistId="${artistId}" data-btn-like="${goodsId}" class="fa-regular  fa-heart fa-lg"></i>
+                            </button>
+                            <a href="${goods_shopInfo}" class="shopEtc_contentImg">
+                                <img src="${goods_mainImg}" alt="${goods_title}">
+                            </a>
+                            <nav class="shopEtc_contentInfo">
+                                <h1>${goods_title}</h1>
+                            <c:choose>
+                                <c:when test="${quantity eq 0}">
+                                    <p style="text-transform:uppercase; font-size:1.4em;">sold out</p>
+                                </c:when>
+                                <c:otherwise>
+                                    <p>${price}</p>
+                                </c:otherwise>
+                            </c:choose>
+                            </nav>
+                        </div>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
             </section>
         </div>
     </div>

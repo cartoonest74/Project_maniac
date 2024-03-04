@@ -8,11 +8,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Maniac</title>
-<%
-	request.setCharacterEncoding("UTF-8");
-%>
+<title>MANIAC</title>
+
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
+
+<link rel="icon" href="${contextPath}/img/web_logo/favicon.png">
 
 <link rel="stylesheet" href="${contextPath}/css/account/loginForm.css">
 <link rel="stylesheet" href="${contextPath}/css/basic/basic.css">

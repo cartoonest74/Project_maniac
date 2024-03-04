@@ -88,8 +88,6 @@ $(function(){
         formData.append("status",status);
 
         let current_url = location.href;
-        console.log("date",date)
-        console.log("status",status)
         if(typeof(history.pushState)=='function' && onOff == "on"){
             current_url = current_url.replace(/\?month=([0-9])&status=([0-9])/ig,'')
             current_url += "?month="+(Number(date))+"&status="+(Number(status))

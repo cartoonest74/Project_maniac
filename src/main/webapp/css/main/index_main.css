@@ -169,4 +169,37 @@
     display:inline-block;
     cursor: pointer;
 }
-
+/*popup*/
+.popupBox{
+    position: fixed;
+    display:inline-block;
+    width:250px;
+    z-index:99;
+    border-radius:5px;
+    top:2vh;
+    left:1vw;
+    background:white;
+}
+.popupHeader{
+    display:flex;
+    width:100%;
+    justify-content:space-between;
+    padding:1vh 5px;
+    border-bottom:1px solid #a5a1a1;
+    background-color:rgb(245, 110, 110);
+}
+.popupHeader h2{
+    font-size:1.4em;
+}
+.popupHeader button{
+    border:0px;
+    font-size:1.4em;
+    background:transparent;
+    cursor:pointer;
+}
+.popupContent{
+    width:100%;
+    font-size:1.4em;
+    padding:2vh 5px;
+    line-height:30px;
+}

@@ -42,6 +42,17 @@
 
 </head>
 <body>
+    <div id="popup" class="popupBox">
+        <div class="popupHeader">
+            <h2>알림</h2>
+            <button id="popupExitBtn">
+                <i class="fa-solid fa-xmark fa-lg"></i>
+            </button>
+        </div>
+        <div class="popupContent">&nbsp;상업적인 용도가 없는 개인 작업용 사이트임을 알리며
+         이 사이트 내에서의 결제는 Test인 무료이기에 자유롭게 이용해 주시면 되겠습니다.
+                                  감사합니다.</div>
+    </div>
 	<c:import url="../main/index_header.jsp" >
 	</c:import>
 	<div class="mainBox">

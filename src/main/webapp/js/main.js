@@ -1,9 +1,15 @@
 $(function(){
-    const text = document.getElementById("main_typingText")
+    const text = document.getElementById("main_typingText");
     const typewriter = new Typewriter(text, {
         loop: false,
     });
-    const reset_obj = {resetDate:""}
+    const reset_obj = {resetDate:""};
+
+    const popupExitBtn= document.getElementById("popupExitBtn");
+    popupExitBtn.addEventListener("click",function(){
+        const popup = document.getElementById("popup");
+        popup.remove()
+    });
 
     typewriter.typeString('Search for your favorite artist')
         .pauseFor(2000)

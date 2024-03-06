@@ -6,12 +6,14 @@
         insert into Member(user_id, name, birth, gender, addr, phone, pwd, email)
         values(#{userId}, #{name}, #{birth}, #{gender}, #{addr}, #{phone}, #{pwd}, #{email})
     </insert>
-    <update id="update">
-
-    </update>
     <delete id="delete">
 
     </delete>
+    <select id="select_phone" resultType="Member">
+        select id
+        from Member
+        where phone = #{phone}
+    </select>
     <select id="str_select" resultType="Member">
             select user_id as userId, name, birth, gender, addr, phone, pwd, email, grade
             from Member

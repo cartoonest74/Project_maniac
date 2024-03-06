@@ -10,9 +10,9 @@ import java.util.List;
 public interface MemberMapper {
     void insert(Member member);
     void delete(@Param("id") int id);
+
+    Member select_phone(@Param("phone") String phone);
     Member str_select(@Param("userId") String userId);
     Member int_select(@Param("id") int id);
     List<Member> selectAll();
-
-    void update(Member member);
 }

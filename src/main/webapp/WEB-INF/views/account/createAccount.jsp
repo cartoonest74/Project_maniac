@@ -16,6 +16,7 @@
 	href="${contextPath}/css/basic/basic.css">
 <link rel="stylesheet"
 	href="${contextPath}/css/account/createAccount.css">
+<link rel="stylesheet" href="${contextPath}/css/errorPage/confirm.css">
 <link rel="stylesheet" href="${contextPath}/css/basic/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/basic/resizeMenu.css">
 <link rel="stylesheet" href="${contextPath}/css/basic/mediaquery.css">
@@ -45,7 +46,7 @@
 		<c:param name="cartCount" value="${cartCount}" />
 	</c:import>
 	<div class="createAccount">
-		<form action="${accountUrl}" id="createAccountForm" class="createAccountForm" method="post">
+		<form action="#" id="createAccountForm" class="createAccountForm">
 			<!-- id -->
 			<nav class="createInfo">
 				<input id="id" type="text" name="userId" placeholder="ID">
@@ -78,7 +79,7 @@
 
 				<!-- email -->
             <nav class="createInfo">
-                <input id="Email" type="email" name="email" placeholder="Email">
+                <input id="email" type="email" name="email" placeholder="Email">
                 <button id="AuthEmailBtn" class="email_authBtn" type="button">인증번호 요청</button>
             </nav>
             <nav id="EmailCodeBox" class="createInfo">
@@ -124,6 +125,7 @@
 			<!-- tel -->
 			<nav class="createInfo">
 				<input id="tel" type="tel" name="phone" placeholder="PHONE">
+                <button id="AuthTelBtn" class="email_authBtn" type="button">중복검사</button>
 			</nav>
 			<p id="telInspectMessage" class="InspectMessage none"></p>
 			<input id="result_tel" type="text" value="none" hidden="hidden"/>

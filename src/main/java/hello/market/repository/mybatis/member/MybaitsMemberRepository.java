@@ -26,6 +26,12 @@ public class MybaitsMemberRepository implements MemberRepository {
     }
 
     @Override
+    public Member select_phone(String phone) {
+        Member member = memberMapper.select_phone(phone);
+        return member;
+    }
+
+    @Override
     public Member select(String str,String userId) {
         Member member = memberMapper.str_select(userId);
         return member;
@@ -41,10 +47,5 @@ public class MybaitsMemberRepository implements MemberRepository {
     public List<Member> selectAll() {
         List<Member> members = memberMapper.selectAll();
         return members;
-    }
-
-    @Override
-    public void update(Member member) {
-        memberMapper.update(member);
     }
 }

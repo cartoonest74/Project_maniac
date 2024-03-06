@@ -24,6 +24,12 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public Member phone_dupleCheck(String phone) {
+		Member member = mybatisMemberRepository.select_phone(phone);
+		return member;
+	}
+
+	@Override
 	public Member memberSelect(String userId) {
 		String str = "string";
 		Member user = mybatisMemberRepository.select(str,userId);
@@ -34,11 +40,6 @@ public class MemberServiceImpl implements MemberService {
 	public Member memberSelect(int id) {
 		Member user = mybatisMemberRepository.select(id);
 		return user;
-	}
-
-	@Override
-	public void memberUpdate(Member member) {
-		mybatisMemberRepository.update(member);
 	}
 
 	@Override

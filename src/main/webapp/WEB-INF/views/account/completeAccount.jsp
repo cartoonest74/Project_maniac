@@ -32,7 +32,6 @@
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
 <script type="text/javascript" src="${contextPath}/js/cart.js"></script>
 
-<c:set var="createdId" value="${createdId}" />
 <c:url var="loginAccount" value="/${artistId}/member/login-account"/>
 </head>
 <body>
@@ -41,9 +40,6 @@
 	</c:import>
 	<div class="completeAccountBox">
 	    <p>회원가입을 축하드립니다.<p>
-	    <h2>
-            ${createdId}
-	    </h2>
 	    <a class="loginPageBtn" href="${loginAccount}">로그인 하러 가기</a>
 	</div>
 	<jsp:include page="../basic/footer.jsp" flush="true" />

@@ -28,33 +28,37 @@ public class MemberController {
         return "/account/forgotInfo";
     }
 
+
     @GetMapping("/create-account")
-    public String createAccount(@PathVariable int artistId,HttpServletRequest request,Model model){
+    public String createAccount(@PathVariable int artistId, HttpServletRequest request, Model model) {
         model.addAttribute("artistId", artistId);
         int user_id = loginSessionManager.sessionUUIDcheck(request);
-        if(user_id != 0){
-            return "redirect:"+"/main/"+artistId;
+        if (user_id != 0) {
+            return "redirect:" + "/main/" + artistId;
         }
         return "/account/createAccount";
     }
 
-    @PostMapping("/complete-account")
-    public String completeAccount(@PathVariable int artistId,
-                                  @ModelAttribute Member member,
-                                  HttpServletRequest request,
-                                  Model model) {
-        int user_id = loginSessionManager.sessionUUIDcheck(request);
-        if(user_id != 0){
-            return "redirect:"+"/main/"+artistId;
-        }
-        if(member == null){
-            return "/account/createAccount";
+    @ResponseBody
+    @PutMapping("/complete-account")
+    public String put_completeAccount(@PathVariable int artistId,
+                                  @ModelAttribute Member member) {
+        if (member == null) {
+            return "no";
         }
         memberService.memberAdd(member);
-        String createdId = member.getUserId();
+        return "ok";
+    }
+    @GetMapping("/complete-account")
+    public String get_completeAccount(@PathVariable int artistId,
+                                      HttpServletRequest request,
+                                      Model model){
+        int user_id = loginSessionManager.sessionUUIDcheck(request);
+        if (user_id != 0) {
+            return "redirect:" + "/main/" + artistId;
+        }
+
         model.addAttribute("artistId", artistId);
-        model.addAttribute("createdId", createdId);
-        log.info("complete = {} !!!!",createdId);
         return "/account/completeAccount";
     }
 
@@ -69,7 +73,7 @@ public class MemberController {
     }
 
     @PostMapping("/login-account")
-    public String post_loginAccount(@PathVariable int artistId,HttpServletRequest request, Model model) {
+    public String post_loginAccount(@PathVariable int artistId, HttpServletRequest request, Model model) {
         String referUrl = referUrlOutput(request);
         model.addAttribute("referUrl", referUrl);
         return "/account/login";
@@ -82,7 +86,7 @@ public class MemberController {
 
     @ResponseBody
     @PostMapping("/duple_check")
-    public String dupleCheck(@PathVariable int artistId,@RequestParam("id") String id) {
+    public String dupleCheck(@PathVariable int artistId, @RequestParam("id") String id) {
         Member member = memberService.memberSelect(id);
         if (member != null) {
             return "duple";
@@ -90,4 +94,13 @@ public class MemberController {
         return "notDuple";
     }
 
+    @ResponseBody
+    @PostMapping("/duple_phoneCheck")
+    public String post_duplePhoneCheck(@PathVariable int artistId, @RequestParam("phone") String phone) {
+        Member member = memberService.phone_dupleCheck(phone);
+        if (member != null) {
+            return "duple";
+        }
+        return "notDuple";
+    }
 }

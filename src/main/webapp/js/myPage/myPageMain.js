@@ -93,10 +93,14 @@ $(function(){
                                 <h2 class="myPageEditContent_header">새로운 전화번호</h2>
                                 <div class="myPageEditContent">
                                     <input type="tel" data-edit-tel="new">
+                                    <button id="telDuple" class="tel_dupleBtn" type="button">중복검사</button>
                                 </div>
                             </div>
                             <button id="myPageEdit_telBtn" class="myPageEdit_btn" type="button">ok</button>`,
-            value:"",
+            value:{
+                cur_val:"",
+                duple_val:""
+            },
             reg:/^01(?:0|1|[6-9])-(?:[1-9]{1})(?:\d{2}|\d{3})-\d{4}$/
         }
     }
@@ -284,7 +288,7 @@ $(function(){
         const tel_errorMsg3 = "전화번호 형식에 맞게 다시 입력해주세요";
         const error_tag = document.querySelector(`p[${attr_key}]`);
 
-        editUserInfo_obj.editTel.value = "";
+        editUserInfo_obj.editTel.value.cur_val = "";
         if(input_tel == ""){
             create_ErrorMsg(attr_key, tel_errorMsg1);
             return;
@@ -299,20 +303,55 @@ $(function(){
             error_tag.remove();
         }
 
-        editUserInfo_obj.editTel.value = input_tel;
+        editUserInfo_obj.editTel.value.cur_val = input_tel;
+
+        // 중복체크한 값과 input값 다를 경우 초기화
+        if(editUserInfo_obj.editTel.value.cur_val != editUserInfo_obj.editTel.value.duple_val){
+            editUserInfo_obj.editTel.value.duple_val = "";
+        }
+
+    });
+    // 전화번호 중복검사
+    $(document).on("click","button#telDuple",async function(){
+        const resolve_duplePhoneCheck = "/0/member/duple_phoneCheck"
+        const tel_val = editUserInfo_obj.editTel.value.cur_val;
+        const tel_errorMsg1 = "전화번호를 형식에 맞게 입력해주세요.";
+        const tel_errorMsg2 ="사용가능한 전화번호 입니다.";
+        const tel_errorMsg3 ="가입이 되어있는 전화번호 입니다.";
+        if(tel_val == ""){
+            create_alertTag(tel_errorMsg1);
+                        return;
+        }
+        const formData = new FormData();
+        formData.append("phone",tel_val);
+
+        const res = await fetch(resolve_duplePhoneCheck,{
+                        method:"POST",
+                        body:formData
+                    })
+                    .then(response=>response.text())
+                    .then(data=>{
+                        if(data=="duple"){
+                            create_alertTag(tel_errorMsg3)
+                            return "";
+                        }
+                        create_alertTag(tel_errorMsg2)
+                        editUserInfo_obj.editTel.value.duple_val = tel_val
+                    }).catch(error=>console.log(error));
     });
 
     $(document).on("click","button#myPageEdit_telBtn",async function(){
-        const tel_val = editUserInfo_obj.editTel.value;
+        const duple_val = editUserInfo_obj.editTel.value.duple_val;
         const path_resolveMapping = "/myPage/1/edit_tel";
         const completeMsg = "전화번호가 변경되었습니다."
-        if(tel_val == ""){
+        const tel_errorMsg1 = "전화번호 입력 후 중복검사를 해주세요.";
+        if(duple_val == ""){
             create_alertTag(tel_errorMsg1);
             return;
         }
 
         const formData = new FormData();
-        formData.append("edit_tel",tel_val);
+        formData.append("edit_tel",duple_val);
         const res = await patch_userInfo(path_resolveMapping,formData);
 
         edit_pageBox_remove();
@@ -320,7 +359,7 @@ $(function(){
 
         // 바뀐 이메일 적용
         const myPageTel = document.querySelector("p#myPageTel");
-        myPageTel.innerText=tel_val;
+        myPageTel.innerText=duple_val;
         block_main();
     })
 

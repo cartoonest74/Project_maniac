@@ -284,3 +284,15 @@
 .editAddr_icon >i{
     font-size:inherit;
 }
+/*tel 중복검사*/
+.tel_dupleBtn{
+    display: inline-block;
+    width: 85px;
+    padding: 10px 15px;
+    font-size: 1em;
+    height: 100%;
+    border: 0px;
+    color: #ffffff;
+    background-color: #000000;
+    cursor: pointer;
+}

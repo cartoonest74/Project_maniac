@@ -175,7 +175,6 @@
     display:inline-block;
     width:250px;
     z-index:99;
-    border-radius:5px;
     top:2vh;
     left:1vw;
     background:white;
@@ -186,16 +185,18 @@
     justify-content:space-between;
     padding:1vh 5px;
     border-bottom:1px solid #a5a1a1;
-    background-color:rgb(245, 110, 110);
+    background-color:black;
 }
 .popupHeader h2{
     font-size:1.4em;
+    color:white;
 }
 .popupHeader button{
     border:0px;
     font-size:1.4em;
     background:transparent;
     cursor:pointer;
+    color:white;
 }
 .popupContent{
     width:100%;

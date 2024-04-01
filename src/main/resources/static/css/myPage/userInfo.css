@@ -1,0 +1,298 @@
+@charset "UTF-8";
+.myPageBox{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+    width:60%;
+    margin:10vh 0;
+}
+.myPageSubTitle{
+    position: absolute;
+    left:0;
+    top:0;
+    font-size:1.5em;
+    font-weight:600;
+    text-transform:uppercase;
+}
+/*header*/
+.myPageHeader{
+    display:inline-block;
+    width:100%;
+    background:rgb(45, 44, 44);
+    margin-top:30px;
+    padding:0px 1vw;
+    padding-bottom:2vh;
+    border-radius:10px;
+    border:0px solid black;
+}
+.myPageHeader_info{
+    display:inline-block;
+    font-weight:600;
+    text-align:center;
+    color:white;
+    font-size:1.5em;
+}
+/*로그아웃*/
+.logOutBox{
+    display:flex;
+    width:100%;
+    justify-content:space-between;
+    align-items:center;
+    font-size:2em;
+    padding:5px 0;
+}
+.myPage_basicSubBtn{
+    display:inline-block;
+    color:white;
+    background:transparent;
+    font-size:inherit;
+    padding:5px;
+    border:0px solid black;
+    border-radius:10px;
+    cursor: pointer;
+}
+.myPage_basicSubBtn:hover{
+    color:rgb(251, 64, 64);
+}
+/* 가입자정보 */
+.subInfoBox{
+    display:inline-block;
+    width:100%;
+    background-color:white;
+    padding:2vh 1vw;
+}
+.subInfo{
+    display:flex;
+    width:100%;
+    justify-content:flex-start;
+    align-items:center;
+    margin-top:1vh;
+}
+.subInfo dt{
+    display:inline-block;
+    width:23px;
+    text-align:left;
+    color:black;
+    font-size:1.8em;
+    margin-right:1vw;
+}
+.subInfo dd{
+    display:flex;
+    width:100%;
+    justify-content:space-between;
+}
+.subInfoContent{
+    display:flex;
+    width:100%;
+    background:rgb(207 205 205);
+    border:0px;
+    color:rgb(161, 150, 150);
+    justify-content:center;
+    align-items:center;
+    font-weight:600;
+    font-size:1.4em;
+}
+.editManageBtn{
+    display:inline-block;
+    width:50px;
+    border:0px;
+    border-radius:5px;
+    color:white;
+    font-weight:600;
+    font-size:1.3em;
+    padding:10px 5px;
+    background:rgb(21, 44, 45);
+    cursor:pointer;
+}
+
+.myPageContent{
+    display:flex;
+    width:100%;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+/*주문현황*/
+.myPage_orderStatusBox{
+    position:relative;
+    display:inline-flex;
+    width:100%;
+    justify-content:space-around;
+    align-items:center;
+    background:white;
+    border:1px solid rgb(122, 118, 118);
+    border-radius:5px;
+    padding:30px 10px;
+    margin:7vh 0;
+}
+.myPage_orderStatusInfo{
+    position:absolute;
+    right:0;
+    top:-20px;
+    font-size:1.3em;
+    color:rgb(111, 113, 116);
+}
+.myPage_orderStatus{
+    display:inline-block;
+    text-align:center;
+}
+.myPage_orderStatus dt{
+    font-size:1.5em;
+}
+.myPage_orderStatus dd{
+    font-size:2em;
+}
+/* menu */
+.myPageMenuBox{
+    display:flex;
+    width:100%;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+.myPageMenu{
+    display:flex;
+    width:250px;
+    justify-content:center;
+    padding:40px 15px;
+    font-size:2.2em;
+    cursor: pointer;
+    background-color:rgb(45, 44, 44);
+    color:white;
+    border-radius:5px;
+    margin-top:1vh;
+    margin-right:1vw;
+}
+.myPageMenu dt{
+    padding-right:10px;
+}
+.myPageMenu *{
+    font-size:inherit;
+}
+
+/*edit page*/
+.myPageEdit_box{
+    position:fixed;
+    display:flex;
+    width:100%;
+    height:100%;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,0.5);
+    z-index:3;
+}
+.myPageEdit{
+    display:flex;
+    width:420px;
+    justify-content:center;
+    flex-wrap:wrap;
+    background:white;
+    border-radius:5px;
+}
+.myPageEdit_header{
+    position: relative;
+    display:inline-block;
+    width:100%;
+    padding-top:30px;
+    text-align:center;
+    border-bottom:1px solid rgb(162, 159, 159);
+}
+.myPageEdit_header h1{
+    display:inline-block;
+    font-size:2em;
+    font-weight:600;
+}
+.myPageEditSection{
+    display:flex;
+    width:100%;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+    padding:1vh 5px;
+}
+.myPageEditContentBox{
+    display:inline-block;
+    width:100%;
+}
+.myPageEditContent_header{
+    display:inline-block;
+    width:100%;
+    text-align:left;
+    font-size:1.4em;
+    font-weight:400;
+    margin:0;
+    margin:1vh 0;
+    color:rgb(72, 70, 70);
+}
+.myPageEditContent{
+    display:flex;
+    width:100%;
+    justify-content:center;
+    margin:0;
+    margin-bottom:1vh;
+}
+.myPageEditContent input{
+    display:inline-block;
+    width:100%;
+    font-size:1.2em;
+    padding:10px 10px;
+    border:1px solid rgb(192, 187, 187);
+}
+#myPageEdit_Exit{
+    position:absolute;
+    display:inline-block;
+    padding:5px 15px;
+    font-size:1.5em;
+    border:0px;
+    background:transparent;
+    right:0;
+    top:0;
+    cursor:pointer;
+}
+.myPageEdit_btn{
+    width:100%;
+    border:0px;
+    color:white;
+    font-weight:600;
+    font-size:1.5em;
+    margin-top:2vh;
+    padding:10px 15px;
+    border-radius:5px;
+    background:rgb(236, 84, 84);
+    text-transform:uppercase;
+    cursor:pointer;
+}
+.errorMsg{
+    font-size:1.4em;
+    color:#f56a6a;
+}
+/* 주소 변경 */
+.editAddr_icon{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:transparent;
+    border:0px;
+    color:rgba(0,0,0,0.7);
+    font-size:1.4em;
+    left:0;
+    top:0;
+    z-index:1;
+    text-align:left;
+    cursor:pointer;
+}
+.editAddr_icon >i{
+    font-size:inherit;
+}
+/*tel 중복검사*/
+.tel_dupleBtn{
+    display: inline-block;
+    width: 85px;
+    padding: 10px 15px;
+    font-size: 1em;
+    height: 100%;
+    border: 0px;
+    color: #ffffff;
+    background-color: #000000;
+    cursor: pointer;
+}

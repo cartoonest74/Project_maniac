@@ -1,0 +1,252 @@
+@charset "UTF-8";
+/* basket edit window */
+.basketEdit_box{
+        position:fixed;
+        display:flex;
+        width:100%;
+        height:100%;
+        justify-content:flex-end;
+        background-color:rgba(0,0,0,0.5);
+        z-index:2;
+}
+.basketEdit_contentBox{
+    position:relative;
+    display:flex;
+    width:30%;
+    height:100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    background-color:white;
+    overflow-y:auto;
+}
+.basket_btn_exit{
+    position:absolute;
+    display:inline-block;
+    font-size:2em;
+    left:0;
+    border:0px;
+    padding:20px;
+    background-color:transparent;
+    cursor:pointer;
+    z-index:2;
+}
+.basket_Item_Box{
+    position:relative;
+    display:flex;
+    width:80%;
+    justify-content: center;
+    align-items:center;
+    flex-wrap: wrap;
+    padding:5vh 0 2vh 0;
+    border-bottom:1px solid rgba(80, 34, 34,0.5);
+}
+
+/* 상단 이미지 부분 */
+.shopInfo_img{
+    display:inline-block;
+    max-width:280px;
+    width:100%;
+}
+.shopInfo_MainImg{
+    display:inline-block;
+    width:100%;
+}
+.shopInfo_MainImg > img{
+    display:inline-block;
+    width:100%;
+}
+/* 상단 명세부분 */
+.shopInfo_item{
+    display:inline-flex;
+    width:100%;
+    justify-content:flex-start;
+    align-items:end;
+    flex-wrap: wrap;
+}
+.shopInfo_itemTitle{
+    display:inline-block;
+    width:100%;
+    text-align:center;
+}
+.shopInfo_itemTitle > span{
+    display:inline-block;
+    width:100%;
+    font-size: 1.8rem;
+    font-weight:900;
+    padding-top:10px;
+}
+.shopInfo_item > .shopInfo_itemTitle:nth-child(2) span{
+    font-weight:400;
+}
+.shopInfo_item > .shopInfo_itemTitle:last-child span{
+    color:rgb(161,201,200);
+    font-size:1.5rem;
+    font-weight:400;
+}
+.shopInfo_selectTag{
+    display:flex;
+    width:100%;
+    flex-wrap:wrap;
+    margin-top:10px;
+}
+
+.shopInfo_selectTag label[for="option"]{
+    display:inline-block;
+    font-size:1.5rem;
+}
+.shopInfo_selectTag select{
+    display:inline-block;
+    font-size:1.5rem;
+    padding:5px 15px;
+    cursor:pointer;
+}
+.shopInfo_selectTag select>option{
+    display:inline-block;
+    font-size:1.5rem;
+    padding:5px 15px;
+    cursor:pointer;
+}
+/*select option*/
+.select_option{
+    position:relative;
+    display:inline-block;
+    height:36px;
+    padding:5px 10px;
+}
+.select_tag{
+    display:inline-block;
+    font-size:1.8rem;
+    cursor:pointer;
+}
+.select_tag span{
+    font-size:inherit;
+    caret-color: transparent;
+}
+.select_tag i{
+    transition:all 0.3s;
+    caret-color: transparent;
+}
+.select_option_part{
+    position:absolute;
+    display:none;
+    width:100%;
+    justify-content:center;
+    flex-wrap:wrap;
+    left:0;
+    background:white;
+    z-index:1;
+    box-shadow:5px 5px 5px rgba(216, 220, 220,0.5);
+    caret-color: transparent;
+}
+.select_option_part span{
+    display:inline-block;
+    width:100%;
+    font-size:1.8rem;
+    text-align:center;
+    cursor:pointer;
+    padding:10px 0;
+    padding-right:22px;
+}
+/* option 부분 */
+.shopInfo_optionBox{
+    display:flex;
+    width:100%;
+    padding:10px 0;
+    justify-content:center;
+    align-items:center;
+    flex-wrap: wrap;
+}
+    /* 수량부분 */
+.shoInfo_quantity{
+    position:relative;
+    display:inline-flex;
+    width:100%;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:10px;
+    padding-top:17px;
+    padding-left:30px;
+}
+    /* option part close */
+.shoInfo_quantity button[data-option-part-close]{
+    position:absolute;
+    left:0;
+    top:0;
+    color:black;
+    border:0px;
+    background:transparent;
+    font-size:2rem;
+    cursor:pointer;
+}
+.shoInfo_quantity_header{
+    display:inline-block;
+    text-align:right;
+}
+.shoInfo_quantity_header h2{
+    font-size:1.7rem;
+}
+.quantity_btn_box{
+    display:inline-flex;
+}
+.quantity_btn_box input{
+    display:inline-block;
+    width:28px;
+    text-align:center;
+    font-size:2em;
+    outline:none;
+    border:0px;
+    background:transparent;
+    margin:0 10px;
+}
+.quantity_btn_box> button[type="button"]{
+    position:relative;
+    display:inline-block;
+    width:40px;
+    height:40px;
+    color:white;
+    border:1px solid black;
+    border-radius:30px;
+    cursor:pointer;
+    overflow:hidden;
+    cursor:pointer;
+}
+.quantity_btn_box> button[type="button"] img{
+    position:absolute;
+    left:-5px;
+    top:-2px;
+    width:50px;
+}
+
+/*option price total*/
+.option_price_total{
+    display:inline-block;
+    width:100%;
+    text-align:center;
+}
+.option_price_total h3{
+    font-size:2.2rem;
+    font-weight:900;
+    padding:10px 0px;
+}
+/* 장바구니 부분 */
+.shopInfo_order_box{
+    display:inline-block;
+}
+.shopInfo_order_box > button{
+    display:inline-block;
+    padding:20px 20px;
+    font-size:2em;
+    font-weight:900;
+    border:0px;
+    border-radius:5px;
+}
+.order_box_allowed{
+    background:rgb(32, 34, 34);
+    color:white;
+    cursor:pointer;
+}
+.order_box_not_allowed{
+    background:rgb(228, 223, 223);
+    color:rgb(104, 93, 93);
+    cursor:not-allowed;
+}

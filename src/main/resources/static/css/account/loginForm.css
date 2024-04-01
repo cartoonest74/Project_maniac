@@ -1,0 +1,62 @@
+@charset "EUC-KR";
+.accountMain{
+    display:inline-flex;
+    max-width:300px;
+    min-width:250px;
+    padding:20vh 0;
+    justify-content:center;
+    flex-wrap: wrap;
+}
+.accountForm{
+    display:inline-flex;
+    width:100%;
+    justify-content:center;
+    flex-wrap: wrap;
+}
+.accountForm> h1{
+    display:inline-block;
+    font-size: 3em;
+    font-weight:600;
+    margin-bottom: 10px;
+}
+.accountInput{
+    display:inline-block;
+    width:100%;
+    margin-bottom:10px;
+    font-size: 1.3em;
+}
+.accountInput > input{
+    display:inline-block;
+    width:100%;
+    height:40px;
+    font-size:inherit;
+    padding:10px 15px;
+    cursor:pointer;
+}
+
+.subAcoountMain{
+    width:100%;
+    font-size: 1.2em;
+    text-align:center;
+    color:#888;
+}
+.loginFormErrMsg{
+	width:100%;
+	padding:10px 0;
+	color:orangered;
+	font-size:inherit;
+	text-align:center;
+}
+.loginBtn{
+    display:inline-block;
+    width:25%;
+    border:none;
+    color:white;
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: black;
+    font-size: 1.5em;
+    padding:5px 10px;
+    cursor:pointer;
+}
+

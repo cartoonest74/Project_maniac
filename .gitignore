@@ -4,10 +4,10 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-**/src/main/resources/static
+**/src/main/resources/static/img
 **/src/main/resources/templates
 **/src/main/resources/application.properties
-**/src/main/webapp/js/order/order.js
+**/src/main/resources/static/js/order/order.js
 **/src/test/
 
 ### STS ###

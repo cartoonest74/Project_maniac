@@ -1,0 +1,214 @@
+@charset "UTF-8";
+.orderListBox{
+    display:inline-block;
+    width:60%;
+    margin:5vh 0;
+}
+/* 주문배송조회 및 검색조건 */
+.orderListHeader{
+    display:inline-block;
+    width:100%;
+    margin-bottom:1vh;
+}
+.go_myPage{
+    width:100%;
+    text-align:left;
+    font-weight:600;
+    cursor:pointer;
+    border-bottom:1px solid rgb(199, 196, 196);
+    padding:1vh 0;
+}
+.go_myPage i{
+    font-size:2em;
+}
+.go_myPage span{
+    font-size:1.8em;
+}
+.orderList_search{
+    display:inline-block;
+    width:100%;
+    text-align:right;
+    padding:1vh 0;
+}
+.orderList_search button{
+    padding:5px 10px;
+    background:transparent;
+    border:0px;
+    cursor:pointer;
+}
+.orderList_search button>span{
+    font-size:1.5em;
+}
+.orderList_search button>i{
+    font-size:1.8em;
+}
+/* orderlist content */
+.orderListContainer{
+    display:flex;
+    width:100%;
+    justify-content:center;
+    flex-wrap:wrap;
+    padding:0 5px;
+    padding-bottom:5vh;
+    background:#f0eaea;
+}
+.orderListCotentBox{
+    display:inline-block;
+    width:100%;
+    padding-top:4vh;
+}
+/* 주문날짜 및 주문상세 btn */
+.olc_dateTitle{
+    display:flex;
+    width:100%;
+    justify-content:space-between;
+    align-items:center;
+    padding-bottom:1vh;
+}
+.olc_dateTitle div{
+    display:inline-flex;
+    align-items:first baseline;
+}
+.olc_dateTitle div:first-child >h2{
+    font-size:2em;
+    font-weight:600;
+}
+.olc_dateTitle div:first-child > span{
+    font-size:1.4em;
+}
+.olc_dateTitle div:last-child > a{
+    display:flex;
+    font-size:1.4em;
+    align-items:center;
+    color:rgb(33, 34, 34);
+}
+/* 주문상세 내용부분 */
+.orderListCotent{
+    display:inline-block;
+    width:100%;
+    border-radius:10px;
+    padding:10px 1vw;
+    background:white;
+}
+.olc_header{
+    display:flex;
+    width:100%;
+    justify-content:flex-start;
+    align-items:center;
+    flex-wrap:wrap;
+}
+.olc_header p{
+    width:100%;
+    text-align:left;
+    font-size:1.4em;
+}
+.olc_header p:first-child{
+    font-weight:600;
+}
+.olc_header p:last-child{
+    color:rgb(17, 94, 94);
+}
+.olc_info{
+    display:inline-block;
+    width:100%;
+    padding:1vh 0;
+}
+.olc_price{
+    font-weight:600;
+    font-size:1.5em;
+}
+
+/* 검색조건 box */
+.ol_optionBox{
+    position: fixed;
+    display:flex;
+    width:100%;
+    height:100%;
+    justify-content:center;
+    align-items:center;
+    background-color:rgba(0,0,0,0.8);
+    z-index: 2;
+}
+.ol_optionContainer{
+    display:inline-block;
+    width:350px;
+    background:transparent;
+    padding:1vw 1vh;
+    background-color:white;
+    border-radius:5px;
+}
+.ol_optionExitBtn{
+    display:inline-block;
+    width:100%;
+    text-align:right;
+}
+#olOptionExitBtn{
+    padding:5px 10px;
+    cursor:pointer;
+    background-color:transparent;
+    border:0px;
+    font-size:1.5em;
+}
+.ol_optionContent{
+    display:flex;
+    width:100%;
+    flex-wrap:wrap;
+    justify-content:space-between;
+}
+.ol_optionContent h2{
+    width:100%;
+    font-size:1.4em;
+    border-bottom:1px solid rgb(200, 197, 197);
+    margin-bottom:1vh;
+    padding-top:1vh;
+}
+#olOption_reset{
+    font-size:1.4em;
+    padding:5px 10px;
+    cursor:pointer;
+    background-color:transparent;
+    border:0px;
+}
+#olOption_search{
+    border:0px;
+    font-weight:600;
+    font-size:1.4em;
+    padding:5px 20px;
+    cursor:pointer;
+    border-radius:5px;
+    margin-bottom:1vh;
+    background:rgb(7, 7, 7);
+    color:white;
+}
+.radio_item{
+    position: relative;
+    display: inline-block;
+    border:1px solid rgba(0,0,0,0.1);
+    border-radius:15px;
+    margin-bottom:1vh;
+}
+.radio_item>input[type=radio]{
+    position: absolute;
+    display:inline-block;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    opacity:0;
+    z-index: 1;
+    cursor:pointer;
+}
+.radio_item>label{
+    display:inline-block;
+    width:100%;
+    height:100%;
+    text-align:center;
+    font-size:1.5em;
+    padding:10px 15px;
+    border-radius:15px;
+    background:#cdc7c7;
+}
+.radio_item input[type=radio]:checked + label{
+    color:white;
+    background-color: black;
+}

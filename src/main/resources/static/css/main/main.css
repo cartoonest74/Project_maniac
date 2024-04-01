@@ -1,0 +1,143 @@
+@charset "EUC-KR";
+.chapter_mainBox {
+	display: inline-block;
+	width: 80%;
+	padding:5vh 0;
+}
+.chapter_mainAbout{
+    display:inline-flex;
+    width:100%;
+    justify-content:center;
+    flex-wrap: wrap;
+}
+/* header */
+.chapter_mainTitle{
+    display:flex;
+    width:100%;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    padding:2vh 0;
+}
+.chapter_mainTitle h2{
+    display:inline-block;
+    text-align:left;
+    font-size:5vw;
+}
+.chapter_mainTitle a{
+    display:inline-block;
+    font-weight:600;
+    font-size:3em;
+    cursor:pointer;
+}
+.chapter_title{
+    display:inline-flex;
+    width:100%;
+    border-bottom:1px solid rgb(232, 230, 230);
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 0;
+}
+.chapter_title h2{
+    display:inline-block;
+    padding-left:1vw;
+    font-size:3em;
+}
+.chapter_title a{
+    display:inline-block;
+    font-weight:600;
+    font-size:2em;
+    cursor:pointer;
+}
+/* sns */
+.main_snsBox{
+    display:inline-block;
+    width:100%;
+    text-align:right;
+    padding:5px;
+}
+.main_snsBox a{
+    display:inline-block;
+    overflow:hidden;
+    padding:5px 10px;
+    border:0px;
+    background:black;
+    border-radius:15px;
+    font-size:1.8em;
+    cursor:pointer;
+}
+.main_snsBox a>*{
+    color:red;
+    cursor:pointer;
+    font-size:inherit;
+}
+/* artist Img 부분*/
+.main_artistBox{
+    display:inline-block;
+    width:100%;
+    border-top:5px solid black;
+    overflow:hidden;
+}
+.main_artistBox>img{
+    display:inline-block;
+    width:100%;
+}
+/* main product goods Content*/
+.mainShopContent{
+    display:flex;
+    width:100%;
+    padding-left:2vw;
+    justify-content:flex-start;
+    align-items:stretch;
+    flex-wrap:wrap;
+}
+/* 상품 부분 */
+.shopEtc_content{
+    position:relative;
+    display: inline-block;
+    width: 200px;
+    border-radius: 5px;
+    margin-top:20px;
+    margin-right:3vw;
+}
+.btnLike{
+    position:absolute;
+    display:inline-block;
+    right:0;
+    top:0;
+    border:0;
+    font-size:1.5em;
+    cursor:pointer;
+    background:transparent;
+}
+.shopEtc_contentImg{
+    display:inline-block;
+    width:100%;
+    height:240px;
+}
+.shopEtc_contentImg img{
+    display:inline-block;
+    width:100%;
+    height:100%;
+}
+/* 상퓸 이름 가격 장바구니 */
+.shopEtc_contentInfo{
+    display: inline-flex;
+    width: 100%;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+.shopEtc_contentInfo *{
+    font-size:1.5em;
+}
+.shopEtc_contentInfo h1{
+    font-weight:400;
+}
+.shopEtc_contentInfo p{
+    font-weight:600;
+}
+.shopEtc_contentInfo h1, p{
+    display:inline-block;
+    width:100%;
+    text-align:left;
+}

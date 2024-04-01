@@ -1,0 +1,67 @@
+.forgotInfoBox{
+    display:inline-block;
+    width:350px;
+    margin:10vh 0;
+}
+.forgotContainer{
+    display:flex;
+    width:100%;
+    justify-content:center;
+    flex-wrap:wrap;
+    padding:2vh 0;
+}
+.forgotTitle{
+    display:flex;
+    width:100%;
+    justify-content:space-between;
+    align-items:first baseline;
+    flex-wrap:wrap;
+    padding-bottom:2vh;
+}
+.forgotTitle h2{
+    display:inline-block;
+    font-size:2em;
+    font-weight:600;
+}
+.forgotTitle span{
+    font-size:1.2em;
+    color:rgb(239, 105, 105);
+}
+.forgotContent{
+    display:flex;
+    width:100%;
+    justify-content:flex-start;
+    align-items:center;
+    flex-wrap:wrap;
+    margin-bottom:1vh;
+}
+.forgotContent dt{
+    display:inline-block;
+    width:100%;
+    font-size:2em;
+    margin-bottom:1vh;
+}
+.forgotContent dd{
+    display:inline-block;
+    width:100%;
+    padding-left:10px;
+}
+.forgotContent dd>input{
+    display:inline-block;
+    width:100%;
+    font-size:1.4em;
+    padding:8px 15px;
+    border:1px solid #b8afaf;
+}
+.forgotContainer button{
+    width:80%;
+    padding:15px 0;
+    text-transform:uppercase;
+    font-size:1.6em;
+    color:white;
+    border:0px;
+    border-radius:5px;
+    background-color:rgb(137, 211, 248);
+    cursor:pointer;
+    margin-top:1vh;
+}

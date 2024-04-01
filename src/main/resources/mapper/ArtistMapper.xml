@@ -32,7 +32,7 @@
         select art.id, art.name, artist_img ->> "$.main_img" main_img
         from Artist as art
             inner join Artist_record as ar
-            on art.id = ar.id
+            on art.id = ar.artist_id
         order by ar.search_count desc limit ${limit}
     </select>
 </mapper>

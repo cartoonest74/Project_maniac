@@ -41,6 +41,7 @@ image-rendering: crisp-edges;
     padding:20px 50px;
     background-color:transparent;
     border:0px solid;
+    caret-color:auto;
 }
 .searchBox_header span{
     position: absolute;

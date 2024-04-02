@@ -1,10 +1,13 @@
 package hello.market.web.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hello.market.dto.Artist;
 import hello.market.repository.mybatis.artist.ArtistSearchResetRepositoryImpl;
 import hello.market.service.artist.ArtistService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +41,7 @@ public class ArtistSearchController {
         artistService.put_resetSearchCount();
         return today_date;
     }
+
     @ResponseBody
     @PutMapping("/search-count")
     private String post_searchCount(@RequestParam("artist_id") int artist_id) {
@@ -49,52 +53,69 @@ public class ArtistSearchController {
 
     @ResponseBody
     @PostMapping("/artist-search")
-    private String artistSearch(@RequestParam String search_text){
-        List<Artist> artistSearch_list = artistService.artistSearchSelect(search_text);
-        String jsonToString = artistList_to_Json(artistSearch_list);
-        return jsonToString;
-    }
-
-    private String artistList_to_Json(List<Artist> artistList) {
-        String artistId = "";
-        String artistImg = "";
-        String artistName = "";
+    private String artistSearch(@RequestParam String search_text) throws JsonProcessingException {
         JSONObject jsonObject = new JSONObject();
-        StringBuilder builder = new StringBuilder();
+        ObjectMapper objectMapper = new ObjectMapper();
+        JSONArray jsonArray = new JSONArray();
 
-        for (Artist artist : artistList) {
-            artistId = String.valueOf(artist.getId());
-            artistImg = String.valueOf(artist.getMainImg());
-            artistName = String.valueOf(artist.getName());
-            String builder_toString = builder.append(artistId)
-                    .append(",")
-                    .append(artistImg)
-                    .append(",")
-                    .append(artistName)
-                    .toString();
-            jsonObject.put(artistId, builder_toString);
-            log.info("bulider = {}",builder_toString);
-
-            builder.setLength(0);
+        List<Artist> artistSearch_list = artistService.artistSearchSelect(search_text);
+        for (Artist artist : artistSearch_list) {
+            String artistSearchString = objectMapper.writeValueAsString(artist);
+            jsonArray.put(artistSearchString);
         }
-        log.info("jstonToString ==== {}",jsonObject.toString());
-        String jsonToString = jsonObject.toString();
-        return jsonToString;
+        jsonObject.put("artistSearch_array", jsonArray);
+//        String jsonToString = artistList_to_Json(artistSearch_list);
+        return jsonObject.toString();
     }
+
+//    private String artistList_to_Json(List<Artist> artistList) {
+//        String artistId = "";
+//        String artistImg = "";
+//        String artistName = "";
+//        JSONObject jsonObject = new JSONObject();
+//        StringBuilder builder = new StringBuilder();
+//
+//        for (Artist artist : artistList) {
+//            artistId = String.valueOf(artist.getId());
+//            artistImg = String.valueOf(artist.getMainImg());
+//            artistName = String.valueOf(artist.getName());
+//            String builder_toString = builder.append(artistId)
+//                    .append(",")
+//                    .append(artistImg)
+//                    .append(",")
+//                    .append(artistName)
+//                    .toString();
+//            jsonObject.put(artistId, builder_toString);
+//            log.info("bulider = {}",builder_toString);
+//
+//            builder.setLength(0);
+//        }
+//        log.info("jstonToString ==== {}",jsonObject.toString());
+//        String jsonToString = jsonObject.toString();
+//        return jsonToString;
+//    }
 
     @ResponseBody
     @PostMapping("/artist-search-max")
-    private String artistSearchMax(){
+    private String artistSearchMax() throws JsonProcessingException {
+        JSONObject jsonObject = new JSONObject();
+        ObjectMapper objectMapper = new ObjectMapper();
+        JSONArray jsonArray = new JSONArray();
+
         int limit = 3;
         List<Artist> artistSearchMax = artistService.artistSearchMaxShow(limit);
-        String jsonToString = artistList_to_Json(artistSearchMax);
-        return jsonToString;
+        for (Artist searchMax : artistSearchMax) {
+            String writeValueAsString = objectMapper.writeValueAsString(searchMax);
+            jsonArray.put(writeValueAsString);
+        }
+//        String jsonToString = artistList_to_Json(artistSearchMax);
+        jsonObject.put("artistSearchMax_array", jsonArray);
+        return jsonObject.toString();
     }
 
     @ResponseBody
     @PostMapping("/artist/{artistId}")
     private String artistName_mapping(@PathVariable int artistId) {
-
         Artist artist = artistService.artistSelect(artistId);
         log.info("artist.getName() {}", artist.getName());
         return artist.getName();

@@ -13,20 +13,18 @@ $(function(){
         search_boxTurnOff("inline-flex");
     });
 
-    const CONTEXTPATH = document.getElementById("contextPath").value;
     const object_foreach=(jsonObject, appendTagId) => {
          const temp_arr = [];
          Object.keys(jsonObject).forEach(value =>{
-                let jsonValue = jsonObject[value]
-                let artist_array = jsonValue.split(",")
-                let artist_id = artist_array[0];
-                let artist_image = artist_array[1];
-                let artist_name = artist_array[2];
+                let jsonValue = JSON.parse(jsonObject[value]);
+                let artist_id = jsonValue.id;
+                let artist_image = jsonValue.main_img;
+                let artist_name = jsonValue.name;
                 let create_tag = `
                     <dl class="search_artistInfo" data-artist-no="${artist_id}">
                         <dd class="search_artistImg">
                             <button data-search-artist="${artist_id}">
-                                <img data-search-artist="${artist_id}" src="${CONTEXTPATH}${artist_image}" alt="${artist_name}">
+                                <img data-search-artist="${artist_id}" src="${artist_image}" alt="${artist_name}">
                             </button>
                         </dd>
                         <dt class="search_artistName">
@@ -36,8 +34,8 @@ $(function(){
                 `
                 temp_arr.push(create_tag)
                 });
-         let create_tags = temp_arr.join(",")
-         $(appendTagId).html(create_tags);
+         let create_tags = temp_arr.join(",");
+         document.querySelector(`div${appendTagId}`).innerHTML = create_tags;
     };
 
     $(document).on("click","button[data-search-artist]",async function(e){
@@ -47,7 +45,7 @@ $(function(){
         .then(response=>response.text())
         .then(data=>location.href=data);
     });
-
+    // 타이핑 될 때마다 해당 검색어와 관련된 artist 보여주기
     $("#artist_search").keyup(async function(){
         const _search_text = $(this).val();
         const searchShow = "#searchShow";
@@ -65,20 +63,22 @@ $(function(){
                     })
                     .then(response=>response.json())
                     .then(data=>{
-                            object_foreach(data,"#searchShow");
+                            const artistSearch_array = data.artistSearch_array;
+                            object_foreach(artistSearch_array,"#searchShow");
                     });
     });
 
 
-
+    // 조회가 가장많은 artist Top3를 검색박스 상단에 보여주기 위해 가져오기
     $("#searchBtn").click(async function(){
         const resolve_artistSearch_max ="/artist-search-max";
         const res = await fetch(resolve_artistSearch_max,{
                         method:"post"
                     })
-                    .then(response=>response.json());
+                    .then(response=>response.json())
                     .then(data=>{
-                         object_foreach(data,"#topSearch");
+                         const artistSearchMax_array = data.artistSearchMax_array;
+                         object_foreach(artistSearchMax_array,"#topSearch");
                     })
     })
 });

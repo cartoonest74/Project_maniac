@@ -32,8 +32,6 @@ import java.util.Map;
 @Controller
 @RequiredArgsConstructor
 public class MainController {
-    private Map<Integer, List<Product>> productPack = new HashMap<>();
-    private List<Product> products = new ArrayList<>();
 
     private final ProductService productService;
     private final ArtistService artistService;
@@ -42,7 +40,7 @@ public class MainController {
     private final ArtistSearchResetRepositoryImpl artistSearchResetRepository;
 
     @GetMapping("/")
-    private String home(Model model){
+    private String get_index(Model model){
         int limit = 10;
         List<Artist> artistsList = artistService.artistSearchMaxShow(limit);
         LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));

@@ -46,10 +46,12 @@ $(function(){
             return;
         }
 
+        // 18시 기준으로 아티스트 조회수 초기화 시킨후 업데이트
         if(hours == 18){
             await fetch(resolve_rankReset,{method:"put"})
             .then(response=>response.text())
             .then(data=>{
+                // 업데이트 시간 rankDate_tag에 표시
                 const res_date = data.replace(/[\'"']/g,"");
                 reset_obj.resetDate=res_date;
                 rankDate_tag.innerText=res_date+" 18:00"

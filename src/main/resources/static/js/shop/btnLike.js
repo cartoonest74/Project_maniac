@@ -4,7 +4,7 @@ $(function(){
         body.insertAdjacentHTML(position,tag);
     }
  // btn_like
-    async function add_like_axios(resolveMapping,_method,formData, _ProductId, heartTag){
+    async function add_like_fetch(resolveMapping,_method,formData, _ProductId, heartTag){
         const artistId = document.querySelector("#artistId").value;
 
         // loading
@@ -41,7 +41,7 @@ $(function(){
             formData.append("productId",_ProductId);
             formData.append("categoryId",_categoryId);
             _method = "PUT";
-            const regular_like = await add_like_axios(add_like_mapping,_method,formData, _ProductId,solid_heatTag);
+            const regular_like = await add_like_fetch(add_like_mapping,_method,formData, _ProductId,solid_heatTag);
             return
         }
 
@@ -54,7 +54,7 @@ $(function(){
             const _strLike_json = JSON.stringify(like_json);
             formData.append("like_json",_strLike_json)
             _method = "DELETE";
-            const regular_like = await add_like_axios(delete_like_mapping,_method,formData, _ProductId,regular_heatTag)
+            const regular_like = await add_like_fetch(delete_like_mapping,_method,formData, _ProductId,regular_heatTag)
         }
     });
 });

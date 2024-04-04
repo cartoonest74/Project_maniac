@@ -37,6 +37,7 @@
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
 
 <!-- response data -->
+<c:set var="like_list" value="${likeList}"/>
 <c:set var="product_list" value="${productList}"/>
 <c:set var="goods_list" value="${goodsList}"/>
 <c:set var="artist_v" value="${artist}"/>
@@ -98,13 +99,22 @@
                         <c:url var="shopInfo" value="/product/${artistId}/find-product/${productId}" />
                         <div class="shopEtc_content">
                             <button data-btn-artistId="${artistId}" data-btn-like="${productId}" class="btnLike" type="button">
+                        <!-- btn like -->
+                        <c:choose>
+                            <c:when test="${fn:contains(like_list,productId)}">
+                                <i data-btn-artistId="${artistId}" style="color:#d43f3f" data-btn-like="${productId}" class="fa-solid  fa-heart fa-lg"></i>
+                            </c:when>
+                            <c:otherwise>
                                 <i data-btn-artistId="${artistId}" data-btn-like="${productId}" class="fa-regular  fa-heart fa-lg"></i>
+                            </c:otherwise>
+                        </c:choose>
                             </button>
                             <a href="${shopInfo}" class="shopEtc_contentImg">
                                 <img src="${mainImg}" alt="${title}">
                             </a>
                             <nav class="shopEtc_contentInfo">
                                 <h1>${title}</h1>
+                        <!-- price -->
                             <c:choose>
                                 <c:when test="${quantity eq 0}">
                                     <p style="text-transform:uppercase; font-size:1.4em;">sold out</p>
@@ -138,8 +148,16 @@
                         <c:set var="goods_mainImg" value="${goods.mainImg}" />
                         <c:url var="goods_shopInfo" value="/product/${artistId}/find-product/${goodsId}" />
                         <div class="shopEtc_content">
+                        <!-- btn like -->
                             <button data-btn-artistId="${artistId}" data-btn-like="${goodsId}" class="btnLike" type="button">
+                        <c:choose>
+                            <c:when test="${fn:contains(like_list,goodsId)}">
+                                <i data-btn-artistId="${artistId}" style="color:#d43f3f" data-btn-like="${goodsId}" class="fa-solid  fa-heart fa-lg"></i>
+                            </c:when>
+                            <c:otherwise>
                                 <i data-btn-artistId="${artistId}" data-btn-like="${goodsId}" class="fa-regular  fa-heart fa-lg"></i>
+                            </c:otherwise>
+                        </c:choose>
                             </button>
                             <a href="${goods_shopInfo}" class="shopEtc_contentImg">
                                 <img src="${goods_mainImg}" alt="${goods_title}">

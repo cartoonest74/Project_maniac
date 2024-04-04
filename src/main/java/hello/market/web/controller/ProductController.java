@@ -1,5 +1,7 @@
 package hello.market.web.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hello.market.dto.Product;
 import hello.market.repository.mybatis.cart.CartRepository;
 import hello.market.service.like.LikeService;
@@ -8,6 +10,7 @@ import hello.market.web.session.LoginSessionManager;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,46 +54,33 @@ public class ProductController {
     private String post_productShop(@PathVariable Integer artistId,
                                @PathVariable("category") String category,
                                @RequestParam("limit") int page,
-                                    HttpServletRequest request){
+                                    HttpServletRequest request) throws JsonProcessingException {
         Integer user_id = loginSessionManager.sessionUUIDcheck(request);
 
-        shop_menuTag.setLength(0);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JSONArray like_jsonArray = new JSONArray();
+        JSONArray product_jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
 //        int limit = (page-1) *20;
-        List<Integer> likes = new ArrayList<>();
+        shop_menuTag.setLength(0);
 
         if(user_id != 0){
-            likes = likeService.my_likeList(user_id);
+            List<Integer> likes = likeService.my_likeList(user_id);
+            for (Integer like : likes) {
+                like_jsonArray.put(like);
+            }
         }
 
         List<Product> products = productService.findProducts(artistId, category, page);
         for (Product product1 : products) {
-            int id = product1.getId();
-            int artistId1 = product1.getArtistId();
-
-            String likeHeart_class = new StringBuilder()
-                        .append("<i data-btn-artistId=\"")
-                        .append(artistId1)
-                        .append("\" data-btn data-btn-like=\"")
-                        .append(id)
-                        .append("\" class=\"fa-regular fa-heart fa-lg\"></i>")
-                        .toString();
-
-            if(likes.contains(id)){
-                 likeHeart_class = new StringBuilder()
-                        .append("<i data-btn-like=\"")
-                        .append(id)
-                        .append("\" style=\"color:#d43f3f\" class=\"fa-solid  fa-heart fa-lg\">")
-                        .append("</i>")
-                        .toString();
-            }
-            create_shopMenuTag(product1, likeHeart_class);
+            String writeValueAsString = objectMapper.writeValueAsString(product1);
+            product_jsonArray.put(writeValueAsString);
         }
         Integer lengthProduct = productService.lengthProduct(artistId, category);
-        String shop_menuTagString = shop_menuTag.toString();
 
-        JSONObject jsonObject = new JSONObject();
         jsonObject.put("allCount", lengthProduct);
-        jsonObject.put("content", shop_menuTagString);
+        jsonObject.put("like_list", like_jsonArray);
+        jsonObject.put("product_list", product_jsonArray);
         return jsonObject.toString();
     }
 
@@ -103,31 +93,5 @@ public class ProductController {
         List<Product> products = productService.findProducts(artistId, category, limit);
         model.addAttribute("products", products);
         return "/shop/shop";
-    }
-
-    private void create_shopMenuTag(Product product, String likeHeart_class) {
-        String shop_title = product.getTitle();
-        int shop_artistId = product.getArtistId();
-        String shop_price = product.getPrice();
-        String shop_mainImg = product.getMainImg();
-        int product_id = product.getId();
-        String shopInfoUrl = new StringBuilder()
-                    .append("/product/")
-                    .append(shop_artistId)
-                    .append("/find-product/")
-                    .append(product_id)
-                    .toString();
-        shop_menuTag.append("<div class=\"shopEtc_content\">\n")
-                        .append("<button data-btn-artistId="+shop_artistId+" data-btn-like="+product_id+" class=\"btnLike\" type=\"button\">")
-                                .append(likeHeart_class)
-                        .append("</button>")
-                        .append("<a href="+shopInfoUrl+" class=\"shopEtc_contentImg\">\n")
-                            .append("<img src=\""+shop_mainImg+"\" alt=\""+shop_title+"\">\n")
-                        .append("</a>\n")
-                        .append("<nav class=\"shopEtc_contentInfo\">\n")
-                            .append("<h1>"+shop_title+"</h1>\n")
-                            .append("<p>"+shop_price+"</p>\n")
-                        .append("</nav>\n")
-                    .append("</div>");
     }
 }

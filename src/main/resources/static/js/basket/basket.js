@@ -30,6 +30,12 @@ $(function(){
     // 품절상품 삭제
     const soldDel = document.getElementById("soldDel");
     soldDel.addEventListener("click",async function(){
+
+        // loading
+        const loading_tag='<div id="loadingTag" style="position:fixed; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:10;"></div>'
+        body_append("afterbegin",loading_tag);
+        const loadingTag =  document.querySelector("div#loadingTag");
+
         const resolve_delCart = "/cart/sold-delete";
         const del_res = await axios.delete(resolve_delCart)
         .then(response=>response.data)
@@ -44,6 +50,8 @@ $(function(){
         if(del_res==0){
             return;
         }
+
+        loadingTag.remove();
         const res = await post_viewCart();
     });
 

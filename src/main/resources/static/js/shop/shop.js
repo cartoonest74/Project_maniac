@@ -1,18 +1,56 @@
 // TODO page number create
 $(function(){
+    const create_productTag = (jArray_product,jArray_like)=>{
+        let productTag ="";
+        jArray_product.forEach((val,i)=>{
+            const products = JSON.parse(val);
+
+            const productId = products.id;
+            const artistId = products.artist_id;
+            const price = products.price;
+            const mainImg = products.main_img;
+            const productTitle = products.title;
+            const quantity = products.total_quantity;
+
+            const shopInfoUri = `/product/${artistId}/find-product/${productId}`;
+
+            let priceTag = `<p>${price}</p>`;
+            let btnLikeTag = `<i data-btn-artistId="${artistId}" data-btn-like="${productId}" class="fa-regular  fa-heart fa-lg"></i>`
+            if(jArray_like.includes(productId)){
+                btnLikeTag = `<i data-btn-artistId="${artistId}" data-btn-like="${productId}" style="color:#d43f3f" class="fa-solid  fa-heart fa-lg"></i>`;
+            }
+
+            if(quantity == 0){
+                price = `<p style="text-transform:uppercase; font-size:1.4em;">sold out</p>`;
+            }
+            productTag += `<div class="shopEtc_content">
+                              <button data-btn-artistId="${artistId}" data-btn-like="${productId}" class="btnLike" type="button">
+                                    ${btnLikeTag}
+                              </button>
+                              <a href="${shopInfoUri}" class="shopEtc_contentImg">
+                                  <img src="${mainImg}" alt="${productTitle}">
+                              </a>
+                              <nav class="shopEtc_contentInfo">
+                                  <h1>${productTitle}</h1>
+                                   ${priceTag}
+                              </nav>
+                          </div>`;
+        });
+        return productTag;
+    };
 
     const shop_menu_page = (data, review_limit)=>{
         const ShopMenu_Content = document.getElementById("shopMenuContent");
-
-        let string_to_json = JSON.parse(data);
-        let all_reviewCount = string_to_json.allCount;
+        const jArray_like = data.like_list;
+        const jArray_product = data.product_list;
+        let all_reviewCount = data.allCount;
         // review & qna tag data
-        let tag_data = string_to_json.content;
-        if(tag_data == ""){
+        if(jArray_product.length == 0){
             ShopMenu_Content.innerHTML =`<div style="width:100%; text-align:center; color:#807c7c; padding:2vh 0; font-size:1.8em;">상품을 준비중 입니다.</div>`;
             return;
         }
-        ShopMenu_Content.innerHTML=tag_data;
+        const productTag = create_productTag(jArray_product,jArray_like);
+        ShopMenu_Content.innerHTML=productTag;
         // page 번호 처리
         const countNum = document.getElementById("shop_pageCount_num")
         if(all_reviewCount < 20){
@@ -34,7 +72,7 @@ $(function(){
         // page_increase * n
         // n = 1p에 보여질 페이지 넘버 * 1p에 보여질 데이터 개수
         const remaining_reviewCount = all_reviewCount - (page_increase * 100)
-        console.log(page_increase)
+//        console.log(page_increase)
 
         // page 개수
         let pageCount =  remaining_reviewCount / regular_pageDataLimit;
@@ -64,7 +102,7 @@ $(function(){
 
         // 한페이지에 보여질 개수 n개
         // all_reviewCount > prev_num * n;
-        console.log("all_reviewCount=",all_reviewCount,"prev_num=", prev_num)
+//        console.log("all_reviewCount=",all_reviewCount,"prev_num=", prev_num)
         if(all_reviewCount > prev_num * 20){
             page_tag = `<button id="d_lastPageId" class="info_nextPrev" type="button" data-last-page-id="${prev_num}">
                 <i data-last-page-id="${prev_num}" class="fa-solid fa-angle-right fa-lg"></i></button>`
@@ -102,8 +140,10 @@ $(function(){
     		        method:"post",
     		        body:formData
     		        })
-    		        .then(response=>response.text())
-    		        .then(data=>{shop_menu_page(data,review_limit)});
+    		        .then(response=>response.json())
+    		        .then(data=>{
+    		            shop_menu_page(data,review_limit)
+                    });
     }
 //    뒤로가기, 앞으로 클릭시 이벤트
     window.onpopstate=async function(event){

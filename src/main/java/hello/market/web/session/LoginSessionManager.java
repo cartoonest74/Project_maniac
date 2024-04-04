@@ -75,7 +75,6 @@ public class LoginSessionManager {
         String uuid = String.valueOf(request.getSession(false).getAttribute(LOGIN_UUID));
         Optional<LoginCheck> loginCheck = loginService.loginInCheck(uuid);
         Integer userNo = Integer.valueOf(loginCheck.map(hello.market.dto.LoginCheck::getUserNo).orElse("0"));
-        log.info("userNo = {}", userNo);
         return userNo;
     }
 

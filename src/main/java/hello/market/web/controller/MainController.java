@@ -8,11 +8,14 @@ import hello.market.service.artist.artistImg.ArtistImgService;
 import hello.market.service.artist.artistMember.ArtistMemberService;
 import hello.market.service.artist.artistMv.ArtistMvService;
 import hello.market.service.artist.artistSns.ArtistSnsService;
+import hello.market.service.like.LikeService;
 import hello.market.service.member.MemberService;
 import hello.market.service.product.ProductService;
+import hello.market.web.session.LoginSessionManager;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +41,8 @@ public class MainController {
     private final ArtistSnsService artistSnsService;
     private final ArtistMemberService artistMemberService;
     private final ArtistSearchResetRepositoryImpl artistSearchResetRepository;
+    private final LoginSessionManager loginSessionManager;
+    private final LikeService likeService;
 
     @GetMapping("/")
     private String get_index(Model model){
@@ -56,7 +61,18 @@ public class MainController {
     }
 
     @GetMapping("/main/{artist_id}")
-    private String movePageMain(@PathVariable int artist_id, Model model) {
+    private String movePageMain(@PathVariable int artist_id,
+                                Model model,
+                                HttpServletRequest request) {
+        Integer user_id = loginSessionManager.sessionUUIDcheck(request);
+        JSONArray like_jsonArray = new JSONArray();
+
+        if(user_id != 0){
+            List<Integer> likes = likeService.my_likeList(user_id);
+            for (Integer like : likes) {
+                like_jsonArray.put(like);
+            }
+        }
 
         List<Artist_sns> artistSns = artistSnsService.snsSelect(artist_id);
         Artist artist = artistService.artistSelect(artist_id);
@@ -89,6 +105,7 @@ public class MainController {
         model.addAttribute("artistSnsList", artistSns);
         model.addAttribute("artistMemberList", artistMembers);
         model.addAttribute("artistId", artist_id);
+        model.addAttribute("likeList", like_jsonArray);
         return "/main/main";
     }
 }

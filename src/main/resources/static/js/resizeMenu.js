@@ -6,6 +6,7 @@ $(function(){
     const resizeMenu_on = document.getElementById("resizeMenu_on");
     const resizeMenu_off = document.getElementById("resizeMenu_off");
     const shop_btn = document.querySelector("button[data-btn-hmtype=shop]");
+    const $resizeMenu_Relative=document.getElementById("resizeMenuRelative");
 
     // animation
     const front_keyframes ={left:"0%"};
@@ -47,7 +48,6 @@ $(function(){
 
     };
 
-    const $resizeMenu_Relative=document.getElementById("resizeMenuRelative");
     $resizeMenu_Relative.addEventListener("click",function(e){
         if(e.target.classList.contains("resizeMenu_Relative")){
            resize_menu_OFF_btn_fn();
@@ -56,11 +56,11 @@ $(function(){
 
     // first
     // resize menu on
-    document.getElementById("resizeMenu_on").addEventListener("click",function(){
+    resizeMenu_on.addEventListener("click",function(){
         resize_menu_ON_btn_fn();
     });
     // resize menu off
-    document.getElementById("resizeMenu_off").addEventListener("click",function(){
+    resizeMenu_off.addEventListener("click",function(){
         resize_menu_OFF_btn_fn();
     });
 

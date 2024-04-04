@@ -71,7 +71,7 @@ request.setCharacterEncoding("UTF-8");
                 <i class="fa-solid fa-bars fa-lg"></i>
             </span>
         </button>
-        <div class="resizeMenu_Relative">
+        <div id="resizeMenuRelative" class="resizeMenu_Relative">
                 <!-- second menu -->
             <div id="second_resizeMenu_partBox" class="second_resizeMenu_partBox none">
                 <div class="resizeMenu_partBox_Relative">

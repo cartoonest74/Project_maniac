@@ -16,8 +16,8 @@ $(function(){
     }
 
     $(document).on("click","button[data-btn-like]",async function(e){
-        const _ProductId = $(e.target).attr("data-btn-like");
-        const _categoryId = $(e.target).attr("data-btn-artistId");
+        const _ProductId = e.target.getAttribute("data-btn-like");
+        const _categoryId = e.target.getAttribute("data-btn-artistId");
         const solid_heatTag = `<i data-btn-like="${_ProductId}" style="color:#d43f3f" class="fa-solid  fa-heart fa-lg"></i>`;
         const regular_heatTag = `<i data-btn-like="${_ProductId}" class="fa-regular  fa-heart fa-lg"></i>`;
         const add_like_mapping = "/add-like";
@@ -25,7 +25,7 @@ $(function(){
         const formData = new FormData();
         let _method = ""
     //  solid
-        if($(e.target).hasClass("fa-regular")){
+        if(e.target.classList.contains("fa-regular")){
             formData.append("productId",_ProductId);
             formData.append("categoryId",_categoryId);
             _method = "PUT";
@@ -33,7 +33,7 @@ $(function(){
             return
         }
     // regular
-        if($(e.target).hasClass("fa-solid")){
+        if(e.target.classList.contains("fa-solid")){
             const like_json = new Object();
             const arr_check = [];
             arr_check.push({"productId":Number(_ProductId)});

@@ -4,11 +4,11 @@
 <mapper namespace="hello.market.repository.mybatis.login.LoginMapper">
     <update id="update_tempPwd">
         update member
-        set pwd = #{arg1}
-        where id = #{arg0}
+        set pwd = #{param2}
+        where id = #{param1}
     </update>
     <insert id="insert">
-        insert into login_check values(#{arg0}, #{arg1})
+        insert into login_check values(#{param1}, #{param2})
     </insert>
     <delete id="delete">
         delete from login_check where userNo = #{userNo}
@@ -31,7 +31,7 @@
         select id, user_id as userId, grade
         from Member
         where
-            user_id = #{arg0} and pwd = #{arg1}
+            user_id = #{param1} and pwd = #{param2}
     </select>
     <select id="select" resultType="LoginCheck">
         select *

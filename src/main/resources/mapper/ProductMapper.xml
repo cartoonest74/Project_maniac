@@ -41,15 +41,15 @@
         from (select row_number() over(order by id)as no,
                 id, artist_id, title, category, price,main_img,date, option_size,total_quantity
             from Product_artist
-            where artist_id = #{arg0} and category = #{arg1}
+            where artist_id = #{param1} and category = #{param2}
             )as pa
-        where pa.no > #{arg2}
+        where pa.no > #{param3}
         order by date desc limit 20;
     </select>
     <select id="selectLength" resultType="Integer">
         select count(*)
         from product_artist
-        where artist_id=#{arg0} and category=#{arg1}
+        where artist_id=#{param1} and category=#{param2}
         group by category;
     </select>
 </mapper>

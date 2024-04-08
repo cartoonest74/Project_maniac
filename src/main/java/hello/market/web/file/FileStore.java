@@ -1,5 +1,6 @@
 package hello.market.web.file;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ public class FileStore {
     @Value("${file.dir}")
     private String fileDir;
 
-    public String getFullPath(String dirName,String fileName) {
+    public String getFullPath(String dirName, String fileName) {
         String fileUrl = new StringBuilder()
                 .append(fileDir)
                 .append(dirName)

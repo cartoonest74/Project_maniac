@@ -117,10 +117,10 @@
                     json_extract(option_json,concat('$.',json_key,'[1]')) order_date
                 from Cart,json_table(JSON_KEYS(option_json),
                 '$[*]' COLUMNS(json_key varchar(20) PATH '$')) t
-                where user_id = #{arg0}) t1
+                where user_id = #{param1}) t1
             ) ex_cart inner join Product_artist pa
         on ex_cart.product_no = pa.id
-        where no>#{arg1}
+        where no>#{param2}
         order by no
     </select>
     <select id="select_orderListLength" resultType="Integer">

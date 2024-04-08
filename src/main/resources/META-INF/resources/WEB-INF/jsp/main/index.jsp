@@ -32,7 +32,7 @@
 
 <!-- controller mapping url -->
 <c:url var="shopinfo" value="/product/find-product" />
-<c:url var="maniac" value="/img/web_logo/maniac.png" />
+<c:url var="maniac_title" value="/img/web_logo/Maniac_text.png" />
 <c:url var="mainBg" value="/img/main_bg/mainBg.png" />
 <c:url var="maniac_simple_log_c" value="/img/web_logo/Simple_logoC.png" />
 
@@ -60,7 +60,7 @@
                     <img src="${maniac_simple_log_c}" alt="mania_simple">
                 </nav>
                 <nav>
-                    <img src="${maniac}" alt="maniac">
+                    <img src="${maniac_title}" alt="maniac">
                 </nav>
             </header>
             <div id="searchBtn" class="main_serach">

@@ -54,6 +54,7 @@ shopEtc_headerMenu{
     font-size:1.5em;
     cursor:pointer;
     background:transparent;
+    color:black;
 }
 .shopEtc_contentImg{
     display:inline-block;

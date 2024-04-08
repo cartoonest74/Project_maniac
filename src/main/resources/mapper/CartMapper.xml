@@ -9,15 +9,15 @@
         arg1: productNo -->
     <update id="save">
         UPDATE Cart
-        SET option_json = JSON_SET(option_json,#{arg1},json_array(#{arg2},CURDATE()))
-        WHERE user_id = #{arg0}
+        SET option_json = JSON_SET(option_json,#{param2},json_array(#{param3},CURDATE()))
+        WHERE user_id = #{param1}
     </update>
 <!--    arg0: user_id
         arg1: productNo -->
     <update id="delete">
         update Cart
-        set option_json = JSON_REMOVE(option_json,#{arg1})
-        where id = #{arg0};
+        set option_json = JSON_REMOVE(option_json,#{param2})
+        where id = #{param1};
     </update>
     <select id="select_overdueCart" resultType="Cart">
         select CONCAT("$.",ca.json_key) cartKey
@@ -37,11 +37,11 @@
                     json_table(json_keys(purchase_list),"$[*]" columns(
                         json_key varchar(30) PATH "$"
                     ))t
-                where user_id =#{arg0}) tmp,
+                where user_id =#{param1}) tmp,
                 json_table(json_keys(tmp.pl),"$[*]" columns(
         productNo varchar(30) PATH "$"
                 ))t1
-        where productNo = #{arg1})t2
+        where productNo = #{param2})t2
         group by productNo;
     </select>
 <!--    arg0: user_id
@@ -68,10 +68,10 @@
                     json_extract(option_json,concat('$.',json_key,'[1]')) cart_date
                 from Cart,json_table(JSON_KEYS(option_json),
                     '$[*]' COLUMNS(json_key varchar(20) PATH '$')) t
-                where user_id = #{arg0}) t1
+                where user_id = #{param1}) t1
                 ) ex_cart inner join Product_artist pa
         on ex_cart.product_no = pa.id
-        where no>#{arg1}
+        where no>#{param2}
         order by no;
     </select>
 <!--    arg0:productNo, arg1:option_id, arg2:quantity-->

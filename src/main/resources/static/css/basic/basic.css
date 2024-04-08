@@ -85,6 +85,7 @@ a{
 .shopLogo{
     display:inline-block;
     margin-top:-70px;
+    width:206px;
     height:200px;
     cursor: pointer;
 }
@@ -138,6 +139,7 @@ button[class="header_btn"]{
 .artist_searchIcon{
     font-size:inherit;
     margin-left:2px;
+    color:black;
 }
 .header_btn i{
     font-size:inherit;

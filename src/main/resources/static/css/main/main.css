@@ -1,4 +1,4 @@
-@charset "EUC-KR";
+@charset "UTF-8";
 .chapter_mainBox {
 	display: inline-block;
 	width: 80%;
@@ -109,6 +109,7 @@
     font-size:1.5em;
     cursor:pointer;
     background:transparent;
+    color:black;
 }
 .shopEtc_contentImg{
     display:inline-block;

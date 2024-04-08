@@ -4,6 +4,7 @@ import hello.market.dto.Member;
 import hello.market.repository.mybatis.artist.ArtistSearchResetRepositoryImpl;
 import hello.market.service.Cart.CartService;
 import hello.market.service.member.MemberService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;

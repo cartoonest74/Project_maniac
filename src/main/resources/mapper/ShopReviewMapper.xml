@@ -31,27 +31,27 @@
                     on sr.user_id = m.id
                 inner join Product_artist pa
                     on sr.product_no = pa.id
-            where product_no = #{arg0}) as review
-        where review.no > #{arg1}
+            where product_no = #{param1}) as review
+        where review.no > #{param2}
         order by date desc limit 10
     </select>
 
     <select id="selectLength" resultType="Integer">
         select
-        <if test="arg0 != 0">
+        <if test="param1 != 0">
             count(product_no)
         </if>
-        <if test="arg1 != 0">
+        <if test="param2 != 0">
             count(user_id)
         </if>
         from shop_review
-        <if test="arg0 != 0">
+        <if test="param1 != 0">
             group by product_no
-            having product_no = #{arg0}
+            having product_no = #{param1}
         </if>
-        <if test="arg1 != 0">
+        <if test="param2 != 0">
             group by user_id
-            having user_id = #{arg1}
+            having user_id = #{param2}
         </if>
     </select>
     <select id="select" resultType="shopReview">
@@ -77,7 +77,7 @@
                 on sr.user_id = m.id
             inner join Product_artist pa
                 on sr.product_no = pa.id
-        where sr.user_id = #{arg0} and product_no = #{arg1}) as review
+        where sr.user_id = #{param1} and product_no = #{param2}) as review
         order by date desc limit 10
     </select>
 </mapper>

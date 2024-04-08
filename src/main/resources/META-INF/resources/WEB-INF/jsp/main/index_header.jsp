@@ -15,7 +15,6 @@ request.setCharacterEncoding("UTF-8");
 <c:url var="loginInfo" value="/member/login-info" />
 <c:url var="viewCart" value="/cart/0/view-cart" />
 <c:url var="rootInfo" value="/manager/info" />
-<c:url var="maniac" value="/img/web_logo/maniac.png" />
 
 <div class="box">
     <input id="contextPath" type="text" value="${contextPath}" hidden>

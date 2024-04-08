@@ -12,6 +12,7 @@
     font-size:2.5rem;
     background-color:transparent;
     cursor: pointer;
+    color:black;
 }
 .resizeMenu_Btn>span[class='inlineblock']{
     font-size:inherit;

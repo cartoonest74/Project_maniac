@@ -10,20 +10,20 @@
 
     <select id="selectLength" resultType="Integer">
         select
-        <if test="arg0 != 0">
+        <if test="param1 != 0">
             count(product_no)
         </if>
-        <if test="arg1 != 0">
+        <if test="param2 != 0">
             count(user_id)
         </if>
         from shop_qna
-        <if test="arg0 != 0">
+        <if test="param1 != 0">
             group by product_no
-            having product_no = #{arg0}
+            having product_no = #{param1}
         </if>
-        <if test="arg1 != 0">
+        <if test="param2 != 0">
             group by user_id
-            having user_id = #{arg1}
+            having user_id = #{param2}
         </if>
     </select>
 
@@ -61,8 +61,8 @@
                     on sq.product_no = pa.id
                 left join answer_qna as aq
                     on sq.id = aq.qna_id
-                where product_no = #{arg0}) as qna
-        where qna.no > #{arg1}
+                where product_no = #{param1}) as qna
+        where qna.no > #{param2}
         order by date desc limit 10
     </select>
 
@@ -100,8 +100,8 @@
                     on sq.product_no = pa.id
                 left join answer_qna aq
                     on sq.id = aq.qna_id
-                where product_no = #{arg0} and sq.user_id = #{arg1}) as qna
-        where qna.no > #{arg2}
+                where product_no = #{param1} and sq.user_id = #{param2}) as qna
+        where qna.no > #{param3}
         order by date desc limit 10
     </select>
 </mapper>

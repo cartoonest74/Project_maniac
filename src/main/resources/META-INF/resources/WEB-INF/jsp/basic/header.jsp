@@ -27,7 +27,7 @@ request.setCharacterEncoding("UTF-8");
 <c:url var="viewCart" value="/cart/${artistId}/view-cart"/>
 <c:url var="viewLike" value="/${artistId}/like/view"/>
 
-<c:url var="maniac" value="/img/web_logo/maniac.png" />
+<c:url var="maniac_title" value="/img/web_logo/Maniac_text.png" />
 <c:url var="maniac_simple_log_c" value="/img/web_logo/Simple_logoC.png" />
 <div class="box">
 	<input id="contextPath" value="${contextPath}" type="text" hidden="hidden" />
@@ -155,7 +155,7 @@ request.setCharacterEncoding("UTF-8");
 			<h1 class="shopLogoBox">
 				<a class="shopLogo" href="${main}">
 				    <span>
-				        <img src="${maniac}" alt="maniac"/>
+				        <img src="${maniac_title}" alt="maniac"/>
 				    </span>
 				</a>
 			</h1>

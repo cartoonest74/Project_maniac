@@ -82,6 +82,7 @@ public class MainController {
         List<Product> goodsList = productService.findProducts(artist_id, "goods", 0);
         List<Product> product_limit3 = new ArrayList<>();
         List<Product> goods_limit3 = new ArrayList<>();
+        // view에 보여질 product data의 개수 index_limit 까지만 선별해 ArrayList에 따로 담기 
         int index = 1;
         int index_limit = 4;
         for (Product product : products) {

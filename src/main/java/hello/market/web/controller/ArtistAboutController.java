@@ -58,13 +58,13 @@ public class ArtistAboutController {
     private String get_discographyPage(@PathVariable int artistId,
                                        @RequestParam(value="page",required = false,defaultValue = "1")int page,
                                        Model model){
-        page = page < 1 ? 1 : page;
-        int limit = (page - 1) * 10;
-
-        List<Artist_album> artistAlbums = artistAlbumService.albumSelect(artistId, limit);
-        Integer total = artistAlbumService.albumTotal(artistId);
-        model.addAttribute("total", total);
-        model.addAttribute("artistAlbums", artistAlbums);
+//        page = page < 1 ? 1 : page;
+//        int limit = (page - 1) * 10;
+//
+//        List<Artist_album> artistAlbums = artistAlbumService.albumSelect(artistId, limit);
+//        Integer total = artistAlbumService.albumTotal(artistId);
+//        model.addAttribute("total", total);
+//        model.addAttribute("artistAlbums", artistAlbums);
         return "/about/discography";
     }
     @ResponseBody

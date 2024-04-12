@@ -1,13 +1,57 @@
 // TODO page number create
 $(function(){
+    // TODO CREATE discography tag
+    const create_discographyTag =(modelObject)=>{
+        let discography_tag = "";
+        const artistId = document.getElementById("artistId");
+        modelObject.forEach((model_json,i)=>{
+            const artistAlbum = JSON.parse(model_json);
+            const rowNum = artistAlbum.row_num;
+            const album_href = `/about/${artistId}/discography/${rowNum}`;
+            const albumSrc = artistAlbum.album_src;
+            const albumName = artistAlbum.album_name;
+            const albumDate = artistAlbum.album_date;
+            discography_tag +=`<div class="discography_content">
+                                    <a class="discography_img" href="${album_href}">
+                                        <img src="${albumSrc}" alt="${albumName}">
+                                    </a>
+                                    <nav>
+                                        <p class="content_name">${albumName}</p>
+                                        <p class="content_date">${albumDate}</p>
+                                    </nav>
+                                </div>`
+        });
+        return discography_tag;
+    }
+
+    //TODO CREATE gallery tag
+    const crate_galleryTag=(modelObject)=>{
+
+        let galleryTag = "";
+
+        modelObject.forEach((model_json,i)=>{
+            const artistImg = JSON.parse(model_json);
+            const artistImg_num = artistImg.row_num;
+            const artistImg_src = artistImg.artist_src;
+            galleryTag += `<div class="discography_content">
+                            <button data-swiper-num="${i}" class="discography_img" type="button">
+                                <img data-swiper-num="${i}" src="${artistImg_src}" alt="${artistImg_num}">
+                            </button>
+                        </div>`
+        });
+
+        return galleryTag;
+    }
 
     const about_subMenu_page = (data, review_limit)=>{
         const AboutSubMenu_content = document.getElementById("aboutSubMenuContent");
-        let string_to_json = JSON.parse(data);
         // 전체 게시물개수
-        let all_reviewCount = string_to_json.allCount;
+        let all_reviewCount = data.allCount;
+        const aboutMenu = data.about_menu;
+        const modelObject = data.modelObject;
+        const tag_data = aboutMenu=="gallery"? crate_galleryTag(modelObject):create_discographyTag(modelObject);
+
         // review & qna tag data
-        let tag_data = string_to_json.content;
         AboutSubMenu_content.innerHTML=tag_data;
         // page 번호 처리
         const countNum = document.getElementById("aboutSubMenu_pageCount_num");
@@ -87,13 +131,15 @@ $(function(){
 
     		const REVIEW_CONTROLLER_URL = current_url;
             let _pageData_limit = review_limit * 10;
+
             const formData =new FormData();
             formData.append("limit",_pageData_limit);
+
             const res = await fetch(REVIEW_CONTROLLER_URL,{
                                     method:"post",
                                     body:formData
                                 })
-                                .then(response=>response.text())
+                                .then(response=>response.json())
                                 .then(data=>about_subMenu_page(data,review_limit))
                                 .catch(error=>console.log(error));
     		return;

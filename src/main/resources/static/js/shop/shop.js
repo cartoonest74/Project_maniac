@@ -21,7 +21,7 @@ $(function(){
             }
 
             if(quantity == 0){
-                price = `<p style="text-transform:uppercase; font-size:1.4em;">sold out</p>`;
+                priceTag = `<p style="text-transform:uppercase; font-size:1.4em;">sold out</p>`;
             }
             productTag += `<div class="shopEtc_content">
                               <button data-btn-artistId="${artistId}" data-btn-like="${productId}" class="btnLike" type="button">

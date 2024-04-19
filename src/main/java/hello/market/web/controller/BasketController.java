@@ -74,7 +74,6 @@ public class BasketController {
 
         Integer max_quantity = (Integer) option.get("max");
         JSONArray option_arr = option.getJSONArray("option");
-        List<Cart> po_list = new ArrayList<>();
         JSONObject jsonObject = new JSONObject();
         JSONArray indexArray = new JSONArray();
         JSONArray quantityArray = new JSONArray();
@@ -114,7 +113,6 @@ public class BasketController {
         }
         jsonObject.put("overOptionId", indexArray);
         jsonObject.put("overOptionQuantity", quantityArray);
-        Integer cartCount = cartService.cart_length(user_id);
 
         String jsonObjectString = jsonObject.toString();
         return jsonObjectString;

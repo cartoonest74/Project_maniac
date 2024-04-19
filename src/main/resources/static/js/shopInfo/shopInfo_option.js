@@ -74,6 +74,7 @@ $(function(){
                                 ${selectOption_val}
                             </span>
                         `
+            // 수량이 0이하일 경우 soldOut_tag로 대체 아닐경우 option_tag
             const is_quantity = Number(selectQuantity_val) <= 0? selectOption_tag_soldOut:selectOption_tag;
             add_selectOption_tag.push(is_quantity)
         }
@@ -355,27 +356,29 @@ $(function(){
             const quantity_errorMsg = create_quantity_errorMsg(overOption_tag);
             body_append("afterbegin",quantity_errorMsg);
         }).catch((error)=>console.log(error));
+
         if(obj_overOptionLength.overOptionLength != 0 && container_quantity_length == obj_overOptionLength.overOptionLength){
             return;
         }
+
         const checkMsg_res =  await void_addCheckMsg_ani();
         const checkMsg_remove = await remove_basket();
     });
 
     /* sticky tag */
      const create_stickyHead_tag = ()=>{
-          const shopInfoMain_img_src = $("#shopInfoMain_img").attr("src");
-          const shopInfoMain_title = $("#shopInfoMain_img").attr("alt");
-          const shopInfoMain_price = $("#basic_productPrice").html();
-          const option_keys = Object.keys(option_quantity_obj);
-          const shopInfoMain_id = Object.keys(option_quantity_obj);
-          const productNo = $("#addToCart").attr("data-productNo");
+        const shopInfoMain_img_src = $("#shopInfoMain_img").attr("src");
+        const shopInfoMain_title = $("#shopInfoMain_img").attr("alt");
+        const shopInfoMain_price = $("#basic_productPrice").html();
+        const option_keys = Object.keys(option_quantity_obj);
+        const shopInfoMain_id = Object.keys(option_quantity_obj);
+        const productNo = $("#addToCart").attr("data-productNo");
 
-          let stickyOption_tag ="";
-          let stickyTotal_tag = "";
-          let stickyOrder_class = "order_box_allowed";
+        let stickyOption_tag ="";
+        let stickyTotal_tag = "";
+        let stickyOrder_class = "order_box_allowed";
 
-          if(option_keys[0]!="single"){
+        if(option_keys[0]!="single"){
             stickyOption_tag = `<div class="shopInfo_selectTag justify-content-start">
                                    <div id="sticky_selectOption" class="select_option">
                                        <nav class="select_tag">
@@ -387,8 +390,8 @@ $(function(){
                                    </div>
                                </div>`;
 
-           stickyOrder_class = "order_box_not_allowed";
-          }else{
+            stickyOrder_class = "order_box_not_allowed";
+        }else{
             stickyOption_tag = `<div class="sticky_shopInfo_optionBox">
                                    <nav id="stickyQuantityBox" class="quantity_btn_box">
                                        <button data-minus-quantity="single" type="button">
@@ -402,7 +405,8 @@ $(function(){
                                </div>`;
 
             stickyTotal_tag = `<h3 data-option_priceTotal="total">${shopInfoMain_price}</h3>`;
-          }
+        }
+
         let stickyHead_tag=`<div id="stickyInfo" class="sticky_info">
                                   <div class="stickyItemBox">
                                       <header class="stickyHeader">

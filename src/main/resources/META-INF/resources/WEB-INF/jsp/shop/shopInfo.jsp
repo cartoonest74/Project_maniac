@@ -15,9 +15,10 @@
 
 <link rel="icon" href="${contextPath}/img/web_logo/favicon.png">
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/shop/shopinfo.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/errorPage/basic_err.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/pageCount/pageCount.css">
+<link rel="stylesheet" href="${contextPath}/css/shop/shopinfo.css">
+<link rel="stylesheet" href="${contextPath}/css/errorPage/basic_err.css">
+<link rel="stylesheet" href="${contextPath}/css/errorPage/confirm.css">
+<link rel="stylesheet" href="${contextPath}/css/pageCount/pageCount.css">
 <link rel="stylesheet" href="${contextPath}/css/basic/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/basic/resizeMenu.css">
 <link rel="stylesheet" href="${contextPath}/css/basic/basic.css">
@@ -37,14 +38,11 @@
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
-<script type="text/javascript"
-	src="${contextPath}/js/shopInfo/shopInfo_subcontent.js">
-</script>
+<script type="text/javascript" src="${contextPath}/js/shopInfo/shopInfo_subcontent.js"></script>
 <script type="text/javascript" src="${contextPath}/js/shopInfo/shopInfo_option.js"></script>
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
-<script type="text/javascript" src="${contextPath}/js/cart.js"></script>
 
 <!-- session -->
 <c:set var="productNo" value="${productinfo.id}" />

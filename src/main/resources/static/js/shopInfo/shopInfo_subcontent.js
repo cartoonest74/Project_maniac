@@ -28,6 +28,11 @@ $(function() {
 	// review * qna add form
 	const ADD_FORM = $("#add_form");
 
+    const body_append =(position, text)=>{
+        const body = document.querySelector("body");
+        body.insertAdjacentHTML(position, text);
+    }
+
     // TODO page number create
     const qna_review_page = (data, review_limit)=>{
         let string_to_json = JSON.parse(data);
@@ -180,17 +185,35 @@ $(function() {
         first_view(last_pageNum)
     });
 
+    const create_alertMsg =()=>{
+        const alertMsg = `<div id="confirmBox" class="confirm_box">
+                            <div class="confirmContainer">
+                                <h2>알림</h2>
+                                <p>로그인후 이용가능 합니다.</p>
+                                <div class="confirmBtn">
+                                    <button id="confirmBtn" type="button">확인</button>
+                                </div>
+                            </div>
+                        </div>`
+        body_append("afterbegin",alertMsg);
+    }
+
 	const loginAfter_addBtn_visible=()=>{
 
 		const loginUserId_tag =document.querySelector("[data-login]");
 		const login_exist = document.body.contains(loginUserId_tag);
 		if(! login_exist){
-			alert("로그인후 이용가능");
+			create_alertMsg();
 			return false;
 		}
 		return true;
 	}
-	
+	// confirm alert remove
+	$(document).on("click","button#confirmBtn",function(){
+        const confirmBox = document.querySelector("#confirmBox");
+        confirmBox.remove();
+	});
+
 	$(document).on("click","button[class=shopInfo_qna_re_btn]",function(){
 		alert("관리자만 작성가능");
 	});

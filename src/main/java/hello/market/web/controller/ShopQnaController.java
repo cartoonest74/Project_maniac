@@ -71,7 +71,8 @@ public class ShopQnaController {
         return jsonObject.toString();
     }
 
-    @PostMapping("/add-qna")
+    @ResponseBody
+    @PutMapping("/add-qna")
     private String addQna(@PathVariable Integer artistId,@ModelAttribute QnaUploadForm qnaUploadForm, HttpServletRequest request) {
         int productNo = qnaUploadForm.getProduct_no();
         int userId = sessionLoginCheck.sessionUUIDcheck(request);
@@ -86,13 +87,9 @@ public class ShopQnaController {
         shopQna.setContent(content);
 
         shopQnaService.addQna(shopQna);
-        return String.format("redirect:/product/%d/find-product/%d",artistId,productNo);
+        return "ok";
     }
 
-    @GetMapping("/qna-answer")
-    private String qnaAnswer() {
-        return "";
-    }
 
     @GetMapping("/del_qna")
     private String delQna() {

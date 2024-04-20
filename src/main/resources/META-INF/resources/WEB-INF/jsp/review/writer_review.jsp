@@ -19,6 +19,7 @@
 	href="${contextPath}/css/basic/basic.css">
 <link rel="stylesheet" href="${contextPath}/css/writeQna_Review/writer_review.css">
 <link rel="stylesheet" href="${contextPath}/css/basic/search_artist.css">
+<link rel="stylesheet" href="${contextPath}/css/errorPage/basic_err.css">
 <link rel="stylesheet" href="${contextPath}/css/basic/resizeMenu.css">
 <link rel="stylesheet" href="${contextPath}/css/basic/mediaquery.css">
 
@@ -51,10 +52,10 @@
 <body>
 	<c:import url="../basic/header.jsp">
 	</c:import>
-	<form action="${addReviewUrl}" id="WriterQnaForm" class="writer_Form" method="post" enctype="multipart/form-data">
+	<section class="writer_Form">
 		<input type="text" name="productNo" value="${productNo}" hidden="hidden">
 		<input type="text" name="artistId" value="${product_artistId}" hidden="hidden">
-		<nav class="writere_tag">Review</nav>
+		<nav class="writer_tag">Review</nav>
 		<nav class="writer_qna_header">
 			<h1>
 				<span>${name}</span>
@@ -76,11 +77,11 @@
 			</nav>
 		</div>
 		<nav class="qnaTextBox">
-            <textarea name="content" id="qnaText" cols="0" rows="3" wrap="hard" autofocus="autofocus" maxlength="200" required>
+            <textarea name="content" id="qnaText" cols="20" rows="3" wrap="hard" autofocus="autofocus" maxlength="200" placeholder="write...." required>
             </textarea>
 		</nav>
 		<button id="sendBtn_qna" type="button" class="qnaSendbtn">SEND</button>
-	</form>
+	</section>
 	<jsp:include page="../basic/footer.jsp" flush="true" />
 </body>
 </html>

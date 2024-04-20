@@ -18,6 +18,7 @@
 	href="${contextPath}/css/basic/basic.css">
 <link rel="stylesheet"
 	href="${contextPath}/css/writeQna_Review/writer_qna.css">
+<link rel="stylesheet" href="${contextPath}/css/errorPage/basic_err.css">
 <link rel="stylesheet" href="${contextPath}/css/basic/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/basic/resizeMenu.css">
 <link rel="stylesheet" href="${contextPath}/css/basic/mediaquery.css">
@@ -53,7 +54,7 @@
 	<c:import url="../basic/header.jsp">
 		<c:param name="cartCount" value="${cartCount}" />
 	</c:import>
-	<form action="${addQnaUrl}" id="WriterQnaForm" class="writer_Form" method="post">
+	<section id="WriterQnaForm" class="writer_Form">
 		<input type="text" name="product_no" value="${productNo}" hidden="hidden">
 		<input type="text" name="artistId" value="${product_artistId}" hidden="hidden">
 
@@ -71,7 +72,7 @@
 				autofocus="autofocus" maxlength="200" placeholder="write...." required></textarea>
 		</nav>
 		<button id="sendBtn_qna" type="button" class="qnaSendbtn">SEND</button>
-	</form>
+	</section>
 	<jsp:include page="../basic/footer.jsp" flush="true" />
 </body>
 </html>

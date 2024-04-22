@@ -40,7 +40,6 @@
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
-<script type="text/javascript" src="${contextPath}/js/cart.js"></script>
 
 <!-- postDaum -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -106,8 +105,8 @@
                 </c:forEach>
             </ul>
             <dl class="orderListTotal">
-                <dt id="orderTotal_info">Total&nbsp;(6)</dt>
-                <dd id="orderTotal">₩500,000,000</dd>
+                <dt id="orderTotal_info"></dt>
+                <dd id="orderTotal"</dd>
             </dl>
             <div class="orderInfo">
                 <div id="infoPart" class="orderInfoPart">
@@ -207,7 +206,7 @@
                 </div>
             </div>
             <div class="orderTotal">
-                <dl><dt>소계&nbsp;(6)</dt><dd id="subtotalTag">28,000</dd></dl>
+                <dl><dt id="subtotalTitle">소계&nbsp;()</dt><dd id="subtotalTag">28,000</dd></dl>
                 <dl><dt>배송비</dt><dd id="deliveryFree">3,000</dd></dl>
                 <dl><dt>총액</dt><dd id="basketTotal">31,000</dd></dl>
             </div>

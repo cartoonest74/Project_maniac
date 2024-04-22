@@ -1,9 +1,12 @@
 package hello.market.web.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hello.market.dto.Notice;
 import hello.market.service.notice.NoticeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,22 +21,24 @@ import java.util.List;
 public class NoticeController {
 
     private final NoticeService noticeService;
-    private final StringBuilder notice_menuTag = new StringBuilder();
 
     @ResponseBody
     @PostMapping("")
-    private String post_noticeMenu(@RequestParam int page,@PathVariable Integer artist_id, @RequestParam Integer limit) {
-        notice_menuTag.setLength(0);
+    private String post_noticeMenu(@RequestParam int page,@PathVariable Integer artist_id, @RequestParam Integer limit) throws JsonProcessingException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JSONArray jsonArray = new JSONArray();
+
         List<Notice> notices = noticeService.noticeMenuAllView(artist_id, limit);
         for (Notice notice : notices) {
-            create_noticeMenuTag(notice);
+            String writeValueAsString = objectMapper.writeValueAsString(notice);
+            jsonArray.put(writeValueAsString);
         }
-        String str_notice_menuTag = notice_menuTag.toString();
         Integer noticeLength = noticeService.noticeAllLength(artist_id);
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("allCount", noticeLength);
-        jsonObject.put("content", str_notice_menuTag);
+        jsonObject.put("notice_list", jsonArray);
         return jsonObject.toString();
     }
 
@@ -54,20 +59,5 @@ public class NoticeController {
         model.addAttribute("notice", notice);
         model.addAttribute("artistId", artist_id);
         return "/notice/notice_view";
-    }
-
-    private void create_noticeMenuTag(Notice notice){
-        int notice_artistId = notice.getArtistId();
-        int notice_id = notice.getId();
-        String notice_title = notice.getTitle();
-        String notice_category = notice.getCategory();
-        String notice_date = notice.getDate();
-        notice_menuTag.append("<li class=\"notice_menu\">\n")
-                            .append("<a href=\"/main/"+notice_artistId+"/notice/view?noticeId="+notice_id+"\">\n")
-                                .append("<nav>"+notice_category+"</nav>\n")
-                                .append("<nav>"+notice_title+"</nav>\n")
-                                .append("<nav>"+notice_date+"</nav>\n")
-                            .append("</a>\n")
-                    .append("</li>\n");
     }
 }

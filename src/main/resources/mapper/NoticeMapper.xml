@@ -6,10 +6,8 @@
         select id,
             artistId,
             category,
-            REPLACE(JSON_EXTRACT(title,"$.title"),'"','') title,
-            SUBSTR(
-            JSON_EXTRACT(content,"$.content"),2,(CHAR_LENGTH(JSON_EXTRACT(content,"$.content"))-2)
-            ) content,
+            title ->> "$.title" title,
+            content ->> "$.content" content,
         TRIM(SUBSTRING(date,1,10)) date
         from
             (select row_number() over(order by id) no,
@@ -26,10 +24,8 @@
     </select>
     <select id="select" resultType="Notice">
         select id, artist_id artistId, category,
-            REPLACE(JSON_EXTRACT(title,"$.title"),'"','') title,
-            SUBSTR(
-            JSON_EXTRACT(content,"$.content"),2,(CHAR_LENGTH(JSON_EXTRACT(content,"$.content"))-2)
-            ) content,
+            title ->> "$.title" title,
+            content ->> "$.content" content,
             TRIM(SUBSTR(date,1,10)) date
         from artist_notice
         where id =#{noticeId};

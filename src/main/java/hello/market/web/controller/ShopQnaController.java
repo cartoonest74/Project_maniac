@@ -79,7 +79,7 @@ public class ShopQnaController {
 
         String content = qnaUploadForm.getContent();
         int qnaArtistId = qnaUploadForm.getArtistId();
-        log.info("productNo = {}, userId = {}, content = {}", productNo, userId, content);
+
         ShopQna shopQna = new ShopQna();
         shopQna.setProductNo(productNo);
         shopQna.setArtistId(qnaArtistId);

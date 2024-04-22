@@ -36,8 +36,6 @@
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
-<script type="text/javascript" src="${contextPath}/js/cart.js"></script>
-<script type="text/javascript" src="${contextPath}/js/notice/notice_view.js"></script>
 
 </head>
 <body>
@@ -59,9 +57,6 @@
                 ${notice_content}
             </li>
         </ul>
-        <div id="notice_pageCount_num" class="pageCount">
-
-        </div>
 	</div>
 	<jsp:include page="../basic/footer.jsp" flush="true" />
 </body>

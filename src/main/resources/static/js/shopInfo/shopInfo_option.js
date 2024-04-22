@@ -207,7 +207,7 @@ $(function(){
     }
     option_dictionary();
 
-    // 수량 계산 부분
+    // TODO 수량 계산 부분
     function trans_price_calc (target_quantity_name, quantity_val, $option_priceTotal){
         // ch1 string to trans number price
         const currency_unit = $("#basic_productPrice").text()[0]

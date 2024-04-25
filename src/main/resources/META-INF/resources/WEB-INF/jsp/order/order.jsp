@@ -16,6 +16,7 @@
 <link rel="icon" href="${contextPath}/img/web_logo/favicon.png">
 
 <link rel="stylesheet" href="${contextPath}/css/order/order.css">
+<link rel="stylesheet" href="${contextPath}/css/errorPage/confirm.css">
 <link rel="stylesheet" href="${contextPath}/css/order/orderRegistry.css">
 <link rel="stylesheet" href="${contextPath}/css/basic/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/basic/resizeMenu.css">

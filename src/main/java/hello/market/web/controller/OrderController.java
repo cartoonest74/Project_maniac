@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -128,7 +129,6 @@ public class OrderController {
         String lastname = orderRegistry_info.getLastname();
         String email = orderRegistry_info.getEmail();
         String tel = orderRegistry_info.getTel();
-
         String orderInfo = new StringBuilder()
                 .append("[{\"first_name\":")
                 .append("\""+firstname+"\"")

@@ -11,19 +11,35 @@ $(function(){
          }
          addrEdit_Box.style.display = is_display;
    }
+
+   const create_alertMsg = (msg)=>{
+        const alertMsg = `<div id="confirmBox" class="confirm_box">
+                                <div class="confirmContainer">
+                                    <h2>알림</h2>
+                                    <p>${msg}</p>
+                                    <div class="confirmBtn">
+                                        <button id="confirmBtn" type="button">확인</button>
+                                    </div>
+                                </div>
+                            </div>`
+        body_append("afterbegin",alertMsg);
+   }
+
    const mainDeliveryAdd_tag=()=>{
         const addrPart = document.getElementById("addrPart")
         const main_deliveryAdd_tag = `<nav data-order-header="deliveryAddr" data-orderHeader-part="add" class="orderInfoHeader justify-content-between">
-                                                        <h2>배송주소</h2>
-                                                        <button id="OrderRegistry_delivery" type="button">등록</button>
-                                                    </nav>
-                                                    <div data-order-caption="deliveryAddr" class="orderInfoSubCaption">배송 주소 정보를 등록주세요</div>`
+                                            <h2>배송주소</h2>
+                                            <button id="OrderRegistry_delivery" type="button">등록</button>
+                                        </nav>
+                                        <div data-order-caption="deliveryAddr" class="orderInfoSubCaption">배송 주소 정보를 등록주세요</div>`
         addrPart.innerHTML = main_deliveryAdd_tag
         return ""
    }
+
    /* main 배송주소 업데이트 태그 */
    const create_mainDeliveryInfo_tag=()=>{
        const arr_addrSelect = document.querySelectorAll('[name="addrSelect"]');
+       // 등록된 메인주소가 없기에 등록 btn으로 바뀜
        if(arr_addrSelect.length == 0){
             mainDeliveryAdd_tag();
        }
@@ -33,6 +49,7 @@ $(function(){
                 menu_checkIndex = val.value
             }
        });
+       // 배송지 주소선택에서 check한 값 그대로 가져오기.
        const arr_addrCheckData = document.querySelectorAll(`p[data-addrSelect-num="${menu_checkIndex}"]`)
        let addrCheck_text = ""
        arr_addrCheckData.forEach((val)=>{
@@ -40,6 +57,7 @@ $(function(){
                 addrCheck_text += "<p>"+trans_tag+"</p>";
        });
 
+       // main 배송주소 업데이트
        const cap_deliveryAddr = document.querySelector('[data-order-caption="deliveryAddr"]');
        cap_deliveryAddr.innerHTML = addrCheck_text;
 
@@ -54,7 +72,7 @@ $(function(){
        basic_mark_tag.remove()
    }
 
-// 주문지 및 배송지 팝업창 닫기
+    // 주문지 및 배송지 팝업창 닫기
    const exit_termBox = (popup_tag)=>{
         const Term_BOX = document.getElementById(popup_tag);
         Term_BOX.remove();
@@ -72,15 +90,17 @@ $(function(){
 
 // TODO RegistryInfo
    const registryInfo_msg =(view,input_name,msg)=>{
-        let $registry_val = $("span[data-registry-val="+input_name+"]")
-        if(view == "on"){
-            $registry_val.removeClass("none");
-            $registry_val.addClass("inlineblock");
-            $registry_val.html(msg);
-        }else{
-            $registry_val.html("");
-            $registry_val.removeClass("inlineblock");
-            $registry_val.addClass("none");
+        let $registry_val = document.querySelector(`span[data-registry-val="${input_name}"]`);
+        if($registry_val != null){
+            if(view == "on"){
+                $registry_val.classList.remove("none");
+                $registry_val.classList.add("inlineblock");
+                $registry_val.innerHTML=msg;
+            }else{
+                $registry_val.innerHTML="";
+                $registry_val.classList.remove("inlineblock");
+                $registry_val.classList.add("none");
+            }
         }
    }
 
@@ -148,8 +168,8 @@ $(function(){
 
     //   orderRegistry input
    $(document).on("focusout",'input[data-registry-name]',function(e){
-        const input_val = $(e.target).val().trim();
-        const input_name = $(e.target).attr("data-registry-name");
+        const input_val = e.target.value.trim();
+        const input_name = e.target.getAttribute("data-registry-name");
         const registryObj_reg = registryObj[input_name].reg
         const registryObj_errorMsg = registryObj[input_name].error_msg
         if(input_val.search(registryObj_reg) == -1){
@@ -280,6 +300,7 @@ $(function(){
                                        </div>`
             return orderRegistryDelivery_tag;
    }
+
    /* 배송지 주소선택 메뉴 - 메뉴 태그 */
    const create_deliveryInfo_tag = (obj_deliveryInfo)=>{
         const home_deliveryIndex_tag = document.querySelector('input[name="home_deliveryIndex"]')
@@ -382,7 +403,7 @@ $(function(){
 
    // 주문자 창 가입자 정보 동일시 Data 가져오기
    $(document).on("click",'input[name="orderRegistry"]',async function(e){
-        const registry_IsCheck = $(e.target).is(":checked");
+        const registry_IsCheck = e.target.checked;
         const registryInfo_mapping = "/order/registryInfo"
         if(! registry_IsCheck){
             return ""
@@ -396,11 +417,11 @@ $(function(){
             const keys = Object.getOwnPropertyNames(data)
             keys.forEach((item)=>{
                 const value = data[item]
-                $("input[data-registry-name="+item+"]").val(value)
+                document.querySelector(`input[data-registry-name="${item}"]`).value=value;
                 registryObj[item].value=value
             })
         });
-   })
+   });
 
    const create_editOrderHeader = (caption_selector)=>{
         let editOrderHeader_Tag = "";
@@ -440,11 +461,11 @@ $(function(){
         /* orderInfoSubCaption */
         const caption = document.querySelector("[data-order-caption="+caption_selector+"]");
 
-        const arr_registry_name= document.querySelectorAll("[data-registry-name]");
         const req_InfoData = new Object();
         const resolve_saveRegistryInfo = resolve_mapping;
         const formData = new FormData();
 
+        const arr_registry_name= document.querySelectorAll("[data-registry-name]");
         let basic_index = 0;
         const basic_main = document.querySelector("span[data-basic-check]");
         if(basic_main != null){
@@ -497,7 +518,9 @@ $(function(){
         if(object_keys.length != arr_registry_name.length){
             return
         }
+
         create_editOrderHeader(caption_selector);
+
         const response = await axios.put(
             resolve_saveRegistryInfo,
             formData
@@ -547,22 +570,34 @@ $(function(){
    $(document).on("click","button#OrderRegistry_delivery2",function(){
         const arr_addrSelect = document.querySelectorAll('input[name="addrSelect"]');
         const basic_check_tag = document.querySelector('span[data-basic-check]')
+        // 기본 배송 주소로 설정을 check한 index 가져오기
+        // 기본 배송 주소 설정 data-basic-check 속성을 가지고 있는 있는 요소가 dom안에 없다면 index를 0으로 설정.
         const basic_index = basic_check_tag != null? basic_check_tag.getAttribute("data-basic-check"):0
+
         if(arr_addrSelect.length >= 3){
-            return alert("최대 3개까지만 등록 가능합니다.");
+            create_alertMsg("최대 3개까지만 등록 가능합니다.");
+        }
+        const confirmBox = document.querySelector("#confirmBox");
+        if(confirmBox != null){
+            document.querySelector("#confirmBtn").addEventListener("click",()=>{
+                confirmBox.remove();
+            });
+            return;
         }
 
         let deliveryIndex_guide = [0,1,2]
         let delivery_index = 0;
-
         if(! arr_addrSelect.length){
+            // 배송지 주소 선택창에 등록된 주소지가 없을경우 0번 index 부터 생성
             delivery_index = 0
         }else{
+            // 배송지 주소 선택창에 등록된 주소지중 없는 index번호(0,1,2) 생성.
             const arr_selectVal = [...arr_addrSelect].map((val)=> Number(val.value))
             const result_selectVal =deliveryIndex_guide.filter(val => ! arr_selectVal.includes(val));
-            delivery_index = result_selectVal[0]
+            delivery_index = result_selectVal[0] // 등록되어있지 않은 번호가 순차적으로 들어가기에 0번 index를 콜.
         }
         addrEditBox_display("none");
+        //
         const orderRegistryDelivery_tag = create_orderRegistryDelivery_tag(basic_index,delivery_index);
         body_append("afterbegin",orderRegistryDelivery_tag)
    });
@@ -596,7 +631,7 @@ $(function(){
             const key = val.getAttribute("data-addrSelect-part");
             const value = val.textContent
             registryObj[key].value= value
-        })
+        });
         const orderRegistryDelivery_tag = create_orderRegistryDelivery_tag(basic_index,delivery_index);
         body_append("afterbegin",orderRegistryDelivery_tag)
         registryObj["basicMain"].value = delivery_index;
@@ -620,6 +655,7 @@ $(function(){
         const basic_check_index = document.querySelector('span[data-basic-check]').getAttribute("data-basic-check");
         const home_deliveryIndex_tag = document.querySelector('input[name="home_deliveryIndex"]');
         /* 기본 주소를 삭제할경우 2번째 주소가 기본이 되게 설정 */
+        console.log(arr_addrSelect);
         const basic_main = basic_check_index == delivery_delNum && arr_addrSelect.length > 1? arr_addrSelect[1].value : 0;
         const formData = new FormData();
         formData.append("basicMain",basic_main);

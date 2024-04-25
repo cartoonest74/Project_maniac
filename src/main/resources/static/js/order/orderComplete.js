@@ -32,8 +32,8 @@ $(function(){
         }).toReversed().join("");
 
         purchaseAmount.innerText =trans_amountVal;
+        trans_purchaseStatus();
     }
 
     trans_amount();
-    trans_purchaseStatus();
 })

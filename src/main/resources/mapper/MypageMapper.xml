@@ -178,20 +178,20 @@
     </select>
     <select id="select_deliveryAddr" resultType="Complete_deliveryInfo">
         select amount ->> #{purchase_id} purchaseAmount,
-        json_unquote(json_extract(delivery_status,CONCAT(#{purchase_id},"[0]"))) deliveryMethod,
-        json_unquote(json_extract(delivery_status,CONCAT(#{purchase_id},"[1]"))) deliveryMsg,
-        json_unquote(json_extract(delivery_status,CONCAT(#{purchase_id},"[2]"))) deliveryStatus,
+            json_unquote(json_extract(delivery_status,CONCAT(#{purchase_id},"[0]"))) deliveryMethod,
+            json_unquote(json_extract(delivery_status,CONCAT(#{purchase_id},"[1]"))) deliveryMsg,
+            json_unquote(json_extract(delivery_status,CONCAT(#{purchase_id},"[2]"))) deliveryStatus,
         a.*
         from purchase,(
-        select firstName, lastName, mainAddr, detailAddr, postNum, tel
-        from Purchase, json_table(delivery_list->>#{purchase_id},"$" columns(
-        firstName varchar(20) PATH '$.first_name',
-        lastName varchar(100) PATH '$.last_name',
-        mainAddr varchar(50) PATH '$.main_addr',
-        detailAddr varchar(50) PATH '$.detail_addr',
-        postNum varchar(50) PATH '$.post_num',
-        tel varchar(15) PATH '$.tel'
-        ))tmp)a
+            select firstName, lastName, mainAddr, detailAddr, postNum, tel
+            from Purchase, json_table(delivery_list->>#{purchase_id},"$" columns(
+                firstName varchar(20) PATH '$.first_name',
+                lastName varchar(100) PATH '$.last_name',
+                mainAddr varchar(50) PATH '$.main_addr',
+                detailAddr varchar(50) PATH '$.detail_addr',
+                postNum varchar(50) PATH '$.post_num',
+                tel varchar(15) PATH '$.tel'
+            ))tmp)a
         where user_id =#{user_id};
     </select>
     <select id="select_purchaseList" resultType="Cart">

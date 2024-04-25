@@ -35,7 +35,6 @@
 <script type="text/javascript" src="${contextPath}/js/search_artist.js"></script>
 <script type="text/javascript" src="${contextPath}/js/resizeMenu.js"></script>
 <script type="text/javascript" src="${contextPath}/js/header.js"></script>
-<script type="text/javascript" src="${contextPath}/js/cart.js"></script>
 
 <!-- postDaum -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -88,10 +87,12 @@
                             <c:set var="optionTitle" value="${cart.optionTitle}"/>
                             <p>
                                 <span style="font-weight:600;">${title}</span>
+                            <!-- 결제 상품에 옵션이 없을 경우 -->
                             <c:if test="${optionTitle eq 'single'}">
                                 <span>&nbsp;(${quantity})</span>
                             </c:if>
                             </p>
+                            <!-- 결제 상품에 옵션이 있을 경우 -->
                             <c:if test="${optionTitle ne 'single'}">
                                 <p>
                                     <span>&nbsp;${optionTitle}</span><span>&nbsp;(${quantity})</span>

@@ -12,6 +12,21 @@ $(function(){
             {name:"배송완료"},
             {name:"취소/교환/반품"}
         ]
+
+    const create_confirmTag =(msg)=>{
+        const confirmTag = `<div id="confirmBox" class="confirm_box">
+                                   <div class="confirmContainer">
+                                       <h2>알림</h2>
+                                       <p>${msg}</p>
+                                       <div class="confirmBtn">
+                                           <button id="confirmBtn" type="button">확인</button>
+                                       </div>
+                                   </div>
+                               </div>`
+        body_append("afterbegin",confirmTag);
+
+    }
+
     const create_statusTitle_tag =()=>{
         const statusAll_arr = document.querySelectorAll("dt[data-deliveryStatus-num]");
         statusAll_arr.forEach(val=>{
@@ -19,6 +34,7 @@ $(function(){
             val.innerText = orderStatus_obj[status_num].name;
         })
     }
+
     create_statusTitle_tag();
     const editUserInfo_obj={
         editPwd:{header_title:"비밀번호 변경",
@@ -625,7 +641,14 @@ $(function(){
             return "";
         }
 
-        alert("인증번호를 보냈습니다.");
+        create_confirmTag("인증번호를 보냈습니다.");
+        const confirmBox = document.querySelector("confirmBox");
+        if(confirmBox !=null){
+            document.querySelector("#confirmBtn").addEventListener("click",function(){
+                confirmBox.remove;
+            });
+        }
+
         editEmail_tag.readOnly = true;
         editEmail_tag.style.background="rgb(157, 156, 156,0.8)";
         editEmail_tag.style.color="rgb(109 104 104)";

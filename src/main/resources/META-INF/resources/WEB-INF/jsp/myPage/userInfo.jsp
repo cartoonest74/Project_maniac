@@ -17,6 +17,7 @@
 
 <link rel="stylesheet" href="${contextPath}/css/basic/basic.css">
 <link rel="stylesheet" href="${contextPath}/css/errorPage/basic_err.css">
+<link rel="stylesheet" href="${contextPath}/css/errorPage/confirm.css">
 <link rel="stylesheet" href="${contextPath}/css/myPage/userInfo.css">
 <link rel="stylesheet" href="${contextPath}/css/basic/search_artist.css">
 <link rel="stylesheet" href="${contextPath}/css/basic/resizeMenu.css">

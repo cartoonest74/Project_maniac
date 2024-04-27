@@ -193,7 +193,7 @@
                 </div>
                 <div id="deliveryMsgBox" class="orderInfoPart">
                     <nav class="orderInfoHeader justify-content-between">
-                        <h2>배송 메세지</h2>
+                        <h2>배송 메시지</h2>
                     </nav>
                     <label for="deliveryMessage">
                         <select name="delivery_msg" id="deliveryMsg">

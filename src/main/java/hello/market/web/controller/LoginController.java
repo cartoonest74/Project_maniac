@@ -65,12 +65,6 @@ public class LoginController {
         return "ok";
     }
 
-    @PostMapping("/login")
-    private String login(@RequestParam(defaultValue = "/") String referUrl) {
-        return "redirect:"+referUrl;
-    }
-
-
     @ResponseBody
     @PostMapping("/login-inspect")
     private String loginInspect(@RequestParam String id, @RequestParam String pwd, HttpServletResponse response, HttpServletRequest request){

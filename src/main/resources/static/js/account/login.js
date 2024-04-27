@@ -17,16 +17,15 @@ $(function() {
     });
 
     subMenu_none();
-    const CONTEXTPATH = $("#contextPath").val();
-	const LOGINACTION_URL = "/login-action/login-inspect";
-	const LOGINFORM_ERR_ID = "#LoginIdFormErr";
-	const LOGINFORM_ERR_PWD = "#loginPwdFormErr";
+	const LOGINFORM_ERR_ID = "LoginIdFormErr";
+	const LOGINFORM_ERR_PWD = "loginPwdFormErr";
 	const ON = 'on';
-	
-	$("#loginActionBtn").click(async function() {
-		const ID = $("#loginId").val();
-		const PWD = $("#loginPwd").val();
-		const LOGINFORM = $("#loginForm");
+
+    const loginActionBtn = document.getElementById("loginActionBtn");
+	loginActionBtn.addEventListener("click",async function() {
+	    const resolve_inspectLogin = "/login-action/login-inspect";
+		const ID = document.getElementById("loginId").value;
+		const PWD = document.getElementById("loginPwd").value;
 		const OFF = 'off';
 
 		const LOGINFORM_ERR_ID_MSG = "id는 양식에 맞게 다시 입력해주세요";
@@ -44,31 +43,34 @@ $(function() {
 		if(ID.trim().length < 5 || PWD.trim().length < 8){
 			return;
 		}
-		const formData = new FormData();
-		formData.append("id",ID)
-		formData.append("pwd",PWD)
-        const res_login = await axios.post(LOGINACTION_URL,formData)
+
+        const formData = new FormData();
+        formData.append("id",ID)
+        formData.append("pwd",PWD)
+        const referUrl = document.querySelector('input[name="referUrl"]').value;
+        const res_login = await axios.post(resolve_inspectLogin,formData)
             .then((response)=>response.data).then(data=>{
                     if (data != "") {
                         LOGINFORM_ERR_VISIBLE(LOGINFORM_ERR_ID, '', OFF);
                         LOGINFORM_ERR_VISIBLE(LOGINFORM_ERR_PWD, LOGINFORM_ERR_AND_MSG, ON);
                         return;
                     }
-                    LOGINFORM.submit();
+                    location.href=referUrl;
         });
 	});
 
 	const LOGINFORM_ERR_VISIBLE = (err_id, err_msg, onoff) => {
+	    const err_idTag=document.getElementById(err_id);
 		switch (onoff) {
 			case 'on':
-				$(err_id).removeClass("none");
-				$(err_id).addClass("inlineblock");
-				$(err_id).text(err_msg);
+				err_idTag.classList.remove("none");
+				$(err_id).classList.add("inlineblock");
+				err_idTag.innerText=err_msg;
 				break;
 			case 'off':
-				$(err_id).text('');
-				$(err_id).addClass("none");
-				$(err_id).removeClass("inlineblock");
+				err_idTag.innerText='';
+				err_idTag.classList.add("none");
+				err_idTag.classList.remove("inlineblock");
 				break;
 		}
 

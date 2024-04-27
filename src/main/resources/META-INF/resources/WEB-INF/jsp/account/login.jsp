@@ -50,7 +50,7 @@
 		<c:param name="cartCount" value="${cartCount}"/>
 	</c:import>
         <div class="accountMain">
-            <form id="loginForm" action="${loginPassUrl}" class="accountForm" method="post">
+            <form class="accountForm">
                 <h1>LOGIN</h1>
                 <nav class="accountInput">
                     <input id="loginId" type="text" name="id" placeholder="ID">

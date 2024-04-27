@@ -359,25 +359,22 @@ $(function(){
    const create_orderRegistryDelivery_editTag = (json_array)=>{
         const arr_deliveryInfo_tag = new Array();
         let top_index  = 0;
-        let j_index = 0;
         for(const i in json_array.delivery_array){
             const obj_deliveryInfo = JSON.parse(json_array.delivery_array[i]);
             const basic_main = obj_deliveryInfo.basic_main;
             const delivery_index = obj_deliveryInfo.delivery_index;
-            if(obj_deliveryInfo.post_num == null){
-                continue
-            }
             arr_deliveryInfo_tag.push(create_deliveryInfo_tag(obj_deliveryInfo))
+            // 기본 배송지 주소를 가리키는 index와 주소지 index같은 경우
+            // push된 tag의 index 순서를 top_index에 담아
             if(basic_main == delivery_index){
-                top_index = j_index;
+                top_index = i;
             }
-            j_index ++;
         }
         if(arr_deliveryInfo_tag.length > 1){
             const basic_tag = arr_deliveryInfo_tag.splice(top_index,1);
-            arr_deliveryInfo_tag.unshift(basic_tag);
+            arr_deliveryInfo_tag.unshift(basic_tag); // 기본으로 설정된 태그 0번째 index로 이동
         }
-        deliveryInfo_tag = arr_deliveryInfo_tag.join(",");
+        deliveryInfo_tag = arr_deliveryInfo_tag.join("");
         let orderRegistryDelivery_tag = `
                                     <div id="addrEdit_Box" class="fixedBox">
                                         <div class="orAddrBox">
@@ -480,8 +477,6 @@ $(function(){
             const registry_name = item.getAttribute("data-registry-name")
             const registry_val = registryObj[registry_name].value
             const registryObj_errorMsg = registryObj[registry_name].error_msg
-//            console.log("registry_name",registry_name)
-//            console.log("registry_val",registry_val)
             if(! registry_val.length){
                 registryInfo_msg("on",registry_name,registryObj_errorMsg);
             }else{
@@ -649,14 +644,13 @@ $(function(){
 
    // 배송지 주소선택 메뉴 박스 - 삭제
    $(document).on("click","button[data-addr-del]",async function(e){
-        const delivery_delNum = e.target.getAttribute("data-addr-del");
         const del_deliveryInfo_resolve = "/order/del_deliveryInfo"
+        const delivery_delNum = e.target.getAttribute("data-addr-del");
         const arr_addrSelect = document.querySelectorAll('input[name="addrSelect"]');
         const basic_check_index = document.querySelector('span[data-basic-check]').getAttribute("data-basic-check");
         const home_deliveryIndex_tag = document.querySelector('input[name="home_deliveryIndex"]');
         /* 기본 주소를 삭제할경우 2번째 주소가 기본이 되게 설정 */
-        console.log(arr_addrSelect);
-        const basic_main = basic_check_index == delivery_delNum && arr_addrSelect.length > 1? arr_addrSelect[1].value : 0;
+        const basic_main = basic_check_index == delivery_delNum && (arr_addrSelect.length > 1)? arr_addrSelect[1].value : 0;
         const formData = new FormData();
         formData.append("basicMain",basic_main);
         formData.append("deliveryIndex",delivery_delNum);

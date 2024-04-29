@@ -13,6 +13,11 @@ $(function(){
             {name:"취소/교환/반품"}
         ]
 
+    const body_append = (position, tag)=>{
+        const body = document.querySelector("body");
+        body.insertAdjacentHTML(position, tag);
+    }
+
     const create_confirmTag =(msg)=>{
         const confirmTag = `<div id="confirmBox" class="confirm_box">
                                    <div class="confirmContainer">
@@ -24,7 +29,6 @@ $(function(){
                                    </div>
                                </div>`
         body_append("afterbegin",confirmTag);
-
     }
 
     const create_statusTitle_tag =()=>{
@@ -120,10 +124,7 @@ $(function(){
             reg:/^01(?:0|1|[6-9])-(?:[1-9]{1})(?:\d{2}|\d{3})-\d{4}$/
         }
     }
-    const body_append = (position, tag)=>{
-        const body = document.querySelector("body");
-        body.insertAdjacentHTML(position, tag);
-    }
+
     const create_blockGrammarly   = (byId,splitPoint) =>{
         const block_target = document.getElementById(byId);
         const block_target_val = block_target.innerText;
@@ -642,10 +643,10 @@ $(function(){
         }
 
         create_confirmTag("인증번호를 보냈습니다.");
-        const confirmBox = document.querySelector("confirmBox");
+        const confirmBox = document.querySelector("div#confirmBox");
         if(confirmBox !=null){
-            document.querySelector("#confirmBtn").addEventListener("click",function(){
-                confirmBox.remove;
+            document.querySelector("button#confirmBtn").addEventListener("click",()=>{
+                confirmBox.remove();
             });
         }
 

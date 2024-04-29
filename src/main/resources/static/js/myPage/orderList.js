@@ -144,10 +144,10 @@ $(function(){
 
     // ORDER LIST START
     const start_main = async () =>{
-        const olContainer = document.getElementById("olContainer");
         const option_month = option_month_tag.getAttribute("data-olOption-month");
         const option_status = option_status_tag.getAttribute("data-olOption-status");
         const res = await post_orderList(option_month,option_status);
+        const olContainer = document.getElementById("olContainer");
 
         const obj_contents = new Object();
         let copy_num = 0;

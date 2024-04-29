@@ -106,13 +106,16 @@ public class MyPageController {
         JSONObject jsonObject = new JSONObject();
         JSONArray arr_shopQna = new JSONArray();
         JSONArray arr_artist = new JSONArray();
-
-        Integer lengthShopQna = myPageService.get_lengthShopQna(user_id,category,answerCheck_start,answerCheck_end);
+        
+        // qna 전체 게시글 개수 가져오기
+        Integer lengthShopQna = myPageService.get_lengthShopQna(user_id, category, answerCheck_start, answerCheck_end);
+        // 사용자가 작성한 qna 가져오기
         List<ShopQna> userShopQna = myPageService.get_userShopQna(user_id, category, page,answerCheck_start,answerCheck_end);
         for (ShopQna shopQna : userShopQna) {
             String writeValueAsString = objectMapper.writeValueAsString(shopQna);
             arr_shopQna.put(writeValueAsString);
         }
+        // qna 상품 분류 아티스트 기준으로 아티스트 리스트 가져오기
         List<Artist> searchQnaType = myPageService.get_searchQnaType(user_id);
         for (Artist artist : searchQnaType) {
             String writeValueAsString = objectMapper.writeValueAsString(artist);
